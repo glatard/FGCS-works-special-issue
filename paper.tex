@@ -1,0 +1,176 @@
+\documentclass[11pt]{article}
+
+
+
+\title{Architectures for worklfow integration in science gateways}
+
+%\authors{Tristan Glatard, Marc-Etienne Rousseau, Pierre Rioux, Samir
+%Das, Natacha Beck, Reza Adalat, Pierre Bellec, Pierre-Olivier Quirion,
+%S\'ilvia D. Olabarriaga, Sorina Camarasu-Pop, Alan C. Evans}
+% Rafael? Ewa? Peter Kacsuk? Johan? Satra? Najma?
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Goal: review and compare the different architectures used to integrate
+workflows in science gateways, based on practical experience.  A
+workflow engine is defined as a software that submits jobs to a
+cluster, grid or cloud. Workflows may be expressed in any language,
+including scripts. Several workflow engines may be combined in the
+same science gateway.
+
+Context: The question of integrating workflow engines in science gateways can
+be seen at various levels, corresponding to various definitions of
+workflows. One level is the SHIWA level, where it was considered that
+workflow engines are aware of the DCI (and 'D' is important because of
+data transfers, proxies, etc). Another level is to remove 'D' from the
+definition: a workflow engine becomes a program that submits jobs,
+potentially only to local clusters. It opens a whole new class of
+workflow engines that we used to consider as "applications". For
+instance, in neuroinformatics: Nipype, PSOM, but also FSL through the
+fslsub tool. A workflow engine is not supposed to be aware of the science gateway.
+
+Without loss of generality, several of the examples presented in the
+paper will be taken from medical image analysis, in particular
+neuroimaging.
+
+SG: a web portal with some features to handle DCIs (data transfers,
+job submission, auth, etc). An ecosystem of services to access
+distributed infrastructures. Examples: CBRAIN, VIP, NSG, P-GRADE, etc
+
+Infrastructure: computing and storage resources. Includes schedulers, catalogues, etc.
+
+Workflow: a process that submits tasks to the infrastructure. FSL
+tools, say Feat, can be considered as workflows when they are
+configured to submit tasks to clusters using fslsub.
+
+A workflow consists of activities.
+
+Contribution of the paper:
+\begin{itemize}
+\item We evaluate architectures based on our experience with existing systems
+\item We propose a new architecture
+\end{itemize}
+
+We are talking only about concrete workflows with a configuration (see terstyansky et al 2014 "enabling scientific workflow sharing...")
+
+\section{Architectures}
+
+\subsection{Tight integration}
+
+\subsection{Service invocation}
+
+Or as a component.
+
+= Examples
+* VIP
+* Silvia's gateway, starting from VBrowser
+
+P-Grade: http://onlinelibrary.wiley.com/doi/10.1002/cpe.1654/full
+
+= Description 
+*  Workflow engine is deployed as a (Web) service called by the
+science gateway. Probably the most adopted architecture. 
+
+= Evaluation
++ Easy to implement in the SG (just call the service)
+- Load-balancing between services is difficult
+(refer to VIP's experience).
+- Need to wrap workflow engines in
+services.
+- Need to know where to submit each workflow, e.g. when
+multiple workflows are involved.
+- The science gateway has no
+knowledge of the detailed progress of the workflow, in particular
+job-level information (statuses, stdout, stderr). If we wanted to do
+that, specific feedback channels have to be developed, which requires more work (see VIP).
+
+\subsection{Sub-tasking}
+
+Examples:
+* CBRAIN and Niak, CBRAIN and FSL, CBRAIN and Nipype if time permits
+
++ Simplified parallelization
+- Needs extension on the workflow engine side. Simple if workflow engine already supports task submission.
+
+In  this model, the task of the SG is only to submit command line tools and command line tools submitted by these command line tools. The architecture is really upsided-down (was: workflow engine on top, jobs below. Is: job on top, workflow engine below). And this is what it makes it so powerful.
+
+Sub-tasking also requires dependencies between tasks.
+
+Can support various models such as pilot jobs, fsl sub, etc.
+
+\subsection{Agent model}
+
+= Examples
+* SHIWA Pool
+
+= Evaluation
++ Scale-up and load balancing
++ Multi-language
+- Needs a complete framework (the pool). Most likely third-party software as it's a lot of work to implement.
+
+\subsection{Nested workflows}
+
+=  Examples
+* SHIWA CGI, but SHIWA CGI is more complex because it enables meta workflows. In general, if we wanted only to use an embedded workflow, we don't need the meta-workflow for that. 
+* Maybe other tool integrations in CBRAIN or VIP. For instance FSL or any tool that can be parallelized by this is not exploited.
+
+Refer to the recent paper from Kacsuk. 
+
+Command line tool can run anwywhere.
+- Parallelization is tricky because command line tool can run anywhere, on any cluster. Sometimes, it is solved by wrapping workflow engine in another worfklow engine, to iterate, e.g. on subjects. That's what we do in VIP. But this is not ideal.
++ No extension required on the SG side to support a workflow engine, as long as it can wrap command line tools.
+
+\subsection{Workflow import}
+
+= Examples
+* IWIR (SHIWA FGI). Language conversion.
+* first Niak+CBRAIN integration?
+
+= Evaluation
+* To interpret the language, you need either a generic interpreter or a conversion tool. Quite complex and hard to  maintain.
+
+\section{Evaluation}
+
+\subsection{Criteria}
+
+Complexity of the architecture (therefore development effort, robustness, maintainability, etc):
+  * On the SG side
+  * On the workflow engine side (what is required to wrap it).
+Could be measured by counting the number of required functions,
+e.g. submit job, call a workflow service, etc. Ponderated by the
+"complexity" of the features between 1 (easy) and 3 (tricky). Look at
+other types of measures.
+
+Provided features:
+  * Fine-grained workflow monitoring (debugging, progress report)
+  * Scalability, load-balancing between engines
+  * Support for multiple engines in the same gateway. Allows to reuse several different workflows in a single gateway but less complex than meta workflows. But do we really need meta workflows?
+  * Support for meta workflows
+
+"A Formal Approach to Support Interoperability in Scientific
+Meta-workflows" (reviewed for IWSG and JoGC) has a formal model to
+evaluate CGI and FGI.
+
+"four major approaches for workflow interoperability include a,b,c,d" (see Terstyanzky et al, "Enabling scientific workflow sharing through CGI...", FGCS 2014) -> read this ref.
+
+http://www.oreilly.com/programming/free/files/software-architecture-patterns.pdf
+
+\subsection{Evaluation}
+
+\section{Discussion}
+
+\section{Conclusion}
+
+\section{Acknowledgments}
+
+FLI-IAM, Labex PRIMES, Ludmer Centre
+
+\bibliographystyle{plain} 
+\bibliography{biblio}
+
+\end{document}
+
