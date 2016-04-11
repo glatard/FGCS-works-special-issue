@@ -3,6 +3,8 @@
 \usepackage{svg}
 \usepackage{url}
 \usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{hyperref}
 
 \newcommand{\todo}[1]{\color{blue}\xspace\emph{#1}\xspace\color{black}}
 \newcommand{\note}[1]{\color{blue}\textbf{Note: }\textit{#1} \color{black}}
@@ -137,6 +139,10 @@ workflow consists of activities. We are talking only about concrete
 workflows with a configuration (see terstyansky et al 2014 "enabling
 scientific workflow sharing...")
 
+  Workflow engine: executes workflows, i.e. process their dependencies
+  and create computing tasks. Might transfer data too. A workflow
+  engine is not supposed to be aware of the science gateway.
+
 \subsection{Science gateways}
 
 Science Gateway: An ecosystem, usually accessible through a web
@@ -152,46 +158,53 @@ Multi-engine, multi-language.
 
 \todo{Maybe this is not relevant}
 
+The infrastructure consists of the computing and storage resources
+involved in the workflow execution, and the software services used to
+access these resources. Infrastructures can be servers, clusters,
+grids or clouds. Some workflow engines may assume specific
+characteristics about the infrastructure, such as the presence of a
+shared file system between the computing nodes.
+
 \section{Architectures}
 
-We define architectures from their main components and the interactions
-between these components.
-
-A workflow engine is not supposed to be aware of the science gateway (?).
+Architectures are defined below from their main components and the
+interactions between these components.
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
-\subsection{Common components}
-
-Infrastructure: computing and storage resources. Includes
-  schedulers, catalogues, etc. Can be grid, cloud or even
-  cluster. Some workflow engines may assume a shared file system
-  usually available only on clusters.
-
-  Workflow engine: executes workflows, i.e. process their dependencies
-  and create computing tasks. Might transfer data too.
-
 \subsection{Interactions}
 
-a. 
+The interactions described below are labeled consistently with the
+notations used on Figures~\ref{archi:tight}-\ref{archi:import}.
 
-c. Data movements can be triggered by the user, to upload input data
-or download processed data, or by the workflow engine, to transfer
-data across the infrastructure. 
+\begin{enumerate}[leftmargin=0cm,itemindent=0.6cm,label=\texttt{(\alph*)}]
 
-d. Sub-tasking: science gateway knows the sub-tasks of a
-task. Therefore, it can kill all sub-tasks of a task when a task is killed.
-
-g. Workflow integration results in an interface, for instance a web form,
-where users can enter the parameters of the workflow to be
-executed. Integrating a workflow is not the same process as
-integrating a workflow engine. Integrating a workflow engine results
-in an interface that allows developers to enter the parameters of the
-workflow engine.
-
-
-Only workflow execution is described. 
-Workflow integration is not covered. 
+\item Workflow integration: consists in adding a new workflow to the
+  science gateway so that users can execute it. It is conducted by
+  science gateway administrators, developers or users, and it results
+  in an interface, for instance a web form, where users can enter the
+  parameters of the workflow to be executed. Integrating a workflow is
+  not the same process as integrating a workflow engine.
+\item Task control: operations to manage tasks on the infrastructure,
+  including: submission, monitoring, termination, deletion, etc.
+\item Data control: operations to manage data on
+  the infrastructure, such as: upload, download, deletion, browsing,
+  replication, caching, etc. Data movements can be triggered by the
+  user, to upload input data or download processed data - interaction
+  \texttt{(c1)}, or by the workflow engine, to transfer data across the
+  infrastructure - interaction \texttt{(c2)}. \todo{add c1 and c2 to the
+    Figures}
+\item Workflow control: operations to execute a workflow, including:
+  submission, monitoring, termination, etc. Workflow control can be
+  coarse-grained (a.k.a. black box) or fine-grained (white box). In a
+  coarse-grained model, workflow activities are masked. 
+\item Sub-task control: operations used by tasks to submit sub-tasks
+  on the infrastructure, including: submission, monitoring,
+  termination, deletion, etc.
+\item Pool-agent: specific to the architecture described in~\ref{sec:pool}.
+\item Workflow conversion: translation from one workflow language to
+  another one.
+\end{enumerate}
 
 \subsection{Tight integration}
 
@@ -257,10 +270,13 @@ particular task that can submit sub-tasks to the science gateway. The
 workflow engine keeps track of the dependencies between the sub-tasks
 but their execution is delegated to the science gateway. The science
 gateway may implement mechanisms to deal with task dependencies such
-as basic dependency lists as available in most batch managers. It has
-no global vision of the workflow. The fact that tasks are submitted
-through the science gateway does not restrict the range of possible
-execution models. Pilot jobs, for instance, can still be used.
+as basic dependency lists as available in most batch
+managers. Although it has no global vision of the workflow, it can
+keep track of the sub-tasks submitted by a given task, for instance to
+be able to cancel them when the task is canceled. The fact that tasks
+are submitted through the science gateway does not restrict the range
+of possible execution models: pilot jobs, for instance, can still be
+used.
 
 This model is implemented in CBRAIN~\cite{SHER-14} where it is used to
 integrate the PSOM workflow engine and the FSL toolkit through its
@@ -276,7 +292,7 @@ jobs).
 \end{figure}
 
 \subsection{Pool model}
-
+\label{sec:pool}
 See Figure~\ref{archi:agent}. Workflows are submitted by the science
 gateway to a pool to which agents connect asynchronously to retrieve
 and execute workflows (interaction \texttt{f}). Agents may be started according to various
@@ -322,14 +338,14 @@ black-boxes while these scripts actually correspond to complete workflows.
 
 \subsection{Workflow import}
 
-See Figure~\ref{archi:import}.
-
-= Examples
-* IWIR (SHIWA FGI). Language conversion.
-* first Niak+CBRAIN integration?
-
-= Evaluation
-* To interpret the language, you need either a generic interpreter or a conversion tool. Quite complex and hard to  maintain.
+See Figure~\ref{archi:import}. This is an abstract model that we
+instantiate with the service invocation architecture for
+consistency. Workflows are integrated in the science gateway through
+format conversion from a native format to the science gateway
+format. This was implemented in the SHIWA Simulation Platform through
+the IWIR language that provided a common language for portability
+across grid workflow
+systems~\cite{plankensteiner-prodan-etal:2013}.
 
 \begin{figure}
 \centering
