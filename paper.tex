@@ -145,6 +145,8 @@ Science Gateway: An ecosystem, usually accessible through a web
   task execution and authentication on multiple computing and storage
   locations. Examples: CBRAIN, VIP, NSG, etc
 
+Multi-engine, multi-language.
+
 
 \subsection{Infrastructures}
 
@@ -156,6 +158,8 @@ We define architectures from their main components and the interactions
 between these components.
 
 A workflow engine is not supposed to be aware of the science gateway (?).
+
+%http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
 \subsection{Common components}
 
@@ -192,17 +196,19 @@ Workflow integration is not covered.
 \subsection{Tight integration}
 
 See Figure~\ref{archi:tight}. The workflow engine is tightly
-integrated with the science gateway, which means that it shares code,
-framework components, libraries, etc. For instance, the workflow
-engine might be a portlet in a Liferay portal, a controller in a Ruby
-on Rails application, and so on. The workflow engine and the science
-gateway usually share a database where application, users and other
-resources are stored. In this model, task control and data control are
-initiated from the science gateway. This is the model adopted in the
-Catania Science Gateway Framework~\cite{Ardizzone2012} (see specific
-documentation on
-workflows\footnote{\url{http://bit.ly/1oQrzvQ}})
-and LONI Pipeline Environment~\cite{dinov2009efficient}.\todo{Add better justification}
+integrated with the science gateway, which means that it is deployed
+on the same machine and potentially shares code, libraries and other
+software components with the science gateway. For instance, the
+workflow engine might be a portlet in a Liferay portal, a controller
+in a Ruby on Rails application, and so on. The workflow engine and the
+science gateway usually share a database where application, users and
+other resources are stored. In this model, task control and data
+control are initiated from the science gateway. This is the model
+adopted in the Catania Science Gateway Framework~\cite{Ardizzone2012}
+(see specific documentation on
+workflows\footnote{\url{http://bit.ly/1oQrzvQ}}),
+CIPRES~\cite{miller2010creating} and LONI Pipeline
+Environment~\cite{dinov2009efficient}.\todo{Add better justification}
 
 \begin{figure}
 \centering
@@ -287,17 +293,36 @@ SHIWA pool~\cite{ROGE-13}.
 
 \subsection{Nested workflows}
 
-=  Examples
-* SHIWA CGI, but SHIWA CGI is more complex because it enables meta workflows. In general, if we wanted only to use an embedded workflow, we don't need the meta-workflow for that. 
-* Maybe other tool integrations in CBRAIN or VIP. For instance FSL or any tool that can be parallelized by this is not exploited.
+See Figure~\ref{archi:nested}. A nested workflow is an abstract
+architectural pattern where an activity of a master workflow is itself
+a workflow that is executed by another engine. Nested workflows can be
+instantiated in the various architectures described previously. We
+focus on instantiation with the service invocation model as this is
+the most used architecture. The master workflow is also called
+meta-workflow. The nested workflow might be described with a different
+language than the one used to describe the master workflow.
 
-Refer to the recent paper from Kacsuk. 
+Nested workflows have long been available in workflow engines, for
+instance in the Taverna workbench~\cite{oinn2004taverna}. This model
+was used by the SHIWA Simulation Platform to implement Coarse-Grained
+workflow interoperability~\cite{terstyanszky2014enabling}, i.e. to
+integrate various workflow engines in a consistent platform. Nested
+workflows are also often used implicitly to wrap scripts as
+black-boxes while these scripts actually correspond to complete workflows.
 
-Command line tool can run anwywhere.
-- Parallelization is tricky because command line tool can run anywhere, on any cluster. Sometimes, it is solved by wrapping workflow engine in another worfklow engine, to iterate, e.g. on subjects. That's what we do in VIP. But this is not ideal.
-+ No extension required on the SG side to support a workflow engine, as long as it can wrap command line tools.
+\begin{figure}
+\centering
+\def\svgwidth{0.48\columnwidth}
+\input{images/nested-1.pdf_tex}
+\def\svgwidth{0.48\columnwidth}
+\input{images/nested-2.pdf_tex}
+\caption{Nested workflows. Left: abstract model. Right: instantiation with service invocation.}
+\label{archi:nested}
+\end{figure}
 
 \subsection{Workflow import}
+
+See Figure~\ref{archi:import}.
 
 = Examples
 * IWIR (SHIWA FGI). Language conversion.
@@ -305,6 +330,17 @@ Command line tool can run anwywhere.
 
 = Evaluation
 * To interpret the language, you need either a generic interpreter or a conversion tool. Quite complex and hard to  maintain.
+
+\begin{figure}
+\centering
+\def\svgwidth{0.48\columnwidth}
+\input{images/import-1.pdf_tex}
+\def\svgwidth{0.48\columnwidth}
+\input{images/import-2.pdf_tex}
+\caption{Workflow import. Left: abstract model. Right: instantiation with service invocation.}
+\label{archi:import}
+\end{figure}
+
 
 \section{Evaluation}
 
