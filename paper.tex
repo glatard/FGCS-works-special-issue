@@ -1,8 +1,10 @@
 \documentclass[preprint,3p,twocolumn]{elsarticle}
 
 \usepackage{svg}
+\usepackage{url}
+\usepackage{xspace}
 
-\newcommand{\todo}[1]{\color{blue} #1 \color{black}}
+\newcommand{\todo}[1]{\color{blue}\xspace\emph{#1}\xspace\color{black}}
 \newcommand{\note}[1]{\color{blue}\textbf{Note: }\textit{#1} \color{black}}
 
 \begin{document}
@@ -169,6 +171,10 @@ Infrastructure: computing and storage resources. Includes
 
 a. 
 
+c. Data movements can be triggered by the user, to upload input data
+or download processed data, or by the workflow engine, to transfer
+data across the infrastructure. 
+
 d. Sub-tasking: science gateway knows the sub-tasks of a
 task. Therefore, it can kill all sub-tasks of a task when a task is killed.
 
@@ -185,88 +191,99 @@ Workflow integration is not covered.
 
 \subsection{Tight integration}
 
+See Figure~\ref{archi:tight}. The workflow engine is tightly
+integrated with the science gateway, which means that it shares code,
+framework components, libraries, etc. For instance, the workflow
+engine might be a portlet in a Liferay portal, a controller in a Ruby
+on Rails application, and so on. The workflow engine and the science
+gateway usually share a database where application, users and other
+resources are stored. In this model, task control and data control are
+initiated from the science gateway. This is the model adopted in the
+Catania Science Gateway Framework~\cite{Ardizzone2012} (see specific
+documentation on
+workflows\footnote{\url{http://bit.ly/1oQrzvQ}})
+and LONI Pipeline Environment~\cite{dinov2009efficient}.\todo{Add better justification}
+
 \begin{figure}
 \centering
 \def\svgwidth{0.5\columnwidth}
 \input{images/tight.pdf_tex}
-\label{archi:tight}
 \caption{Tight integration}
+\label{archi:tight}
 \end{figure}
 
 \subsection{Service invocation}
 
-Or as a component.
+See Figure~\ref{archi:service}. The workflow engine is available
+externally to the science gateway. The science gateway controls it
+through a specific interaction that might be implemented as a
+web-service call (e.g. RESTful or SOAP), as a command-line or as any
+other method that separates the workflow engine from the science
+gateway. The workflow engine might be invoked either as a black box
+that completely masks the infrastructure and workflow activities, or
+as a grey box that allows for some interaction with them.  The
+workflow engine is responsible for controlling the tasks on the
+infrastructure, and performing the required data transfers to execute
+them. User data is usually managed through the science gateway,
+although it might as well be delivered by the workflow engine directly
+to the user.
 
-= Examples
-* VIP
-* Silvia's gateway, starting from VBrowser
-
-P-Grade: http://onlinelibrary.wiley.com/doi/10.1002/cpe.1654/full
-
-= Description 
-*  Workflow engine is deployed as a (Web) service called by the
-science gateway. Probably the most adopted architecture. 
-
-= Evaluation
-+ Easy to implement in the SG (just call the service)
-- Load-balancing between services is difficult
-(refer to VIP's experience).
-- Need to wrap workflow engines in
-services.
-- Need to know where to submit each workflow, e.g. when
-multiple workflows are involved.
-- The science gateway has no
-knowledge of the detailed progress of the workflow, in particular
-job-level information (statuses, stdout, stderr). If we wanted to do
-that, specific feedback channels have to be developed, which requires more work (see VIP).
-
+This architecture is largely adopted, in systems such as Apache
+Airvata~\cite{marru2011apache}, Vine
+Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual
+Imaging Platform~\cite{GLAT-13}, the WS-PGRADE/gUSE
+framework~\cite{Kacsuk2012} and the numerous science gateway instances
+that use it~\cite{kacsuk2014science}.
 \begin{figure}
 \centering
 \def\svgwidth{0.5\columnwidth}
 \input{images/service.pdf_tex}
-\label{archi:service}
 \caption{Service integration}
+\label{archi:service}
 \end{figure}
-
 
 \subsection{Sub-tasking}
 
-Examples:
-* CBRAIN and Niak, CBRAIN and FSL, CBRAIN and Nipype if time permits
+See Figure~\ref{archi:sub-task}. The science gateway is responsible to
+execute the tasks on the infrastructure, dealing with heterogeneous
+batch managers and meta-schedulers. The workflow engine is a
+particular task that can submit sub-tasks to the science gateway. The
+workflow engine keeps track of the dependencies between the sub-tasks
+but their execution is delegated to the science gateway. The science
+gateway may implement mechanisms to deal with task dependencies such
+as basic dependency lists as available in most batch managers. It has
+no global vision of the workflow. The fact that tasks are submitted
+through the science gateway does not restrict the range of possible
+execution models. Pilot jobs, for instance, can still be used.
 
-+ Simplified parallelization
-- Needs extension on the workflow engine side. Simple if workflow engine already supports task submission.
+This model is implemented in CBRAIN~\cite{SHER-14} where it is used to
+integrate the PSOM workflow engine and the FSL toolkit through its
+\texttt{fsl\_sub} tool. In particular, the CBRAIN-PSOM integration is
+described in~\cite{GLAT-16} and uses an agent computing model (a.k.a pilot
+jobs).
+\begin{figure}
+\centering
+\def\svgwidth{0.5\columnwidth}
+\input{images/sub-task.pdf_tex}
+\caption{Sub-tasking}
+\label{archi:sub-task}
+\end{figure}
 
-In  this model, the task of the SG is only to submit command line tools and command line tools submitted by these command line tools. The architecture is really upsided-down (was: workflow engine on top, jobs below. Is: job on top, workflow engine below). And this is what it makes it so powerful.
+\subsection{Pool model}
 
-Sub-tasking also requires dependencies between tasks.
-
-Can support various models such as pilot jobs, fsl sub, etc.
-
-No global vision of the workflow. 
-
-Science gateway has to make sure that the machine on which a workflow
-task executes is reliable as several sub-tasks will depend on the
-success of this task. Or workflow engine task has to be recoverable.
-
-Performance: there could be a deadlock when there is contention. Also,
-the workflow task has to be reliable (for instance, proper walltime
-estimation), which is difficult because these tasks are
-long. Restarting a workflow task may mean that all the tasks in the
-workflow have to be restarted, depending on the capability of the
-workflow engine. This complexifies task scheduling (a system could
-ignore these issues but they may backfire).
-
-
-\subsection{Agent model}
-
-= Examples
-* SHIWA Pool
-
-= Evaluation
-+ Scale-up and load balancing
-+ Multi-language
-- Needs a complete framework (the pool). Most likely third-party software as it's a lot of work to implement.
+See Figure~\ref{archi:agent}. Workflows are submitted by the science
+gateway to a pool to which agents connect asynchronously to retrieve
+and execute workflows (interaction \texttt{f}). Agents may be started according to various
+policies, for instance to ensure load balancing. Agents may wrap
+different types of workflow engines. This model was implemented in the
+SHIWA pool~\cite{ROGE-13}.
+\begin{figure}
+\centering
+\def\svgwidth{0.8\columnwidth}
+\input{images/agent.pdf_tex}
+\caption{Pool model}
+\label{archi:agent}
+\end{figure}
 
 \subsection{Nested workflows}
 
@@ -316,6 +333,42 @@ evaluate CGI and FGI.
 http://www.oreilly.com/programming/free/files/software-architecture-patterns.pdf
 
 \subsection{Evaluation}
+
+\paragraph{Service}
++ Easy to implement in the SG (just call the service)
+- Load-balancing between services is difficult
+(refer to VIP's experience).
+- Need to wrap workflow engines in
+services.
+- Need to know where to submit each workflow, e.g. when
+multiple workflows are involved.
+- The science gateway has no
+knowledge of the detailed progress of the workflow, in particular
+job-level information (statuses, stdout, stderr). If we wanted to do
+that, specific feedback channels have to be developed, which requires more work (see VIP).
+
+\paragraph{Sub-task}
+
+Science gateway has to make sure that the machine on which a workflow
+task executes is reliable as several sub-tasks will depend on the
+success of this task. Or workflow engine task has to be recoverable.
+
+Performance: there could be a deadlock when there is contention. Also,
+the workflow task has to be reliable (for instance, proper walltime
+estimation), which is difficult because these tasks are
+long. Restarting a workflow task may mean that all the tasks in the
+workflow have to be restarted, depending on the capability of the
+workflow engine. This complexifies task scheduling (a system could
+ignore these issues but they may backfire).
+
+
+\paragraph{Pool}
+
+= Evaluation
++ Scale-up and load balancing
++ Multi-language
+- Needs a complete framework (the pool). Most likely third-party software as it's a lot of work to implement.
+
 
 \section{Discussion}
 

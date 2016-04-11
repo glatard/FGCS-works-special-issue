@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for name in tight service
+for name in tight service sub-task agent
 do
   echo "Exporting ${name}.svg"
   inkscape -D -z --file=images/${name}.svg --export-pdf=images/${name}.pdf --export-latex
