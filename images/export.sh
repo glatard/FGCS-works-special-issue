@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for name in tight service sub-task agent
+for name in tight service sub-task agent nested-1 nested-2 import-1 import-2
 do
   echo "Exporting ${name}.svg"
   inkscape -D -z --file=images/${name}.svg --export-pdf=images/${name}.pdf --export-latex
