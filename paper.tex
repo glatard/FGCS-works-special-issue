@@ -286,6 +286,9 @@ are submitted through the science gateway does not restrict the range
 of possible execution models: pilot jobs, for instance, can still be
 used.
 
+\todo{Interactions c1 and c2 are merged in c since this is done
+  completely by the science gateway}
+
 This model is implemented in CBRAIN~\cite{SHER-14} where it is used to
 integrate the PSOM workflow engine and the FSL toolkit through its
 \texttt{fsl\_sub} tool. In particular, the CBRAIN-PSOM integration is
@@ -383,16 +386,23 @@ specific metrics for which low values indicate good performance.
 \todo{Explain these metrics better, including why the related features
   are useful.}
 
-\emph{Integration effort} measures the development effort required to build
-the system, assuming that none of the components could initially
-communicate with each other. It is measured by counting the number of
-interactions to develop and components to modify on the architectural
-diagram. It breaks down to 2 metrics that relate to the direction of
-interaction arrows on the architectural diagrams:
+\todo{Refer to the metric codes.}
+
+\emph{Integration} measures the development effort required to build
+the architecture, assuming that the science gateway and infrastructure
+are already integrated. It is measured by counting on the
+architectural diagram the number of interactions and components to
+develop or modify. It breaks down to 4 metrics that quantify the
+developments related to:
 \begin{itemize}[itemsep=0cm]
-\item Interactions from the science gateway. 
-\item Iteractions from the workflow engine. 
+\item Science gateway (\texttt{I$_1$}),
+\item Workflow engine (\texttt{I$_2$}),
+\item Infrastructure (\texttt{I$_3$}),
+\item Other components (\texttt{I$_4$}).
 \end{itemize}
+Interactions are counted only once, in the component from which they
+originate.
+
 
 \emph{Robustness} relates to the complexity of the architecture and
 its ability to provide relevant debugging information about the
@@ -416,7 +426,9 @@ metrics:
   architecture. Modification of an interaction is deemed necessary
   when the parameters involved in this interaction are
   modified. Modification of a component is required when its code
-  needs to be modified or recompiled.
+  needs to be modified or recompiled (science gateway or workflow
+  service), or when a new piece of software has to be installed
+  (infrastructure only).
 \item New engine version: number of interactions or components to
   modify to integrate a new version of a workflow engine in the
   architecture, assuming that another version of the same engine type
@@ -459,28 +471,28 @@ high workloads. It breaks down into 4 metrics:
 requires to develop 3 interactions and 1 component. First, a workflow
 service has to be developed and interfaced with the infrastructure
 through interactions \texttt{b} and \texttt{c$_2$}
-(\texttt{I$_2$=3}). In addtion, the science gateway has to be extended
-to call the engine interface \texttt{d} (\texttt{I$_1$=1}).
+(\texttt{I$_2$}=3). In addtion, the science gateway has to be extended
+to call the engine interface \texttt{d} (\texttt{I$_1$}=1).
 
 \paragraph{Robustness} Workflow execution requires 3 components: the
 science gateway, the workflow service, and the infrastructure
-(\texttt{R$_1$=3}). It involves the 4 interactions \texttt{b},
+(\texttt{R$_1$}=3). It involves the 4 interactions \texttt{b},
 \texttt{$c_1$}, \texttt{$c_2$} and \texttt{d}
-(\texttt{R$_2$=4}). Fine-grained debugging information is usually easy
+(\texttt{R$_2$}=4). Fine-grained debugging information is usually easy
 to obtain since the workflow service provides direct access to the
-engine (\texttt{R$_3$=0}).
+engine (\texttt{R$_3$}=0).
 
 \paragraph{Modularity} Adding a new type of workflow engine requires
 to implement the corresponding workflow service, to modify interaction
 \texttt{d}, and to implement interactions \texttt{b} and
-\texttt{$c_2$} (\texttt{M$_1$=4}). New engine versions can be added by
+\texttt{$c_2$} (\texttt{M$_1$}=4). New engine versions can be added by
 updating the workflow service without modifying any interaction
-(\texttt{M$_2$=0}). Adding a new type of infrastructure requires
+(\texttt{M$_2$}=0). Adding a new type of infrastructure requires
 updates in interactions \texttt{b}, \texttt{$c_1$} and \texttt{$c_2$}
-(\texttt{M$_3$=3}). New workflows are added in the science gateway or
+(\texttt{M$_3$}=3). New workflows are added in the science gateway or
 in the workflow engine through interaction \texttt{a} only
-(\texttt{M$_4$=1}). Meta-workflow are not supported by default
-(\texttt{M$_5$=1}).
+(\texttt{M$_4$}=1). Meta-workflow are not supported by default
+(\texttt{M$_5$}=1).
 
 \paragraph{Scalability} The service architecture supports multiple
 engine instances through multiple workflow services. In VIP for
@@ -491,30 +503,69 @@ executions. To avoid ``black-hole'' syndromes created by failing
 engine instances, engine instances are automatically disabled when
 workflows cannot be submitted to them. Adding a new engine instance,
 however, requires manual intervention to declare the new instance in
-the science gateway (\texttt{S$_1$=1}). Consequently, elastic engines
+the science gateway (\texttt{S$_1$}=1). Consequently, elastic engines
 are difficult to implement because they require a mechanism to update
 the science gateway configuration when a new engine instance is
-available (\texttt{S$_2$=1}). Distributing the execution of a single
+available (\texttt{S$_2$}=1). Distributing the execution of a single
 workflow in multiple engines is usually not possible unless the
-workflow engine has specific abilities (\texttt{S$_3$=1}). The
+workflow engine has specific abilities (\texttt{S$_3$}=1). The
 scheduling of tasks on the infrastructure is as complex as in any
 other architecture since the workflow engine might implement any kind
-of scheduling policy (\texttt{S$_4$=0}).
+of scheduling policy (\texttt{S$_4$}=0).
 
 \subsection{Sub-task}
 
-Science gateway has to make sure that the machine on which a workflow
-task executes is reliable as several sub-tasks will depend on the
-success of this task. Or workflow engine task has to be recoverable.
+\paragraph{Integration} Integrating a workflow engine as a sub-task
+only requires to implement interaction \texttt{e} (\texttt{I$_2$}=1)
+and to install the workflow engine on the infrastructure
+(\texttt{I$_3$}=1). A new task type is created in the science gateway
+only when a new workflow has to be integrated (see M$_4$), but this is
+not required to integrate the engine itself (\texttt{I$_1$}=0).
 
-Performance: there could be a deadlock when there is contention. Also,
-the workflow task has to be reliable (for instance, proper walltime
-estimation), which is difficult because these tasks are
-long. Restarting a workflow task may mean that all the tasks in the
-workflow have to be restarted, depending on the capability of the
-workflow engine. This complexifies task scheduling (a system could
-ignore these issues but they may backfire).
+\paragraph{Robustness} Only 2 components and 3 interactions are
+involved in workflow execution (\texttt{R$_1$}=2,
+\texttt{R$_2$}=3). Obtaining fine-grained information about workflow
+activities is not straightforward since the science gateway has no
+knowledge about the workflow topology, and the workflow engine is
+integrated as a task (\texttt{R$_3$}=1).
 
+\paragraph{Modularity} Integrating a new type of workflow engine
+requires to develop interaction \texttt{e} and to install the engine
+on the infrastructure (\texttt{M$_1$}=2). Updating an engine version
+requires updates only on the infrastructure (\texttt{M$_2$}=1). Adding
+a new infrastructure requires to update interactions \texttt{b} and
+\texttt{c} in the science gateway (\texttt{M$_3$}=2). New workflows are integrated by
+creating a new task in the science gateway through interaction
+\texttt{a} (\texttt{M$_4$}=1), and meta-workflows are not available
+(\texttt{M$_5$}=1).
+
+\paragraph{Scalability}
+New engine instances are spawned and executed on the infrastructure as
+any other task upon user submission (\texttt{S$_1$}=0,
+\texttt{S$_2$}=0). Such scalability properties are one of the major
+interests of the sub-task architecture. Distributed engines are not
+supported by default (\texttt{S$_3$}=1). Task scheduling is slightly
+more complex than in the other approaches due to the special role of
+the task that executes the workflow engine (\texttt{S$_4$}=1). Indeed,
+the reliability of this task is critical since all the sub-tasks in
+the workflow depend on it and, depending on the recovery capabilities
+of the workflow engine, may need to be resubmitted if the workflow
+task fails. The workflow task is also longer than all its sub-tasks,
+which increases its chances of failure. In addition, task parameters,
+for instance estimated walltime, are more difficult to estimate for
+the workflow task than for sub-tasks which may generate issues such as
+selection of wrong batch queues on clusters. Finally, the
+interdependencies between the workflow task and its sub-tasks may
+create deadlocks when there is contention. Say for instance that only
+1 computing resource is available for the science gateway and that the
+workflow task is running on it and submits sub-tasks, then the
+sub-tasks could only execute when the resource is available, which
+will never happen because the workflow task will not complete until
+the sub-tasks complete. This configuration can be generalized to an
+infrastructure with $n$ resources where $n$ workflows are
+submitted. In practice, however, the number of submitted workflows
+usually remains lower than the number of computing resources available
+on this infrastructure, which makes such deadlocks unlikely to happen.
 
 \subsection{Pool}
 
@@ -536,22 +587,34 @@ ignore these issues but they may backfire).
                                      & \textbf{Pool}
                                      & \textbf{Nested}
                                      & \textbf{Import} \\
-\multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Integration effort}}\\
+\multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Integration}}\\
 Science gateway -- \texttt{I$_1$}    & \multirow{2}{*}{3}
                                      & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99FF99}2  
+                                     & \cellcolor[HTML]{99FF99}0  
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99AA99}3 \\
 Workflow engine -- \texttt{I$_2$}    &
                                      & \cellcolor[HTML]{99FF99}3 
-                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99FF99}1 \\
+Infrastructure -- \texttt{I$_3$}   & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99AA99}0
+                                     & \cellcolor[HTML]{99AA99}0
+                                     & \cellcolor[HTML]{99FF99}0 \\
+Other -- \texttt{I$_4$}              & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99AA99}2
+                                     & \cellcolor[HTML]{99AA99}0
+                                     & \cellcolor[HTML]{99FF99}0 \\
 \textbf{Total}                       & \cellcolor[HTML]{99FF99}\textbf{3}
                                      & \cellcolor[HTML]{99FF99}\textbf{4}
-                                     & \cellcolor[HTML]{99FF99}\textbf{3}
+                                     & \cellcolor[HTML]{99FF99}\textbf{2}
                                      & \cellcolor[HTML]{99AA99}\textbf{4}
                                      & \cellcolor[HTML]{99AA99}\textbf{4}
                                      & \cellcolor[HTML]{99AA99}\textbf{4} \\
@@ -584,13 +647,13 @@ Debugging --    \texttt{R$_3$}       & \cellcolor[HTML]{99AA99}0
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Modularity}}\\
 New engine type -- \texttt{M$_1$}    & \cellcolor[HTML]{99AA99}3
                                      & \cellcolor[HTML]{99DD99}4
-                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99DD99}2
                                      & \cellcolor[HTML]{99DD99}2
                                      & \cellcolor[HTML]{99AA99}3 \\
 New engine version -- \texttt{M$_2$} & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0 \\
@@ -614,7 +677,7 @@ Meta-workflow  -- \texttt{M$_5$}     & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99AA99}1 \\
 \textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{8}
                                      & \cellcolor[HTML]{99EE99}\textbf{9}
-                                     & \cellcolor[HTML]{99FF99}\textbf{5}
+                                     & \cellcolor[HTML]{99FF99}\textbf{7}
                                      & \cellcolor[HTML]{99EE99}\textbf{6}
                                      & \cellcolor[HTML]{99FF99}\textbf{5}
                                      & \cellcolor[HTML]{99AA99}\textbf{8} \\
@@ -652,7 +715,7 @@ Task scheduling -- \texttt{S$_4$}    & \cellcolor[HTML]{99FF99}0
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Grand total}}\\
                                      & \cellcolor[HTML]{99CC99}\textbf{19}
                                      & \cellcolor[HTML]{99BB99}\textbf{23}
-                                     & \cellcolor[HTML]{99FF99}\textbf{16}
+                                     & \cellcolor[HTML]{99FF99}\textbf{17}
                                      & \cellcolor[HTML]{99CC99}\textbf{19}
                                      & \cellcolor[HTML]{99DD99}\textbf{20}
                                      & \cellcolor[HTML]{99AA99}\textbf{23}
