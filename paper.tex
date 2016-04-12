@@ -176,9 +176,12 @@ shared file system between the computing nodes.
 Architectures are defined below from their main components and the
 interactions between these components.
 
+
 \todo{Introduce the notion of architectural diagram with an abstract
   figure. Mention arrows, boxes, box with dotted lines, red color,
   tasks, data.}
+
+\todo{add interaction a with the infrastructure for all architectures (application porting)}
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
@@ -346,6 +349,8 @@ black-boxes while these scripts actually correspond to complete workflows.
 
 \todo{define parent and child engine}
 
+\todo{explain that such an abstract architecture has to be concretized to allow for comparison with other architectures. Say also that we could envisage other concretizations but we don't include them as we don't have any experience with these systems.} 
+
 \begin{figure}
 \centering
 \def\svgwidth{0.48\columnwidth}
@@ -435,14 +440,16 @@ metrics:
   modified. Modification of a component is required when its code
   needs to be modified or recompiled (science gateway or workflow
   service), or when a new piece of software has to be installed
-  (infrastructure only).
+  (infrastructure only). Adding a new type of workflow engine allows
+  to execute the workflows that have been described in the language(s)
+  used by the new engine.
 \item New engine version: number of interactions or components to
   modify to integrate a new version of a workflow engine in the
   architecture, assuming that another version of the same engine type
   is already available. We assume that different versions of a
   workflow engine share the same interface, i.e. they can be invoked
   using the same software. When this is not the case, the different
-  versions have to be considered as different engine types.
+  versions have to be considered as different engine types. 
 \item New infrastructure: number of interactions or components to
   modify to integrate a new type of infrastructure in the
   architecture.
@@ -643,7 +650,7 @@ workload in the science gateway exceeds a certain threshold \todo{ref
 (\texttt{S$_3$=1}) and task scheduling is as complex as in any other
 architecture (\texttt{S$_4$=0}).
 
-\subsection{Nested workflows and service invocation}
+\subsection{Nested workflows with service invocation}
 
 \paragraph{Integration} Setting up a nested workflow architecture with
 service invocation requires interaction \texttt{d} in the science
@@ -685,7 +692,36 @@ possible, through meta-workflows (\texttt{S$_3$=0}). Task scheduling
 is more complex than in other architectures though, due to the fact
 that workflow execution is split in different engines (\texttt{S$_4$=1}).
 
-\subsection{Workflow import}
+\subsection{Workflow import with service invocation}
+
+\paragraph{Integration} Compared to the service architecture, workflow
+import requires an additional interaction \texttt{g} in the science
+gateway (\texttt{I$_1$}=2, \texttt{I$_2$}=3).
+
+\paragraph{Robustness} Since workflow conversion is not involved in
+the execution (it is an offline process), metrics are as in the
+service architecture (\texttt{R$_1$=3}, \texttt{R$_2$=4},
+\texttt{R$_3$=0}).
+
+\paragraph{Modularity} Since adding a new type of workflow engine aims
+at supporting more workflows, we consider that it only requires to
+re-implement interaction \texttt{g} in this architecture. Note,
+however, that implementing interaction \texttt{g} can require very
+substantial work depending on the complexity of the language used by
+the new engine (\texttt{M$_1$=1}). Based on the same logic, adding a
+new engine version only requires modifying interaction \texttt{g}
+(\texttt{M$_2$=1}). As in the service architecture, interfacing with a
+new infrastructure requires modifications in the workflow service and
+in interactions \texttt{b} and \texttt{c$_2$}
+(\texttt{M$_3$=3}). Adding a new workflow is done through interactions
+\texttt{a} and \texttt{g} (\texttt{M$_4$=2}). Meta-workflows are
+available after import, by connecting workflows in the language used
+in the science gateway (\texttt{M$_5$=0}).
+
+\paragraph{Scalability}  Since workflow conversion is not involved in
+the execution (it is an offline process), metrics are as in the
+service architecture (\texttt{S$_1$=1}, \texttt{S$_2$=1},
+\texttt{S$_3$=1}, \texttt{S$_4$=0}).
 
 \begin{table*}
 \centering
@@ -702,13 +738,13 @@ Science gateway -- \texttt{I$_1$}    & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}0  
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99AA99}3 \\
+                                     & \cellcolor[HTML]{99AA99}2 \\
 Workflow engine -- \texttt{I$_2$}    & \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99FF99}3 
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99AA99}5
-                                     & \cellcolor[HTML]{99FF99}1 \\
+                                     & \cellcolor[HTML]{99FF99}3 \\
 Infrastructure -- \texttt{I$_3$}   & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}1
@@ -726,7 +762,7 @@ Other -- \texttt{I$_4$}              & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}\textbf{2}
                                      & \cellcolor[HTML]{99AA99}\textbf{6}
                                      & \cellcolor[HTML]{99AA99}\textbf{6}
-                                     & \cellcolor[HTML]{99AA99}\textbf{4} \\
+                                     & \cellcolor[HTML]{99AA99}\textbf{5} \\
 
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Robustness}}\\
 Components  --   \texttt{R$_1$}      & \cellcolor[HTML]{99FF99}2
@@ -734,7 +770,7 @@ Components  --   \texttt{R$_1$}      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99AA99}4  
                                      & \cellcolor[HTML]{99AA99}4 
-                                     & \cellcolor[HTML]{99AA99}4 \\
+                                     & \cellcolor[HTML]{99AA99}3 \\
 Interactions -- \texttt{R$_2$}       & \cellcolor[HTML]{99FF99}3    
                                      & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{99DD99}3      
@@ -752,26 +788,26 @@ Debugging --    \texttt{R$_3$}       & \cellcolor[HTML]{99AA99}0
                                      & \cellcolor[HTML]{99CC99}\textbf{6}
                                      & \cellcolor[HTML]{99BB99}\textbf{8}
                                      & \cellcolor[HTML]{99AA99}\textbf{12}
-                                     & \cellcolor[HTML]{99BB99}\textbf{8} \\
+                                     & \cellcolor[HTML]{99BB99}\textbf{7} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Modularity}}\\
 New engine type -- \texttt{M$_1$}    & \cellcolor[HTML]{99AA99}3
                                      & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99DD99}3
                                      & \cellcolor[HTML]{99DD99}4.5
-                                     & \cellcolor[HTML]{99AA99}3 \\
+                                     & \cellcolor[HTML]{99AA99}1 \\
 New engine version -- \texttt{M$_2$} & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99FF99}0 \\
+                                     & \cellcolor[HTML]{99FF99}1 \\
 New infrastructure -- \texttt{M$_3$} & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}5
-                                     & \cellcolor[HTML]{99FF99}2 \\
+                                     & \cellcolor[HTML]{99FF99}3 \\
 New workflow -- \texttt{M$_4$}       & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}1
@@ -783,13 +819,13 @@ Meta-workflow  -- \texttt{M$_5$}     & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99AA99}1 \\
+                                     & \cellcolor[HTML]{99AA99}0 \\
 \textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{9}
                                      & \cellcolor[HTML]{99EE99}\textbf{9}
                                      & \cellcolor[HTML]{99FF99}\textbf{7}
                                      & \cellcolor[HTML]{99EE99}\textbf{8}
                                      & \cellcolor[HTML]{99FF99}\textbf{10.5}
-                                     & \cellcolor[HTML]{99AA99}\textbf{8} \\
+                                     & \cellcolor[HTML]{99AA99}\textbf{7} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Scalability}}\\
 New engine instance -- \texttt{S$_1$}& \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99AA99}1
@@ -827,7 +863,7 @@ Task scheduling -- \texttt{S$_4$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}\textbf{17}
                                      & \cellcolor[HTML]{99CC99}\textbf{23}
                                      & \cellcolor[HTML]{99DD99}\textbf{31.5}
-                                     & \cellcolor[HTML]{99AA99}\textbf{23}
+                                     & \cellcolor[HTML]{99AA99}\textbf{22}
 \end{tabular}
 \caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. \todo{update colors and find a more relevant way to compute a grand total without favoring criteria that have more metrics than the others (e.g. normalize each criterion between 0 and 1). Same comment for each sub-total. M1 might be the same as integration.}}
 \label{table:evaluation}
@@ -842,6 +878,9 @@ Comparison between architectures, per criterion (robustness, etc).
 This ignores pre-existing work (e.g. a workflow engine is already available as a service). Migration across architectures too.
 
 These architectures can be combined (give examples). 
+
+The difficulty of implementing interaction g is not properly
+reflected. For instance, fsl uses bash, which would be very difficult to convert.
 
 \section{Conclusion}
 
