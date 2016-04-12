@@ -1,15 +1,18 @@
 \documentclass[preprint,3p,twocolumn]{elsarticle}
 
+\usepackage[x11names,dvipsnames,table]{xcolor} %for use in color links
 \usepackage{svg}
 \usepackage{url}
 \usepackage{xspace}
 \usepackage{enumitem}
 \usepackage{hyperref}
+\usepackage{multirow}
 
 \newcommand{\todo}[1]{\color{blue}\xspace\emph{#1}\xspace\color{black}}
 \newcommand{\note}[1]{\color{blue}\textbf{Note: }\textit{#1} \color{black}}
 
 \begin{document}
+
 \begin{frontmatter}
 
 %% Title, authors and addresses
@@ -170,6 +173,8 @@ shared file system between the computing nodes.
 Architectures are defined below from their main components and the
 interactions between these components.
 
+\todo{Introduce the notion of architectural diagram with an abstract figure.}
+
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
 \subsection{Interactions}
@@ -190,9 +195,9 @@ notations used on Figures~\ref{archi:tight}-\ref{archi:import}.
 \item Data control: operations to manage data on
   the infrastructure, such as: upload, download, deletion, browsing,
   replication, caching, etc. Data movements can be triggered by the
-  user, to upload input data or download processed data - interaction
-  \texttt{(c1)}, or by the workflow engine, to transfer data across the
-  infrastructure - interaction \texttt{(c2)}. \todo{add c1 and c2 to the
+  user, to upload input data or download processed data -- interaction
+  \texttt{$c_1$}, or by the workflow engine, to transfer data across the
+  infrastructure -- interaction \texttt{$c_2$}. \todo{add c1 and c2 to the
     Figures}
 \item Workflow control: operations to execute a workflow, including:
   submission, monitoring, termination, etc. Workflow control can be
@@ -362,31 +367,86 @@ systems~\cite{plankensteiner-prodan-etal:2013}.
 
 \subsection{Criteria}
 
-Complexity of the architecture (therefore development effort, robustness, maintainability, etc):
-  * On the SG side
-  * On the workflow engine side (what is required to wrap it).
-Could be measured by counting the number of required functions,
-e.g. submit job, call a workflow service, etc. Ponderated by the
-"complexity" of the features between 1 (easy) and 3 (tricky). Look at
-other types of measures.
+We use four main criteria to evaluate the architectures: integration
+effort, robustness, modularity and scalability. Criteria break down to
+specific metrics for which low values indicate good performance.
 
-Provided features:
-  * Fine-grained workflow monitoring (debugging, progress report)
-  * Scalability, load-balancing between engines
-  * Support for multiple engines in the same gateway. Allows to reuse several different workflows in a single gateway but less complex than meta workflows. But do we really need meta workflows?
-  * Support for meta workflows
+\todo{Explain these metrics better, including why the related features
+  are useful.}
 
-"A Formal Approach to Support Interoperability in Scientific
-Meta-workflows" (reviewed for IWSG and JoGC) has a formal model to
-evaluate CGI and FGI.
+\emph{Integration effort} measures the development effort required to build
+the system, assuming that none of the components could initially
+communicate with each other. It is measured by counting the number of
+interactions to develop and components to modify on the architectural
+diagram. It breaks down to 2 metrics that relate to the direction of
+interaction arrows on the architectural diagrams:
+\begin{itemize}[itemsep=0cm]
+\item Interactions from the science gateway. 
+\item Iteractions from the workflow engine. 
+\end{itemize}
 
-"four major approaches for workflow interoperability include a,b,c,d" (see Terstyanzky et al, "Enabling scientific workflow sharing through CGI...", FGCS 2014) -> read this ref.
+\emph{Robustness} relates to the complexity of the architecture and
+its ability to provide relevant debugging information about the
+workflow executions. It breaks down to 3 metrics:
+\begin{itemize}[itemsep=0cm]
+\item Components: number of unique components involved in workflow executions.
+\item Interactions: number of unique interactions involved in workflow executions. 
+\item Debugging: availability of debugging information about workflow activities
+  (1: difficult to obtain; 0: easy to access).
+\end{itemize}
 
-http://www.oreilly.com/programming/free/files/software-architecture-patterns.pdf
+\emph{Modularity} measures the ability to replace elements in the
+architecture, or to integrate new elements. Elements include
+workflow engines, workflows and infrastructure. It breaks down in 4
+metrics:
+\begin{itemize}[itemsep=0cm]
+\item New engine type: number of interactions or components to modify
+  to integrate a new workflow engine type in the architecture.
+\item New engine version: number of interactions or components to
+  modify to integrate a new version of a workflow engine in the
+  architecture, assuming that another version of the same engine type
+  is already available.
+\item New infrastructure: number of interactions or components to
+  modify to integrate a new type of infrastructure in the
+  architecture.
+\item New workflow: number of interactions required to integrate a new
+  workflow in the architecture.
+\item Meta-workflow: ability to describe meta-workflows from existing
+  workflows (1: not available; 0: available).
+\end{itemize}
+
+\emph{Scalability} measures the ability of the architecture to support
+high workloads. It breaks down into 4 metrics:
+\begin{itemize}[itemsep=0cm]
+\item New engine instance (0: automated; 1: manual intervention needed).
+\item Elastic engines (0: easy to implement; 1: difficult to implement).
+\item Distributed engines (0: possible; 1: not possible).
+\item Task scheduling (0: difficult; 1: more difficult).
+\end{itemize}
+
+
+%"A Formal Approach to Support Interoperability in Scientific
+%Meta-workflows" (reviewed for IWSG and JoGC) has a formal model to
+%evaluate CGI and FGI.
+%"four major approaches for workflow interoperability include a,b,c,d" (see Terstyanzky et al, "Enabli%ng scientific workflow sharing through CGI...", FGCS 2014) -> read this ref.
+% http://www.oreilly.com/programming/free/files/software-architecture-patterns.pdf
 
 \subsection{Evaluation}
 
-\paragraph{Service}
+See Table~\ref{table:evaluation}.
+
+We focus on the integration of workflow engines in science gateways,
+i.e. we assume that the science gateway is already interfaced with the
+infrastructure. 
+
+\paragraph{Service invocation} Integrating a workflow engine as a
+service requires 3 interactions. First, the science gateway has to be
+extended to call the engine interface (\texttt{d}), which might
+require some adaptation on the workflow engine too, for instance
+wrapping in a web service. In addition, the workflow engine has to be
+interfaced with the infrastructure, which requires the two
+interactions \texttt{b} and \texttt{$c_2$}. 
+
 + Easy to implement in the SG (just call the service)
 - Load-balancing between services is difficult
 (refer to VIP's experience).
@@ -421,6 +481,141 @@ ignore these issues but they may backfire).
 + Multi-language
 - Needs a complete framework (the pool). Most likely third-party software as it's a lot of work to implement.
 
+\begin{table*}
+\centering
+\begin{tabular}{rcccccc}
+\textbf{Metric}                      & \textbf{Tight}
+                                     & \textbf{Service}
+                                     & \textbf{Sub-task}
+                                     & \textbf{Pool}
+                                     & \textbf{Nested}
+                                     & \textbf{Import} \\
+\multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Integration effort}}\\
+From science gateway                 & \multirow{2}{*}{3}
+                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99FF99}2  
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99AA99}3 \\
+From workflow engine                 &
+                                     & \cellcolor[HTML]{99FF99}1 
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99AA99}2
+                                     & \cellcolor[HTML]{99AA99}2
+                                     & \cellcolor[HTML]{99FF99}1 \\
+\textbf{Total}                       & \cellcolor[HTML]{99FF99}\textbf{3}
+                                     & \cellcolor[HTML]{99FF99}\textbf{3}
+                                     & \cellcolor[HTML]{99FF99}\textbf{3}
+                                     & \cellcolor[HTML]{99AA99}\textbf{4}
+                                     & \cellcolor[HTML]{99AA99}\textbf{4}
+                                     & \cellcolor[HTML]{99AA99}\textbf{4} \\
+
+\multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Robustness}}\\
+Components                           & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99DD99}3
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99AA99}4  
+                                     & \cellcolor[HTML]{99AA99}4 
+                                     & \cellcolor[HTML]{99AA99}4 \\
+Interactions                         & \cellcolor[HTML]{99FF99}2    
+                                     & \cellcolor[HTML]{99DD99}3 
+                                     & \cellcolor[HTML]{99DD99}3      
+                                     & \cellcolor[HTML]{99AA99}4  
+                                     & \cellcolor[HTML]{99AA99}4      
+                                     & \cellcolor[HTML]{99AA99}4 \\
+Debugging                            & \cellcolor[HTML]{99AA99}0          
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99FF99}0 \\
+\textbf{Total}                       & \cellcolor[HTML]{99FF99}\textbf{4}
+                                     & \cellcolor[HTML]{99CC99}\textbf{6}
+                                     & \cellcolor[HTML]{99CC99}\textbf{6}
+                                     & \cellcolor[HTML]{99BB99}\textbf{8}
+                                     & \cellcolor[HTML]{99AA99}\textbf{9}
+                                     & \cellcolor[HTML]{99BB99}\textbf{8} \\
+\multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Modularity}}\\
+New engine type                      & \cellcolor[HTML]{99AA99}3
+                                     & \cellcolor[HTML]{99DD99}2    
+                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99DD99}2
+                                     & \cellcolor[HTML]{99DD99}2
+                                     & \cellcolor[HTML]{99AA99}3 \\
+New engine version                   & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0 \\
+New infrastructure                   & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2 \\
+New workflow                         & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99FF99}1
+                                     & \cellcolor[HTML]{99AA99}2 \\
+Meta-workflow                        & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99AA99}1  
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99AA99}1 \\
+\textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{8}
+                                     & \cellcolor[HTML]{99EE99}\textbf{6}
+                                     & \cellcolor[HTML]{99FF99}\textbf{5}
+                                     & \cellcolor[HTML]{99EE99}\textbf{6}
+                                     & \cellcolor[HTML]{99FF99}\textbf{5}
+                                     & \cellcolor[HTML]{99AA99}\textbf{8} \\
+\multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Scalability}}\\
+New engine instance                  & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99AA99}1 \\
+Elastic engines                      & \cellcolor[HTML]{99AA99}2
+                                     & \cellcolor[HTML]{99DD99}1
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99DD99}1
+                                     & \cellcolor[HTML]{99DD99}1 \\
+Distributed engines                  & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99AA99}1 \\
+Task scheduling                      & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99AA99}1
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}0 \\
+\textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{4}
+                                     & \cellcolor[HTML]{99BB99}\textbf{3}
+                                     & \cellcolor[HTML]{99DD99}\textbf{2}
+                                     & \cellcolor[HTML]{99FF99}\textbf{1}
+                                     & \cellcolor[HTML]{99DD99}\textbf{2}
+                                     & \cellcolor[HTML]{99BB99}\textbf{3} \\
+\multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Grand total}}\\
+                                     & \cellcolor[HTML]{99CC99}\textbf{19}
+                                     & \cellcolor[HTML]{99BB99}\textbf{18}
+                                     & \cellcolor[HTML]{99FF99}\textbf{16}
+                                     & \cellcolor[HTML]{99CC99}\textbf{19}
+                                     & \cellcolor[HTML]{99DD99}\textbf{20}
+                                     & \cellcolor[HTML]{99AA99}\textbf{23}
+\end{tabular}
+\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance.}
+\label{table:evaluation}
+\end{table*}
+
+
 
 \section{Discussion}
 
@@ -431,6 +626,8 @@ These architectures can be combined (give examples).
 \section{Acknowledgments}
 
 FLI-IAM, Labex PRIMES, Ludmer Centre
+
+\section*{References}
 
 \bibliographystyle{elsarticle-num} 
 \bibliography{biblio}
