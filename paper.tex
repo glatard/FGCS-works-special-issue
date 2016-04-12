@@ -339,6 +339,13 @@ integrate various workflow engines in a consistent platform. Nested
 workflows are also often used implicitly to wrap scripts as
 black-boxes while these scripts actually correspond to complete workflows.
 
+\todo{instantiation is for foreign workflows, i.e. 2 services. We could have another one with native workflows too.}
+
+\todo{both workflow engines have to access the infrastructure. If they
+  run on 2 infrastructures, c1 has to be duplicated.}
+
+\todo{define parent and child engine}
+
 \begin{figure}
 \centering
 \def\svgwidth{0.48\columnwidth}
@@ -636,7 +643,47 @@ workload in the science gateway exceeds a certain threshold \todo{ref
 (\texttt{S$_3$=1}) and task scheduling is as complex as in any other
 architecture (\texttt{S$_4$=0}).
 
-\subsection{Nested workflows}
+\subsection{Nested workflows and service invocation}
+
+\paragraph{Integration} Setting up a nested workflow architecture with
+service invocation requires interaction \texttt{d} in the science
+gateway (\texttt{I$_1$=1}), and the development of 2 workflow services
+with 2 instances of interactions \texttt{b} and \texttt{c$_2$}
+(\texttt{I$_2$=5}).
+
+\paragraph{Robustness} Workflow execution involves the science
+gateway, 2 workflow services and the infrastructure
+(\texttt{R$_1$=4}), which includes 7 interactions
+(\texttt{R$_2$=7}). Debugging is difficult because the science gateway
+cannot directly access fine-grained information in the sub-workflow
+(\texttt{R$_3$=1}).
+
+\paragraph{Modularity} Adding a new type of \emph{parent} engine
+requires to implement the corresponding service, to implement
+interactions \texttt{b} and \texttt{c$_2$} in the parent engine, and
+to implement interaction \texttt{d} in the science gateway and in the
+parent service (\texttt{M$_1$=5}). Adding a new type of \emph{child}
+engine only requires to implement the corresponding service, to
+develop interactions \texttt{b} and \texttt{c$_2$} in the child
+engine, and to implement interaction \texttt{d} in the parent service
+(\texttt{M$_1$=4}). We use \texttt{M$_1$=4.5} in
+Table~\ref{table:evaluation} to reflect both conditions. Adding a new
+version in the parent or child engine only requires modifying this
+engine (\texttt{M$_2$=0}). Adding a new infrastructure requires to
+re-implement interactions \texttt{b} and \texttt{c$_2$} twice, and
+interaction \texttt{c$_1$} once (\texttt{M$_3$=5}). Adding a new
+workflow is done through interaction \texttt{a}
+(\texttt{M$_4$=1}). Meta-workflows are possible, which is one of the
+main interest of this architecture (\texttt{M$_5$=0}).
+
+\paragraph{Scalability} As in the service architecture, adding a new
+workflow instance requires manual configuration in the science gateway
+(instance of a parent engine), or in the parent engine (instance of a
+child engine) (\texttt{S$_1$=1}). Similarly, elastic engines are
+difficult to achieve (\texttt{S$_2$=1}). Distributed engines are
+possible, through meta-workflows (\texttt{S$_3$=0}). Task scheduling
+is more complex than in other architectures though, due to the fact
+that workflow execution is split in different engines (\texttt{S$_4$=1}).
 
 \subsection{Workflow import}
 
@@ -654,13 +701,13 @@ Science gateway -- \texttt{I$_1$}    & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}0  
                                      & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99AA99}3 \\
 Workflow engine -- \texttt{I$_2$}    & \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99FF99}3 
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99AA99}2
-                                     & \cellcolor[HTML]{99AA99}2
+                                     & \cellcolor[HTML]{99AA99}5
                                      & \cellcolor[HTML]{99FF99}1 \\
 Infrastructure -- \texttt{I$_3$}   & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
@@ -678,7 +725,7 @@ Other -- \texttt{I$_4$}              & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}\textbf{4}
                                      & \cellcolor[HTML]{99FF99}\textbf{2}
                                      & \cellcolor[HTML]{99AA99}\textbf{6}
-                                     & \cellcolor[HTML]{99AA99}\textbf{4}
+                                     & \cellcolor[HTML]{99AA99}\textbf{6}
                                      & \cellcolor[HTML]{99AA99}\textbf{4} \\
 
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Robustness}}\\
@@ -692,7 +739,7 @@ Interactions -- \texttt{R$_2$}       & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{99DD99}3      
                                      & \cellcolor[HTML]{99AA99}4  
-                                     & \cellcolor[HTML]{99AA99}4      
+                                     & \cellcolor[HTML]{99AA99}7      
                                      & \cellcolor[HTML]{99AA99}4 \\
 Debugging --    \texttt{R$_3$}       & \cellcolor[HTML]{99AA99}0          
                                      & \cellcolor[HTML]{99FF99}0
@@ -704,14 +751,14 @@ Debugging --    \texttt{R$_3$}       & \cellcolor[HTML]{99AA99}0
                                      & \cellcolor[HTML]{99CC99}\textbf{7}
                                      & \cellcolor[HTML]{99CC99}\textbf{6}
                                      & \cellcolor[HTML]{99BB99}\textbf{8}
-                                     & \cellcolor[HTML]{99AA99}\textbf{9}
+                                     & \cellcolor[HTML]{99AA99}\textbf{12}
                                      & \cellcolor[HTML]{99BB99}\textbf{8} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Modularity}}\\
 New engine type -- \texttt{M$_1$}    & \cellcolor[HTML]{99AA99}3
                                      & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99DD99}3
-                                     & \cellcolor[HTML]{99DD99}2
+                                     & \cellcolor[HTML]{99DD99}4.5
                                      & \cellcolor[HTML]{99AA99}3 \\
 New engine version -- \texttt{M$_2$} & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
@@ -723,7 +770,7 @@ New infrastructure -- \texttt{M$_3$} & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}3
-                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}5
                                      & \cellcolor[HTML]{99FF99}2 \\
 New workflow -- \texttt{M$_4$}       & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}1
@@ -741,7 +788,7 @@ Meta-workflow  -- \texttt{M$_5$}     & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99EE99}\textbf{9}
                                      & \cellcolor[HTML]{99FF99}\textbf{7}
                                      & \cellcolor[HTML]{99EE99}\textbf{8}
-                                     & \cellcolor[HTML]{99FF99}\textbf{5}
+                                     & \cellcolor[HTML]{99FF99}\textbf{10.5}
                                      & \cellcolor[HTML]{99AA99}\textbf{8} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Scalability}}\\
 New engine instance -- \texttt{S$_1$}& \cellcolor[HTML]{99AA99}2
@@ -766,23 +813,23 @@ Task scheduling -- \texttt{S$_4$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}0 \\
 \textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{5}
                                      & \cellcolor[HTML]{99BB99}\textbf{3}
                                      & \cellcolor[HTML]{99DD99}\textbf{2}
                                      & \cellcolor[HTML]{99FF99}\textbf{1}
-                                     & \cellcolor[HTML]{99DD99}\textbf{2}
+                                     & \cellcolor[HTML]{99DD99}\textbf{3}
                                      & \cellcolor[HTML]{99BB99}\textbf{3} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Grand total}}\\
                                      & \cellcolor[HTML]{99CC99}\textbf{22}
                                      & \cellcolor[HTML]{99BB99}\textbf{23}
                                      & \cellcolor[HTML]{99FF99}\textbf{17}
                                      & \cellcolor[HTML]{99CC99}\textbf{23}
-                                     & \cellcolor[HTML]{99DD99}\textbf{20}
+                                     & \cellcolor[HTML]{99DD99}\textbf{31.5}
                                      & \cellcolor[HTML]{99AA99}\textbf{23}
 \end{tabular}
-\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. \todo{update colors and find a more relevant way to compute a grand total without favoring criteria that have more metrics than the others (e.g. normalize each criterion between 0 and 1).}}
+\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. \todo{update colors and find a more relevant way to compute a grand total without favoring criteria that have more metrics than the others (e.g. normalize each criterion between 0 and 1). Same comment for each sub-total. M1 might be the same as integration.}}
 \label{table:evaluation}
 \end{table*}
 
