@@ -176,7 +176,9 @@ shared file system between the computing nodes.
 Architectures are defined below from their main components and the
 interactions between these components.
 
-\todo{Introduce the notion of architectural diagram with an abstract figure. Mention arrows, boxes, box with dotted lines, red color.}
+\todo{Introduce the notion of architectural diagram with an abstract
+  figure. Mention arrows, boxes, box with dotted lines, red color,
+  tasks, data.}
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
@@ -371,11 +373,9 @@ systems~\cite{plankensteiner-prodan-etal:2013}.
 
 \section{Evaluation}
 
-See Table~\ref{table:evaluation}.
-
-We focus on the integration of workflow engines in science gateways,
-i.e. we assume that the science gateway is already interfaced with the
-infrastructure. 
+See Table~\ref{table:evaluation}. We focus on the integration of
+workflow engines in science gateways, i.e. we assume that the science
+gateway is already interfaced with the infrastructure.
 
 \subsection{Evaluation metrics}
 
@@ -448,7 +448,7 @@ metrics:
 \emph{Scalability} measures the ability of the architecture to support
 high workloads. It breaks down into 4 metrics:
 \begin{itemize}[itemsep=0cm]
-\item New engine instance (0: automated; 1: manual intervention needed).
+\item New engine instance (0: automated; 1: manual intervention needed; 2: not possible).
 \item Elastic engines (0: easy to implement; 1: difficult to
   implement; 2: not available).
 \item Distributed engines (0: possible; 1: not possible).
@@ -464,6 +464,40 @@ high workloads. It breaks down into 4 metrics:
 
 
 \subsection{Tight integration}
+
+\paragraph{Integration} Tightly integrating a workflow engine in a
+science gateway requires to modify the science gateway
+(\texttt{I$_1$=1}) and to develop interactions \texttt{b}, and
+\texttt{c$_2$} in the workflow engine (\texttt{I$_2$=2}). No other
+modification is required (\texttt{I$_3$}=\texttt{I$_4$}=0).
+
+\paragraph{Robustness} The science gateway and the infrastructure are
+involved in a workflow execution (\texttt{R$_1$}=2), with interactions
+\texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
+(\texttt{R$_2$}=3). Debugging is not an issue since the science
+gateway can retrieve any information from the workflow engine
+directly (\texttt{R$_3$}=0). 
+
+\paragraph{Modularity} Integrating a new type of workflow engine
+requires to modify the science gateway as well as interactions
+\texttt{b} and \texttt{c$_2$} (\texttt{M$_1$}=3). Updating a workflow
+engine version requires modifications in the science gateway
+(\texttt{M$_2$}=1). Adding a new infrastructure generates updates in
+interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
+(\texttt{M$_3$}=3). Inserting a new workflow is done through
+interaction \texttt{a} (\texttt{M$_4$}=1). Meta-workflows are not
+supported by default (\texttt{M$_4$}=1).
+
+\paragraph{Scalability} Adding a new engine instance requires a new
+instance of the science gateway, which is in general not possible
+since load-balancing mechanisms available in web servers are usually
+meant to deal with short web requests rather than long workflow
+executions (\texttt{S$_1$}=2). Coherently, elastic engines are usually
+not possible either (\texttt{S$_2$}=2).  Distributed engines are not
+available by default (\texttt{S$_3$}=1). The scheduling of tasks on
+the infrastructure is as complex as in any other architecture since
+the workflow engine might implement any kind of scheduling policy
+(\texttt{S$_4$}=0).
 
 \subsection{Service invocation} 
 
@@ -602,7 +636,6 @@ workload in the science gateway exceeds a certain threshold \todo{ref
 (\texttt{S$_3$=1}) and task scheduling is as complex as in any other
 architecture (\texttt{S$_4$=0}).
 
-
 \subsection{Nested workflows}
 
 \subsection{Workflow import}
@@ -617,13 +650,13 @@ architecture (\texttt{S$_4$=0}).
                                      & \textbf{Nested}
                                      & \textbf{Import} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Integration}}\\
-Science gateway -- \texttt{I$_1$}    & \multirow{2}{*}{3}
+Science gateway -- \texttt{I$_1$}    & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}0  
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99AA99}3 \\
-Workflow engine -- \texttt{I$_2$}    &
+Workflow engine -- \texttt{I$_2$}    & \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99FF99}3 
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99AA99}2
@@ -667,7 +700,7 @@ Debugging --    \texttt{R$_3$}       & \cellcolor[HTML]{99AA99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0 \\
-\textbf{Total}                       & \cellcolor[HTML]{99FF99}\textbf{4}
+\textbf{Total}                       & \cellcolor[HTML]{99FF99}\textbf{5}
                                      & \cellcolor[HTML]{99CC99}\textbf{7}
                                      & \cellcolor[HTML]{99CC99}\textbf{6}
                                      & \cellcolor[HTML]{99BB99}\textbf{8}
@@ -686,7 +719,7 @@ New engine version -- \texttt{M$_2$} & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0 \\
-New infrastructure -- \texttt{M$_3$} & \cellcolor[HTML]{99FF99}2
+New infrastructure -- \texttt{M$_3$} & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}3
@@ -704,14 +737,14 @@ Meta-workflow  -- \texttt{M$_5$}     & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99AA99}1 \\
-\textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{8}
+\textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{9}
                                      & \cellcolor[HTML]{99EE99}\textbf{9}
                                      & \cellcolor[HTML]{99FF99}\textbf{7}
                                      & \cellcolor[HTML]{99EE99}\textbf{8}
                                      & \cellcolor[HTML]{99FF99}\textbf{5}
                                      & \cellcolor[HTML]{99AA99}\textbf{8} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Scalability}}\\
-New engine instance -- \texttt{S$_1$}& \cellcolor[HTML]{99AA99}1
+New engine instance -- \texttt{S$_1$}& \cellcolor[HTML]{99AA99}2
                                      & \cellcolor[HTML]{99AA99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
@@ -735,14 +768,14 @@ Task scheduling -- \texttt{S$_4$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0 \\
-\textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{4}
+\textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{5}
                                      & \cellcolor[HTML]{99BB99}\textbf{3}
                                      & \cellcolor[HTML]{99DD99}\textbf{2}
                                      & \cellcolor[HTML]{99FF99}\textbf{1}
                                      & \cellcolor[HTML]{99DD99}\textbf{2}
                                      & \cellcolor[HTML]{99BB99}\textbf{3} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Grand total}}\\
-                                     & \cellcolor[HTML]{99CC99}\textbf{19}
+                                     & \cellcolor[HTML]{99CC99}\textbf{22}
                                      & \cellcolor[HTML]{99BB99}\textbf{23}
                                      & \cellcolor[HTML]{99FF99}\textbf{17}
                                      & \cellcolor[HTML]{99CC99}\textbf{23}
