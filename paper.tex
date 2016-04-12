@@ -176,7 +176,7 @@ shared file system between the computing nodes.
 Architectures are defined below from their main components and the
 interactions between these components.
 
-\todo{Introduce the notion of architectural diagram with an abstract figure.}
+\todo{Introduce the notion of architectural diagram with an abstract figure. Mention arrows, boxes, box with dotted lines, red color.}
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
@@ -569,10 +569,39 @@ on this infrastructure, which makes such deadlocks unlikely to happen.
 
 \subsection{Pool}
 
-= Evaluation
-+ Scale-up and load balancing
-+ Multi-language
-- Needs a complete framework (the pool). Most likely third-party software as it's a lot of work to implement.
+\paragraph{Integration} Integrating workflow engines through the pool
+model requires interaction \texttt{d} in the science gateway
+(\texttt{I$_1$=1}), interactions \texttt{b} and \texttt{c$_2$} in the
+workflow engine (\texttt{I$_2$=2}), the development of the workflow
+pool, agent and interaction \texttt{f} between them
+(\texttt{I$_4$=3}).
+
+\paragraph{Robustness} The science gateway, workflow pool, agent and
+infrastructure are involved in a workflow execution
+(\texttt{R$_1$=4}), and these components are connected through 4
+interactions (\texttt{R$_2$=4}). Accessing debugging information is
+not likely to be an issue since the workflow pool could implement
+specific functions for that (\texttt{R$_3$=0}). 
+
+\paragraph{Modularity} Adding a new engine type requires to wrap the
+engine in the agent and to update interactions \texttt{b} and
+\texttt{c$_2$} (\texttt{M$_1$=3}). Updating the version of an engine
+is transparent (\texttt{M$_2$=0}), and integrating a new
+infrastructure requires updates in interactions \texttt{b},
+\texttt{c$_1$} and \texttt{c$_2$} (\texttt{M$_3$=3}). Integrating a
+new workflow is done through interaction \texttt{a} only
+(\texttt{M$_4$=1}) and meta-workflows are not available by default
+(\texttt{M$_5$=1}).
+
+\paragraph{Scalability} New engine instances only require new agents,
+which is easily automated (\texttt{S$_1$=0}) and by design very
+suitable for elastic computing (\texttt{S$_2$=0}). For instance,
+auto-scaling rules can be implemented to start new agents when the
+workload in the science gateway exceeds a certain threshold \todo{ref
+  needed}. Distributed engines are not available by default
+(\texttt{S$_3$=1}) and task scheduling is as complex as in any other
+architecture (\texttt{S$_4$=0}).
+
 
 \subsection{Nested workflows}
 
@@ -591,7 +620,7 @@ on this infrastructure, which makes such deadlocks unlikely to happen.
 Science gateway -- \texttt{I$_1$}    & \multirow{2}{*}{3}
                                      & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}0  
-                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}1
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99AA99}3 \\
 Workflow engine -- \texttt{I$_2$}    &
@@ -609,13 +638,13 @@ Infrastructure -- \texttt{I$_3$}   & \cellcolor[HTML]{99FF99}0
 Other -- \texttt{I$_4$}              & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99AA99}2
+                                     & \cellcolor[HTML]{99AA99}3
                                      & \cellcolor[HTML]{99AA99}0
                                      & \cellcolor[HTML]{99FF99}0 \\
 \textbf{Total}                       & \cellcolor[HTML]{99FF99}\textbf{3}
                                      & \cellcolor[HTML]{99FF99}\textbf{4}
                                      & \cellcolor[HTML]{99FF99}\textbf{2}
-                                     & \cellcolor[HTML]{99AA99}\textbf{4}
+                                     & \cellcolor[HTML]{99AA99}\textbf{6}
                                      & \cellcolor[HTML]{99AA99}\textbf{4}
                                      & \cellcolor[HTML]{99AA99}\textbf{4} \\
 
@@ -648,7 +677,7 @@ Debugging --    \texttt{R$_3$}       & \cellcolor[HTML]{99AA99}0
 New engine type -- \texttt{M$_1$}    & \cellcolor[HTML]{99AA99}3
                                      & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99DD99}2
+                                     & \cellcolor[HTML]{99DD99}3
                                      & \cellcolor[HTML]{99DD99}2
                                      & \cellcolor[HTML]{99AA99}3 \\
 New engine version -- \texttt{M$_2$} & \cellcolor[HTML]{99AA99}1
@@ -660,7 +689,7 @@ New engine version -- \texttt{M$_2$} & \cellcolor[HTML]{99AA99}1
 New infrastructure -- \texttt{M$_3$} & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}3
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2 \\
 New workflow -- \texttt{M$_4$}       & \cellcolor[HTML]{99FF99}1
@@ -678,7 +707,7 @@ Meta-workflow  -- \texttt{M$_5$}     & \cellcolor[HTML]{99AA99}1
 \textbf{Total}                       & \cellcolor[HTML]{99AA99}\textbf{8}
                                      & \cellcolor[HTML]{99EE99}\textbf{9}
                                      & \cellcolor[HTML]{99FF99}\textbf{7}
-                                     & \cellcolor[HTML]{99EE99}\textbf{6}
+                                     & \cellcolor[HTML]{99EE99}\textbf{8}
                                      & \cellcolor[HTML]{99FF99}\textbf{5}
                                      & \cellcolor[HTML]{99AA99}\textbf{8} \\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Scalability}}\\
@@ -716,11 +745,11 @@ Task scheduling -- \texttt{S$_4$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99CC99}\textbf{19}
                                      & \cellcolor[HTML]{99BB99}\textbf{23}
                                      & \cellcolor[HTML]{99FF99}\textbf{17}
-                                     & \cellcolor[HTML]{99CC99}\textbf{19}
+                                     & \cellcolor[HTML]{99CC99}\textbf{23}
                                      & \cellcolor[HTML]{99DD99}\textbf{20}
                                      & \cellcolor[HTML]{99AA99}\textbf{23}
 \end{tabular}
-\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance.}
+\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. \todo{update colors and find a more relevant way to compute a grand total without favoring criteria that have more metrics than the others (e.g. normalize each criterion between 0 and 1).}}
 \label{table:evaluation}
 \end{table*}
 
