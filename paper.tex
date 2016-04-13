@@ -1,15 +1,19 @@
 \documentclass[preprint,3p,twocolumn]{elsarticle}
 
+
 \usepackage[x11names,dvipsnames,table]{xcolor} %for use in color links
+\usepackage{subfig}
 \usepackage{svg}
 \usepackage{url}
+
 \usepackage{xspace}
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{multirow}
 
-\newcommand{\todo}[1]{\color{blue}\xspace\emph{#1}\xspace\color{black}}
-\newcommand{\note}[1]{\color{blue}\textbf{Note: }\textit{#1} \color{black}}
+
+\newcommand{\todo}[1]{\color{blue}\xspace[\emph{#1}]\xspace\color{black}}
+\newcommand{\note}[1]{\color{green}\textbf{Note: }\textit{#1} \color{black}}
 
 \begin{document}
 
@@ -185,6 +189,53 @@ interactions between these components.
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
+\begin{figure*}
+\centering
+\hspace*{0.2\columnwidth}
+\subfloat[Tight integration]{
+\def\svgwidth{0.6\columnwidth}
+\input{figures/tight.pdf_tex}
+\label{archi:tight}
+}
+\hfill
+\subfloat[Service invocation]{
+\def\svgwidth{0.6\columnwidth}
+\input{figures/service.pdf_tex}
+\label{archi:service}
+\hspace*{0.2\columnwidth}
+}\\
+\hspace*{0.2\columnwidth}
+\subfloat[Sub-tasking]{
+\def\svgwidth{0.6\columnwidth}
+\input{figures/sub-task.pdf_tex}
+\label{archi:sub-task}
+}
+\hfill
+\subfloat[Pool]{
+\def\svgwidth{0.6\columnwidth}
+\input{figures/agent.pdf_tex}
+\label{archi:agent}
+\hspace*{0.2\columnwidth}
+}\\
+\subfloat[Nested workflows. Left: abstract model. Right: instantiation with service invocation.]{
+\def\svgwidth{0.9\columnwidth}
+\input{figures/nested-1.pdf_tex}
+\def\svgwidth{0.9\columnwidth}
+\input{figures/nested-2.pdf_tex}
+\label{archi:nested}
+}\\
+\subfloat[Workflow import. Left: abstract model. Right: instantiation with service invocation.]{
+\def\svgwidth{0.5\columnwidth}
+\input{figures/import-1.pdf_tex}
+\hfill
+\def\svgwidth{0.5\columnwidth}
+\input{figures/import-2.pdf_tex}
+\label{archi:import}
+}
+\caption{Architectures}
+\label{fig:architectures}
+\end{figure*}
+
 \subsection{Interactions}
 
 The interactions described below are labeled consistently with the
@@ -236,13 +287,6 @@ workflows\footnote{\url{http://bit.ly/1oQrzvQ}}),
 CIPRES~\cite{miller2010creating} and LONI Pipeline
 Environment~\cite{dinov2009efficient}.\todo{Add better justification}
 
-\begin{figure}
-\centering
-\def\svgwidth{0.5\columnwidth}
-\input{figures/tight.pdf_tex}
-\caption{Tight integration}
-\label{archi:tight}
-\end{figure}
 
 \subsection{Service invocation}
 
@@ -266,13 +310,6 @@ Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual
 Imaging Platform~\cite{GLAT-13}, the WS-PGRADE/gUSE
 framework~\cite{Kacsuk2012} and the numerous science gateway instances
 that use it~\cite{kacsuk2014science}.
-\begin{figure}
-\centering
-\def\svgwidth{0.5\columnwidth}
-\input{figures/service.pdf_tex}
-\caption{Service integration}
-\label{archi:service}
-\end{figure}
 
 \subsection{Sub-tasking}
 
@@ -299,13 +336,6 @@ integrate the PSOM workflow engine and the FSL toolkit through its
 \texttt{fsl\_sub} tool. In particular, the CBRAIN-PSOM integration is
 described in~\cite{GLAT-16} and uses an agent computing model (a.k.a pilot
 jobs).
-\begin{figure}
-\centering
-\def\svgwidth{0.5\columnwidth}
-\input{figures/sub-task.pdf_tex}
-\caption{Sub-tasking}
-\label{archi:sub-task}
-\end{figure}
 
 \subsection{Pool model}
 \label{sec:pool}
@@ -315,13 +345,6 @@ and execute workflows (interaction \texttt{f}). Agents may be started according 
 policies, for instance to ensure load balancing. Agents may wrap
 different types of workflow engines. This model was implemented in the
 SHIWA pool~\cite{ROGE-13}.
-\begin{figure}
-\centering
-\def\svgwidth{0.8\columnwidth}
-\input{figures/agent.pdf_tex}
-\caption{Pool model}
-\label{archi:agent}
-\end{figure}
 
 \subsection{Nested workflows}
 
@@ -351,16 +374,6 @@ black-boxes while these scripts actually correspond to complete workflows.
 
 \todo{explain that such an abstract architecture has to be concretized to allow for comparison with other architectures. Say also that we could envisage other concretizations but we don't include them as we don't have any experience with these systems.} 
 
-\begin{figure}
-\centering
-\def\svgwidth{0.48\columnwidth}
-\input{figures/nested-1.pdf_tex}
-\def\svgwidth{0.48\columnwidth}
-\input{figures/nested-2.pdf_tex}
-\caption{Nested workflows. Left: abstract model. Right: instantiation with service invocation.}
-\label{archi:nested}
-\end{figure}
-
 \subsection{Workflow import}
 
 See Figure~\ref{archi:import}. This is an abstract model that we
@@ -372,16 +385,7 @@ the IWIR language that provided a common language for portability
 across grid workflow
 systems~\cite{plankensteiner-prodan-etal:2013}.
 
-\begin{figure}
-\centering
-\def\svgwidth{0.48\columnwidth}
-\input{figures/import-1.pdf_tex}
-\def\svgwidth{0.48\columnwidth}
-\input{figures/import-2.pdf_tex}
-\caption{Workflow import. Left: abstract model. Right: instantiation with service invocation.}
-\label{archi:import}
-\end{figure}
-
+\todo{workflow import is an offline process.}
 
 \section{Evaluation}
 
