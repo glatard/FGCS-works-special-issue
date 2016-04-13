@@ -172,23 +172,26 @@ shared file system between the computing nodes.
 
 \section{Architectures}
 
-Figure~\ref{fig:notations} shows the graphical notations used to
-describe the architectures in the reminder of this
-Section. Architectures will be described from their main software
-components and interactions. Software components include science
-gateway and infrastructure in all architectures, and workflow service,
-workflow pool and agent are involved in some architectures. The
-workflow engine itself is represented by a specific symbol. Software
-interactions among these components are described in the next
-Section. Abstract interactions are specific types of interactions that
-may be implemented by various different software interactions. Red
-color is used to represent the components and interactions that need
-to be specifically developed to integrate workflow engines. Tasks
-refer to computing tasks that are created by the workflow engine and
-executed on the infrastructure. Data represents any type of file, or
-database that is involved in the workflow execution and stored on the
-infrastructure while the workflow executes. It does not cover workflow
-parameters such as strings, numbers, etc.
+The architectures are diagramed in Figure~\ref{fig:architectures}
+using the graphical notations shown in
+Figure~\ref{fig:notations}. Architectures are described from their
+main software components and interactions. Software components include
+science gateway and infrastructure in all architectures, and workflow
+service, workflow pool and agent are involved in some
+architectures. The workflow engine itself is represented by a specific
+symbol. Software interactions among these components are described in
+the next Section. Abstract interactions are specific types of
+interactions that may be implemented by various different software
+interactions. Red color is used to represent the components and
+interactions that need to be specifically developed to integrate
+workflow engines. Tasks refer to computing tasks that are created by
+the workflow engine and executed on the infrastructure. Data
+represents any type of file, or database that is involved in the
+workflow execution and stored on the infrastructure while the workflow
+executes. It does not cover workflow parameters such as strings,
+numbers, etc. The reminder of this section describes the different
+types of interactions involved in the architectures, and details each
+architecture.
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
@@ -256,28 +259,33 @@ Figure~\ref{fig:architectures}.
 \begin{enumerate}[leftmargin=0cm,itemindent=0.6cm,label=\texttt{(\alph*)}]
 
 \item Workflow integration: consists in adding a new workflow to the
-  system so that users can execute it. It is triggered by science
-  administrator and it results in an interface, for instance a web
-  form, where users can enter the parameters of the workflow to be
-  executed. The interaction has two aspects: (\texttt{a$_1$}) the
-  programs used in the workflow are installed on the infrastructure,
-  which may or may not require administrative privileges on the
-  infrastructure; (\texttt{a$_2$}) the workflow has to be configured
-  in the science gateway so that it becomes available to users. Note
-  that integrating a workflow is not the same process as integrating a
-  workflow \emph{engine}.
-\item Task control: operations to manage tasks on the
-  infrastructure, including: authentication, submission, monitoring,
-  termination, deletion, etc. When the infrastructure is a grid or a
-  cloud, it is for instance implemented using libraries such as SAGA,
-  DRMAA, OCCI and similar initiatives \todo{refs needed}.
+  system so that users can execute it. It is triggered by an
+  administrator of the science gateway and it results in an interface,
+  for instance a web form, where users can enter the parameters of the
+  workflow to be executed. The interaction has two aspects:
+  (\texttt{a$_1$}) the programs used in the workflow are installed on
+  the infrastructure, which may or may not require administrative
+  privileges on the infrastructure; (\texttt{a$_2$}) the workflow has
+  to be configured in the science gateway so that it becomes available
+  to users. Note that integrating a workflow is not the same process
+  as integrating a workflow \emph{engine}.
+\item Task control: operations to manage tasks on the infrastructure,
+  including: authentication, submission, monitoring, termination,
+  deletion, etc. Controlling tasks requires to deal with the
+  heterogeneous batch managers and meta-schedulers that might be
+  available on the infrastructure. When the infrastructure is a grid
+  or a cloud, it is for instance implemented using libraries such as
+  SAGA, DRMAA, OCCI and similar initiatives \todo{refs needed}.
 \item Data control: operations to manage data on the infrastructure,
   such as: upload, download, deletion, browsing, replication, caching,
   etc. Data movements can be triggered by the user in the science
   gateway (\texttt{$c_1$}), to upload input data or download processed
   data. They can also be performed by the workflow engine
-  (\texttt{$c_2$}), to transfer data across the
-  infrastructure. 
+  (\texttt{$c_2$}), to transfer data across the infrastructure. The
+  infrastructure might offer various data storage backends with
+  heterogeneous interfaces. Tools and services such as
+  JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
+  can be used to homogeneize these interfaces.
 \item Workflow control: operations to execute a workflow with an
   engine, including: workflow submission, monitoring, termination,
   etc. Workflow control can be coarse-grained (a.k.a. black box) or
@@ -311,81 +319,150 @@ Figure~\ref{fig:architectures}.
   interactions instead of $n^2$.
 \end{enumerate}
 
+\todo{In the following sections, for each architecture, add a
+  description of a real system that implements it: integrated: ?,
+  service: VIP, sub-task: CBRAIN-PSOM, pool: SHIWA pool, nested
+  workflow: SHIWA CGI, import: SHIWA FGI}
+
 \subsection{Tight integration}
 
 See Figure~\ref{archi:tight}. The workflow engine is tightly
 integrated with the science gateway, which means that it is deployed
 on the same machine and potentially shares code, libraries and other
 software components with the science gateway. For instance, the
-workflow engine might be a portlet in a Liferay portal, a controller
-in a Ruby on Rails application, and so on. The workflow engine and the
-science gateway usually share a database where application, users and
-other resources are stored. In this model, task control and data
-control are initiated from the science gateway. This is the model
-adopted in the Catania Science Gateway Framework~\cite{Ardizzone2012}
-(see specific documentation on
+workflow engine might be a portlet in a Liferay portal or a controller
+in a Ruby on Rails application. The workflow engine and the science
+gateway usually share a database where application, users and other
+resources are stored. In this model, task and data control are both
+initiated from the science gateway. Interactions \texttt{b} and
+\texttt{c$_2$} are initiated from the workflow engine while
+\texttt{c$_1$} comes from other parts of the science gateway, for
+instance a data management interface. As in any other model, the
+installation of new workflows in the science gateway (\texttt{a$_2$})
+and infrastructure (\texttt{a$_1$}) is done by an administrator, for
+security reasons. This is the model adopted in the Catania Science
+Gateway Framework~\cite{Ardizzone2012} (see specific documentation on
 workflows\footnote{\url{http://bit.ly/1oQrzvQ}}),
 CIPRES~\cite{miller2010creating} and LONI Pipeline
-Environment~\cite{dinov2009efficient}.\todo{Add better justification}
+Environment~\cite{dinov2009efficient}.
 
 
 \subsection{Service invocation}
 
 See Figure~\ref{archi:service}. The workflow engine is available
 externally to the science gateway, in a service. The science gateway
-controls the service through a specific interaction that might be
-implemented as a web-service call (e.g. RESTful or SOAP), as a
-command-line or as any other method that offers a well-defined
+controls the service through a specific interaction (\texttt{d}) that
+might be implemented as a web-service call (e.g. RESTful or SOAP), as
+a command-line or as any other method that offers a well-defined
 interface to the workflow engine. The workflow engine might be invoked
 either as a black box that completely masks the infrastructure and
-workflow activities, or as a grey box that allows for some interaction
-with them.  The workflow engine is responsible for controlling the
-tasks on the infrastructure, and performing the required data
-transfers to execute them. User data is usually managed through the
-science gateway, although it might as well be delivered by the
-workflow engine directly to the user.
+workflow activities, or as a white box that allows for some
+interaction with them. The workflow engine is responsible for
+controlling the tasks on the infrastructure (\texttt{b}) and for
+performing the required data transfers to execute them
+(\texttt{c$_2$}). User data is usually managed through the science
+gateway (\texttt{c$_1$}), although it might as well be delivered by
+the workflow engine directly to the user.
 
 This architecture is largely adopted, in systems such as Apache
 Airvata~\cite{marru2011apache}, Vine
 Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual
 Imaging Platform~\cite{GLAT-13}, the WS-PGRADE/gUSE
 framework~\cite{Kacsuk2012} and the numerous science gateway instances
-that use it~\cite{kacsuk2014science}.
+that rely on
+WS-PGRADE/gUSE~\cite{kacsuk2014science}. Figure~\ref{fig:vip-architecture}
+shows the architecture of the Virtual Imaging Platform, where the
+MOTEUR workflow engine~\cite{GLAT-08i} is invoked as a service at step
+\texttt{3} (interaction \texttt{d} on
+Figure~\ref{fig:architectures}). Step \texttt{2} on
+Figure~\ref{fig:vip-architecture} corresponds to interaction
+\texttt{a$_1$}, and step \texttt{4} maps to interactions \texttt{b}
+and \texttt{c$_2$} (in VIP, workflow data transfers are performed by
+the tasks and embedded in their descriptions).
+
+\begin{figure*}
+\def\svgwidth{2\columnwidth}
+\input{figures/VIP.pdf_tex}
+\caption{Architecture of the Virtual Imaging Platform that integrates
+  the MOTEUR workflow engine through service invocation.}
+\label{fig:vip-architecture}
+\end{figure*}
 
 \subsection{Sub-tasking}
 
-See Figure~\ref{archi:sub-task}. The science gateway is responsible to
-execute the tasks on the infrastructure, dealing with heterogeneous
-batch managers and meta-schedulers. The workflow engine is a
-particular task that can submit sub-tasks to the science gateway. The
-workflow engine keeps track of the dependencies between the sub-tasks
-but their execution is delegated to the science gateway. The science
-gateway may implement mechanisms to deal with task dependencies such
-as basic dependency lists as available in most batch
-managers. Although it has no global vision of the workflow, it can
-keep track of the sub-tasks submitted by a given task, for instance to
-be able to cancel them when the task is canceled. The fact that tasks
-are submitted through the science gateway does not restrict the range
-of possible execution models: pilot jobs, for instance, can still be
-used.
+See Figure~\ref{archi:sub-task}. The workflow engine is a particular
+task that can submit sub-tasks to the science gateway through
+interaction \texttt{e}. The workflow engine keeps track of the
+dependencies between the sub-tasks but their execution is delegated to
+the science gateway that executes them on the infrastructure through
+interaction \texttt{b}. Although the science gateway has no global
+vision of the workflow, it can keep track of the sub-tasks submitted
+by a given task, for instance to be able to cancel them when the task
+is canceled. The science gateway may also implement mechanisms to
+facilitate the handling of task dependencies, for instance basic
+dependency lists as available in most batch managers (see for instance
+attribute \texttt{depend} of option \texttt{-W} in
+Torque\footnote{\url{http://docs.adaptivecomputing.com}}).
 
-\todo{Interactions c1 and c2 are merged in c since this is done
-  completely by the science gateway}
+The science gateway also transfers both user and workflow data across
+the infrastructure, so that interactions \texttt{c$_1$} and
+\texttt{c$_2$} are both covered by \texttt{c}. In practice, both
+\texttt{c$_1$} and \texttt{c$_2$} can be implemented using the same
+pieces of code.
 
-This model is implemented in CBRAIN~\cite{SHER-14} where it is used to
-integrate the PSOM workflow engine and the FSL toolkit through its
-\texttt{fsl\_sub} tool. In particular, the CBRAIN-PSOM integration is
-described in~\cite{GLAT-16} and uses an agent computing model (a.k.a pilot
-jobs).
+The sub-tasking architecture is implemented in CBRAIN~\cite{SHER-14}
+where it is used to integrate the PSOM workflow
+engine~\cite{bellec2012pipeline} and the FSL toolkit. The CBRAIN-PSOM
+integration~\cite{GLAT-16} is illustrated on
+Figure~\ref{fig:cbrain-psom-architecture}. On this Figure, the science
+gateway is represented by components \texttt{CBRAIN portal} and
+\texttt{CBRAIN execution server} and the infrastructure consists of
+\texttt{Storage servers} and \texttt{Computing cluster with shared
+  file system}. Interaction \texttt{b} on
+Figure~\ref{fig:architectures} is implemented by steps \texttt{4},
+\texttt{5}, \texttt{7} and \texttt{8}. Interaction \texttt{c} is
+implemented by steps \texttt{3} and \texttt{10}. Interaction
+\texttt{e} is implemented by step \texttt{6}. The PSOM workflow engine
+adopts a pilot-job architecture~\cite{turilli2015comprehensive} where
+the a master coordinates workflow execution by submitting workers
+and establishing direct communication channels with them. Note how
+this peculiar execution model is totally supported by the sub-tasking
+architecture.
+
+The CBRAIN-FSL integration is also remarkable as it allows to leverage
+FSL pipelines that are written in a very low-level workflow language
+(Linux executables and script) that submits tasks uniformly through a
+specific tool called \texttt{fsl\_sub}. To integrate FSL in CBRAIN,
+\texttt{fsl\_sub} was modified to implement interaction
+\texttt{e}\footnote{See \texttt{fsl\_sub} modified script available at
+  \url{https://github.com/aces/cbrain-plugins-neuro}} \todo{Add a
+  diagram and maybe a code excerpt to illustrate that.}.
+
+\begin{figure}
+\def\svgwidth{\columnwidth}
+\input{figures/CBRAIN-PSOM.pdf_tex}
+\caption{Architecture of the CBRAIN-PSOM integration that illustrates
+  the sub-tasking model (Figure extracted from~\cite{GLAT-16}). 1:
+  User sends data and pipeline execution request to storage server(s)
+  and CBRAIN portal. 2: CBRAIN portal sends execution request to
+  execution server on cluster. 3: Execution server transfers data from
+  storage server(s). 4-5: Execution server starts PSOM master via task
+  scheduler. 6: PSOM master submits PSOM workers to execution
+  server. 7-8: Execution server starts PSOM workers through task
+  scheduler. 9: PSOM master and workers execute pipeline. 10.
+  Execution server transfers results to storage server(s). \todo{Improve graphics}}
+\label{fig:cbrain-psom-architecture}
+\end{figure}
+
 
 \subsection{Pool model}
 \label{sec:pool}
 See Figure~\ref{archi:agent}. Workflows are submitted by the science
 gateway to a pool to which agents connect asynchronously to retrieve
-and execute workflows (interaction \texttt{f}). Agents may be started according to various
-policies, for instance to ensure load balancing. Agents may wrap
-different types of workflow engines. This model was implemented in the
-SHIWA pool~\cite{ROGE-13}.
+and execute workflows (interaction \texttt{f}). Agents may be started
+according to various policies, for instance to ensure load
+balancing. Agents may wrap different types of workflow engines. This
+model was implemented in the SHIWA pool~\cite{ROGE-13}.
 
 \subsection{Nested workflows}
 
