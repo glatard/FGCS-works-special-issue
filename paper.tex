@@ -174,11 +174,23 @@ shared file system between the computing nodes.
 
 Figure~\ref{fig:notations} shows the graphical notations used to
 describe the architectures in the reminder of this
-Section. Architectures are described from their main software
-components and interactions.
+Section. Architectures will be described from their main software
+components and interactions. Software components include science
+gateway and infrastructure in all architectures, and workflow service,
+workflow pool and agent are involved in some architectures. The
+workflow engine itself is represented by a specific symbol. Software
+interactions among these components are described in the next
+Section. Abstract interactions are specific types of interactions that
+may be implemented by various different software interactions. Red
+color is used to represent the components and interactions that need
+to be specifically developed to integrate workflow engines. Tasks
+refer to computing tasks that are created by the workflow engine and
+executed on the infrastructure. Data represents any type of file, or
+database that is involved in the workflow execution and stored on the
+infrastructure while the workflow executes. It does not cover workflow
+parameters such as strings, numbers, etc.
 
-
-\todo{add interaction a with the infrastructure for all architectures (application porting)}
+%http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
 \begin{figure}
 \centering
@@ -187,8 +199,6 @@ components and interactions.
 \caption{Graphical notations}
 \label{fig:notations}
 \end{figure}
-
-%http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
 \begin{figure*}
 \centering
@@ -239,36 +249,66 @@ components and interactions.
 
 \subsection{Interactions}
 
-The interactions described below are labeled consistently with the
-notations used on Figures~\ref{archi:tight}-\ref{archi:import}.
+The interactions involved in the architectures are described below and
+labeled consistently with the notations used on
+Figure~\ref{fig:architectures}.
 
 \begin{enumerate}[leftmargin=0cm,itemindent=0.6cm,label=\texttt{(\alph*)}]
 
 \item Workflow integration: consists in adding a new workflow to the
-  science gateway so that users can execute it. It is conducted by
-  science gateway administrators, developers or users, and it results
-  in an interface, for instance a web form, where users can enter the
-  parameters of the workflow to be executed. Integrating a workflow is
-  not the same process as integrating a workflow engine.
-\item Task control: operations to manage tasks on the infrastructure,
-  including: submission, monitoring, termination, deletion, etc.
-\item Data control: operations to manage data on
-  the infrastructure, such as: upload, download, deletion, browsing,
-  replication, caching, etc. Data movements can be triggered by the
-  user, to upload input data or download processed data -- interaction
-  \texttt{$c_1$}, or by the workflow engine, to transfer data across the
-  infrastructure -- interaction \texttt{$c_2$}. \todo{add c1 and c2 to the
-    Figures}
-\item Workflow control: operations to execute a workflow, including:
-  submission, monitoring, termination, etc. Workflow control can be
-  coarse-grained (a.k.a. black box) or fine-grained (white box). In a
-  coarse-grained model, workflow activities are masked. 
+  system so that users can execute it. It is triggered by science
+  administrator and it results in an interface, for instance a web
+  form, where users can enter the parameters of the workflow to be
+  executed. The interaction has two aspects: (\texttt{a$_1$}) the
+  programs used in the workflow are installed on the infrastructure,
+  which may or may not require administrative privileges on the
+  infrastructure; (\texttt{a$_2$}) the workflow has to be configured
+  in the science gateway so that it becomes available to users. Note
+  that integrating a workflow is not the same process as integrating a
+  workflow \emph{engine}.
+\item Task control: operations to manage tasks on the
+  infrastructure, including: authentication, submission, monitoring,
+  termination, deletion, etc. When the infrastructure is a grid or a
+  cloud, it is for instance implemented using libraries such as SAGA,
+  DRMAA, OCCI and similar initiatives \todo{refs needed}.
+\item Data control: operations to manage data on the infrastructure,
+  such as: upload, download, deletion, browsing, replication, caching,
+  etc. Data movements can be triggered by the user in the science
+  gateway (\texttt{$c_1$}), to upload input data or download processed
+  data. They can also be performed by the workflow engine
+  (\texttt{$c_2$}), to transfer data across the
+  infrastructure. 
+\item Workflow control: operations to execute a workflow with an
+  engine, including: workflow submission, monitoring, termination,
+  etc. Workflow control can be coarse-grained (a.k.a. black box) or
+  fine-grained (white box). In a coarse-grained model, workflow
+  activities are masked and the user only has a global view of the
+  workflow execution. In a fine-grained model, user is exposed to the
+  workflow topology, i.e. to the outputs of the individual tasks,
+  their statuses and so on. 
 \item Sub-task control: operations used by tasks to submit sub-tasks
   on the infrastructure, including: submission, monitoring,
-  termination, deletion, etc.
-\item Pool-agent: specific to the architecture described in~\ref{sec:pool}.
+  termination, deletion, etc. Sub-task control is similar to
+  interaction \texttt{b}, except that information about the parent
+  task which submitted a sub-task is usually available and used for
+  additional control. For instance, the parent task may wait for all
+  its sub-tasks to finish before finishing, and conversely all the
+  sub-tasks may be killed if the parent task is killed.
+\item Pool-agent: specific to the architecture described
+  in Section~\ref{sec:pool}. This is an interaction used when agents retrieve
+  work from a central pool. It covers agent registration and
+  de-registration to the pool, protocols to send work from the pool to
+  the agent, mechanisms to update work status, and so on. 
 \item Workflow conversion: translation from one workflow language to
-  another one.
+  another one. This interaction may not be available or implementable
+  for every workflow language. It has been developed mostly for
+  well-structured and relatively simple workflow language such as between GWorkflowDL
+  and Scufl~\cite{OLAB-09} and between the 4 languages that were involved in the
+  SHIWA initiative. In SHIWA, workflow conversion is done through an
+  intermediate representation, the Interoperable Workflow Intermediate
+  Representation~\cite{plankensteiner-montagnat-etal:2011}, which
+  allows to convert among $n$ workflow languages using $2n$
+  interactions instead of $n^2$.
 \end{enumerate}
 
 \subsection{Tight integration}
