@@ -175,14 +175,16 @@ shared file system between the computing nodes.
 The architectures are diagramed in Figure~\ref{fig:architectures}
 using the graphical notations shown in
 Figure~\ref{fig:notations}. Architectures are described from their
-main software components and interactions. Software components include
-science gateway and infrastructure in all architectures, and workflow
-service, workflow pool and agent are involved in some
-architectures. The workflow engine itself is represented by a specific
-symbol. Software interactions among these components are described in
-the next Section. Abstract interactions are specific types of
-interactions that may be implemented by various different software
-interactions. Red color is used to represent the components and
+main software \emph{components} and \emph{interactions}. Software
+components include science gateway and infrastructure in all
+architectures, and workflow service, workflow pool and agent are
+involved in some architectures. The workflow engine itself is
+represented by a specific symbol. Software interactions among these
+components are described in the next Section. \emph{Abstract}
+interactions are specific types of interactions that may be
+implemented by various different software interactions. An
+architecture that has an abstract interaction is an abstract
+architecture. Red color is used to represent the components and
 interactions that need to be specifically developed to integrate
 workflow engines. Tasks refer to computing tasks that are created by
 the workflow engine and executed on the infrastructure. Data
@@ -467,48 +469,59 @@ model was implemented in the SHIWA pool~\cite{ROGE-13}.
 
 \subsection{Nested workflows}
 
-See Figure~\ref{archi:nested}. A nested workflow is an abstract
-architectural pattern where an activity of a master workflow is itself
-a workflow that is executed by another engine. Nested workflows can be
+See Figure~\ref{archi:nested}. In nested workflows (Figure~\ref{archi:nested}-Left), an activity of a
+\emph{parent} workflow executed by the \emph{parent} engine is itself
+a \emph{child} workflow that is executed by a \emph{child} engine. The
+parent and child engines might use different workflow description
+languages. They might also execute workflows on different
+infrastructures. The parent workflow is also called meta-workflow. The
+science gateway communicates with the parent engine through
+interaction \texttt{*$_1$}. The science gateway also communicate with
+the infrastructure to transfer user data through abstract interactions
+\texttt{*$_2$} and \texttt{*$_3$}. Both workflow engines communicate
+with the infrastructure through abstract interactions as well,
+\texttt{*$_4$} and \texttt{*$_5$}. The parent engine communicates with
+the child engine through abstract interaction
+\texttt{*$_6$}. Administrator installs workflows in the science
+gateway through interaction \texttt{a$_2$}, and installs software on
+infrastructures through interactions \texttt{a$_1$}.
+
+Nested workflows are abstract architectural patterns that can be
 instantiated in the various architectures described previously. We
-focus on instantiation with the service invocation model as this is
-the most used architecture. The master workflow is also called
-meta-workflow. The nested workflow might be described with a different
-language than the one used to describe the master workflow.
+focus on instantiation with the service invocation model(see
+Figure~\ref{archi:nested}-Right) as this is the most used
+architecture. In such an instantiation, we assume that the parent and
+child workflow engines are distinct pieces of software that require
+different workflow services invoked by distinct \texttt{d}
+interactions. If this is not the case, then workflow services can be
+collapsed in a single one with a \texttt{d} interaction with
+itself. Workflow engines communicate with infrastructures using
+\texttt{b} and \texttt{c$_2$}. Science gateway transfer user data to
+infrastructures using \texttt{c$_1$} interactions.
+
 
 Nested workflows have long been available in workflow engines, for
-instance in the Taverna workbench~\cite{oinn2004taverna}. They were
-also used by the SHIWA Science Gateway to implement so-called
-Coarse-Grained workflow
+instance in the Taverna workbench~\cite{oinn2004taverna}. They are
+also used implicitly in several platforms where workflow engines are
+wrapped in workflow activities as any other command-line tool. Nested
+workflows were also notably used by the SHIWA Science Gateway to
+implement so-called Coarse-Grained workflow
 interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
 various workflow engines in a consistent
 platform. Figure~\ref{fig:shiwa-architecture} shows the architecture
-used in the SHIWA Science Gateway for nested workflow execution. It
-corresponds to the nested worfklow with service invocation in
-Figure~\ref{archi:nested}. The parent workflow engine is WS-PGRADE,
-invoked as a service in the Science Gateway (step \texttt{1} on
+used in the SHIWA Science Gateway for nested workflow execution with
+service invocation as represented in Figure~\ref{archi:nested}. The
+parent workflow engine is WS-PGRADE, invoked as a service in the
+Science Gateway (step \texttt{1} on
 Figure~\ref{fig:shiwa-architecture}, interaction \texttt{d} on
 Figure~\ref{archi:nested}). Ten different child engines can be used by
-nested workflows, invoked through a ``submission service'' (step
-\texttt{2}, interaction \texttt{d}). Each of these engines can submit
-jobs and transfer data to a distributed computing infrastructure (DCI,
-step \texttt{3}, interactions \texttt{b} and \texttt{c$_2$}).
-
-
-Nested workflows
-are also often used implicitly to wrap scripts as black-boxes while
-these scripts actually correspond to complete workflows.
-
-
-\todo{instantiation is for foreign workflows, i.e. 2 services. We could have another one with native workflows too.}
-
-\todo{both workflow engines have to access the infrastructure. If they
-  run on 2 infrastructures, c1 has to be duplicated.}
-
-\todo{define parent and child engine}
-
-\todo{explain that such an abstract architecture has to be concretized to allow for comparison with other architectures. Say also that we could envisage other concretizations but we don't include them as we don't have any experience with these systems.} 
-
+nested workflows, invoked through the \texttt{Submission service}
+(step \texttt{2}, interaction \texttt{d}). Each of these engines can
+submit jobs and transfer data to a distributed computing
+infrastructure (DCI, step \texttt{3}, interactions \texttt{b} and
+\texttt{c$_2$}). Data interactions (\texttt{c}) and application
+porting ones (\texttt{a}) are not represented on
+Figure~\ref{fig:shiwa-architecture}.
 
 \begin{figure*}
 \centering
@@ -1013,7 +1026,7 @@ Task scheduling -- \texttt{S$_4$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99DD99}\textbf{31.5}
                                      & \cellcolor[HTML]{99AA99}\textbf{22}
 \end{tabular}
-\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. \todo{update colors and find a more relevant way to compute a grand total without favoring criteria that have more metrics than the others (e.g. normalize each criterion between 0 and 1). Same comment for each sub-total. M1 might be the same as integration.}}
+\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. \todo{update colors and find a more relevant way to compute a grand total without favoring criteria that have more metrics than the others (e.g. normalize each criterion between 0 and 1). Same comment for each sub-total. M1 might be the same as integration. Update nested workflow as infrastructures were separated.}}
 \label{table:evaluation}
 \end{table*}
 
