@@ -461,11 +461,47 @@ specific tool called \texttt{fsl\_sub}. To integrate FSL in CBRAIN,
 \subsection{Pool model}
 \label{sec:pool}
 See Figure~\ref{archi:agent}. Workflows are submitted by the science
-gateway to a pool to which agents connect asynchronously to retrieve
-and execute workflows (interaction \texttt{f}). Agents may be started
-according to various policies, for instance to ensure load
-balancing. Agents may wrap different types of workflow engines. This
-model was implemented in the SHIWA pool~\cite{ROGE-13}.
+gateway to a pool through interaction \texttt{d}. Agents connect to
+the pool asynchronously to retrieve and execute workflows through
+interaction \texttt{f}. Agents may be started according to various
+policies, for instance to ensure load balancing. Agents may wrap
+different types of workflow engines. Workflow engine controls tasks
+and data on the infrastructure through interactions \texttt{b} and
+\texttt{c$_2$}, science gateway transfers user data through
+interaction \texttt{c$_1$}, and administrator installs workflow
+dependencies through interaction \texttt{a$_1$}.
+
+The pool model was implemented in the SHIWA pool~\cite{ROGE-13}, see
+Figure~\ref{fig:shiwa-pool-architecture}. In Figure
+~\ref{fig:shiwa-pool-architecture}, interaction \texttt{d} of
+Figure~\ref{archi:agent} is implemented in 3 different types of calls
+to the pool: workflow submission (\texttt{1} \& \texttt{2}), workflow
+status retrieval (\texttt{a} and \texttt{b}), and workflow retrieval
+(\texttt{13} \& \texttt{14}). In Figure
+~\ref{fig:shiwa-pool-architecture}, interaction \texttt{f} of
+Figure~\ref{archi:agent} is implemented through 2 types of calls:
+workflow instance retrieval (\texttt{4}, \texttt{5} and \texttt{6}),
+and workflow instance update (\texttt{11} and \texttt{12}). Workflow
+instance retrieval is used by the agents to fetch work from the
+pool. Workflow instance update is used by the agents to update
+workflow statuses. In the SHIWA pool, agents can wrap different types
+of workflow engines to execute workflows expressed with different
+languages. Calls \texttt{0}, \texttt{7}, \texttt{8} and \texttt{9} are
+used by workflow engine plugins to declare their supported language
+and launch engines, and by workflow engines to report their status to
+the agent. These calls are specific to the SHIWA Pool implementation
+of the \texttt{agent} component and therefore have no corresponding
+representation in Figure~\ref{archi:agent}.
+
+\begin{figure*}
+\centering
+\includegraphics[width=1.5\columnwidth]{figures/pool-interactions.pdf}
+\caption{Architecture of the SHIWA pool (Figure reproduced
+  from~\cite{ROGE-13}). Circle-terminated arrows indicate messages
+  that are broadcast to all pool clients.}
+\label{fig:shiwa-pool-architecture}
+\end{figure*}
+
 
 \subsection{Nested workflows}
 
