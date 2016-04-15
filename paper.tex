@@ -477,14 +477,28 @@ meta-workflow. The nested workflow might be described with a different
 language than the one used to describe the master workflow.
 
 Nested workflows have long been available in workflow engines, for
-instance in the Taverna workbench~\cite{oinn2004taverna}. This model
-was used by the SHIWA Simulation Platform to implement Coarse-Grained
-workflow interoperability~\cite{terstyanszky2014enabling}, i.e. to
-integrate various workflow engines in a consistent platform. Nested
-workflows are also often used implicitly to wrap scripts as
-black-boxes while these scripts actually correspond to complete workflows.
+instance in the Taverna workbench~\cite{oinn2004taverna}. They were
+also used by the SHIWA Science Gateway to implement so-called
+Coarse-Grained workflow
+interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
+various workflow engines in a consistent
+platform. Figure~\ref{fig:shiwa-architecture} shows the architecture
+used in the SHIWA Science Gateway for nested workflow execution. It
+corresponds to the nested worfklow with service invocation in
+Figure~\ref{archi:nested}. The parent workflow engine is WS-PGRADE,
+invoked as a service in the Science Gateway (step \texttt{1} on
+Figure~\ref{fig:shiwa-architecture}, interaction \texttt{d} on
+Figure~\ref{archi:nested}). Ten different child engines can be used by
+nested workflows, invoked through a ``submission service'' (step
+\texttt{2}, interaction \texttt{d}). Each of these engines can submit
+jobs and transfer data to a distributed computing infrastructure (DCI,
+step \texttt{3}, interactions \texttt{b} and \texttt{c$_2$}).
 
-\todo{See Figure~\ref{fig:shiwa-architecture}. Still waiting for Gabor's answer.}
+
+Nested workflows
+are also often used implicitly to wrap scripts as black-boxes while
+these scripts actually correspond to complete workflows.
+
 
 \todo{instantiation is for foreign workflows, i.e. 2 services. We could have another one with native workflows too.}
 
@@ -494,7 +508,6 @@ black-boxes while these scripts actually correspond to complete workflows.
 \todo{define parent and child engine}
 
 \todo{explain that such an abstract architecture has to be concretized to allow for comparison with other architectures. Say also that we could envisage other concretizations but we don't include them as we don't have any experience with these systems.} 
-
 
 
 \begin{figure*}
@@ -512,7 +525,7 @@ See Figure~\ref{archi:import}. This is an abstract model that we
 instantiate with the service invocation architecture for
 consistency. Workflows are integrated in the science gateway through
 format conversion from a native format to the science gateway
-format. This was implemented in the SHIWA Simulation Platform through
+format. This was implemented in the SHIWA Science Gateway through
 the IWIR language that provided a common language for portability
 across grid workflow
 systems~\cite{plankensteiner-prodan-etal:2013}.
