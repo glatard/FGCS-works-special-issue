@@ -583,66 +583,60 @@ systems~\cite{plankensteiner-prodan-etal:2013}.
 \section{Evaluation}
 
 The architectures described in Section~\ref{sec:architectures} are
-evaluated on Table~\ref{table:evaluation}. We use 5 main criteria to
+evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
 evaluate the architectures: integration effort, robustness of workflow
 execution, extensibility, scalability and other features. Criteria
 break down to specific metrics where \emph{low value indicates good
   performance}. For each criterion, a total score is computed by
 summing up the individual metrics. We ensure that the different
 metrics in a criterion measure similar entities so that summation
-makes sense. Metric values obtained by each architecture are
-normalized between 0 (best value) and 1 (worst value) to determine the
-color of the corresponding table cell (brighter color indicate better
-performance\footnote{Normalized metric value $m'$ is
-  $\frac{m-m_{\mathrm{min}}}{m_{\mathrm{min}}-m_{\mathrm{max}}}$ where
-  $m$ is the initial metric value,
-  $m_{\mathrm{min}}$/$m_{\mathrm{max}}$ are the minimal/maximal values
-  among all architectures. Cell color is \todo{\#99XX99, where
-    X=F-4m'})}. The criteria and metrics are explained hereafter.
+makes sense. The
+criteria and metrics are explained hereafter.
 
 \subsection{Evaluation metrics}
 
-\todo{Explain these metrics better, including why the related features
-  are useful.}
-
 \emph{Integration} measures the development effort required to build
-the architecture. It is obtained by counting the number of
+the architecture. It is obtained by counting the total number of
 interactions and components on the architectural diagram. It breaks
-down to the following 2 metrics:
-\begin{itemize}[itemsep=0cm]
-\item Components \texttt{I$_1$}),
-\item Interactions (\texttt{I$_2$}).
+down to the folloowing 2 metrics:
+\begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
+\item Total number of components (\texttt{I$_1$}),
+\item Total number of interactions (\texttt{I$_2$}).
 \end{itemize}
-One may wonder whether infrastructure should be part of
-\texttt{I$_1$}) since it is usually not developed by the groups who
+One may wonder whether infrastructure should be counted in
+\texttt{I$_1$} since it is usually not developed by the groups who
 integrate workflow engines in science gateway. However, integrating an
 infrastructure in the architecture usually requires some technical
 effort (e.g. account creation, software installation, etc) which is
-why we keep it in the metric. The two metrics are summed to obtain
-the total score for this criterion, which measures the total number of
+why we keep it in the metric. The two metrics are summed to obtain the
+total score for this criterion, which measures the total number of
 software pieces to develop.
 
 \emph{Robustness of workflow execution} measures the likelihood that
-workflow execution fails due to errors coming from the software
-architecture. It is determined as the number of software components and
-interactions that are specific to workflow execution. It assume that
-complex architectures tend to be prone to failure.  These components
-and interactions are represented in red on the architecture diagram in
-Figure~\ref{fig:architectures}. Robustness breaks down to 2 metrics:
+workflow execution fails due to errors in the components or
+interactions of the software architecture. It is a critical criterion
+since it directly impacts the end users of the science gateway.
+Robustness is determined as the number of software components and
+interactions that are specific to workflow execution, i.e. not reused
+by other functions:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Components (\texttt{R$_1$}): number of specific components
-  involved in workflow executions.
+  involved in workflow executions. Science
+gateway, for instance, is \emph{not} specific to workflow execution
+since it is used to authenticate users, add new workflows, transfer
+user data, etc. 
 \item Interactions (\texttt{R$_2$}): number of specific interactions
   involved in workflow executions.
 \end{itemize}
-The two metrics are summed to obtain the total score for this
+These specific components and interactions are represented in red on
+the architecture diagrams in Figure~\ref{fig:architectures}. The two
+metrics assume that complex architectures tend to be prone to
+failure. The two metrics are summed to obtain the total score for this
 criterion, which measures the total number of software pieces that are
-specifically involved in workflow execution. Robustness of workflow
-execution is critical since it directly impacts the end users of the
-science gateway.
+specifically involved in workflow execution. 
 
 \emph{Extensibility} measures the difficulty to replace or add
-elements in the architecture. It is obtained as the number of
+elements in the architecture. It is determined as the number of
 interaction and component to modify when a new element is
 added. Modification of an interaction is deemed necessary when the
 parameters involved in this interaction are modified. Modification of
@@ -1133,7 +1127,14 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0\\
 \end{tabular}
 
-\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance.}
+\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. On each row, metric values are
+  normalized between 0 (best value) and 1 (worst value) to determine the
+  color of the corresponding table cell. More precisely, the normalized metric value $m'$ is
+  defined as
+  $\frac{m-m_{\mathrm{min}}}{m_{\mathrm{min}}-m_{\mathrm{max}}}$ where
+  $m$ is the initial metric value, $m_{\mathrm{min}}$/$m_{\mathrm{max}}$
+  are the minimal/maximal values among all architectures. The RGB hexadecimal color code of the cell
+  is \texttt{\#99XX99}, where X=F-4m'.}
 \label{table:evaluation}
 \end{table*}
 
@@ -1141,8 +1142,32 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
 
 \section{Discussion}
 
+
+
 Comparison between architectures, per criterion (robustness,
 etc). Which architecture is best in each category?
+
+Overall comparison, see Table~\ref{table:overall}.
+
+\begin{table*}
+\centering
+\begin{tabular}{cccccc}
+  \textbf{Tight}
+  & \textbf{Service}
+  & \textbf{Sub-task}
+  & \textbf{Pool}
+  & \textbf{Nested}
+  & \textbf{Import} \\
+\cellcolor[HTML]{99E599}2.4
+  & \cellcolor[HTML]{99E599}2.5
+  & \cellcolor[HTML]{99FF99}1.5
+  & \cellcolor[HTML]{99EF99}2.1
+  & \cellcolor[HTML]{99BB99}4.0
+  & \cellcolor[HTML]{99FA99}1.7\\
+\end{tabular}
+\caption{Overall evaluation. Brighter colors indicate better performance.}
+\label{table:overall}
+\end{table*}
 
 Limitations: 
 \begin{itemize}
