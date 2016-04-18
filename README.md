@@ -6,3 +6,5 @@
 3. Generate the bibliography: ```bibtex paper ; pdflatex paper```
 
 Figure sources (svg) can be exported from https://drive.google.com/open?id=0BzT7pbvPDUdQejJ4SDI0TnN2NDA.
+
+Table 1 is exported from https://docs.google.com/spreadsheets/d/1tQOApJJN5LMpkhT2FPpbiMqzPVHqugt-msAaUWcDa7E/edit#gid=1302437322 (see column "Latex row command").
