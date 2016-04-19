@@ -595,10 +595,10 @@ criteria and metrics are explained hereafter.
 
 \subsection{Evaluation metrics}
 
-\emph{Integration} measures the development effort required to build
+\emph{Integration effort} measures the development required to build
 the architecture. It is obtained by counting the total number of
-interactions and components on the architectural diagram. It breaks
-down to the folloowing 2 metrics:
+interactions and components on the architecture diagram. It breaks
+down to the following 2 metrics:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Total number of components (\texttt{I$_1$}),
 \item Total number of interactions (\texttt{I$_2$}).
@@ -613,9 +613,8 @@ total score for this criterion, which measures the total number of
 software pieces to develop.
 
 \emph{Robustness of workflow execution} measures the likelihood that
-workflow execution fails due to errors in the components or
-interactions of the software architecture. It is a critical criterion
-since it directly impacts the end users of the science gateway.
+workflow execution fails due to errors in the components or with the
+interactions in the software architecture. 
 Robustness is determined as the number of software components and
 interactions that are specific to workflow execution, i.e. not reused
 by other functions:
@@ -628,29 +627,31 @@ user data, etc.
 \item Interactions (\texttt{R$_2$}): number of specific interactions
   involved in workflow executions.
 \end{itemize}
-These specific components and interactions are represented in red on
-the architecture diagrams in Figure~\ref{fig:architectures}. The two
-metrics assume that complex architectures tend to be prone to
-failure. The two metrics are summed to obtain the total score for this
+These specific components and interactions are represented in red in
+the architecture diagrams in
+Figure~\ref{fig:architectures}. \texttt{R$_1$} and \texttt{R$_2$}
+assume that complex architectures tend to be prone to
+failure. \texttt{R$_1$} and \texttt{R$_2$}  are summed to obtain the total score for this
 criterion, which measures the total number of software pieces that are
-specifically involved in workflow execution. 
+specifically involved in workflow execution.
 
 \emph{Extensibility} measures the difficulty to replace or add
 elements in the architecture. It is determined as the number of
-interaction and component to modify when a new element is
-added. Modification of an interaction is deemed necessary when the
-parameters involved in this interaction are modified. Modification of
-a component is required when its code needs to be modified or
-recompiled (science gateway or workflow service), or when a new piece
-of software has to be installed (infrastructure only). Extensibility
+interactions and components to modify when a new element is
+added. Modification of a component is required when its code needs to
+be modified or recompiled (science gateway or workflow service), or
+when a new piece of software has to be installed (infrastructure
+only). Modification of an interaction is deemed necessary when the
+parameters involved in this interaction are modified.  Extensibility
 breaks down in 4 metrics depending on the type of element that has to
 be added or replaced:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item New engine type (\texttt{E$_1$}): number of interactions or
-  components to modify to integrate a new workflow engine type in the
-  architecture. Workflow engine belong to different types when they
-  cannot be invoked using the same interface. Adding a new type of
-  workflow engine allows to execute more workflows in the science gateway.
+  components to modify to integrate a new type of workflow engine in
+  the architecture. Workflow engines belong to different types when
+  they cannot be invoked using the same interface. Adding a new type
+  of workflow engine allows to execute more workflows in the science
+  gateway.
 \item New engine version (\texttt{E$_2$}): number of interactions or
   components to modify to integrate a new version of a workflow engine
   in the architecture, assuming that another version of the same
@@ -658,43 +659,46 @@ be added or replaced:
   engine share the same interface, i.e. they can be invoked using the
   same software. When this is not the case, the different versions
   have to be considered as different engine types. 
-\item New workflow (\texttt{E$_3$}): number of interactions required
-  to integrate a new workflow in the architecture, assuming that the
-  engine type and version required to execute this workflow are
-  already available.
+\item New workflow (\texttt{E$_3$}): adding a new workflow is a very
+  common operation that does not require modifying software components
+  or interactions. We measure the difficulty to integrate a new
+  workflow by counting the number of interactions that need to be
+  invoked to integrate a new workflow in the architecture, assuming
+  that the engine type and version required to execute this workflow
+  are already available.
 \item New infrastructure (\texttt{E$_4$}): number of interactions or components to
   modify to integrate a new type of infrastructure in the
   architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
-  (e.g. GPUs, clouds), or to enforce execution policies
+  (e.g. GPUs, clouds), or to enforce execution policies 
   (e.g. constrain data to remain in a particular network domain).
-\item New science gateway: \todo{Not sure if this makes sense}.
+%\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The 4 metrics are summed to obtain a global index that measures the
 difficulty to extend the architecture.
 
 \emph{Scalability} corresponds to the ability of the architecture to
-cope with high workloads. It is measured by reviewing the features
-that enable particular aspects of scalability. Features are evaluated
-using a 3-level metric: 0 means that the feature is very easy to
-enable, 1 means that it can be implemented but with some difficulty,
-and 2 means that it is not possible to implement the feature without a
-nonsensical amount of effort. Four different features are identified:
+cope with high workloads. It is measured by counting the potential
+scalability issues in the architectures, i.e. the lack of scalability
+features. Features are evaluated using a 3-level metric: 0 means that
+the feature is very easy to enable, 1 means that it can be implemented
+but with some difficulty, and 2 means that the feature could only be
+implemented with a nonsensical amount of effort. Four different
+features are identified:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Adding engine instance (\texttt{S$_1$}): this feature
-  corresponds to the possibility to add more than 1 engine instance in
-  the architecture. Workflow engines may require important amounts of
-  resources when a lot of workflows, or large workflows, are
-  executed. At some point, it may be required for the science gateway
-  to distribute the load to several engines. \texttt{S$_1$}=0 when
-  adding a new engine instance is a fully automated process, i.e. the
-  workflow engine only has to be started. In this case, elastic
-  engines are possible, i.e. some kind of auto-scaling mechanism can
-  be implemented to control the number of engine instances in the
-  architecture. \texttt{S$_1$}=1 when adding a new engine instance
-  requires some form of manual intervention, which prevents easy
-  implementations of elastic engines. \texttt{S$_1$}=2 when new engine
-  instances cannot be added.
+\item Multiple engine instances (\texttt{S$_1$}): possibility to have
+  more than 1 engine instance in the architecture. Workflow engines
+  may require important amounts of resources when a lot of workflows,
+  or large workflows, are executed. At some point, it may be required
+  for the science gateway to distribute the load to several
+  engines. \texttt{S$_1$}=0 when adding a new engine instance is a
+  fully automated process, i.e. the workflow engine only has to be
+  started. In this case, elastic engines are possible, i.e. some kind
+  of auto-scaling mechanism can be implemented to control the number
+  of engine instances in the architecture. \texttt{S$_1$}=1 when
+  adding a new engine instance requires some form of manual
+  intervention, which prevents easy implementations of elastic
+  engines. \texttt{S$_1$}=2 when new engine instances cannot be added.
 \item Distributed engines (\texttt{S$_2$}): possibility to distribute
   the execution \emph{of a single workflow} among different engine
   instances. In our scope, this feature focuses on the capabilities of
@@ -713,20 +717,23 @@ nonsensical amount of effort. Four different features are identified:
   scheduling problem and \texttt{S$_3$}=1 otherwise.
 \end{itemize}
 The 3 metrics are summed to obtain a global measure of the scalability
-issues available in the architecture. 
+issues that are present in the architecture.
 
 \emph{Other features} include:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Meta-workflow (\texttt{O$_1$}): ability to describe meta-workflows from existing
-  workflows.  \todo{More details about why this is important?} \texttt{O$_1$}=0 when the feature is not available, \texttt{O$_1$}=1 otherwise.
+\item Meta-workflow (\texttt{O$_1$}): ability to describe
+  meta-workflows from existing workflows.  \todo{More details about
+    why this is important?} \texttt{O$_1$}=0 when the feature is
+  available, \texttt{O$_1$}=1 otherwise.
 \item Fine-grained debugging (\texttt{O$_2$}): availability of
-  debugging information about workflow activities. Fine-grained
-  information about workflow activity is required to properly
-  troubleshoot workflow executions.  \texttt{O$_2$}=0 when such
-  information is easy to access, \texttt{O$_2$}=1
+  fine-grained debugging information about workflow activities. When
+  such information is available, workflow is seen as a white
+  box. Fine-grained information about workflow activity is required to
+  properly troubleshoot workflow executions.  \texttt{O$_2$}=0 when
+  such information is easy to access, \texttt{O$_2$}=1
   otherwise. \todo{More details about why this is important?}
 \end{itemize}
-These 2 metrics are summed to obtain a total number of missing other
+\texttt{O$_1$} and \texttt{O$_2$} are summed to obtain a total number of missing other
 features in the architecture.  \todo{Maybe we could revise the
   categories to avoid such a vague ``other features''.}
 
@@ -749,27 +756,24 @@ component in addition to the science gateway and infrastructure
 (\texttt{I$_2$=5}).
 
 \paragraph{Robustness} No component is specific to workflow execution
-(\texttt{R$_1$}=0), but interactions \texttt{b} and \texttt{c$_2$}
-(\texttt{R$_2$}=2) are.
+(\texttt{R$_1$}=0), but interactions \texttt{b} and \texttt{c$_2$} are
+(\texttt{R$_2$}=2).
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires to modify the science gateway as well as interactions
 \texttt{b} and \texttt{c$_2$} (\texttt{E$_1$}=3). Updating a workflow
 engine version requires modifications in the science gateway
 (\texttt{E$_2$}=1).  Inserting a new workflow is done through
-interaction \texttt{a} (\texttt{E$_3$}=1). Adding a new infrastructure generates updates in
+interactions \texttt{a$_1$} and \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new infrastructure generates updates in
 interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 (\texttt{E$_4$}=3).
 
 \paragraph{Scalability} Adding a new engine instance requires a new
 instance of the science gateway, which is in general not possible
-since load-balancing mechanisms available in web servers are usually
-meant to deal with short web requests rather than long workflow
-executions (\texttt{S$_1$}=2). Distributed engines are not
-available by default (\texttt{S$_2$}=1). The scheduling of tasks on
-the infrastructure is as complex as in any other architecture since
-the workflow engine might implement any kind of scheduling policy
-(\texttt{S$_3$}=0).
+(\texttt{S$_1$}=2). Distributed engines are not available by default
+(\texttt{S$_2$}=1). The scheduling of tasks on the infrastructure is
+as complex as in any other architecture since the workflow engine
+might implement any kind of scheduling policy (\texttt{S$_3$}=0).
 
 \paragraph{Other features} Meta-workflows are not supported by default
 (\texttt{O$_1$}=1).  Debugging is not an issue since the science
@@ -795,8 +799,8 @@ to implement the corresponding workflow service, to modify interaction
 \texttt{$c_2$} (\texttt{E$_1$}=4). New engine versions can be added by
 updating the workflow service without modifying any interaction
 (\texttt{E$_2$}=0).  New workflows are added in the science gateway or
-in the workflow engine through interaction \texttt{a} only
-(\texttt{E$_3$}=1). Adding a new type of infrastructure requires
+in the workflow engine through interactions \texttt{a$_1$} and \texttt{a$_2$}
+(\texttt{E$_3$}=2). Adding a new type of infrastructure requires
 updates in interactions \texttt{b}, \texttt{$c_1$} and \texttt{$c_2$}
 (\texttt{E$_4$}=3). 
 
@@ -840,7 +844,7 @@ requires to develop interaction \texttt{e} and to install the engine
 on the infrastructure (\texttt{E$_1$}=2). Updating an engine version
 requires updates only on the infrastructure (\texttt{E$_2$}=1).  New
 workflows are integrated by creating a new task in the science gateway
-through interaction \texttt{a} (\texttt{E$_3$}=1). Adding a new
+through interactions \texttt{a$_1$} and \texttt{a$_2$}  (\texttt{E$_3$}=2). Adding a new
 infrastructure requires to update interactions \texttt{b} and
 \texttt{c} in the science gateway (\texttt{E$_4$}=2).
 
@@ -860,21 +864,21 @@ integrated as a task (\texttt{O$_2$}=1).
 
 \paragraph{Scalability}
 New engine instances are spawned and executed on the infrastructure as
-any other task upon user submission (\texttt{S$_1$}=0). Such
-scalability properties are one of the major interests of the sub-task
-architecture. Distributed engines are not supported by default
-(\texttt{S$_2$}=1). Task scheduling is slightly more complex than in
-the other approaches due to the special role of the task that executes
-the workflow engine (\texttt{S$_3$}=1). Indeed, the reliability of
-this task is critical since all the sub-tasks in the workflow depend
-on it and, depending on the recovery capabilities of the workflow
-engine, may need to be resubmitted if the workflow task fails. The
-workflow task is also longer than all its sub-tasks, which increases
-its chances of failure. In addition, task parameters, for instance
-estimated walltime, are more difficult to estimate for the workflow
-task than for sub-tasks which may generate issues such as selection of
-wrong batch queues on clusters. Finally, the interdependencies between
-the workflow task and its sub-tasks may create deadlocks when there is
+any other task upon user submission (\texttt{S$_1$}=0). This is a
+major interest of the sub-task architecture. Distributed engines are
+not supported by default (\texttt{S$_2$}=1). Task scheduling is
+slightly more complex than in the other approaches due to the special
+role of the task that executes the workflow engine
+(\texttt{S$_3$}=1). Indeed, the reliability of this task is critical
+since all the sub-tasks in the workflow depend on it and, depending on
+the recovery capabilities of the workflow engine, may need to be
+resubmitted if the workflow task fails. The workflow task is also
+longer than all its sub-tasks, which increases its chances of
+failure. In addition, task parameters, for instance estimated
+walltime, are more difficult to estimate for the workflow task than
+for sub-tasks which may generate issues such as selection of wrong
+batch queues on clusters. Finally, the interdependencies between the
+workflow task and its sub-tasks may create deadlocks when there is
 contention. Say for instance that only 1 computing resource is
 available for the science gateway and that the workflow task is
 running on it and submits sub-tasks, then the sub-tasks could only
@@ -901,9 +905,9 @@ workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b},
 \paragraph{Extensibility} Adding a new engine type requires to wrap
 the engine in the agent and to update interactions \texttt{b} and
 \texttt{c$_2$} (\texttt{E$_1$=3}). Updating the version of an engine
-is transparent (\texttt{E$_2$=0}), and integrating a new workflow is
-done through interaction \texttt{a} only
-(\texttt{E$_3$=1}). Integrating a new infrastructure requires updates
+is transparent (\texttt{E$_2$=0}) \todo{explain why, also for service}, and integrating a new workflow is
+done through interactions \texttt{a$_1$} and \texttt{a$_2$}
+(\texttt{E$_3$=2}). Integrating a new infrastructure requires updates
 in interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 (\texttt{E$_4$=3}).
 
@@ -949,8 +953,8 @@ engine, and to implement interaction \texttt{d} in the parent service
 Table~\ref{table:evaluation} to reflect both conditions. Adding a new
 version in the parent or child engine only requires modifying this
 engine (\texttt{E$_2$=0}). Adding a new
-workflow is done through interaction \texttt{a}
-(\texttt{E$_3$=1}). Adding a new infrastructure requires to
+workflow is done through interaction \texttt{a$_1$} and \texttt{a$_2$}
+(\texttt{E$_3$=2}). Adding a new infrastructure requires to
 re-implement interactions \texttt{b} and \texttt{c$_2$} twice, and
 interaction \texttt{c$_1$} once (\texttt{E$_4$=5}). 
 
@@ -982,13 +986,13 @@ service architecture (\texttt{R$_1$=1}, \texttt{R$_2$=3}).
 
 \paragraph{Extensibility} Since adding a new type of workflow engine
 aims at supporting more workflows, we consider that it only requires
-to re-implement interaction \texttt{g} in this architecture. Note,
+to re-implement interaction \texttt{g} in this architecture  (\texttt{E$_1$=1}). Note,
 however, that implementing interaction \texttt{g} can require very
 substantial work depending on the complexity of the language used by
-the new engine (\texttt{E$_1$=1}). Based on the same logic, adding a
+the new engine. Based on the same logic, adding a
 new engine version only requires modifying interaction \texttt{g}
 (\texttt{E$_2$=1}).  Adding a new workflow is done through
-interactions \texttt{a} and \texttt{g} (\texttt{E$_3$=2}). As in the
+interactions \texttt{a$_1$}, \texttt{a$_2$} and \texttt{g} (\texttt{E$_3$=3}). As in the
 service architecture, interfacing with a new infrastructure requires
 modifications in the workflow service and in interactions \texttt{b}
 and \texttt{c$_2$} (\texttt{E$_4$=3}).
@@ -1025,12 +1029,12 @@ Total interactions -- \texttt{I$_2$} & \cellcolor[HTML]{99FF99}5
                                      & \cellcolor[HTML]{99E899}7
                                      & \cellcolor[HTML]{99BB99}11
                                      & \cellcolor[HTML]{99E899}7\\
-\textbf{Total} (total software pieces) & \cellcolor[HTML]{99FF99}7
-                                     & \cellcolor[HTML]{99EF99}9
-                                     & \cellcolor[HTML]{99FF99}7
-                                     & \cellcolor[HTML]{99E099}11
-                                     & \cellcolor[HTML]{99BB99}16
-                                     & \cellcolor[HTML]{99E899}10\\
+\textbf{Total} (total software pieces) & \cellcolor[HTML]{99FF99}\textbf{7}
+                                     & \cellcolor[HTML]{99EF99}\textbf{9}
+                                     & \cellcolor[HTML]{99FF99}\textbf{7}
+                                     & \cellcolor[HTML]{99E099}\textbf{11}
+                                     & \cellcolor[HTML]{99BB99}\textbf{16}
+                                     & \cellcolor[HTML]{99E899}\textbf{10}\\
   \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Robustness of workflow execution}}\\
 Specific components -- \texttt{R$_1$} & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99DD99}1
@@ -1044,12 +1048,12 @@ Specific components -- \texttt{R$_1$} & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99D699}4
                                      & \cellcolor[HTML]{99BB99}6
                                      & \cellcolor[HTML]{99E399}3\\
-  \textbf{Total} (specific software pieces)& \cellcolor[HTML]{99F599}2
-                                     & \cellcolor[HTML]{99E199}4
-                                     & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99CE99}6
-                                     & \cellcolor[HTML]{99BB99}8
-                                     & \cellcolor[HTML]{99E199}4\\
+  \textbf{Total} (specific software pieces)& \cellcolor[HTML]{99F599}\textbf{2}
+                                     & \cellcolor[HTML]{99E199}\textbf{4}
+                                     & \cellcolor[HTML]{99FF99}\textbf{1}
+                                     & \cellcolor[HTML]{99CE99}\textbf{6}
+                                     & \cellcolor[HTML]{99BB99}\textbf{8}
+                                     & \cellcolor[HTML]{99E199}\textbf{4}\\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Extensibility}}\\
   New engine type -- \texttt{E$_1$}  & \cellcolor[HTML]{99D899}3
                                      & \cellcolor[HTML]{99C499}4
@@ -1063,26 +1067,26 @@ New engine version -- \texttt{E$_2$} & \cellcolor[HTML]{99BB99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99BB99}1\\
-  New workflow -- \texttt{E$_3$} & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99BB99}2\\
-New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99BB99}4
-                                     & \cellcolor[HTML]{99BB99}4
-                                     & \cellcolor[HTML]{99FF99}3
-                                     & \cellcolor[HTML]{99BB99}4
-                                     & \cellcolor[HTML]{99BB99}4
-                                     & \cellcolor[HTML]{99BB99}4\\
-  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99C899}9
-                                     & \cellcolor[HTML]{99C899}9
-                                     & \cellcolor[HTML]{99FF99}7
-                                     & \cellcolor[HTML]{99E399}8
-                                     & \cellcolor[HTML]{99BB99}9.5
-                                     & \cellcolor[HTML]{99E399}8\\
+  New workflow -- \texttt{E$_3$} & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99BB99}3\\
+New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99E899}3
+                                     & \cellcolor[HTML]{99E899}3
+                                     & \cellcolor[HTML]{99FF99}2
+                                     & \cellcolor[HTML]{99E899}3
+                                     & \cellcolor[HTML]{99BB99}5
+                                     & \cellcolor[HTML]{99E899}3\\
+  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99E099}\textbf{9}
+                                     & \cellcolor[HTML]{99E099}\textbf{9}
+                                     & \cellcolor[HTML]{99FF99}\textbf{7}
+                                     & \cellcolor[HTML]{99EF99}\textbf{8}
+                                     & \cellcolor[HTML]{99BB99}\textbf{11.5}
+                                     & \cellcolor[HTML]{99EF99}\textbf{8}\\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Scalability}}\\
-New engine instance -- \texttt{S$_1$}& \cellcolor[HTML]{99BB99}2
+Multiple engine instances -- \texttt{S$_1$}& \cellcolor[HTML]{99BB99}2
                                      & \cellcolor[HTML]{99DD99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
@@ -1100,12 +1104,12 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99BB99}1
                                      & \cellcolor[HTML]{99FF99}0\\
-\textbf{Total} (scalability issues)  & \cellcolor[HTML]{99BB99}3
-                                     & \cellcolor[HTML]{99DD99}2
-                                     & \cellcolor[HTML]{99DD99}2
-                                     & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99DD99}2
-                                     & \cellcolor[HTML]{99DD99}2\\
+\textbf{Total} (scalability issues)  & \cellcolor[HTML]{99BB99}\textbf{3}
+                                     & \cellcolor[HTML]{99DD99}\textbf{2}
+                                     & \cellcolor[HTML]{99DD99}\textbf{2}
+                                     & \cellcolor[HTML]{99FF99}\textbf{1}
+                                     & \cellcolor[HTML]{99DD99}\textbf{2}
+                                     & \cellcolor[HTML]{99DD99}\textbf{2}\\
 \multicolumn{7}{c}{\cellcolor[HTML]{EEEEEE}\textbf{Other features}}\\
   Meta-workflow  -- \texttt{O$_1$}    & \cellcolor[HTML]{99BB99}1
                                      & \cellcolor[HTML]{99BB99}1
@@ -1119,12 +1123,12 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99BB99}1
                                      & \cellcolor[HTML]{99FF99}0\\
-  \textbf{Total} (missing other features) & \cellcolor[HTML]{99DD99}1
-                                     & \cellcolor[HTML]{99DD99}1
-                                     & \cellcolor[HTML]{99BB99}2
-                                     & \cellcolor[HTML]{99DD99}1
-                                     & \cellcolor[HTML]{99DD99}1
-                                     & \cellcolor[HTML]{99FF99}0\\
+  \textbf{Total} (missing other features) & \cellcolor[HTML]{99DD99}\textbf{1}
+                                     & \cellcolor[HTML]{99DD99}\textbf{1}
+                                     & \cellcolor[HTML]{99BB99}\textbf{2}
+                                     & \cellcolor[HTML]{99DD99}\textbf{1}
+                                     & \cellcolor[HTML]{99DD99}\textbf{1}
+                                     & \cellcolor[HTML]{99FF99}\textbf{0}\\
 \end{tabular}
 
 \caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. On each row, metric values are
@@ -1158,12 +1162,12 @@ Overall comparison, see Table~\ref{table:overall}.
   & \textbf{Pool}
   & \textbf{Nested}
   & \textbf{Import} \\
-\cellcolor[HTML]{99E599}2.4
-  & \cellcolor[HTML]{99E599}2.5
-  & \cellcolor[HTML]{99FF99}1.5
-  & \cellcolor[HTML]{99EF99}2.1
+\cellcolor[HTML]{99EE99}2.1
+  & \cellcolor[HTML]{99EE99}2.1
+  & \cellcolor[HTML]{99FE99}1.5
+  & \cellcolor[HTML]{99F499}1.9
   & \cellcolor[HTML]{99BB99}4.0
-  & \cellcolor[HTML]{99FA99}1.7\\
+  & \cellcolor[HTML]{99FF99}1.5\\
 \end{tabular}
 \caption{Overall evaluation. Brighter colors indicate better performance.}
 \label{table:overall}
