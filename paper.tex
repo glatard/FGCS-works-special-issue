@@ -108,45 +108,60 @@ integrate workflow engines in science gateways.
 
 In the last decade, the e-Science workflow community has developed
 high-level workflow systems to help developers access distributed
-infrastructures such as grids and web services, resulting in tools
-such as Askalon, Hyperflow, MOTEUR, Pegasus, Swift, Taverna, Triana,
-VizTrails, WS-PGRADE/gUSE, etc. Such workflow engines usually describe
-applications in a specific language that offers operators for parallel
-computing, visual description and edition, links with domain-specific
-tool repositories, etc. Descriptions and experiments conducted with
-e-Science workflow engines were published in journals such as Future
-Generation Computer Systems and conference venues such as
-WORKS. 
+infrastructures such as clusters, grids, clouds and web services,
+resulting in tools such as Askalon~\cite{fahringer2005askalon},
+Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
+Pegasus~\cite{deelman2005pegasus,Deelman201517},
+Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
+Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing},
+WS-PGRADE/gUSE~\cite{Kacsuk2012}, etc. Such workflow engines usually
+describe applications in a specific language that offers parallel data
+and control flow constructs, visual edition features, links with
+domain-specific tool repositories, provenance recording, etc.
+% Descriptions and experiments
+%conducted with e-Science workflow engines were published in journals
+%such as Future Generation Computer Systems and conference venues such
+%as WORKS.
 
 At the same time, specific toolboxes were emerging in various
-scientific domains to facilitate interactions between different
-software components. In neuroimaging for instance, tools such as
-Nipype, PSOM, SPM and FSL provide abstractions and functions to define
-processes that handle the data flow between other processes. Soon,
-such tools were interfaced to computing systems, in particular
-clusters: they were extended to create cluster tasks, handle their
-dependencies, and execute them on clusters. For instance, FSL can
-launch tasks on SGE through its \texttt{fsl\_sub} tool, Nipype
-\todo{...}, PSOM \todo{...}, and SPM \todo{...}. Although distributed
-infrastructures are hardly handled, such domain-specific tools have to
-be called workflow engines. They represent a tremendous opportunity
-for science gateways to leverage existing tools and
-applications. Whether these should be combined with e-Science workflow
-engines is an open question.
+scientific domains to facilitate the assembly of software components
+in consistent pipelines. For instance, in neuroimaging, our primary
+domain of interest, tools such as Nipype~\cite{gorgolewski2011nipype},
+PSOM~\cite{bellec2012pipeline}, SPM~\cite{ashburner2011spm} and
+FSL~\cite{Jenkinson2012782} provide abstractions and functions to
+handle the data and computing flow between processes implemented in a
+variety of programming languages. Such tools were interfaced to
+computing systems, in particular clusters, to create tasks, handle
+their dependencies, and execute them. For instance, FSL can launch
+tasks on SGE through its \texttt{fsl\_sub} tool, Nipype has execution
+plugins for S/OGE, Torque, IPython, ssh and multi-processor servers,
+and PSOM \todo{...}. Some of these tools also support advanced
+features such as provenance tracking (Nipype, PSOM), redundancy
+detection across analyses to avoid re-computation (PSOM), and so on. A
+wide-array of workflows have been implemented using these pipelines
+and are now widely shared across neuroimaging groups
+world-wide. \todo{Provide more context on that?} These domain-specific
+engines represent a tremendous opportunity for science gateways to
+leverage existing tools and applications. They nicely complement
+e-Science engines that are more oriented towards the exploitation of
+distributed computing infrastructures, in particular grids and clouds.
 
-A workflow engine is defined as a software that submits jobs to a
-cluster, grid or cloud. Workflows may be expressed in any language,
-including scripts. Several workflow engines may be combined in the
-same science gateway. Workflow: a process that submits tasks to the
-infrastructure. FSL tools, say Feat, can be considered as workflows
-when they are configured to submit tasks to clusters using fslsub. A
-workflow consists of activities. We are talking only about concrete
-workflows with a configuration (see terstyansky et al 2014 "enabling
-scientific workflow sharing...")
-
-  Workflow engine: executes workflows, i.e. process their dependencies
-  and create computing tasks. Might transfer data too. A workflow
-  engine is not supposed to be aware of the science gateway.
+We are looking for software architectures that are able to integrate
+e-Science and domain-specific workflow engines in science
+gateways. For the sake of the analysis conducted in this paper, we
+define a \emph{workflow engine} (also abbreviated \emph{engine}) as a
+software that submits interdependent computing \emph{tasks} to an
+infrastructure (local server, cluster, grid or cloud) based on a
+workflow description (a.k.a \emph{workflow}) and input data that may
+be files, data base entries, or simple parameter values. Although
+simplistic, this definition covers both e-Science and domain-specific
+engines. Some workflow engines, usually e-Science ones, may transfer
+data across the infrastructure, and others, usually domain-specific
+ones, may leave it to external processes. Workflows may be expressed
+in any language, including high-level XML or JSON dialects such as
+\texttt{Scufl} or \texttt{Hyperflow}, and low-level scripts such as
+\texttt{bash}.  \todo{Mention other workflow definitions,
+  e.g. abstract/concrete, etc?}
 
 \subsection{Science gateways}
 
@@ -158,10 +173,14 @@ Science Gateway: An ecosystem, usually accessible through a web
 
 Multi-engine, multi-language.
 
+Several workflow engines may be combined in the same
+science gateway.
+
+A workflow
+  engine is not supposed to be aware of the science gateway.
+
 
 \subsection{Infrastructures}
-
-\todo{Maybe this is not relevant}
 
 The infrastructure consists of the computing and storage resources
 involved in the workflow execution, and the software services used to
@@ -293,11 +312,11 @@ Figure~\ref{fig:architectures}.
 \item Workflow control: operations to execute a workflow with an
   engine, including: workflow submission, monitoring, termination,
   etc. Workflow control can be coarse-grained (a.k.a. black box) or
-  fine-grained (white box). In a coarse-grained model, workflow
-  activities are masked and the user only has a global view of the
-  workflow execution. In a fine-grained model, user is exposed to the
-  workflow topology, i.e. to the outputs of the individual tasks,
-  their statuses and so on. 
+  fine-grained (white box). In a coarse-grained model, the various
+  tasks created by a workflow execution are masked and the user only
+  has a global view of the workflow execution. In a fine-grained
+  model, user is exposed to the workflow topology, i.e. to the outputs
+  of the individual tasks, their statuses and so on.
 \item Sub-task control: operations used by tasks to submit sub-tasks
   on the infrastructure, including: submission, monitoring,
   termination, deletion, etc. Sub-task control is similar to
@@ -366,13 +385,13 @@ might be implemented as a web-service call (e.g. RESTful or SOAP), as
 a command-line or as any other method that offers a well-defined
 interface to the workflow engine. The workflow engine might be invoked
 either as a black box that completely masks the infrastructure and
-workflow activities, or as a white box that allows for some
-interaction with them. The workflow engine is responsible for
-controlling the tasks on the infrastructure (\texttt{b}) and for
-performing the required data transfers to execute them
-(\texttt{c$_2$}). User data is usually managed through the science
-gateway (\texttt{c$_1$}), although it might as well be delivered by
-the workflow engine directly to the user.
+tasks, or as a white box that allows for some interaction with
+them. The workflow engine is responsible for controlling the tasks on
+the infrastructure (\texttt{b}) and for performing the required data
+transfers to execute them (\texttt{c$_2$}). User data is usually
+managed through the science gateway (\texttt{c$_1$}), although it
+might as well be delivered by the workflow engine directly to the
+user.
 
 This architecture is largely adopted, in systems such as Apache
 Airvata~\cite{marru2011apache}, Vine
@@ -505,9 +524,10 @@ Figure~\ref{archi:agent}.
 
 \subsection{Nested workflows}
 
-See Figure~\ref{archi:nested}. In nested workflows (Figure~\ref{archi:nested}-Left), an activity of a
-\emph{parent} workflow executed by the \emph{parent} engine is itself
-a workflow, called \emph{child} workflow, that is executed by a \emph{child} engine. The
+See Figure~\ref{archi:nested}. In nested workflows
+(Figure~\ref{archi:nested}-Left), a task of a \emph{parent} workflow
+executed by the \emph{parent} engine is itself a workflow, called
+\emph{child} workflow, that is executed by a \emph{child} engine. The
 parent and child engines might use different workflow description
 languages. They might also execute workflows on different
 infrastructures. The parent workflow is also called meta-workflow. The
@@ -539,7 +559,7 @@ infrastructures using \texttt{c$_1$} interactions.
 Nested workflows have long been available in workflow engines, for
 instance in the Taverna workbench~\cite{oinn2004taverna}. They are
 also used implicitly in several platforms where workflow engines are
-wrapped in workflow activities as any other command-line tool. Nested
+wrapped in workflow tasks as any other command-line tool. Nested
 workflows were notably used by the SHIWA Science Gateway to implement
 so-called Coarse-Grained workflow
 interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
@@ -728,9 +748,9 @@ issues that are present in the architecture.
     why this is important?} \texttt{O$_1$}=0 when the feature is
   available, \texttt{O$_1$}=1 otherwise.
 \item Fine-grained debugging (\texttt{O$_2$}): availability of
-  fine-grained debugging information about workflow activities. When
+  fine-grained debugging information about workflow tasks. When
   such information is available, workflow is seen as a white
-  box. Fine-grained information about workflow activity is required to
+  box. Fine-grained information about workflow tasks is required to
   properly troubleshoot workflow executions.  \texttt{O$_2$}=0 when
   such information is easy to access, \texttt{O$_2$}=1
   otherwise. \todo{More details about why this is important?}
@@ -852,7 +872,7 @@ infrastructure requires to update interactions \texttt{b} and
 
 \paragraph{Other features} Meta-workflows are not available
 (\texttt{O$_1$}=1).  Obtaining fine-grained information about workflow
-activities is not straightforward since the science gateway has no
+tasks is not straightforward since the science gateway has no
 knowledge about the workflow topology, and the workflow engine is
 integrated as a task (\texttt{O$_2$}=1).
 
