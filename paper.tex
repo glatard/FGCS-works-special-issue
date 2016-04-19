@@ -178,17 +178,18 @@ using the graphical notations shown in
 Figure~\ref{fig:notations}. Architectures are described from their
 main software \emph{components} and \emph{interactions}. Software
 components include science gateway and infrastructure in all
-architectures, and workflow service, workflow pool and agent are
+architectures while workflow service, workflow pool and agent are
 involved in some architectures. The workflow engine itself is
-represented by a specific symbol. Software interactions among these
-components are described in the next Section. \emph{Abstract}
-interactions are specific types of interactions that may be
-implemented by various different software interactions. An
-architecture that has an abstract interaction is an abstract
-architecture. Red color is used to represent the components and
-interactions that are specific to workflow execution, i.e. that are
-not involved in any other process. Tasks refer to computing tasks that
-are created by the workflow engine and executed on the
+represented by a specific symbol with dotted lines. Software
+interactions among these components are represented with
+arrows. \emph{Abstract} interactions are specific types of
+interactions that may be implemented by various different software
+interactions. They are represented with dotted arrows and labeled with
+ \texttt{*}. An architecture that has an abstract interaction is an
+abstract architecture. Red color is used to represent the components
+and interactions that are specific to workflow execution, i.e. that
+are not involved in any other process. Tasks refer to computing tasks
+that are created by the workflow engine and executed on the
 infrastructure. Data represents any type of file, or database that is
 involved in the workflow execution and stored on the infrastructure
 while the workflow executes. It does not cover workflow parameters
@@ -268,10 +269,10 @@ Figure~\ref{fig:architectures}.
   workflow to be executed. The interaction has two aspects:
   (\texttt{a$_1$}) the programs used in the workflow are installed on
   the infrastructure, which may or may not require administrative
-  privileges on the infrastructure; (\texttt{a$_2$}) the workflow has
-  to be configured in the science gateway so that it becomes available
-  to users. Note that integrating a workflow is not the same process
-  as integrating a workflow \emph{engine}.
+  privileges on the infrastructure; (\texttt{a$_2$}) the workflow is
+  configured in the science gateway so that it becomes available to
+  users. Note that integrating a workflow is not the same process as
+  integrating a workflow \emph{engine}.
 \item Task control: operations to manage tasks on the infrastructure,
   including: authentication, submission, monitoring, termination,
   deletion, etc. Controlling tasks requires to deal with the
@@ -349,6 +350,15 @@ Environment~\cite{dinov2009efficient}.
 
 \subsection{Service invocation}
 
+\begin{figure*}
+\centering
+\def\svgwidth{1.5\columnwidth}
+\input{figures/VIP.pdf_tex}
+\caption{Architecture of the Virtual Imaging Platform that integrates
+  the MOTEUR engine through service invocation.}
+\label{fig:vip-architecture}
+\end{figure*}
+
 See Figure~\ref{archi:service}. The workflow engine is available
 externally to the science gateway, in a service. The science gateway
 controls the service through a specific interaction (\texttt{d}) that
@@ -376,18 +386,9 @@ MOTEUR workflow engine~\cite{GLAT-08i} is invoked as a service at step
 \texttt{3} (interaction \texttt{d} on
 Figure~\ref{fig:architectures}). Step \texttt{2} on
 Figure~\ref{fig:vip-architecture} corresponds to interaction
-\texttt{a$_1$}, and step \texttt{4} maps to interactions \texttt{b}
+\texttt{c$_1$}, and step \texttt{4} maps to interactions \texttt{b}
 and \texttt{c$_2$} (in VIP, workflow data transfers are performed by
 the tasks and embedded in their descriptions).
-
-\begin{figure*}
-\centering
-\def\svgwidth{1.5\columnwidth}
-\input{figures/VIP.pdf_tex}
-\caption{Architecture of the Virtual Imaging Platform that integrates
-  the MOTEUR workflow engine through service invocation.}
-\label{fig:vip-architecture}
-\end{figure*}
 
 \subsection{Sub-tasking}
 
@@ -421,14 +422,14 @@ gateway is represented by components \texttt{CBRAIN portal} and
 \texttt{Storage servers} and \texttt{Computing cluster with shared
   file system}. Interaction \texttt{b} on
 Figure~\ref{fig:architectures} is implemented by steps \texttt{4},
-\texttt{5}, \texttt{7} and \texttt{8}. Interaction \texttt{c} is
-implemented by steps \texttt{3} and \texttt{10}. Interaction
-\texttt{e} is implemented by step \texttt{6}. The PSOM workflow engine
-adopts a pilot-job architecture~\cite{turilli2015comprehensive} where
-the a master coordinates workflow execution by submitting workers
-and establishing direct communication channels with them. Note how
-this peculiar execution model is totally supported by the sub-tasking
-architecture.
+\texttt{5}, \texttt{7} and \texttt{8} (regular interactions with batch
+manager). Interaction \texttt{c} is implemented by steps \texttt{3}
+and \texttt{10}. Interaction \texttt{e} is implemented by step
+\texttt{6}. The PSOM workflow engine adopts a pilot-job
+architecture~\cite{turilli2015comprehensive} where the a master
+coordinates workflow execution by submitting workers and establishing
+direct communication channels with them. Note how this peculiar
+execution model is totally supported by the sub-tasking architecture.
 
 The CBRAIN-FSL integration is also remarkable as it allows to leverage
 FSL pipelines that are written in a very low-level workflow language
@@ -444,13 +445,13 @@ specific tool called \texttt{fsl\_sub}. To integrate FSL in CBRAIN,
 \input{figures/CBRAIN-PSOM.pdf_tex}
 \caption{Architecture of the CBRAIN-PSOM integration that illustrates
   the sub-tasking model (Figure extracted from~\cite{GLAT-16}). 1:
-  User sends data and pipeline execution request to storage server(s)
+  User sends data and workflow execution request to storage server(s)
   and CBRAIN portal. 2: CBRAIN portal sends execution request to
   execution server on cluster. 3: Execution server transfers data from
   storage server(s). 4-5: Execution server starts PSOM master via task
   scheduler. 6: PSOM master submits PSOM workers to execution
   server. 7-8: Execution server starts PSOM workers through task
-  scheduler. 9: PSOM master and workers execute pipeline. 10.
+  scheduler. 9: PSOM master and workers execute workflow. 10.
   Execution server transfers results to storage server(s). \todo{Improve graphics}}
 \label{fig:cbrain-psom-architecture}
 \end{figure}
@@ -466,8 +467,8 @@ policies, for instance to ensure load balancing. Agents may wrap
 different types of workflow engines. Workflow engine controls tasks
 and data on the infrastructure through interactions \texttt{b} and
 \texttt{c$_2$}, science gateway transfers user data through
-interaction \texttt{c$_1$}, and administrator installs workflow
-dependencies through interaction \texttt{a$_1$}.
+interaction \texttt{c$_1$}, and administrator installs workflows
+through interaction \texttt{a$_1$} and \texttt{a$_2$}.
 
 The pool model was implemented in the SHIWA pool~\cite{ROGE-13}, see
 Figure~\ref{fig:shiwa-pool-architecture}. In Figure
@@ -484,12 +485,13 @@ instance retrieval is used by the agents to fetch work from the
 pool. Workflow instance update is used by the agents to update
 workflow statuses. In the SHIWA pool, agents can wrap different types
 of workflow engines to execute workflows expressed with different
-languages. Calls \texttt{0}, \texttt{7}, \texttt{8} and \texttt{9} are
-used by workflow engine plugins to declare their supported language
-and launch engines, and by workflow engines to report their status to
-the agent. These calls are specific to the SHIWA Pool implementation
-of the \texttt{agent} component and therefore have no corresponding
-representation in Figure~\ref{archi:agent}.
+languages. Calls \texttt{0}, \texttt{7}, \texttt{8} and \texttt{9} on
+Figure~\ref{fig:shiwa-pool-architecture} are used by workflow engine
+plugins to declare their supported language and launch engines, and by
+workflow engines to report their status to the agent. These calls are
+specific to the SHIWA Pool implementation of the \texttt{agent}
+component and therefore have no corresponding representation in
+Figure~\ref{archi:agent}.
 
 \begin{figure*}
 \centering
@@ -505,7 +507,7 @@ representation in Figure~\ref{archi:agent}.
 
 See Figure~\ref{archi:nested}. In nested workflows (Figure~\ref{archi:nested}-Left), an activity of a
 \emph{parent} workflow executed by the \emph{parent} engine is itself
-a \emph{child} workflow that is executed by a \emph{child} engine. The
+a workflow, called \emph{child} workflow, that is executed by a \emph{child} engine. The
 parent and child engines might use different workflow description
 languages. They might also execute workflows on different
 infrastructures. The parent workflow is also called meta-workflow. The
@@ -522,7 +524,7 @@ infrastructures through interactions \texttt{a$_1$}.
 
 Nested workflows are abstract architectural patterns that can be
 instantiated in the various architectures described previously. We
-focus on instantiation with the service invocation model(see
+focus on instantiation with the service invocation model (see
 Figure~\ref{archi:nested}-Right) as this is the most used
 architecture. In such an instantiation, we assume that the parent and
 child workflow engines are distinct pieces of software that require
@@ -538,22 +540,22 @@ Nested workflows have long been available in workflow engines, for
 instance in the Taverna workbench~\cite{oinn2004taverna}. They are
 also used implicitly in several platforms where workflow engines are
 wrapped in workflow activities as any other command-line tool. Nested
-workflows were also notably used by the SHIWA Science Gateway to
-implement so-called Coarse-Grained workflow
+workflows were notably used by the SHIWA Science Gateway to implement
+so-called Coarse-Grained workflow
 interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
 various workflow engines in a consistent
 platform. Figure~\ref{fig:shiwa-architecture} shows the architecture
 used in the SHIWA Science Gateway for nested workflow execution with
 service invocation as represented in Figure~\ref{archi:nested}. The
-parent workflow engine is WS-PGRADE, invoked as a service in the
-Science Gateway (step \texttt{1} on
+parent workflow engine is \texttt{WS-PGRADE}, invoked as a service in
+the Science Gateway (step \texttt{1} on
 Figure~\ref{fig:shiwa-architecture}, interaction \texttt{d} on
 Figure~\ref{archi:nested}). Ten different child engines can be used by
 nested workflows, invoked through the \texttt{Submission service}
 (step \texttt{2}, interaction \texttt{d}). Each of these engines can
 submit jobs and transfer data to a distributed computing
-infrastructure (DCI, step \texttt{3}, interactions \texttt{b} and
-\texttt{c$_2$}). Data interactions (\texttt{c}) and application
+infrastructure (\texttt{DCI}, step \texttt{3}, interactions \texttt{b}
+and \texttt{c$_2$}). Data interactions (\texttt{c}) and application
 porting ones (\texttt{a}) are not represented on
 Figure~\ref{fig:shiwa-architecture}.
 
