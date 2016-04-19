@@ -1148,44 +1148,174 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
 
 \section{Discussion}
 
+\subsection{Comparison between architectures}
 
+Tight integration and sub-tasking require the least amount of
+integration effort, closely followed by service integration and
+workflow import (with service invocation). Pool is a bit behind but
+still before nested workflows (with service invocation) which requires
+more integration than the other architectures. Robustness leads to the
+same ordering of architectures, with tight integration and sub-tasking
+in the top group, service integration and workflow import (with
+service invocation) close behind, pool in a third group, and nested
+workflows (with service invocation) at the end. This ordering is
+consistent across metrics, and it reflects the global complexity of
+the architectures.
 
-Comparison between architectures, per criterion (robustness,
-etc). Which architecture is best in each category?
+Regarding extensibility, most architectures are overall comparable,
+except nested workflows (with service invocation) which is
+significantly behind. This is explained by the complexity of the
+nested workflow architecture, with 2 infrastructures and 2 workflow
+services. Sub-tasking and workflow import (with service invocation)
+perform a bit better to integrate new engines (\texttt{E$_1$}), which
+is interesting given the current profusion of engines with different
+characteristics.  However, sub-tasking, workflow import (with service
+invocation) and tight integration perform worse than the others to add
+engine versions (\texttt{E$_2$}) due to the need to update
+infrastructure (sub-tasking), science gateway (tight integration), or
+workflow converter (workflow import). Workflow import performs worse
+than the others to integrate new workflows (\texttt{E$_3$}) because of
+the language conversion step. All architectures except nested
+workflows perform the same to integrate new infrastructures (\texttt{E$_4$}).
 
-Overall comparison, see Table~\ref{table:overall}.
+The pool architecture is overall the most scalable, which is not a
+surprise since it was designed precisely for scalability. Tight
+integration is the least scalable and all the other architectures
+perform the same. The overall scalability score, however, should not
+mask the unique characteristics of architectures regarding this
+criterion. For instance, nested workflows are the only architecture
+that can easily accommodate distributed workflow execution, which can
+be critical in some cases. At the same time, the scheduling
+constraints created by the sub-tasking and nested workflow
+architectures could well become showstoppers depending on the type of
+targeted infrastructure. Non-reliable infrastructures, for example,
+could hardly cope with workflow engines being wrapped in computing
+tasks as done in sub-tasking. The availability of multiple engine
+instances could also become a critical feature for science gateways
+with important workloads, which would favor sub-tasking and pool.
 
+Differences in other features should not be neglected. Nested
+workflows (with service invocation) and workflow import (with service
+invocation) are the only architectures that support meta-workflows,
+which may be interesting in some cases. The availability of
+fine-grained debugging information may also be critical to efficient
+user support. 
+
+Table~\ref{table:overall} provides an overall comparison between
+architectures, based on the metrics in
+Table~\ref{table:evaluation}. While Table~\ref{table:overall} provides
+a global comparison between architectures, it should not be used
+without the detailed metrics reported on Table~\ref{table:evaluation}
+and discussed above. Overall, sub-tasking, and workflow import (with
+service invocation) perform a bit better than tight integration,
+service invocation and pool. Nested workflows stands a bit behind for
+the reasons mentioned previously.
 \begin{table*}
 \centering
-\begin{tabular}{cccccc}
-  \textbf{Tight}
-  & \textbf{Service}
-  & \textbf{Sub-task}
-  & \textbf{Pool}
-  & \textbf{Nested}
-  & \textbf{Import} \\
-\cellcolor[HTML]{99EE99}2.1
-  & \cellcolor[HTML]{99EE99}2.1
-  & \cellcolor[HTML]{99FE99}1.5
-  & \cellcolor[HTML]{99F499}1.9
-  & \cellcolor[HTML]{99BB99}4.0
-  & \cellcolor[HTML]{99FF99}1.5\\
+\begin{tabular}{rcccccc}
+                                    & \textbf{Tight}
+                                    & \textbf{Service}
+                                    & \textbf{Sub-task}
+                                    & \textbf{Pool}
+                                    & \textbf{Nested}
+                                    & \textbf{Import} \\
+  Integration effort (normalized total) & 
+                                    \cellcolor[HTML]{99FF99}{0.00}
+                                    & \cellcolor[HTML]{99EF99}{0.22}
+                                    & \cellcolor[HTML]{99FF99}{0.00}
+                                    & \cellcolor[HTML]{99E099}{0.44}
+                                    & \cellcolor[HTML]{99BB99}{1.00}
+                                      & \cellcolor[HTML]{99E899}{0.33}\\                           
+Robustness (normalized total) & 
+                                \cellcolor[HTML]{99F599}{0.14}
+                                    & \cellcolor[HTML]{99E199}{0.43}
+                                    & \cellcolor[HTML]{99FF99}{0.00}
+                                    & \cellcolor[HTML]{99CE99}{0.71}
+                                    & \cellcolor[HTML]{99BB99}{1.00}
+                                    & \cellcolor[HTML]{99E199}{0.43}\\
+  Extensibility (normalized total)  & \cellcolor[HTML]{99E099}{0.44}
+                                     & \cellcolor[HTML]{99E099}{0.44}
+                                     & \cellcolor[HTML]{99FF99}{0.00}
+                                     & \cellcolor[HTML]{99EF99}{0.22}
+                                     & \cellcolor[HTML]{99BB99}{1.00}
+                                     & \cellcolor[HTML]{99EF99}{0.22}\\
+Scalability (normalized total)  & \cellcolor[HTML]{99BB99}{1.00}
+                                     & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99FF99}{0.00}
+                                     & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99DD99}{0.50}\\
+Other features (normalized total) & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99BB99}{1.00}
+                                     & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99FF99}{0.00}\\
+                                    & \cellcolor[HTML]{99EE99}\textbf{2.1}
+                                    & \cellcolor[HTML]{99EE99}\textbf{2.1}
+                                    & \cellcolor[HTML]{99FE99}\textbf{1.5}
+                                    & \cellcolor[HTML]{99F499}\textbf{1.9}
+                                    & \cellcolor[HTML]{99BB99}\textbf{4.0}
+                                    & \cellcolor[HTML]{99FF99}\textbf{1.5}\\
 \end{tabular}
-\caption{Overall evaluation. Brighter colors indicate better performance.}
+\caption{Overall evaluation. Brighter colors and lower scores indicate better performance. Scores
+  are obtained by summing the normalized total scores ($m'$ values) of
+  each criterion in Table~\ref{table:evaluation} and the colors are obtained by normalizing these scores
+  as done in Table~\ref{table:evaluation}. }
 \label{table:overall}
 \end{table*}
 
-Limitations: 
-\begin{itemize}
-\item This ignores pre-existing work (e.g. a workflow engine is already available as a service). Migration across architectures too.
-\item The difficulty of implementing interaction g is not properly
-reflected. For instance, fsl uses bash, which would be very difficult to convert.
-\item We are well aware that all the
-components and interactions may not require the same level of
-development effort depending on the particular targeted platform.
-\end{itemize}
+\subsection{Limitations}
 
-These architectures can be combined (give examples). 
+A few limitations remain with our evaluation. First of all, the
+evaluation is done at a quite high-level of abstraction that may be a
+bit artificial when applied to real systems. Abstracting architectures
+from their implementation in specific systems is fundamental to the
+progress of software engineering of science gateways, but we also
+realize that this comes at the cost of realism. 
+
+In particular, the presented architectures are pure patterns that may
+be blended in actual systems. The distinction between tight
+integration and service invocation, for instance, may not be that
+clear in practice. Service invocation may also be combined with
+sub-tasking in some cases.
+
+Moreover, all the interactions involved in the architectures were
+treated equally, as if they all required similar amounts of
+development effort, which is realistically not the case. For example,
+interaction \texttt{g} (workflow language conversion) clearly requires
+more effort than interaction \texttt{d} (service invocation), and may
+create much more reliability issues as well. However, quantifying the
+robustness and amount of development associated with each interaction
+and software component cannot realistically be done without entering
+into the details of a particular system.
+
+The particular case of interaction \texttt{g} (workflow language
+conversion) should be further discussed since it is very likely that
+this interaction could not be easily generalized to any workflow
+language. For instance, converting FSL, PSOM or Nipype pipelines to
+any other workflow language is very tricky because these engines rely
+on general-purpose programming languages (bash, Octave, Python, etc)
+which are much richer than scientific workflow languages.
+
+The abstract nested workflows and workflow import patterns were
+instantiated with service invocation so that they can be analyzed in
+the same framework as the other architectures. Other types of
+instantiation, for instance nested workflows with sub-tasking, could
+also be envisaged. We chose to limit ourselves to instantiations with
+service invocation because the resulting architectures are implemented in 
+real systems, and because service invocation is a largely
+used architecture. Nested workflows with sub-tasking, in particular,
+could be an interesting architecture to explore. 
+
+Finally, there is no need to say that the particular technical or
+historical context of a science gateway project may influence the
+choice of an architecture to integrate workflow engines. For instance,
+some workflow engines may be already available as web services, which
+would tend to favor service invocation, and other science gateways may
+have strongly tested task and data control features (interactions
+\texttt{b} and \texttt{c}), which would favor sub-tasking. The
+migration cost between architectures is totally ignored as well.
 
 \section{Conclusion}
 
