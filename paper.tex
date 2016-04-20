@@ -135,16 +135,17 @@ computing systems, in particular clusters, to create tasks, handle
 their dependencies, and execute them. For instance, FSL can launch
 tasks on SGE through its \texttt{fsl\_sub} tool, Nipype has execution
 plugins for S/OGE, Torque, IPython, ssh and multi-processor servers,
-and PSOM \todo{...}. Some of these tools also support advanced
-features such as provenance tracking (Nipype, PSOM), redundancy
-detection across analyses to avoid re-computation (PSOM), and so on. A
-wide-array of workflows have been implemented using these pipelines
-and are now widely shared across neuroimaging groups
-world-wide. \todo{Provide more context on that?} These domain-specific
-engines represent a tremendous opportunity for science gateways to
-leverage existing tools and applications. They nicely complement
-e-Science engines that are more oriented towards the exploitation of
-distributed computing infrastructures, in particular grids and clouds.
+and PSOM is interfaced to Torque, SGE, MOAB, LSF and Condor. Some of
+these tools also support advanced features such as provenance tracking
+(Nipype, PSOM), redundancy detection across analyses to avoid
+re-computation (PSOM), and so on. A wide-array of workflows have been
+implemented using these pipelines and are now widely shared across
+neuroimaging groups world-wide. \todo{Provide more context on that?}
+These domain-specific engines represent a tremendous opportunity for
+science gateways to leverage existing tools and applications. They
+nicely complement e-Science engines that are more oriented towards the
+exploitation of distributed computing infrastructures, in particular
+grids and clouds.
 
 We are looking for software architectures that are able to integrate
 e-Science and domain-specific workflow engines in science
@@ -165,11 +166,16 @@ in any language, including high-level XML or JSON dialects such as
 
 \subsection{Science gateways}
 
-Science Gateway: An ecosystem, usually accessible through a web
-  portal, that provides tools to access distributed
-  infrastructures. Tools usually help users manage data transfers,
-  task execution and authentication on multiple computing and storage
-  locations. Examples: CBRAIN, VIP, NSG, etc
+Science gateways are ecosystems of software tools and services to
+access distributed infrastructures, usually through a web interface.
+Tools usually help users manage data transfers, task execution and
+authentication on multiple computing and storage locations. Workflow
+engines are of course part of this ecosystem since they are useful
+systems to implement and execute applications. 
+
+Several models 
+
+Examples: CBRAIN, VIP, NSG, etc
 
 Multi-engine, multi-language.
 
