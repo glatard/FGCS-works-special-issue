@@ -2,7 +2,7 @@
 
 
 \usepackage[x11names,dvipsnames,table]{xcolor} %for use in color links
-\usepackage{subfig}
+\usepackage[subrefformat=parens,labelformat=parens]{subfig}
 \usepackage{svg}
 \usepackage{url}
 \usepackage{flushend}
@@ -14,6 +14,8 @@
 
 \newcommand{\todo}[1]{\color{blue}\xspace[\emph{#1}]\xspace\color{black}}
 \newcommand{\note}[1]{\color{green}\textbf{Note: }\textit{#1} \color{black}}
+
+\renewcommand\thesubfigure{\Roman{subfigure}}
 
 \begin{document}
 
@@ -52,7 +54,13 @@
 
 \begin{abstract}
 %% Text of abstract
-
+  We investigate software architectures to integrate workflow engines
+  in science gateways. Based on our experience with the development
+  and operations of the CBRAIN and VIP science gateways, and our past
+  involvement in the SHIWA project, we abstract the software
+  components and interactions in 6 architectures that we compare using
+  metrics measuring integration effort, robustness, extensibility,
+  scalability and other specific features. \todo{a word on results}
 \end{abstract}
 
 \begin{keyword}
@@ -426,7 +434,7 @@ Figure~\ref{fig:architectures}.
 
 \subsection{Tight integration}
 
-See Figure~\ref{archi:tight}. The workflow engine is tightly
+See Figure~\subref*{archi:tight}. The workflow engine is tightly
 integrated with the science gateway, which means that it is deployed
 on the same machine and potentially shares code, libraries and other
 software components with the science gateway. For instance, the
@@ -459,7 +467,7 @@ Environment~\cite{dinov2009efficient}.
 \label{fig:vip-architecture}
 \end{figure*}
 
-See Figure~\ref{archi:service}. The workflow engine is available
+See Figure~\subref*{archi:service}. The workflow engine is available
 externally to the science gateway, in a service. The science gateway
 controls the service through a specific interaction (\texttt{d}) that
 might be implemented as a web-service call (e.g. RESTful or SOAP), as
@@ -492,7 +500,7 @@ the tasks and embedded in their descriptions).
 
 \subsection{Sub-tasking}
 
-See Figure~\ref{archi:sub-task}. The workflow engine is a particular
+See Figure~\subref*{archi:sub-task}. The workflow engine is a particular
 task that can submit sub-tasks to the science gateway through
 interaction \texttt{e}. The workflow engine keeps track of the
 dependencies between the sub-tasks but their execution is delegated to
@@ -559,7 +567,7 @@ specific tool called \texttt{fsl\_sub}. To integrate FSL in CBRAIN,
 
 \subsection{Pool model}
 \label{sec:pool}
-See Figure~\ref{archi:agent}. Workflows are submitted by the science
+See Figure~\subref*{archi:agent}. Workflows are submitted by the science
 gateway to a pool through interaction \texttt{d}. Agents connect to
 the pool asynchronously to retrieve and execute workflows through
 interaction \texttt{f}. Agents may be started according to various
@@ -573,12 +581,12 @@ through interaction \texttt{a$_1$} and \texttt{a$_2$}.
 The pool model was implemented in the SHIWA pool~\cite{ROGE-13}, see
 Figure~\ref{fig:shiwa-pool-architecture}. In Figure
 ~\ref{fig:shiwa-pool-architecture}, interaction \texttt{d} of
-Figure~\ref{archi:agent} is implemented in 3 different types of calls
+Figure~\subref*{archi:agent} is implemented in 3 different types of calls
 to the pool: workflow submission (\texttt{1} \& \texttt{2}), workflow
 status retrieval (\texttt{a} and \texttt{b}), and workflow retrieval
 (\texttt{13} \& \texttt{14}). In Figure
 ~\ref{fig:shiwa-pool-architecture}, interaction \texttt{f} of
-Figure~\ref{archi:agent} is implemented through 2 types of calls:
+Figure~\subref*{archi:agent} is implemented through 2 types of calls:
 workflow instance retrieval (\texttt{4}, \texttt{5} and \texttt{6}),
 and workflow instance update (\texttt{11} and \texttt{12}). Workflow
 instance retrieval is used by the agents to fetch work from the
@@ -591,7 +599,7 @@ plugins to declare their supported language and launch engines, and by
 workflow engines to report their status to the agent. These calls are
 specific to the SHIWA Pool implementation of the \texttt{agent}
 component and therefore have no corresponding representation in
-Figure~\ref{archi:agent}.
+Figure~\subref*{archi:agent}.
 
 \begin{figure*}
 \centering
@@ -605,8 +613,8 @@ Figure~\ref{archi:agent}.
 
 \subsection{Nested workflows}
 
-See Figure~\ref{archi:nested}. In nested workflows
-(Figure~\ref{archi:nested}-Left), a task of a \emph{parent} workflow
+See Figure~\subref*{archi:nested}. In nested workflows
+(Figure~\subref*{archi:nested}-Left), a task of a \emph{parent} workflow
 executed by the \emph{parent} engine is itself a workflow, called
 \emph{child} workflow, that is executed by a \emph{child} engine. The
 parent and child engines might use different workflow description
@@ -626,7 +634,7 @@ infrastructures through interactions \texttt{a$_1$}.
 Nested workflows are abstract architectural patterns that can be
 instantiated in the various architectures described previously. We
 focus on instantiation with the service invocation model (see
-Figure~\ref{archi:nested}-Right) as this is the most used
+Figure~\subref*{archi:nested}-Right) as this is the most used
 architecture. In such an instantiation, we assume that the parent and
 child workflow engines are distinct pieces of software that require
 different workflow services invoked by distinct \texttt{d}
@@ -647,11 +655,11 @@ interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
 various workflow engines in a consistent
 platform. Figure~\ref{fig:shiwa-architecture} shows the architecture
 used in the SHIWA Science Gateway for nested workflow execution with
-service invocation as represented in Figure~\ref{archi:nested}. The
+service invocation as represented in Figure~\subref*{archi:nested}. The
 parent workflow engine is \texttt{WS-PGRADE}, invoked as a service in
 the Science Gateway (step \texttt{1} on
 Figure~\ref{fig:shiwa-architecture}, interaction \texttt{d} on
-Figure~\ref{archi:nested}). Ten different child engines can be used by
+Figure~\subref*{archi:nested}). Ten different child engines can be used by
 nested workflows, invoked through the \texttt{Submission service}
 (step \texttt{2}, interaction \texttt{d}). Each of these engines can
 submit jobs and transfer data to a distributed computing
@@ -671,7 +679,7 @@ Figure~\ref{fig:shiwa-architecture}.
 
 \subsection{Workflow import}
 
-See Figure~\ref{archi:import}. This is an abstract model that we
+See Figure~\subref*{archi:import}. This is an abstract model that we
 instantiate with the service invocation architecture for
 consistency. Workflows are integrated in the science gateway through
 format conversion from a native format to the science gateway
