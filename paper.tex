@@ -73,8 +73,7 @@
 
 \section{Introduction}
 
-\todo{Say that the review is done based on our experience with VIP,
-  CBRAIN, and to some extent SHIWA.}
+\todo{Section still to be written}
 
 \paragraph{Context} The question of integrating workflow engines in
 science gateways can be seen at various levels, corresponding to
@@ -104,20 +103,24 @@ integrate workflow engines in science gateways.
 
 \section{Workflow engines and science gateways}
 
+\todo{This section still needs to be finished}
+
 \subsection{Workflow engines}
 
 In the last decade, the e-Science workflow community has developed
-high-level workflow systems to help developers access distributed
-infrastructures such as clusters, grids, clouds and web services,
-resulting in tools such as Askalon~\cite{fahringer2005askalon},
+workflow systems to help developers access distributed infrastructures
+such as clusters, grids, clouds and web services, resulting in tools
+such as Askalon~\cite{fahringer2005askalon},
 Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
 Pegasus~\cite{deelman2005pegasus,Deelman201517},
 Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
 Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing},
-WS-PGRADE/gUSE~\cite{Kacsuk2012}, etc. Such workflow engines usually
-describe applications in a specific language that offers parallel data
-and control flow constructs, visual edition features, links with
-domain-specific tool repositories, provenance recording, etc.
+WS-PGRADE/gUSE~\cite{Kacsuk2012}\footnote{\todo{WS-PGRADE/gUSE is the
+    science gateway, check what the engine is called now}}, etc. Such
+workflow engines usually describe applications in a  language
+that offers parallel data and control flow constructs, visual edition
+features, links with domain-specific tool repositories, provenance
+recording, etc.
 % Descriptions and experiments
 %conducted with e-Science workflow engines were published in journals
 %such as Future Generation Computer Systems and conference venues such
@@ -125,8 +128,8 @@ domain-specific tool repositories, provenance recording, etc.
 
 At the same time, specific toolboxes were emerging in various
 scientific domains to facilitate the assembly of software components
-in consistent pipelines. For instance, in neuroimaging, our primary
-domain of interest, tools such as Nipype~\cite{gorgolewski2011nipype},
+in consistent pipelines. In neuroimaging, our primary domain of
+interest, tools such as Nipype~\cite{gorgolewski2011nipype},
 PSOM~\cite{bellec2012pipeline}, SPM~\cite{ashburner2011spm} and
 FSL~\cite{Jenkinson2012782} provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
@@ -153,8 +156,8 @@ gateways. For the sake of the analysis conducted in this paper, we
 define a \emph{workflow engine} (also abbreviated \emph{engine}) as a
 software that submits interdependent computing \emph{tasks} to an
 infrastructure (local server, cluster, grid or cloud) based on a
-workflow description (a.k.a \emph{workflow}) and input data that may
-be files, data base entries, or simple parameter values. Although
+workflow description (a.k.a \emph{workflow}) and using input data that
+may be files, data base entries, or simple parameter values. Although
 simplistic, this definition covers both e-Science and domain-specific
 engines. Some workflow engines, usually e-Science ones, may transfer
 data across the infrastructure, and others, usually domain-specific
@@ -162,31 +165,103 @@ ones, may leave it to external processes. Workflows may be expressed
 in any language, including high-level XML or JSON dialects such as
 \texttt{Scufl} or \texttt{Hyperflow}, and low-level scripts such as
 \texttt{bash}.  \todo{Mention other workflow definitions,
-  e.g. abstract/concrete, etc?}
+  e.g. abstract/concrete, etc?} \todo{Use ttt everywhere for technical
+  terms (ssh, etc)?}
 
 \subsection{Science gateways}
 
 Science gateways are ecosystems of software tools and services to
-access distributed infrastructures, usually through a web interface.
-Tools usually help users manage data transfers, task execution and
-authentication on multiple computing and storage locations. Workflow
-engines are of course part of this ecosystem since they are useful
-systems to implement and execute applications. 
+access data and tools deployed on distributed infrastructures. They
+are used to share resources in a community and to provide performance
+through facilitated access to storage and computing power. They are
+usually accessible through a web interface that helps users manage
+access rights, data transfers, task execution and authentication on
+multiple computing and storage locations. Workflow engines are of
+course part of this ecosystem as core components to implement and
+execute applications.
 
-Several models 
+% Software properties: integration effort, extensibility, robustness,
+% scalability, specific features
 
-Examples: CBRAIN, VIP, NSG, etc
+Integration between workflow engines and science gateways varies
+across systems. Some science gateways may be tailored to a particular
+workflow engine that manages critical functions such as task
+execution, data transfers and authentication. Other gateways may be
+more general and host applications executed by different types of
+engines. Extensibility is an important property of such integration:
+new workflows are added frequently, different types and versions of
+workflow engines may be integrated over time, and different kinds of
+infrastructure may be covered.
 
-Multi-engine, multi-language.
+Scalability is also an important concern, since science gateways are
+multi-user systems, manage substantial amounts of data and execute
+computationally-intensive analyses. For this purpose, science gateways
+may include different instances of the same engine type and implement
+some load-balancing policy among them. They may also enforce
+scheduling policies on the infrastructure, e.g. to ensure fairness
+among users~\cite{FERR-14} or to improve
+fault-tolerance~\cite{FERR-13}. \todo{Remove these self-citations or
+  cite more works on this topic.}
 
-Several workflow engines may be combined in the same
-science gateway.
+Robustness is a key part of science gateway user experience. In this
+respect, the multiplicity of software components and functions is a
+challenge as it often leads to complex architectures that are
+therefore prone to failure. To offer good user experience, science
+gateways should remain as transparent as possible, which requires
+robustness. 
 
-A workflow
-  engine is not supposed to be aware of the science gateway.
+Specific features may also be available in science
+gateways, such as data vizualisation and quality control, workflow
+edition, debugging instruments, social tools among users, etc.
 
+Various science gateways have been developed in the last years,
+including science gateway frameworks used as building blocks to
+assemble science gateways. The main frameworks are
+WS-PGRADE/gUSE~\cite{Kacsuk2012}, the Catania Science Gateway
+Framework~\cite{Ardizzone2012} and Apache
+Airavata~\cite{marru2011apache} \todo{According to
+  https://airavata.apache.org, Genapp is based on Airavata, we could
+  refer to it somewhere}. Numerous science gateway instances were
+built using such frameworks, in various disciplines. Other gateway
+instances were also built independently from any framework, using
+regular web development tools and various libraries to manage
+distributed systems.
+
+This paper builds on experience from the development and sustained
+operations of CBRAIN (2008-now), the Virtual Imaging Platform
+(2009-now), and on our involvement with the
+SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} European project
+(2010-2012) that built the SHIWA Simulation Platform.
+
+CBRAIN\footnote{\url{http://cbrain.mcgill.ca}}~\cite{SHER-14} is an
+open-source, web-based collaborative platform addressing the
+challenges of data-heavy, computation-intensive neuroimaging
+research. It offers transparent web-based access to remote data
+sources, distributed computing sites, and an array of processing and
+visualization tools, within a secure environment. CBRAIN is deployed
+at a wide range of computing sites, including nine national HPC
+centers in Canada, one in Korea, one in Germany, and on numerous local
+servers. As September 2015, CBRAIN has served over 370 users across 50
+cities in 19 countries who produced several high-impact results in the
+field of neurosciences.
+
+The Virtual Imaging Platform
+(VIP\footnote{\url{http://www.creatis.insa-lyon.fr/vip}})~\cite{GLAT-13}
+is a web portal for medical simulation and image data analysis. It
+leverages computing and storage resources available in the biomed
+Virtual Organization of the European Grid Infrastructure (EGI) to
+offer an open service to academic researchers worldwide. VIP
+completely masks the infrastructure to enable a transparent user
+experience. It uses the MOTEUR workflow engine~\cite{GLAT-13} and the
+DIRAC pilot-job framework to execute applications on EGI. Almost 900
+users were registered in VIP in April 2016 and the average CPU
+consumption between January 2013 and March 2016 was 35 CPU years per
+month.
+
+\todo{SHIWA Simulation Platform.}
 
 \subsection{Infrastructures}
+
 
 The infrastructure consists of the computing and storage resources
 involved in the workflow execution, and the software services used to
@@ -642,10 +717,13 @@ software pieces to develop.
 
 \emph{Robustness of workflow execution} measures the likelihood that
 workflow execution fails due to errors in the components or with the
-interactions in the software architecture. 
-Robustness is determined as the number of software components and
-interactions that are specific to workflow execution, i.e. not reused
-by other functions:
+interactions in the software architecture. Note that errors coming
+from the infrastructure (e.g. unavailable data or terminated tasks) or
+workflows (e.g., wrong user input or application crashes) are not
+covered since they do not stem directly from the software
+architecture. Robustness is determined as the number of software
+components and interactions that are specific to workflow execution,
+i.e. not reused by other functions:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Components (\texttt{R$_1$}): number of specific components
   involved in workflow executions. Science
@@ -1345,6 +1423,9 @@ migration cost between architectures is totally ignored as well.
 
 \section{Conclusion}
 
+\todo{Section still to be written}
+
+
 We abstracted architectures so that we can compare them using
 objective metrics. We illustrated these architectural patterns on
 examples of real systems.
@@ -1353,6 +1434,8 @@ What this work highlights and recommendations for science gateway
 developers.
 
 \section{Acknowledgments}
+
+\todo{Section still to be written}
 
 \todo{FLI-IAM, Labex PRIMES, Ludmer Centre, whatever grant is funding
   POQ for integrating CBRAIN with PSOM.}
