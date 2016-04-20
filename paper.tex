@@ -41,7 +41,7 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{Architectures for workflow integration in science gateways}
+\title{Software architectures for workflow integration in science gateways}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -64,13 +64,7 @@
 \end{abstract}
 
 \begin{keyword}
-%% keywords here, in the form: keyword \sep keyword
-
-%% PACS codes here, in the form: \PACS code \sep code
-
-%% MSC codes here, in the form: \MSC code \sep code
-%% or \MSC[2008] code \sep code (2000 is the default)
-
+Workflow engines \sep science gateways \sep software architecture.
 \end{keyword}
 
 \end{frontmatter}
@@ -81,54 +75,51 @@
 
 \section{Introduction}
 
-\todo{Section still to be written}
+Workflow engines are critical components of the ecosystem of tools and
+services offered by science gateways to leverage distributed
+infrastructures for the efficient execution of applications through
+the web. Several software architectures can be adopted to integrate
+workflow engines in science gateways, with important consequences on
+the required development effort and on the characteristics of the
+resulting system. This paper describes and compares such architectures
+based on system-independent representations of their main components
+and interactions.
 
-\paragraph{Context} The question of integrating workflow engines in
-science gateways can be seen at various levels, corresponding to
-various definitions of workflows. One level is the SHIWA level, where
-it was considered that workflow engines are aware of the DCI (and 'D'
-is important because of data transfers, proxies, etc). Another level
-is to remove 'D' from the definition: a workflow engine becomes a
-program that submits jobs, potentially only to local clusters. It
-opens a whole new class of workflow engines that we used to consider
-as "applications". For instance, in neuroinformatics: Nipype, PSOM,
-but also FSL through the fslsub tool. A workflow engine is not
-supposed to be aware of the science gateway.  A wide-array of workflow
-engines are available with specificies coming from the application
-domain, available tools, etc Their integration in science gateways
-becomes critical. Several of the examples presented in the
-paper will be taken from medical image analysis, in particular
-neuroimaging.
+Our analysis is fed by experience gathered from the development and
+sustained operation of the CBRAIN~\cite{SHER-14} and
+VIP~\cite{GLAT-13} science gateways for medical image analysis during
+the past 7 years. It also builds on the lessons learned from several
+science gateway and workflow-related projects, including the SHIWA
+Simulation Platform~\cite{terstyanszky2014enabling}.
 
-\paragraph{Goal} this paper reviews and compares the architectures to
-integrate workflow engines in science gateways.
-
-\paragraph{Contributions}
-\begin{itemize}
-\item We evaluate architectures based on our experience with existing systems
-\item We propose a new architecture
-\end{itemize}
-
-\section{Workflow engines and science gateways}
-
-\todo{This section still needs to be finished}
+The remainder of this Section provides background information and
+definitions about workflow engines and science gateways. In
+Section~\ref{sec:architectures}, we describe 6 architectures in a
+consistent framework based on the functional interactions between the
+main software components involved. In Section~\ref{sec:evaluation}, we
+introduce metrics to measure integration effort, robustness,
+extensibility, scalability and other specific features related to the
+architectures. We use these metrics to evaluate and compare the 6
+architectures. The paper closes on a discussion and conclusion that
+highlight architectural recommendations for science gateway and
+workflow engine developers.
 
 \subsection{Workflow engines}
 
 In the last decade, the e-Science workflow community has developed
 workflow systems to help developers access distributed infrastructures
-such as clusters, grids, clouds and web services, resulting in tools
-such as Askalon~\cite{fahringer2005askalon},
+such as clusters, grids, clouds and web services. These efforts
+resulted in tools such as Askalon~\cite{fahringer2005askalon},
 Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
 Pegasus~\cite{deelman2005pegasus,Deelman201517},
 Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
 Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing},
 WS-PGRADE/gUSE~\cite{Kacsuk2012}\footnote{\todo{WS-PGRADE/gUSE is the
     science gateway, check what the engine is called now}}, etc. Such
-workflow engines usually describe applications in a  language
+workflow engines usually describe applications in a specific language
 that offers parallel data and control flow constructs, visual edition
 features, links with domain-specific tool repositories, provenance
-recording, etc.
+recording, among other features.
 % Descriptions and experiments
 %conducted with e-Science workflow engines were published in journals
 %such as Future Generation Computer Systems and conference venues such
@@ -158,9 +149,7 @@ nicely complement e-Science engines that are more oriented towards the
 exploitation of distributed computing infrastructures, in particular
 grids and clouds.
 
-We are looking for software architectures that are able to integrate
-e-Science and domain-specific workflow engines in science
-gateways. For the sake of the analysis conducted in this paper, we
+For the sake of the analysis conducted in this paper, we
 define a \emph{workflow engine} (also abbreviated \emph{engine}) as a
 software that submits interdependent computing \emph{tasks} to an
 infrastructure (local server, cluster, grid or cloud) based on a
@@ -176,10 +165,17 @@ in any language, including high-level XML or JSON dialects such as
   e.g. abstract/concrete, etc?} \todo{Use ttt everywhere for technical
   terms (ssh, etc)?}
 
+\todo{The infrastructure consists of the computing and storage resources
+involved in the workflow execution, and the software services used to
+access these resources. Infrastructures can be servers, clusters,
+grids or clouds. Some workflow engines may assume specific
+characteristics about the infrastructure, such as the presence of a
+shared file system between the computing nodes.
+}
+
 \subsection{Science gateways}
 
-Science gateways are ecosystems of software tools and services to
-access data and tools deployed on distributed infrastructures. They
+Science gateways 
 are used to share resources in a community and to provide performance
 through facilitated access to storage and computing power. They are
 usually accessible through a web interface that helps users manage
@@ -235,12 +231,7 @@ instances were also built independently from any framework, using
 regular web development tools and various libraries to manage
 distributed systems.
 
-This paper builds on experience from the development and sustained
-operations of CBRAIN (2008-now), the Virtual Imaging Platform
-(2009-now), and on our involvement with the
-SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} European project
-(2010-2012) that built the SHIWA Simulation Platform.
-
+\todo{Transition needed}
 CBRAIN\footnote{\url{http://cbrain.mcgill.ca}}~\cite{SHER-14} is an
 open-source, web-based collaborative platform addressing the
 challenges of data-heavy, computation-intensive neuroimaging
@@ -267,16 +258,6 @@ consumption between January 2013 and March 2016 was 35 CPU years per
 month.
 
 \todo{SHIWA Simulation Platform.}
-
-\subsection{Infrastructures}
-
-
-The infrastructure consists of the computing and storage resources
-involved in the workflow execution, and the software services used to
-access these resources. Infrastructures can be servers, clusters,
-grids or clouds. Some workflow engines may assume specific
-characteristics about the infrastructure, such as the presence of a
-shared file system between the computing nodes.
 
 \section{Architectures}
 \label{sec:architectures}
@@ -692,6 +673,8 @@ systems~\cite{plankensteiner-prodan-etal:2013}.
 \todo{Add description of a real system}
 
 \section{Evaluation}
+
+\label{sec:evaluation}
 
 The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
