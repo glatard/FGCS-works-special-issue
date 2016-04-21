@@ -13,7 +13,7 @@
 
 \definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
 \newcommand{\todo}[1]{\color{blue}\xspace[\emph{#1}]\xspace\color{black}}
-\newcommand{\note}[1]{\color{ao(english)}\textbf{Note: }\textit{#1} \color{black}}
+\newcommand{\note}[2]{\textbf{\Large{\color{blue}\footnote{{\color{blue}\textbf{#1:} \textit{#2}\color{black}}}}}}
 
 \renewcommand\thesubfigure{\Roman{subfigure}}
 
@@ -24,7 +24,7 @@
 %% Title, authors and addresses
 
 %% use the tnoteref command within \title for footnotes;
-%% use the tnotetext command for theassociated footnote;
+%% use the tnotetext command for theassociated footnotes;
 %% use the fnref command within \author or \address for footnotes;
 %% use the fntext command for theassociated footnote;
 %% use the corref command within \author for corresponding author footnotes;
@@ -390,19 +390,21 @@ Figure~\ref{fig:architectures}.
   deletion, etc. Controlling tasks requires to deal with the
   heterogeneous batch managers and meta-schedulers that might be
   available on the infrastructure. When the infrastructure is a grid
-  or a cloud, it is for instance implemented using libraries such as
-  SAGA, DRMAA, OCCI and similar initiatives \todo{refs needed}.
+  or a cloud, it is for instance implemented using libraries
+  implementing standards such as SAGA~\cite{goodale2006saga},
+  DRMAA~\cite{troger2012distributed} or OCCI~\cite{edmonds2012toward}.
 \item Data control: operations to manage data on the infrastructure,
   such as: upload, download, deletion, browsing, replication, caching,
   etc. Data movements can be triggered by the user in the science
   gateway (\texttt{$c_1$}), to upload input data or download processed
   data. They can also be performed by the workflow engine
-  (\texttt{$c_2$}), to transfer data across the infrastructure. The
-  infrastructure might offer various data storage backends with
-  heterogeneous interfaces. \note{this -c2- can be also trigerred by the 
-  user} Tools and services such as JSAGA~\cite{reynaud2010uniform} or
-  Data Avenue~\cite{hajnal2014data} can be used to homogeneize these 
-  interfaces.
+  (\texttt{$c_2$}), to transfer workflow data (inputs, outputs, or
+  intermediate results) across the infrastructure so that tasks can
+  use it. The infrastructure might offer various data storage backends
+  with heterogeneous interfaces. \note{Marc-Etienne}{this -c2- can be also trigerred
+    by the user}\note{Tristan}{No, it can't: this is by definition an interaction between the workflow engine and the infrastructure. It is used to transfer data to/from tasks. I reworded a bit, is it clearer now?} Tools and services such as
+  JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
+  can be used to homogeneize these interfaces.
 \item Workflow control: operations to execute a workflow with an
   engine, including: workflow submission, monitoring, termination,
   etc. Workflow control can be coarse-grained (a.k.a. black box) or
@@ -565,7 +567,7 @@ fsl\_sub was modified to implement interaction
   scheduler. 6: PSOM master submits PSOM workers to execution
   server. 7-8: Execution server starts PSOM workers through task
   scheduler. 9: PSOM master and workers execute workflow. 10.
-  Execution server transfers results to storage server(s). \todo{Improve graphics}}
+  Execution server transfers results to storage server(s).}
 \label{fig:cbrain-psom-architecture}
 \end{figure}
 
