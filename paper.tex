@@ -60,7 +60,13 @@
   involvement in the SHIWA project, we abstract the software
   components and interactions in 6 architectures that we compare using
   metrics measuring integration effort, robustness, extensibility,
-  scalability and other specific features. \todo{a word on results}
+  scalability and other specific features. Results show the pros and
+  cons of the different architectures. Tight integration and
+  sub-tasking require the least amount of integration effort and are
+  also the most robust. Most architectures perform the same in terms
+  of extensibility. The pool model is the most
+  scalable. Meta-workflows are only available in nested workflows and
+  workflow import.
 \end{abstract}
 
 \begin{keyword}
@@ -93,16 +99,16 @@ science gateway and workflow-related projects, including the SHIWA
 Simulation Platform~\cite{terstyanszky2014enabling}.
 
 The remainder of this Section provides background information and
-definitions about workflow engines and science gateways. In
-Section~\ref{sec:architectures}, we describe 6 architectures in a
-consistent framework based on the functional interactions between the
-main software components involved. In Section~\ref{sec:evaluation}, we
-introduce metrics to measure integration effort, robustness,
-extensibility, scalability and other specific features related to the
-architectures. We use these metrics to evaluate and compare the 6
-architectures. The paper closes on a discussion and conclusion that
-highlight architectural recommendations for science gateway and
-workflow engine developers.
+definitions about workflow engines, science gateways and
+infrastructures. In Section~\ref{sec:architectures}, we describe 6
+architectures in a consistent framework based on the functional
+interactions between the main software components involved. In
+Section~\ref{sec:evaluation}, we introduce metrics to measure
+integration effort, robustness, extensibility, scalability and other
+specific features related to the architectures. We use these metrics
+to evaluate and compare the 6 architectures. The paper closes on a
+discussion and conclusion that highlight architectural recommendations
+for science gateway and workflow engine developers.
 
 \subsection{Workflow engines}
 
@@ -114,8 +120,7 @@ Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
 Pegasus~\cite{deelman2005pegasus,Deelman201517},
 Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
 Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing},
-WS-PGRADE/gUSE~\cite{Kacsuk2012}\footnote{\todo{WS-PGRADE/gUSE is the
-    science gateway, check what the engine is called now}}, etc. Such
+WS-PGRADE~\cite{Kacsuk2012}, etc. Such
 workflow engines usually describe applications in a specific language
 that offers parallel data and control flow constructs, visual edition
 features, links with domain-specific tool repositories, provenance
@@ -135,7 +140,7 @@ handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
 computing systems, in particular clusters, to create tasks, handle
 their dependencies, and execute them. For instance, FSL can launch
-tasks on SGE through its \texttt{fsl\_sub} tool, Nipype has execution
+tasks on SGE through its fsl\_sub tool, Nipype has execution
 plugins for S/OGE, Torque, IPython, ssh and multi-processor servers,
 and PSOM is interfaced to Torque, SGE, MOAB, LSF and Condor. Some of
 these tools also support advanced features such as provenance tracking
@@ -160,18 +165,8 @@ engines. Some workflow engines, usually e-Science ones, may transfer
 data across the infrastructure, and others, usually domain-specific
 ones, may leave it to external processes. Workflows may be expressed
 in any language, including high-level XML or JSON dialects such as
-\texttt{Scufl} or \texttt{Hyperflow}, and low-level scripts such as
-\texttt{bash}.  \todo{Mention other workflow definitions,
-  e.g. abstract/concrete, etc?} \todo{Use ttt everywhere for technical
-  terms (ssh, etc)?}
-
-\todo{The infrastructure consists of the computing and storage resources
-involved in the workflow execution, and the software services used to
-access these resources. Infrastructures can be servers, clusters,
-grids or clouds. Some workflow engines may assume specific
-characteristics about the infrastructure, such as the presence of a
-shared file system between the computing nodes.
-}
+Scufl or Hyperflow, and low-level scripts such as
+Bash. 
 
 \subsection{Science gateways}
 
@@ -203,9 +198,8 @@ computationally-intensive analyses. For this purpose, science gateways
 may include different instances of the same engine type and implement
 some load-balancing policy among them. They may also enforce
 scheduling policies on the infrastructure, e.g. to ensure fairness
-among users~\cite{FERR-14} or to improve
-fault-tolerance~\cite{FERR-13}. \todo{Remove these self-citations or
-  cite more works on this topic.}
+among users~\cite{FERR-14,CPE:CPE3708} or to improve
+fault-tolerance~\cite{wilkins2008teragrid,FERR-13}.
 
 Robustness is a key part of science gateway user experience. In this
 respect, the multiplicity of software components and functions is a
@@ -223,15 +217,15 @@ including science gateway frameworks used as building blocks to
 assemble science gateways. The main frameworks are
 WS-PGRADE/gUSE~\cite{Kacsuk2012}, the Catania Science Gateway
 Framework~\cite{Ardizzone2012} and Apache
-Airavata~\cite{marru2011apache} \todo{According to
-  https://airavata.apache.org, Genapp is based on Airavata, we could
-  refer to it somewhere}. Numerous science gateway instances were
-built using such frameworks, in various disciplines. Other gateway
-instances were also built independently from any framework, using
-regular web development tools and various libraries to manage
-distributed systems.
+Airavata~\cite{marru2011apache}. Numerous science gateway instances
+were built using such frameworks, in various disciplines. Other
+gateway instances were also built independently from any framework,
+using regular web development tools and various libraries to manage
+distributed systems. CBRAIN and VIP are two of such science gateways
+that were initially developed for medical imaging analysis and from
+which we gathered experience about the architectures described in
+this paper.
 
-\todo{Transition needed}
 CBRAIN\footnote{\url{http://cbrain.mcgill.ca}}~\cite{SHER-14} is an
 open-source, web-based collaborative platform addressing the
 challenges of data-heavy, computation-intensive neuroimaging
@@ -257,7 +251,35 @@ users were registered in VIP in April 2016 and the average CPU
 consumption between January 2013 and March 2016 was 35 CPU years per
 month.
 
-\todo{SHIWA Simulation Platform.}
+The architectures described hereafter also build on experience with
+the SHIWA Simulation Platform~\cite{terstyanszky2014enabling}. The
+SHIWA Simulation Platform is a WS-PGRADE/gUSE science gateway that was
+developed in European projects
+SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and
+ER-flow\footnote{\url{http://www.erflow.eu}}. It focuses on workflow
+interoperability for various disciplines, in particular through the
+building of meta-workflows, i.e. workflows that are built out of other
+workflows. It implements the so-called Coarse-Grained Interoperability
+framework where workflow engines are integrated in the science gateway
+as other applications and invoked through a dedicated service. The
+Fine-Grained Interoperability framework was also developed in SHIWA,
+where conversions between workflow languages are achieved through a
+common intermediate
+representation~\cite{plankensteiner-prodan-etal:2013}.
+
+\subsection{Infrastructures}
+
+In this paper, infrastructure consists of the computing and storage
+resources involved in the workflow execution, and the software
+services used to access these resources. Infrastructures can be
+servers, clusters, grids or clouds. Some workflow engines and science
+gateways may assume specific characteristics about the infrastructure,
+such as the presence of a shared file system between the computing
+nodes, the availability of a global task meta-scheduler, the presence
+of a file catalog, etc. In the analysis presented below, such specific
+functions are not discussed. Instead, we consider the infrastructure
+as an abstract system that can execute tasks and store files
+regardless of the enabling mechanisms. 
 
 \section{Architectures}
 \label{sec:architectures}
@@ -285,6 +307,7 @@ while the workflow executes. It does not cover workflow parameters
 such as strings, numbers, etc. The remainder of this section describes
 the different types of interactions involved in the architectures, and
 details each architecture.
+
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
@@ -524,9 +547,9 @@ execution model is totally supported by the sub-tasking architecture.
 The CBRAIN-FSL integration is also remarkable as it allows to leverage
 FSL pipelines that are written in a very low-level workflow language
 (Linux executables and script) that submits tasks uniformly through a
-specific tool called \texttt{fsl\_sub}. To integrate FSL in CBRAIN,
-\texttt{fsl\_sub} was modified to implement interaction
-\texttt{e}\footnote{See \texttt{fsl\_sub} modified script available at
+specific tool called fsl\_sub. To integrate FSL in CBRAIN,
+fsl\_sub was modified to implement interaction
+\texttt{e}\footnote{See modified fsl\_sub script available at
   \url{https://github.com/aces/cbrain-plugins-neuro}} \todo{Add a
   diagram and maybe a code excerpt to illustrate that.}.
 
@@ -1391,7 +1414,7 @@ conversion) should be further discussed since it is very likely that
 this interaction could not be easily generalized to any workflow
 language. For instance, converting FSL, PSOM or Nipype pipelines to
 any other workflow language is very tricky because these engines rely
-on general-purpose programming languages (bash, Octave, Python, etc)
+on general-purpose programming languages (Bash, Octave, Python, etc)
 which are much richer than scientific workflow languages.
 
 The abstract nested workflows and workflow import patterns were
