@@ -1,8 +1,8 @@
-# Contributing
+# How to contribute
 
 For the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
 
-# Adding comments
+# How to add comments
 
 Use command ```\note``` in ```paper.tex``` as follows: ```\note{John}{This is a comment}```.
 
@@ -15,6 +15,5 @@ Use command ```\note``` in ```paper.tex``` as follows: ```\note{John}{This is a 
 
 # Additional material
 
-Figure sources (svg) can be exported from https://drive.google.com/open?id=0BzT7pbvPDUdQejJ4SDI0TnN2NDA.
-
-Table 1 is exported from https://docs.google.com/spreadsheets/d/1tQOApJJN5LMpkhT2FPpbiMqzPVHqugt-msAaUWcDa7E/edit#gid=1302437322 (see column "Latex row command").
+* Figure sources (svg): https://drive.google.com/open?id=0BzT7pbvPDUdQejJ4SDI0TnN2NDA.
+* Table 1 & 2: https://docs.google.com/spreadsheets/d/1tQOApJJN5LMpkhT2FPpbiMqzPVHqugt-msAaUWcDa7E/edit#gid=1302437322 (see column "Latex row command").
