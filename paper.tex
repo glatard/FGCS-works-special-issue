@@ -462,16 +462,13 @@ instance a data management interface. As in any other model, the
 installation of new workflows in the science gateway (\texttt{a$_2$})
 and infrastructure (\texttt{a$_1$}) is done by an administrator, for
 security reasons. This is the model adopted in LONI Pipeline
-Environment~\cite{dinov2009efficient} and in the Catania Science
-Gateway Framework~\cite{Ardizzone2012} which is used for instance in
-the DECIDE gateway instance for
+Environment~\cite{dinov2009efficient}, in the Distributed application
+runtime environment (DARE~\cite{maddineni2012distributed}), and in the
+Catania Science Gateway Framework~\cite{Ardizzone2012} which is used
+for instance in the DECIDE gateway for 
 neuroimaging~\cite{ardizzone2012decide} (see specific documentation on
-workflows\footnote{\url{http://bit.ly/1oQrzvQ}}). \todo{Add
-  description of a real system.\note{Tristan}{The Catania Science
-    Gateway Framework would be a good illustration here (workflow
-    engine is a Java portlet), but I can't find a suitable figure
-    about it.}}
-
+workflows\footnote{\url{http://bit.ly/1oQrzvQ}}). 
+%The Catania Science Gateway Framework would be a good illustration here (workflow engine is a Java portlet), but I can't find a suitable figure about it.
 %CIPRES~\cite{miller2010creating} (on which the Neuroscience gateway
 %described in~\cite{sivagnanam2015early} is based) % \note{Tristan}{There is no workflow engine in there.}
 
@@ -741,6 +738,7 @@ systems~\cite{plankensteiner-prodan-etal:2013}.
   \hline
   Tight & \pbox{1.5\columnwidth}{
           Catania Science Gateway Framework~\cite{Ardizzone2012}, 
+          Distributed application runtime environment (DARE~\cite{maddineni2012distributed}),
           DECIDE~\cite{ardizzone2012decide}$^{c,n}$, LONI Pipeline Environment$^n$~\cite{dinov2009efficient}
           }
   \\
@@ -904,16 +902,16 @@ issues that are present in the architecture.
 \emph{Specific features} include:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Meta-workflow (\texttt{O$_1$}): ability to describe
-  meta-workflows from existing workflows.  \todo{More details about
-    why this is important?} \texttt{O$_1$}=0 when the feature is
-  available, \texttt{O$_1$}=1 otherwise.
+  meta-workflows from existing workflows. Meta-workflows offer an
+  additional level of flexibility to build worfklows from reusable
+  components. \texttt{O$_1$}=0 when the feature is available,
+  \texttt{O$_1$}=1 otherwise.
 \item Fine-grained debugging (\texttt{O$_2$}): availability of
-  fine-grained debugging information about workflow tasks. When
-  such information is available, workflow is seen as a white
+  fine-grained debugging information about workflow tasks. When such
+  information is available, workflow is seen as a white
   box. Fine-grained information about workflow tasks is required to
   properly troubleshoot workflow executions.  \texttt{O$_2$}=0 when
-  such information is easy to access, \texttt{O$_2$}=1
-  otherwise. \todo{More details about why this is important?}
+  such information is easy to access, \texttt{O$_2$}=1 otherwise.
 \end{itemize}
 \texttt{O$_1$} and \texttt{O$_2$} are summed to obtain a total number of missing specific
 features in the architecture. 
@@ -974,16 +972,18 @@ workflow execution (\texttt{R$_1$}=1). Workflow execution also
 involves 3 specific interactions: \texttt{b}, 
 \texttt{c$_2$} and \texttt{d} (\texttt{R$_2$}=3).
 
-\paragraph{Extensibility} Adding a new type of workflow engine requires
-to implement the corresponding workflow service, to modify interaction
-\texttt{d}, and to implement interactions \texttt{b} and
+\paragraph{Extensibility} Adding a new type of workflow engine
+requires to implement the corresponding workflow service, to modify
+interaction \texttt{d}, and to implement interactions \texttt{b} and
 \texttt{$c_2$} (\texttt{E$_1$}=4). New engine versions can be added by
-updating the workflow service without modifying any interaction
-(\texttt{E$_2$}=0).  New workflows are added in the science gateway or
-in the workflow engine through interactions \texttt{a$_1$} and \texttt{a$_2$}
-(\texttt{E$_3$}=2). Adding a new type of infrastructure requires
-updates in interactions \texttt{b}, \texttt{$c_1$} and \texttt{$c_2$}
-(\texttt{E$_4$}=3). 
+updating the workflow service without modifying any interaction or
+component (\texttt{E$_2$}=0). We consider that updating the engine
+version in a workflow service is transparent since the only goal of
+this component is to wrap the engine.  New workflows are added in the
+science gateway or in the workflow engine through interactions
+\texttt{a$_1$} and \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new
+type of infrastructure requires updates in interactions \texttt{b},
+\texttt{$c_1$} and \texttt{$c_2$} (\texttt{E$_4$}=3).
 
 \paragraph{Scalability} The service architecture supports multiple
 engine instances through multiple workflow services. In VIP for
@@ -1086,7 +1086,8 @@ workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b},
 \paragraph{Extensibility} Adding a new engine type requires to wrap
 the engine in the agent and to update interactions \texttt{b} and
 \texttt{c$_2$} (\texttt{E$_1$=3}). Updating the version of an engine
-is transparent (\texttt{E$_2$=0}) \todo{explain why, also for service}, and integrating a new workflow is
+is transparent (\texttt{E$_2$=0}) since it only requires updating the
+agent that is a component dedicated to the engine. Integrating a new workflow is
 done through interactions \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Integrating a new infrastructure requires updates
 in interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
