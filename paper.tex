@@ -265,7 +265,9 @@ as other applications and invoked through a dedicated service. The
 Fine-Grained Interoperability framework was also developed in SHIWA,
 where conversions between workflow languages are achieved through a
 common intermediate
-representation~\cite{plankensteiner-prodan-etal:2013}.
+representation~\cite{plankensteiner-prodan-etal:2013}. \note{Tristan}{Silvia,
+  do you think it is legitimate to refer to SHIWA like this in the
+  paper, or should we involve Gabor in the writing?}
 
 \subsection{Infrastructures}
 
@@ -528,10 +530,28 @@ the infrastructure, so that interactions \texttt{c$_1$} and
 pieces of code.
 
 The sub-tasking architecture is implemented in CBRAIN~\cite{SHER-14}
-where it is used to integrate the PSOM workflow
-engine~\cite{bellec2012pipeline} and the FSL toolkit. The CBRAIN-PSOM
-integration~\cite{GLAT-16} is illustrated on
-Figure~\ref{fig:cbrain-psom-architecture}. On this Figure, the science
+where it is used to integrate the FSL toolkit~\cite{Jenkinson2012782}
+and the PSOM workflow engine~\cite{bellec2012pipeline}.
+
+\begin{figure}
+\def\svgwidth{\columnwidth}
+\input{figures/CBRAIN-FSL.pdf_tex}
+\caption{Architecture of the CBRAIN-FSL integration (sub-tasking). 1:
+  User sends data and workflow execution request to storage server(s)
+  and CBRAIN portal. 2: CBRAIN portal sends execution request to
+  execution server on cluster. 3: Execution server transfers data from
+  storage server(s). 4-5: Execution server starts FSL tool (pipeline)
+  via task scheduler. 6: FSL pipeline submits sub-tasks execution
+  server through fsl\_sub. 7-8: Execution server starts sub-tasks
+  through task scheduler. 9.  Execution server transfers results to
+  storage server(s).}
+\label{fig:cbrain-fsl-architecture}
+\end{figure}
+The CBRAIN-FSL integration allows to leverage FSL pipelines that are
+written in a very low-level workflow language (Linux executables and
+script) that submits tasks uniformly through a specific tool called
+fsl\_sub. It is represented in
+Figure~\ref{fig:cbrain-fsl-architecture}.  On this Figure, the science
 gateway is represented by components \texttt{CBRAIN portal} and
 \texttt{CBRAIN execution server} and the infrastructure consists of
 \texttt{Storage servers} and \texttt{Computing cluster with shared
@@ -539,37 +559,33 @@ gateway is represented by components \texttt{CBRAIN portal} and
 Figure~\ref{fig:architectures} is implemented by steps \texttt{4},
 \texttt{5}, \texttt{7} and \texttt{8} (regular interactions with batch
 manager). Interaction \texttt{c} is implemented by steps \texttt{3}
-and \texttt{10}. Interaction \texttt{e} is implemented by step
-\texttt{6}. The PSOM workflow engine adopts a pilot-job
-architecture~\cite{turilli2015comprehensive} where the a master
-coordinates workflow execution by submitting workers and establishing
-direct communication channels with them. Note how this peculiar
-execution model is totally supported by the sub-tasking architecture.
-
-The CBRAIN-FSL integration is also remarkable as it allows to leverage
-FSL pipelines that are written in a very low-level workflow language
-(Linux executables and script) that submits tasks uniformly through a
-specific tool called fsl\_sub. To integrate FSL in CBRAIN,
-fsl\_sub was modified to implement interaction
-\texttt{e}\footnote{See modified fsl\_sub script available at
-  \url{https://github.com/aces/cbrain-plugins-neuro}} \todo{Add a
-  diagram and maybe a code excerpt to illustrate that.}.
+and \texttt{9}. Interaction \texttt{e} is implemented by step
+\texttt{6} through a modified version of the fsl\_sub
+script\footnote{See modified fsl\_sub script available at
+  \url{https://github.com/aces/cbrain-plugins-neuro}}.
 
 \begin{figure}
 \def\svgwidth{\columnwidth}
 \input{figures/CBRAIN-PSOM.pdf_tex}
-\caption{Architecture of the CBRAIN-PSOM integration that illustrates
-  the sub-tasking model (Figure extracted from~\cite{GLAT-16}). 1:
-  User sends data and workflow execution request to storage server(s)
-  and CBRAIN portal. 2: CBRAIN portal sends execution request to
-  execution server on cluster. 3: Execution server transfers data from
-  storage server(s). 4-5: Execution server starts PSOM master via task
+\caption{Architecture of the CBRAIN-PSOM integration (sub-tasking,
+  Figure extracted from~\cite{GLAT-16}). 1: User sends data and
+  workflow execution request to storage server(s) and CBRAIN
+  portal. 2: CBRAIN portal sends execution request to execution server
+  on cluster. 3: Execution server transfers data from storage
+  server(s). 4-5: Execution server starts PSOM master via task
   scheduler. 6: PSOM master submits PSOM workers to execution
   server. 7-8: Execution server starts PSOM workers through task
   scheduler. 9: PSOM master and workers execute workflow. 10.
   Execution server transfers results to storage server(s).}
 \label{fig:cbrain-psom-architecture}
 \end{figure}
+The CBRAIN-PSOM integration~\cite{GLAT-16} is illustrated on
+Figure~\ref{fig:cbrain-psom-architecture}. The PSOM workflow engine
+adopts a pilot-job architecture~\cite{turilli2015comprehensive} where
+the a master coordinates workflow execution by submitting workers and
+establishing direct communication channels with them. Note how this
+peculiar execution model is totally supported by the sub-tasking
+architecture.
 
 
 \subsection{Pool model}
