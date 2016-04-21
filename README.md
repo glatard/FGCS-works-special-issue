@@ -1,6 +1,10 @@
+# Contributing
+
+For the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
+
 # Adding comments
 
-Use command ```\note``` as follows: ```\note{John}{This is a comment}```.
+Use command ```\note``` in ```paper.tex``` as follows: ```\note{John}{This is a comment}```.
 
 # How to compile
 
