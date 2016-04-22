@@ -1,6 +1,6 @@
 # How to contribute
 
-For the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
+Fork the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
 
 # How to add comments
 
