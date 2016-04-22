@@ -2,6 +2,8 @@
 
 Fork the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
 
+Add your name and affiliation to the list of co-authors. Contact tristan.glatard@mcgill.ca if you feel that the list or order of authors should be amended.
+
 # How to add comments
 
 Use command ```\note``` in ```paper.tex``` as follows: ```\note{John}{This is a comment}```.
