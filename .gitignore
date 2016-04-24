@@ -5,5 +5,6 @@ paper.log
 paper.out
 paper.spl
 nohup.out
+paper.synctex.gz
 
 .paper.tex.swp
