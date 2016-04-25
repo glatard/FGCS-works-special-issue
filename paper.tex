@@ -42,7 +42,7 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{Software architectures to integrate workflow engines in science gateways}
+\title{Software Architectures to Integrate Workflow Engines in Science Gateways}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -249,7 +249,7 @@ WS-PGRADE/gUSE~\cite{Kacsuk2012}. Numerous science gateway instances
 were built using such frameworks\note{Tristan}{Add references}. Other
 gateway instances were also built independently from any framework,
 using regular web development tools and libraries to access
-distributed systems. CBRAIN and VIP are two of such science gateways,
+distributed systems. CBRAIN and VIP are two such science gateways,
 from which we gathered experience about the architectures described in
 this paper.
 
@@ -274,14 +274,14 @@ offer an open service to academic researchers worldwide. VIP
 completely masks the infrastructure to enable a transparent user
 experience. It uses the MOTEUR workflow engine~\cite{GLAT-13} and the
 DIRAC pilot-job framework~\cite{tsaregorodtsev2008dirac} to execute
-applications on EGI. Almost 900 users were registered in VIP as of
+applications on EGI. Almost 900 users were registered in VIP by
 April 2016 and the average CPU consumption between January 2013 and
 March 2016 was 35 CPU years per month.
 
 The architectures described hereafter also build on experience with
 the SHIWA Simulation Platform~\cite{terstyanszky2014enabling}. The
 SHIWA Simulation Platform is a WS-PGRADE/gUSE science gateway that was
-developed in European projects
+developed in the European projects
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and
 ER-flow\footnote{\url{http://www.erflow.eu}}. It focuses on workflow
 interoperability for various disciplines, in particular through the
@@ -336,15 +336,15 @@ Architectures are described from their main software \emph{components}
 and \emph{interactions}. Software components include science gateway
 and infrastructure in all architectures while workflow service,
 workflow pool and agent are involved in some architectures only. The
-workflow engine itself is represented by a specific symbol with dotted
-lines.
+workflow engine itself is represented by a specific symbol enclosed in a dotted rectangle.
 
-Software interactions among these components are represented with labeled
-arrows.  \emph{Abstract} interactions are specific types of
-interactions that may be implemented using different components and
-interactions. They are represented with dotted arrows and labeled with
-\texttt{*}. An architecture that has an abstract interaction is an
-abstract architecture that can be instantiated in various ways.
+Software interactions among these components are represented with
+labeled, plain black arrows.  \emph{Abstract} interactions are
+specific types of interactions that may be implemented using different
+components and interactions. They are represented with dotted arrows
+and labeled with \texttt{*}. An architecture that has an abstract
+interaction is an abstract architecture that can be instantiated in
+various ways.
 
 Red color is used to represent the components and interactions that
 are specific to workflow execution, i.e. that are not involved in any
@@ -528,7 +528,8 @@ software components with the science gateway. For instance, the
 workflow engine might be a portlet in a Liferay portal or a controller
 in a Ruby on Rails application. The workflow engine and the science
 gateway usually share a database where application, users and other
-resources are stored. In this model, task and data control are both
+resources are stored\note{sorina}{VIP and Moteur also share the WorkflowsDB}. 
+In this model, task and data control are both
 initiated from the science gateway. Interactions \texttt{b} and
 \texttt{c$_2$} are initiated from the workflow engine while
 \texttt{c$_1$} comes from other parts of the science gateway, for
@@ -681,7 +682,9 @@ diagrammed in Figure~\ref{fig:shiwa-pool-architecture}. In this
 Figure, interaction \texttt{d} of Figure~\subref*{archi:agent} is
 implemented in 3 different types of calls to the pool: workflow
 submission (\texttt{1} \& \texttt{2}), workflow status retrieval
-(\texttt{a} and \texttt{b}), and workflow retrieval (\texttt{13} \&
+(\texttt{a} and \texttt{b})\note{sorina}{I suppose letters come here 
+from the initial pool-model figure; it's a bit puzzling when mixed with 
+letters from Fig 2}, and workflow retrieval (\texttt{13} \&
 \texttt{14}). In Figure ~\ref{fig:shiwa-pool-architecture},
 interaction \texttt{f} of Figure~\subref*{archi:agent} is implemented
 through 2 types of calls: workflow instance retrieval (\texttt{4},
@@ -1069,7 +1072,7 @@ issues that are present in the architecture.
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Meta-workflow (\texttt{O$_1$}): ability to describe
   meta-workflows from existing workflows. Meta-workflows offer an
-  additional level of flexibility to build worfklows from reusable
+  additional level of flexibility to build workflows from reusable
   components. \texttt{O$_1$}=0 when the feature is available,
   \texttt{O$_1$}=1 otherwise.
 \item Fine-grained debugging (\texttt{O$_2$}): availability of
@@ -1185,7 +1188,10 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 
 \paragraph{Robustness} No component is specific to workflow execution
 (\texttt{R$_1$}=0), and only interaction \texttt{e} is
-(\texttt{R$_2$}=1).
+(\texttt{R$_2$}=1)\note{sorina}{I understand why this is 1 (and why interactions 
+c and b are not counted here), but I wonder whether we can simply ignore these interactions
+because they are not specific to workflow execution. As far as robustness is concerned,
+the transfers have to be successful anyway...}.
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires to develop interaction \texttt{e} and to install the engine
@@ -1227,7 +1233,7 @@ walltime, are more difficult to estimate for the workflow task than
 for sub-tasks which may generate issues such as selection of wrong
 batch queues on clusters. Finally, the interdependencies between the
 workflow task and its sub-tasks may create deadlocks when there is
-contention. Say for instance that only 1 computing resource is
+contention. For instance, if only 1 computing resource is
 available for the science gateway and that the workflow task is
 running on it and submits sub-tasks, then the sub-tasks could only
 execute when the resource is available, which will never happen
@@ -1377,16 +1383,16 @@ except nested workflows (with service invocation) which is
 significantly behind. This is explained by the complexity of the
 nested workflow architecture, with 2 infrastructures and 2 workflow
 services. Sub-tasking and workflow import (with service invocation)
-perform a bit better to integrate new engines (\texttt{E$_1$}), which
+perform a bit better when integrating new engines (\texttt{E$_1$}), which
 is interesting given the current profusion of engines with different
 characteristics.  However, sub-tasking, workflow import (with service
-invocation) and tight integration perform worse than the others to add
+invocation) and tight integration perform worse than the others when adding
 engine versions (\texttt{E$_2$}) due to the need to update
 infrastructure (sub-tasking), science gateway (tight integration), or
 workflow converter (workflow import). Workflow import performs worse
-than the others to integrate new workflows (\texttt{E$_3$}) because of
+than the others when integrating new workflows (\texttt{E$_3$}) because of
 the language conversion step. All architectures except nested
-workflows perform the same to integrate new infrastructures (\texttt{E$_4$}).
+workflows perform the same when integrating new infrastructures (\texttt{E$_4$}).
 
 The pool architecture is overall the most scalable, which is not a
 surprise since it was designed precisely for scalability. Tight
@@ -1397,7 +1403,7 @@ criterion. Nested workflows are the only architecture that can easily
 accommodate distributed workflow execution, which can be critical in
 some cases. At the same time, the scheduling constraints created by
 the sub-tasking and nested workflow architectures could well become
-showstoppers depending on the type of targeted
+showstoppers depending on the type of the targeted
 infrastructure. Non-reliable infrastructures, for example, could
 hardly cope with workflow engines being wrapped in computing tasks as
 done in sub-tasking. The availability of multiple engine instances
