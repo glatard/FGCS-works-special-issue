@@ -320,11 +320,13 @@ notations shown in Figure~\ref{fig:notations}.
 \note{Marc-e}{A few things bother me a bit with the notation fig., making it harder to assimilate
 1- The interactions are padded in the middle of other stuff (Administrator, Data)
 2- The Software component example says "Science gateway", should it not be empty?
-3- The red arrow to explain the use of red; it looks like a very specific type 
+3- The red arrow to explain the use of red; it looks like a very specific type
 of interactions instead of the desired "any interactions or components can be red meaning...",
 especially with 'a' and 'd' which the reader does not know the meaning yet.
 Maybe a little red arrow and square with "Red used when specific to workflow execution"?
 I don't have a great solution...
+Red has special meaning, maybe remove it from the other pics (workflow eng, tasks)
+as it creates lots of visual interference when looking for red?
 4- Order in text jumps all over the fig notations. Explanations are given for, in order:
 Components, workflow engine, interactions, abstract interactions, red color, tasks, data (no Administrator?)...
 Could re-ordering the fig fix this? A figure figure legend could go a long way too (are there some in this journal?)
@@ -969,6 +971,7 @@ which assumes that complex architectures tend to be prone to failure:
   involved in workflow executions. Science
 gateway, for instance, is \emph{not} specific to workflow execution
 since it is used to authenticate users, add new workflows, transfer
+user data, etc.
 \item Interactions (\texttt{R$_2$}): number of specific interactions
   involved in workflow executions.
 \end{itemize}
