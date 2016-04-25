@@ -164,7 +164,7 @@ computing systems, in particular clusters, to handle high-throughput
 task executions. For instance, FSL can launch tasks on SGE through its
 fsl\_sub tool, Nipype has execution plugins for S/OGE, Torque,
 IPython, ssh and multi-processor servers, and PSOM is interfaced to
-Torque, SGE, MOAB, LSF and Condor. Some of these tools also support
+Torque, SGE, MOAB, LSF, and HTCondor. Some of these tools also support
 advanced features such as provenance tracking (Nipype, PSOM),
 redundancy detection across analyses to avoid re-computation (PSOM),
 and so on. A wide-array of workflows have been implemented using these
@@ -396,6 +396,7 @@ classification of a few systems by architecture.
 \end{figure*}
 \begin{table*}
 \centering
+\footnotesize
 \rowcolors{1}{white}{gray!25}
 \begin{tabular}{ll}
   \textbf{Architecture} & \textbf{Systems} \\
@@ -415,7 +416,7 @@ classification of a few systems by architecture.
   Nested & SHIWA Simulation Platform (Coarse-Grained Interoperability~\cite{terstyanszky2014enabling})$^w$\todo{others}\\
   Import & SHIWA Simulation Platform (Fine-Grained Interoperability)~\cite{plankensteiner-prodan-etal:2013}$^w$
 \end{tabular}
-\caption{Classification of science gateway based on the architecture used to integrate workflow engines. $^c$: based on the Catania Science Gateway Framework. $^w$: based on WS-PGRADE/gUSE. $^n$: used for neuroimaging.}
+\caption{Classification of science gateways based on the architecture used to integrate workflow engines. $^c$: based on the Catania Science Gateway Framework. $^w$: based on WS-PGRADE/gUSE. $^n$: used for neuroimaging.}
 \label{table:system-classification}
 \end{table*}
 
@@ -438,6 +439,7 @@ Figure~\ref{fig:architectures}.
   the science gateway so that it becomes available to users. Note that
   integrating a workflow is not the same process as integrating a
   workflow \emph{engine}.
+  
 \item Task control: operations to manage tasks on the infrastructure,
   including: authentication, submission, monitoring, termination,
   deletion, etc. Controlling tasks requires to deal with the
@@ -446,7 +448,7 @@ Figure~\ref{fig:architectures}.
   or a cloud, it may for instance be achieved using libraries that
   implement standards such as SAGA (Simple API for Grid
   Applications~\cite{goodale2006saga}), DRMAA (Distributed Resource
-  Management Application API~\cite{troger2012distributed}) or OCCI
+  Management Application API~\cite{troger2012distributed}), or OCCI
   (Open Cloud Computing Interface~\cite{edmonds2012toward}).
 \item Data control: operations to manage data on the infrastructure,
   such as: upload, download, deletion, browsing, replication, caching,
@@ -472,10 +474,10 @@ Figure~\ref{fig:architectures}.
   on the infrastructure, including: submission, monitoring,
   termination, deletion, etc. Sub-task control is similar to
   interaction \texttt{b}, except that information about the parent
-  task which submitted a sub-task is usually available and used for
+  task, which submitted a sub-task, is usually available and used for
   additional control. For instance, the parent task may wait for all
-  its sub-tasks to finish before finishing, and conversely all the
-  sub-tasks may be killed if the parent task is killed.
+  its sub-tasks to complete before finishing, and conversely all the
+  sub-tasks may be terminated if the parent task is killed.
 \item Pool-agent: specific to the pool architecture described in
   Section~\ref{sec:pool}. This is an interaction used when agents
   retrieve work from a central pool. It covers agent registration and
@@ -488,7 +490,7 @@ Figure~\ref{fig:architectures}.
   another one. This interaction may not be available or implementable
   for every workflow language. It has been developed mostly for
   well-structured and relatively simple workflow language such as between GWorkflowDL
-  and Scufl~\cite{OLAB-09} and between the 4 languages that were involved in the
+  and Scufl~\cite{OLAB-09}, and between the 4 languages that were involved in the
   SHIWA initiative. In SHIWA, workflow conversion is done through an
   intermediate representation, the Interoperable Workflow Intermediate
   Representation~\cite{plankensteiner-montagnat-etal:2011}, which
