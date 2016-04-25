@@ -817,15 +817,16 @@ The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
 evaluate the architectures: integration effort, robustness of workflow
 execution, extensibility, scalability and other specific features. Criteria
-break down to specific metrics where \emph{low value indicates good
-  performance}. For each criterion, a total score is computed by
+break down to specific metrics where \emph{low value indicates better
+performance}. For each criterion, a total score is computed by
 summing up the individual metrics. We ensure that the different
 metrics in a criterion measure similar entities so that summation
-makes sense. The
+does not incur in loss of accuracy. The
 criteria and metrics are explained hereafter.
 
 
 \begin{table*}
+\footnotesize
 \centering
 \begin{tabular}{rcccccc}
                                      & \textbf{Tight}
@@ -967,14 +968,14 @@ the architecture. It is obtained by counting the total number of
 interactions and components on the architecture diagram. It breaks
 down to the following 2 metrics:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Total number of components (\texttt{I$_1$}),
+\item Total number of components (\texttt{I$_1$}), and
 \item Total number of interactions (\texttt{I$_2$}).
 \end{itemize}
 One may wonder whether infrastructure should be counted in
 \texttt{I$_1$} since it is usually not developed by the groups who
 integrate workflow engines in science gateway. However, integrating an
 infrastructure in the architecture usually requires some technical
-effort (e.g. account creation, software installation, etc) which is
+effort (e.g., account creation, software installation, etc.), which is
 why we keep it in the metric. The two metrics are summed to obtain the
 total score for integration effort, which measures the total number of
 software pieces to develop (pieces include interactions and
@@ -983,7 +984,7 @@ components).
 \emph{Robustness of workflow execution} measures the likelihood that
 workflow execution fails due to errors in the components or with the
 interactions in the software architecture. Note that errors coming
-from the infrastructure (e.g. unavailable data or terminated tasks) or
+from the infrastructure (e.g., unavailable data or terminated tasks) or
 workflows (e.g., wrong user input or application errors) are not
 covered since they do not stem directly from the software
 architecture. Robustness is determined as the number of software
@@ -1002,7 +1003,7 @@ These specific components and interactions are represented in red in
 the architecture diagrams in
 Figure~\ref{fig:architectures}. \texttt{R$_1$} and \texttt{R$_2$}  are summed to obtain the total score for this
 criterion, which measures the total number of software pieces that are
-specifically involved in workflow execution.
+specifically involved in the workflow execution.
 
 \emph{Extensibility} measures the difficulty to replace or add
 elements in the architecture. It is determined as the number of
@@ -1031,16 +1032,16 @@ type of element that has to be added or replaced:
 \item New workflow (\texttt{E$_3$}): adding a new workflow is a very
   common operation that does not require modifying software components
   or interactions. We measure the difficulty to integrate a new
-  workflow by counting the number of interactions that need to be
-  invoked to integrate a new workflow in the architecture, assuming
+  workflow by counting the number of interactions required
+  to integrate a new workflow in the architecture, assuming
   that the engine type and version required to execute this workflow
   are already available.
 \item New infrastructure (\texttt{E$_4$}): number of interactions or components to
   modify to integrate a new type of infrastructure in the
   architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
-  (e.g. GPUs, clouds), or to enforce execution policies
-  (e.g. constrain data to remain in a particular network domain).
+  (e.g. GPUs, clouds), or to enforce execution policies 
+  (e.g. constrain data to remain in a particular network domain).\note{Rafael}{Adding a new engine type may also allow run in different infrastructures. Maybe it is worth to put a sentence to clarify that the metric account for it separately.}
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The 4 metrics are summed to obtain a global index that measures the
@@ -1057,24 +1058,25 @@ features are identified:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Multiple engine instances (\texttt{S$_1$}): possibility to have
   more than 1 engine instance in the architecture. Workflow engines
-  may require important amounts of resources when a lot of workflows,
+  may require important amounts of resources when several workflows,
   or large workflows, are executed. At some point, it may be required
-  for the science gateway to distribute the load to several
+  for the science gateway to distribute the load among several
   engines. \texttt{S$_1$}=0 when adding a new engine instance is a
   fully automated process, i.e. the workflow engine only has to be
   started. In this case, elastic engines are possible, i.e. some kind
   of auto-scaling mechanism can be implemented to control the number
   of engine instances in the architecture. \texttt{S$_1$}=1 when
   adding a new engine instance requires some form of manual
-  intervention, which prevents easy implementations of elastic
-  engines. \texttt{S$_1$}=2 when new engine instances cannot be added.
+  intervention (e.g., two-factor authentication), which prevents easy 
+  implementations of elastic engines. \texttt{S$_1$}=2 when new engine 
+  instances cannot be added.
 \item Distributed engines (\texttt{S$_2$}): possibility to distribute
   the execution \emph{of a single workflow} among different engine
   instances. In our scope, this feature focuses on the capabilities of
   the architecture rather than these of the workflow
   engine. \texttt{S$_2$}=0 when distributed engines are possible in
-  the architecture and \texttt{S$_2$}=1 when they require specific
-  developments in the workflow engine.
+  the architecture, and \texttt{S$_2$}=1 when they require specific
+  developments in the workflow engine.\note{Rafael}{$S_2$ would be 2 if the paradigm does not allow to distribute the orchestration? e.g., workflow executions implemented within MPI jobs, in Pegasus PMC and dispel4Py.}
 \item Task scheduling (\texttt{S$_3$}): task scheduling is a difficult
   issue that depends more on the implementation of specific algorithms
   in the science gateway, workflow engine and infrastructure than on
@@ -1083,7 +1085,7 @@ features are identified:
   scheduling problem by introducing additional software layers or
   create tasks with specific characteristics. \texttt{S$_3$}=0 when
   the architecture does not introduce any additional complexity to the
-  scheduling problem and \texttt{S$_3$}=1 otherwise.
+  scheduling problem, and \texttt{S$_3$}=1 otherwise.
 \end{itemize}
 The 3 metrics are summed to obtain a global measure of the scalability
 issues that are present in the architecture.
