@@ -62,12 +62,13 @@
 \author[criugm]{Pierre Bellec}
 \author[mcgill]{Alan C. Evans}
 
+\note{Marc-Etienne}{Do we want to use MCIN instead of BIC?}
 \address[mcgill]{McConnell Brain Imaging Centre, Montreal Neurological Institute, McGill University, Canada.}
 \address[creatis]{University of Lyon, CNRS, INSERM, CREATIS, Villeurbanne, France.}
 \address[criugm]{Centre de Recherche de l'Institut de G\'eriatrie de Montr\'eal CRIUGM, Montreal, QC, Canada.}
 
 \begin{abstract}
-  We investigate software architectures to integrate workflow engines
+  We investigate software architectures commonly used to integrate workflow engines
   in science gateways. Based on our experience with the development
   and operations of the CBRAIN and VIP science gateways, and our past
   involvement in the SHIWA project, we abstract software components
@@ -80,7 +81,7 @@
   architectures perform the same in terms of extensibility, the pool
   model is the most scalable and meta-workflows are only available in
   nested workflows and workflow import. These results provide insights
-  to software architects on how to integrate science gateways and
+  for software architects on how to integrate science gateways and
   workflow engines.
 \end{abstract}
 
@@ -166,7 +167,7 @@ Torque, SGE, MOAB, LSF and Condor. Some of these tools also support
 advanced features such as provenance tracking (Nipype, PSOM),
 redundancy detection across analyses to avoid re-computation (PSOM),
 and so on. A wide-array of workflows have been implemented using these
-pipelines and are now widely shared across neuroimaging groups
+pipelines and are now shared across neuroimaging groups
 world-wide. These
 domain-specific engines represent a tremendous opportunity for science
 gateways to leverage existing tools and applications. They nicely
@@ -183,7 +184,7 @@ that may consist of files, database entries or simple parameter
 values. Although simplistic, this definition covers both e-Science and
 domain-specific engines. Some workflow engines, usually e-Science
 ones, may transfer data across the infrastructure, and others, usually
-domain-specific ones, may leave it to external processes. Workflows
+domain-specific ones, may leave this role to external processes. Workflows
 may be expressed in any language, including high-level XML or JSON
 dialects such as Scufl or Hyperflow, and low-level scripting languages
 such as Bash.
@@ -191,8 +192,8 @@ such as Bash.
 \subsection{Science gateways}
 
 Science gateways are used to share resources in a community and to
-provide performance through facilitated access to storage and
-computing power. They are usually accessible through a web interface
+provide increased performance and capacity through facilitated access to storage and
+computing power. They are often accessible through a web interface
 that helps users manage access rights, data transfers, task execution
 and authentication on multiple computing and storage
 locations. Workflow engines are part of this ecosystem as core
@@ -226,6 +227,15 @@ involved in architectures is a challenge as it often leads to complex
 systems that are therefore prone to failure. To offer good user
 experience, science gateways should remain as transparent as possible,
 which requires robustness.
+\note{Marc-Etienne}{I find that something is weak in this last
+paragraph. Robustness will help with transparency, sure, but it seems only a small facet.
+Also, the text seem to timidly favor architectures with less components/interactions
+without much explanation... Complex systems can be robust, but at greater costs...
+Here is one:
+"Architectures showing reduced system complexity will greatly facilitate the implementation
+effort towards robust interactions which, in turn, have a positive impact on characteristics
+such as gateway predictability, transparence, general reliability and results traceability and
+reproducibility; characteristics that are also key to a good user experience."}
 
 Specific features may also be available in science gateways, such as
 data vizualisation and quality control, workflow edition, debugging
@@ -244,16 +254,16 @@ from which we gathered experience about the architectures described in
 this paper.
 
 CBRAIN\footnote{\url{http://cbrain.mcgill.ca}}~\cite{SHER-14} is an
-open-source, web-based collaborative platform addressing the
+open-source\footnote{\url{https://github.com/aces/cbrain}}, web-based collaborative platform addressing the
 challenges of data-heavy, computation-intensive neuroimaging
 research. It offers transparent web-based access to remote data
 sources, distributed computing sites, and an array of processing and
 visualization tools, within a secure environment. CBRAIN is deployed
-at a wide range of computing sites, including nine national HPC
+at a wide range of computing sites, including a network of national HPC
 centers in Canada, one in Korea, one in Germany, and on numerous local
-servers. As September 2015, CBRAIN has served over 370 users across 50
-cities in 19 countries who produced several high-impact results in the
-field of neurosciences.
+servers. As February 2016, CBRAIN has served over 420 users across 50
+cities in 22 countries and has a national computing allocation of 660 CPU years
+per annum.
 
 The Virtual Imaging Platform
 (VIP\footnote{\url{http://www.creatis.insa-lyon.fr/vip}})~\cite{GLAT-13}
@@ -289,8 +299,8 @@ representation~\cite{plankensteiner-prodan-etal:2013}. \note{Tristan}{Silvia,
 \subsection{Infrastructures}
 
 In this paper, infrastructure consists of the computing and storage
-resources involved in the workflow execution, and the software
-services used to access these resources. Infrastructures can be
+resources involved in the workflow execution, as well as the software
+services used to access these resources. Infrastructures can be composed of
 computing or file servers, databases, clusters, grids or clouds. Some
 workflow engines and science gateways may assume specific
 characteristics about the infrastructure, such as the presence of a
@@ -307,6 +317,18 @@ enabling mechanisms.
 Architectures to integrate workflow engines in science gateways are
 diagrammed in Figure~\ref{fig:architectures} using the graphical
 notations shown in Figure~\ref{fig:notations}.
+\note{Marc-e}{A few things bother me a bit with the notation fig., making it harder to assimilate
+1- The interactions are padded in the middle of other stuff (Administrator, Data)
+2- The Software component example says "Science gateway", should it not be empty?
+3- The red arrow to explain the use of red; it looks like a very specific type 
+of interactions instead of the desired "any interactions or components can be red meaning...",
+especially with 'a' and 'd' which the reader does not know the meaning yet.
+Maybe a little red arrow and square with "Red used when specific to workflow execution"?
+I don't have a great solution...
+4- Order in text jumps all over the fig notations. Explanations are given for, in order:
+Components, workflow engine, interactions, abstract interactions, red color, tasks, data (no Administrator?)...
+Could re-ordering the fig fix this? A figure figure legend could go a long way too (are there some in this journal?)
+}
 
 Architectures are described from their main software \emph{components}
 and \emph{interactions}. Software components include science gateway
@@ -315,7 +337,7 @@ workflow pool and agent are involved in some architectures only. The
 workflow engine itself is represented by a specific symbol with dotted
 lines.
 
-Software interactions among these components are represented with
+Software interactions among these components are represented with labeled
 arrows.  \emph{Abstract} interactions are specific types of
 interactions that may be implemented using different components and
 interactions. They are represented with dotted arrows and labeled with
@@ -399,13 +421,13 @@ classification of a few systems by architecture.
   \textbf{Architecture} & \textbf{Systems} \\
   \hline
   Tight & \pbox{1.5\columnwidth}{
-          Catania Science Gateway Framework~\cite{Ardizzone2012}, 
+          Catania Science Gateway Framework~\cite{Ardizzone2012},
           Distributed application runtime environment (DARE~\cite{maddineni2012distributed}),
           DECIDE~\cite{ardizzone2012decide}$^{c,n}$, LONI Pipeline Environment$^n$~\cite{dinov2009efficient}
           }
   \\
   Service & \pbox{1.5\columnwidth}{
-            Apache Airvata~\cite{marru2011apache}, e-BioInfra~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{krüger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012}, 
+            Apache Airvata~\cite{marru2011apache}, e-BioInfra~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{krüger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
             Science gateways in ~\cite{kacsuk2014science}$^w$
             } \\
   Sub-task & CBRAIN and PSOM~\cite{GLAT-16}$^n$, CBRAIN and FSL$^n$\\
@@ -597,7 +619,7 @@ diagrammed in Figure~\ref{fig:cbrain-fsl-architecture}, where the
 science gateway is represented by components \texttt{CBRAIN portal}
 and \texttt{CBRAIN execution server} and the infrastructure consists
 of \texttt{Storage servers} and \texttt{Computing cluster with shared
-  file system}. 
+  file system}.
 
 The CBRAIN-PSOM integration~\cite{GLAT-16} is shown on
 Figure~\ref{fig:cbrain-psom-architecture}. The PSOM workflow engine
@@ -727,7 +749,7 @@ interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
 various workflow engines in a consistent
 platform. Figure~\ref{fig:shiwa-architecture} shows the architecture
 used in the SHIWA Simulation Platform for nested workflow execution
-with service invocation. 
+with service invocation.
 \begin{figure*}
 \centering
 \includegraphics[width=1.5\columnwidth]{figures/shiwa-science-gateway.pdf}
@@ -947,7 +969,6 @@ which assumes that complex architectures tend to be prone to failure:
   involved in workflow executions. Science
 gateway, for instance, is \emph{not} specific to workflow execution
 since it is used to authenticate users, add new workflows, transfer
-user data, etc. 
 \item Interactions (\texttt{R$_2$}): number of specific interactions
   involved in workflow executions.
 \end{itemize}
@@ -992,7 +1013,7 @@ type of element that has to be added or replaced:
   modify to integrate a new type of infrastructure in the
   architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
-  (e.g. GPUs, clouds), or to enforce execution policies 
+  (e.g. GPUs, clouds), or to enforce execution policies
   (e.g. constrain data to remain in a particular network domain).
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
@@ -1056,7 +1077,7 @@ issues that are present in the architecture.
   \texttt{O$_2$}=1 otherwise.
 \end{itemize}
 \texttt{O$_1$} and \texttt{O$_2$} are summed to obtain a total number of missing specific
-features in the architecture. 
+features in the architecture.
 
 %"A Formal Approach to Support Interoperability in Scientific
 %Meta-workflows" (reviewed for IWSG and JoGC) has a formal model to
@@ -1101,7 +1122,7 @@ might implement any kind of scheduling policy (\texttt{S$_3$}=0).
 gateway can retrieve any information from the workflow engine directly
 (\texttt{O$_2$}=0).
 
-\subsection{Service invocation} 
+\subsection{Service invocation}
 
 \paragraph{Integration effort} Service invocation requires a workflow service
 in addition to the science gateway and infrastructure
@@ -1111,7 +1132,7 @@ in addition to the science gateway and infrastructure
 
 \paragraph{Robustness} The workflow service is a component specific to
 workflow execution (\texttt{R$_1$}=1). Workflow execution also
-involves 3 specific interactions: \texttt{b}, 
+involves 3 specific interactions: \texttt{b},
 \texttt{c$_2$} and \texttt{d} (\texttt{R$_2$}=3).
 
 \paragraph{Extensibility} Adding a new type of workflow engine
@@ -1281,7 +1302,7 @@ engine (\texttt{E$_2$=0}). Adding a new
 workflow is done through interaction \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Adding a new infrastructure requires to
 re-implement interactions \texttt{b} and \texttt{c$_2$} twice, and
-interaction \texttt{c$_1$} once (\texttt{E$_4$=5}). 
+interaction \texttt{c$_1$} once (\texttt{E$_4$=5}).
 
 \paragraph{Scalability} As in the service architecture, adding a new
 workflow instance requires manual configuration in the science gateway
@@ -1292,7 +1313,7 @@ possible, through meta-workflows (\texttt{S$_2$=0}). Task scheduling
 is more complex than in other architectures though, due to the fact
 that workflow execution is split in different engines (\texttt{S$_3$=1}).
 
-\paragraph{Specific features} 
+\paragraph{Specific features}
 Meta-workflows are possible, which is one of the main interest of this
 architecture (\texttt{O$_1$=0}).  Debugging is difficult because the
 science gateway cannot directly access fine-grained information in the
@@ -1385,7 +1406,7 @@ workflows (with service invocation) and workflow import (with service
 invocation) are the only architectures that support meta-workflows,
 which may be interesting in some cases. The availability of
 fine-grained debugging information may also be critical to efficient
-user support. 
+user support.
 
 Table~\ref{table:overall} provides an overall comparison between
 architectures, based on the metrics in Table~\ref{table:evaluation}.
@@ -1402,14 +1423,14 @@ previously.
                                     & \textbf{Pool}
                                     & \textbf{Nested}
                                     & \textbf{Import} \\
-  Integration effort (normalized total) & 
+  Integration effort (normalized total) &
                                     \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99EF99}{0.22}
                                     & \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99E099}{0.44}
                                     & \cellcolor[HTML]{99BB99}{1.00}
-                                      & \cellcolor[HTML]{99E899}{0.33}\\                           
-Robustness (normalized total) & 
+                                      & \cellcolor[HTML]{99E899}{0.33}\\
+Robustness (normalized total) &
                                 \cellcolor[HTML]{99F599}{0.14}
                                     & \cellcolor[HTML]{99E199}{0.43}
                                     & \cellcolor[HTML]{99FF99}{0.00}
@@ -1527,7 +1548,7 @@ and Mental Health.
 
 \section*{References}
 
-\bibliographystyle{elsarticle-num} 
+\bibliographystyle{elsarticle-num}
 \bibliography{biblio}
 
 \end{document}
