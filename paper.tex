@@ -16,6 +16,8 @@
 \definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
 \newcommand{\todo}[1]{\color{blue}\xspace[\emph{#1}]\xspace\color{black}}
 \newcommand{\note}[2]{\textbf{\Large{\color{blue}\footnote{{\color{blue}\textbf{#1:} \textit{#2}\color{black}}}}}}
+\newcommand{\closednote}[4]{}
+
 
 \renewcommand\thesubfigure{\Roman{subfigure}}
 
@@ -223,21 +225,23 @@ task scheduling policies on the infrastructure, e.g. to ensure fairness
 among users~\cite{FERR-14,CPE:CPE3708} or to improve
 fault-tolerance~\cite{wilkins2008teragrid,FERR-13}.
 
-Robustness is a key part of science gateway user experience. In this
-respect, the multiplicity of software components and interactions
-involved in architectures is a challenge as it often leads to complex
-systems that are therefore prone to failure. To offer good user
-experience, science gateways should remain as transparent as possible,
-which requires robustness.
-\note{Marc-Etienne}{I find that something is weak in this last
-paragraph. Robustness will help with transparency, sure, but it seems only a small facet.
-Also, the text seem to timidly favor architectures with less components/interactions
-without much explanation... Complex systems can be robust, but at greater costs...
-Here is one:
-"Architectures showing reduced system complexity will greatly facilitate the implementation
-effort towards robust interactions which, in turn, have a positive impact on characteristics
-such as gateway predictability, transparence, general reliability and results traceability and
-reproducibility; characteristics that are also key to a good user experience."}
+Architectures showing reduced system complexity will greatly
+facilitate the implementation effort towards robust interactions
+which, in turn, have a positive impact on characteristics such as
+gateway predictability, transparence, general reliability and results
+traceability and reproducibility; characteristics that are also key to
+a good user experience. \closednote{Marc-Etienne}{I find that
+  something is weak in this last paragraph. Robustness will help with
+  transparency, sure, but it seems only a small facet.  Also, the text
+  seem to timidly favor architectures with less
+  components/interactions without much explanation... Complex systems
+  can be robust, but at greater costs...  Here is one: "Architectures
+  showing reduced system complexity will greatly facilitate the
+  implementation effort towards robust interactions which, in turn,
+  have a positive impact on characteristics such as gateway
+  predictability, transparence, general reliability and results
+  traceability and reproducibility; characteristics that are also key
+  to a good user experience."}{Tristan}{Agreed.}
 
 Specific features may also be available in science gateways, such as
 data vizualisation and quality control, workflow edition, debugging
@@ -318,21 +322,24 @@ enabling mechanisms.
 
 Architectures to integrate workflow engines in science gateways are
 diagrammed in Figure~\ref{fig:architectures} using the graphical
-notations shown in Figure~\ref{fig:notations}.
-\note{Marc-e}{A few things bother me a bit with the notation fig., making it harder to assimilate
-1- The interactions are padded in the middle of other stuff (Administrator, Data)
-2- The Software component example says "Science gateway", should it not be empty?
-3- The red arrow to explain the use of red; it looks like a very specific type
-of interactions instead of the desired "any interactions or components can be red meaning...",
-especially with 'a' and 'd' which the reader does not know the meaning yet.
-Maybe a little red arrow and square with "Red used when specific to workflow execution"?
-I don't have a great solution...
-Red has special meaning, maybe remove it from the other pics (workflow eng, tasks)
-as it creates lots of visual interference when looking for red?
-4- Order in text jumps all over the fig notations. Explanations are given for, in order:
-Components, workflow engine, interactions, abstract interactions, red color, tasks, data (no Administrator?)...
-Could re-ordering the fig fix this? A figure figure legend could go a long way too (are there some in this journal?)
-}
+notations shown in Figure~\ref{fig:notations}.  \closednote{Marc-e}{A
+  few things bother me a bit with the notation fig., making it harder
+  to assimilate 1- The interactions are padded in the middle of other
+  stuff (Administrator, Data) 2- The Software component example says
+  "Science gateway", should it not be empty?  3- The red arrow to
+  explain the use of red; it looks like a very specific type of
+  interactions instead of the desired "any interactions or components
+  can be red meaning...", especially with 'a' and 'd' which the reader
+  does not know the meaning yet.  Maybe a little red arrow and square
+  with "Red used when specific to workflow execution"?  I don't have a
+  great solution...  Red has special meaning, maybe remove it from the
+  other pics (workflow eng, tasks) as it creates lots of visual
+  interference when looking for red?  4- Order in text jumps all over
+  the fig notations. Explanations are given for, in order: Components,
+  workflow engine, interactions, abstract interactions, red color,
+  tasks, data (no Administrator?)...  Could re-ordering the fig fix
+  this? A figure figure legend could go a long way too (are there some
+  in this journal?)  }{Tristan}{Marc-E, is Figure 1 better now?}
 
 Architectures are described from their main software \emph{components}
 and \emph{interactions}. Software components include science gateway
@@ -354,7 +361,8 @@ other process. Tasks refer to computing tasks created by the workflow
 engine and executed on the infrastructure. Data represents any type of
 file or database involved in workflow execution and stored on the
 infrastructure. It does not cover workflow parameters such as strings,
-numbers, etc.
+numbers, etc. Administrator refers to a science gateway user with
+extended privileges to install applications.
 
 The remainder of this section describes the different types of
 interactions involved in the architectures. Architectures are then
@@ -366,7 +374,7 @@ classification of a few systems by architecture.
 
 \begin{figure}
 \centering
-\def\svgwidth{\columnwidth}
+\def\svgwidth{0.7\columnwidth}
 \input{figures/notations.pdf_tex}
 \caption{Graphical notations}
 \label{fig:notations}
@@ -483,8 +491,8 @@ Figure~\ref{fig:architectures}.
   (\texttt{$c_2$}), to transfer workflow data (inputs, outputs, or
   intermediate results) across the infrastructure so that tasks can
   use it. The infrastructure might offer various data storage backends
-  with heterogeneous interfaces. \note{Marc-Etienne}{this -c2- can be also trigerred
-    by the user}\note{Tristan}{No, it can't: this is by definition an interaction between the workflow engine and the infrastructure. It is used to transfer data to/from tasks. I reworded a bit, is it clearer now?} Tools and services such as
+  with heterogeneous interfaces. \closednote{Marc-Etienne}{this -c2- can be also trigerred
+    by the user}{Tristan}{No, it can't: this is by definition an interaction between the workflow engine and the infrastructure. It is used to transfer data to/from tasks. I reworded a bit, is it clearer now?} Tools and services such as
   JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
   can be used to homogeneize these interfaces.
 \item Workflow control: operations to control workflow execution in an
@@ -533,12 +541,17 @@ software components with the science gateway. For instance, the
 workflow engine might be a portlet in a Liferay portal or a controller
 in a Ruby on Rails application. The workflow engine and the science
 gateway usually share a database where application, users and other
-resources are stored\note{sorina}{VIP and Moteur also share the WorkflowsDB}. 
-In this model, task and data control are both
-initiated from the science gateway. Interactions \texttt{b} and
-\texttt{c$_2$} are initiated from the workflow engine while
-\texttt{c$_1$} comes from other parts of the science gateway, for
-instance a data management interface. As in any other model, the
+resources are stored\closednote{sorina}{VIP and Moteur also share the
+  WorkflowsDB}{Tristan}{Yes, you are right. This is an example where
+  such abstract architectures may not completely apply in real
+  life. See comment about ``blended'' architectures in the
+  discussion. In case of VIP, the sharing of the DB is more an
+  implementation detail rather than a strong architectural pattern: we
+  could avoid sharing the DB if we wanted.}.  In this model, task and
+data control are both initiated from the science gateway. Interactions
+\texttt{b} and \texttt{c$_2$} are initiated from the workflow engine
+while \texttt{c$_1$} comes from other parts of the science gateway,
+for instance a data management interface. As in any other model, the
 installation of new workflows in the science gateway (\texttt{a$_2$})
 and infrastructure (\texttt{a$_1$}) is done by an administrator, for
 security reasons. This is the model adopted in the Catania Science
@@ -687,9 +700,9 @@ diagrammed in Figure~\ref{fig:shiwa-pool-architecture}. In this
 Figure, interaction \texttt{d} of Figure~\subref*{archi:agent} is
 implemented in 3 different types of calls to the pool: workflow
 submission (\texttt{1} \& \texttt{2}), workflow status retrieval
-(\texttt{a} and \texttt{b})\note{sorina}{I suppose letters come here 
+(\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come here 
 from the initial pool-model figure; it's a bit puzzling when mixed with 
-letters from Fig 2}, and workflow retrieval (\texttt{13} \&
+letters from Fig 2}{Tristan}{Fixed.}, and workflow retrieval (\texttt{13} \&
 \texttt{14}). In Figure~\ref{fig:shiwa-pool-architecture},
 interaction \texttt{f} of Figure~\subref*{archi:agent} is implemented
 through 2 types of calls: workflow instance retrieval (\texttt{4},
