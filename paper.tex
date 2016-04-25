@@ -15,7 +15,7 @@
 \usepackage{pdfcomment}
 
 \definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
-\newcommand{\todo}[1]{\color{blue}\xspace[\emph{#1}]\xspace\color{black}}
+\newcommand{\todo}[2]{\pdfmargincomment[color=red,author=#1,open=true]{#2}}
 \newcommand{\note}[2]{\pdfmargincomment[color=yellow,author=#1,open=true]{#2}}
 \newcommand{\closednote}[4]{\pdfmargincomment[color=gray,author=#1-#3,open=true]{#1: #2 \textCR \textCR #3: #4}}
 
@@ -446,7 +446,7 @@ classification of a few systems by architecture.
             } \\
   Sub-task & CBRAIN and PSOM~\cite{GLAT-16}$^n$, CBRAIN and FSL$^n$\\
   Pool & SHIWA pool~\cite{ROGE-13}\\
-  Nested & \pbox{1.5\columnwidth}{SHIWA Simulation Platform (Coarse-Grained Interoperability~\cite{terstyanszky2014enabling})$^w$, HubZero with Pegasus (via hierarchical workflows)~\cite{Deelman201517} \todo{others}
+  Nested & \pbox{1.5\columnwidth}{SHIWA Simulation Platform (Coarse-Grained Interoperability~\cite{terstyanszky2014enabling})$^w$, HubZero with Pegasus (via hierarchical workflows)~\cite{Deelman201517} \todo{Tristan}{Add others}
   }\\
   Import & SHIWA Simulation Platform (Fine-Grained Interoperability)~\cite{plankensteiner-prodan-etal:2013}$^w$
 \end{tabular}
@@ -806,9 +806,9 @@ Simulation Platform through the IWIR language that provided a common
 language for portability across grid workflow
 systems~\cite{plankensteiner-prodan-etal:2013}.
 
-\todo{Add description of a real system}
+\todo{Tristan}{Add description of a real system}
 
-\todo{Refer to ``From the desktop to the grid: scalable bioinformatics via workflow conversion Luis de la GarzaEmail author, Johannes Veit, Andras Szolek, Marc Röttig, Stephan Aiche, Sandra Gesing, Knut Reinert and Oliver Kohlbacher''}
+\todo{Tristan}{Refer to ``From the desktop to the grid: scalable bioinformatics via workflow conversion Luis de la GarzaEmail author, Johannes Veit, Andras Szolek, Marc Röttig, Stephan Aiche, Sandra Gesing, Knut Reinert and Oliver Kohlbacher''}
 
 \section{Evaluation}
 
@@ -837,116 +837,116 @@ they can be summed. The criteria and metrics are explained hereafter.
                                      & \textbf{Import} \\
 \cellcolor[HTML]{EEEEEE}\textbf{Integration effort}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
   Total components -- \texttt{I$_1$} & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99E899}3
+                                     & \cellcolor[HTML]{99DD99}3
                                      & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99D199}4
-                                     & \cellcolor[HTML]{99BB99}5
-                                     & \cellcolor[HTML]{99E899}3\\
+                                     & \cellcolor[HTML]{99BB99}4
+                                     & \cellcolor[HTML]{999999}5
+                                     & \cellcolor[HTML]{99DD99}3\\
 Total interactions -- \texttt{I$_2$} & \cellcolor[HTML]{99FF99}5
-                                     & \cellcolor[HTML]{99F399}6
+                                     & \cellcolor[HTML]{99EE99}6
                                      & \cellcolor[HTML]{99FF99}5
-                                     & \cellcolor[HTML]{99E899}7
-                                     & \cellcolor[HTML]{99BB99}11
-                                     & \cellcolor[HTML]{99E899}7\\
+                                     & \cellcolor[HTML]{99DD99}7
+                                     & \cellcolor[HTML]{999999}11
+                                     & \cellcolor[HTML]{99DD99}7\\
 \textbf{Total} (total software pieces) & \cellcolor[HTML]{99FF99}\textbf{7}
-                                     & \cellcolor[HTML]{99EF99}\textbf{9}
+                                     & \cellcolor[HTML]{99E899}\textbf{9}
                                      & \cellcolor[HTML]{99FF99}\textbf{7}
-                                     & \cellcolor[HTML]{99E099}\textbf{11}
-                                     & \cellcolor[HTML]{99BB99}\textbf{16}
-                                     & \cellcolor[HTML]{99E899}\textbf{10}\\
+                                     & \cellcolor[HTML]{99D199}\textbf{11}
+                                     & \cellcolor[HTML]{999999}\textbf{16}
+                                     & \cellcolor[HTML]{99DD99}\textbf{10}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Robustness}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
 Specific components -- \texttt{R$_1$} & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99DD99}1
+                                     & \cellcolor[HTML]{99CC99}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}2
-                                     & \cellcolor[HTML]{99BB99}2
-                                     & \cellcolor[HTML]{99DD99}1\\
-  Specific interactions -- \texttt{R$_2$} & \cellcolor[HTML]{99F199}2
-                                     & \cellcolor[HTML]{99E399}3
+                                     & \cellcolor[HTML]{999999}2
+                                     & \cellcolor[HTML]{999999}2
+                                     & \cellcolor[HTML]{99CC99}1\\
+  Specific interactions -- \texttt{R$_2$} & \cellcolor[HTML]{99EA99}2
+                                     & \cellcolor[HTML]{99D699}3
                                      & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99D699}4
-                                     & \cellcolor[HTML]{99BB99}6
-                                     & \cellcolor[HTML]{99E399}3\\
-  \textbf{Total} (execution software pieces)& \cellcolor[HTML]{99F599}\textbf{2}
-                                     & \cellcolor[HTML]{99E199}\textbf{4}
+                                     & \cellcolor[HTML]{99C199}4
+                                     & \cellcolor[HTML]{999999}6
+                                     & \cellcolor[HTML]{99D699}3\\
+  \textbf{Total} (execution software pieces)& \cellcolor[HTML]{99F099}\textbf{2}
+                                     & \cellcolor[HTML]{99D399}\textbf{4}
                                      & \cellcolor[HTML]{99FF99}\textbf{1}
-                                     & \cellcolor[HTML]{99CE99}\textbf{6}
-                                     & \cellcolor[HTML]{99BB99}\textbf{8}
-                                     & \cellcolor[HTML]{99E199}\textbf{4}\\
+                                     & \cellcolor[HTML]{99B699}\textbf{6}
+                                     & \cellcolor[HTML]{999999}\textbf{8}
+                                     & \cellcolor[HTML]{99D399}\textbf{4}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Extensibility}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
-  New engine type -- \texttt{E$_1$}  & \cellcolor[HTML]{99D899}3
-                                     & \cellcolor[HTML]{99C499}4
-                                     & \cellcolor[HTML]{99EB99}2
-                                     & \cellcolor[HTML]{99D899}3
-                                     & \cellcolor[HTML]{99BB99}4.5
+  New engine type -- \texttt{E$_1$}  & \cellcolor[HTML]{99C499}3
+                                     & \cellcolor[HTML]{99A799}4
+                                     & \cellcolor[HTML]{99E199}2
+                                     & \cellcolor[HTML]{99C499}3
+                                     & \cellcolor[HTML]{999999}4.5
                                      & \cellcolor[HTML]{99FF99}1\\
-New engine version -- \texttt{E$_2$} & \cellcolor[HTML]{99BB99}1
+New engine version -- \texttt{E$_2$} & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}1
+                                     & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}1\\
+                                     & \cellcolor[HTML]{999999}1\\
   New workflow -- \texttt{E$_3$} & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99BB99}3\\
-New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99E899}3
-                                     & \cellcolor[HTML]{99E899}3
+                                     & \cellcolor[HTML]{999999}3\\
+New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99DD99}3
+                                     & \cellcolor[HTML]{99DD99}3
                                      & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99E899}3
-                                     & \cellcolor[HTML]{99BB99}5
-                                     & \cellcolor[HTML]{99E899}3\\
-  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99E099}\textbf{9}
-                                     & \cellcolor[HTML]{99E099}\textbf{9}
+                                     & \cellcolor[HTML]{99DD99}3
+                                     & \cellcolor[HTML]{999999}5
+                                     & \cellcolor[HTML]{99DD99}3\\
+  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D199}\textbf{9}
+                                     & \cellcolor[HTML]{99D199}\textbf{9}
                                      & \cellcolor[HTML]{99FF99}\textbf{7}
-                                     & \cellcolor[HTML]{99EF99}\textbf{8}
-                                     & \cellcolor[HTML]{99BB99}\textbf{11.5}
-                                     & \cellcolor[HTML]{99EF99}\textbf{8}\\
+                                     & \cellcolor[HTML]{99E899}\textbf{8}
+                                     & \cellcolor[HTML]{999999}\textbf{11.5}
+                                     & \cellcolor[HTML]{99E899}\textbf{8}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Scalability}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
-Multiple engine instances -- \texttt{S$_1$}& \cellcolor[HTML]{99BB99}2
-                                     & \cellcolor[HTML]{99DD99}1
+Multiple engine instances -- \texttt{S$_1$}& \cellcolor[HTML]{999999}2
+                                     & \cellcolor[HTML]{99CC99}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99DD99}1
-                                     & \cellcolor[HTML]{99DD99}1\\
-Distributed engines -- \texttt{S$_2$}& \cellcolor[HTML]{99BB99}1
-                                     & \cellcolor[HTML]{99BB99}1
-                                     & \cellcolor[HTML]{99BB99}1
-                                     & \cellcolor[HTML]{99BB99}1
+                                     & \cellcolor[HTML]{99CC99}1
+                                     & \cellcolor[HTML]{99CC99}1\\
+Distributed engines -- \texttt{S$_2$}& \cellcolor[HTML]{999999}1
+                                     & \cellcolor[HTML]{999999}1
+                                     & \cellcolor[HTML]{999999}1
+                                     & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}1\\
+                                     & \cellcolor[HTML]{999999}1\\
 Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}1
+                                     & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}1
+                                     & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0\\
-\textbf{Total} (scalability issues)  & \cellcolor[HTML]{99BB99}\textbf{3}
-                                     & \cellcolor[HTML]{99DD99}\textbf{2}
-                                     & \cellcolor[HTML]{99DD99}\textbf{2}
+\textbf{Total} (scalability issues)  & \cellcolor[HTML]{999999}\textbf{3}
+                                     & \cellcolor[HTML]{99CC99}\textbf{2}
+                                     & \cellcolor[HTML]{99CC99}\textbf{2}
                                      & \cellcolor[HTML]{99FF99}\textbf{1}
-                                     & \cellcolor[HTML]{99DD99}\textbf{2}
-                                     & \cellcolor[HTML]{99DD99}\textbf{2}\\
+                                     & \cellcolor[HTML]{99CC99}\textbf{2}
+                                     & \cellcolor[HTML]{99CC99}\textbf{2}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Specific features}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
-  Meta-workflow  -- \texttt{O$_1$}    & \cellcolor[HTML]{99BB99}1
-                                     & \cellcolor[HTML]{99BB99}1
-                                     & \cellcolor[HTML]{99BB99}1
-                                     & \cellcolor[HTML]{99BB99}1
+  Meta-workflow  -- \texttt{O$_1$}    & \cellcolor[HTML]{999999}1
+                                     & \cellcolor[HTML]{999999}1
+                                     & \cellcolor[HTML]{999999}1
+                                     & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0\\
   Fine-grained debugging -- \texttt{O$_2$}   & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}1
+                                     & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0
-                                     & \cellcolor[HTML]{99BB99}1
+                                     & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0\\
-  \textbf{Total} (missing features) & \cellcolor[HTML]{99DD99}\textbf{1}
-                                     & \cellcolor[HTML]{99DD99}\textbf{1}
-                                     & \cellcolor[HTML]{99BB99}\textbf{2}
-                                     & \cellcolor[HTML]{99DD99}\textbf{1}
-                                     & \cellcolor[HTML]{99DD99}\textbf{1}
+  \textbf{Total} (missing features) & \cellcolor[HTML]{99CC99}\textbf{1}
+                                     & \cellcolor[HTML]{99CC99}\textbf{1}
+                                     & \cellcolor[HTML]{999999}\textbf{2}
+                                     & \cellcolor[HTML]{99CC99}\textbf{1}
+                                     & \cellcolor[HTML]{99CC99}\textbf{1}
                                      & \cellcolor[HTML]{99FF99}\textbf{0}\\
 \end{tabular}
 
@@ -957,7 +957,7 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
   $\frac{m-m_{\mathrm{min}}}{m_{\mathrm{min}}-m_{\mathrm{max}}}$ where
   $m$ is the initial metric value, $m_{\mathrm{min}}$ and $m_{\mathrm{max}}$
   are the minimal and maximal values among all architectures. The RGB hexadecimal color code of the cell
-  is \texttt{\#99XX99}, where X=F-4m'. \todo{Use 6. Round to the nearest integer.}}
+  is \texttt{\#99XX99}, where X=F-4m'. \closednote{Tristan}{Use 6. Round to the nearest integer.}{Tristan}{Fixed.}}
 \label{table:evaluation}
 \end{table*}
 
@@ -1456,41 +1456,41 @@ previously.
                                     & \textbf{Import} \\
   Integration effort (normalized total) &
                                     \cellcolor[HTML]{99FF99}{0.00}
-                                    & \cellcolor[HTML]{99EF99}{0.22}
+                                    & \cellcolor[HTML]{99E899}{0.22}
                                     & \cellcolor[HTML]{99FF99}{0.00}
-                                    & \cellcolor[HTML]{99E099}{0.44}
-                                    & \cellcolor[HTML]{99BB99}{1.00}
-                                      & \cellcolor[HTML]{99E899}{0.33}\\
+                                    & \cellcolor[HTML]{99D199}{0.44}
+                                    & \cellcolor[HTML]{999999}{1.00}
+                                      & \cellcolor[HTML]{99DD99}{0.33}\\
 Robustness (normalized total) &
-                                \cellcolor[HTML]{99F599}{0.14}
-                                    & \cellcolor[HTML]{99E199}{0.43}
+                                \cellcolor[HTML]{99F099}{0.14}
+                                    & \cellcolor[HTML]{99D399}{0.43}
                                     & \cellcolor[HTML]{99FF99}{0.00}
-                                    & \cellcolor[HTML]{99CE99}{0.71}
-                                    & \cellcolor[HTML]{99BB99}{1.00}
-                                    & \cellcolor[HTML]{99E199}{0.43}\\
-  Extensibility (normalized total)  & \cellcolor[HTML]{99E099}{0.44}
-                                     & \cellcolor[HTML]{99E099}{0.44}
+                                    & \cellcolor[HTML]{99B699}{0.71}
+                                    & \cellcolor[HTML]{999999}{1.00}
+                                    & \cellcolor[HTML]{99D399}{0.43}\\
+  Extensibility (normalized total)  & \cellcolor[HTML]{99D199}{0.44}
+                                     & \cellcolor[HTML]{99D199}{0.44}
                                      & \cellcolor[HTML]{99FF99}{0.00}
-                                     & \cellcolor[HTML]{99EF99}{0.22}
-                                     & \cellcolor[HTML]{99BB99}{1.00}
-                                     & \cellcolor[HTML]{99EF99}{0.22}\\
-Scalability (normalized total)  & \cellcolor[HTML]{99BB99}{1.00}
-                                     & \cellcolor[HTML]{99DD99}{0.50}
-                                     & \cellcolor[HTML]{99DD99}{0.50}
+                                     & \cellcolor[HTML]{99E899}{0.22}
+                                     & \cellcolor[HTML]{999999}{1.00}
+                                     & \cellcolor[HTML]{99E899}{0.22}\\
+Scalability (normalized total)  & \cellcolor[HTML]{999999}{1.00}
+                                     & \cellcolor[HTML]{99CC99}{0.50}
+                                     & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{99FF99}{0.00}
-                                     & \cellcolor[HTML]{99DD99}{0.50}
-                                     & \cellcolor[HTML]{99DD99}{0.50}\\
-Specific features (normalized total) & \cellcolor[HTML]{99DD99}{0.50}
-                                     & \cellcolor[HTML]{99DD99}{0.50}
-                                     & \cellcolor[HTML]{99BB99}{1.00}
-                                     & \cellcolor[HTML]{99DD99}{0.50}
-                                     & \cellcolor[HTML]{99DD99}{0.50}
-                                     & \cellcolor[HTML]{99FF99}{0.00}\\
-                                    & \cellcolor[HTML]{99EE99}\textbf{2.1}
-                                    & \cellcolor[HTML]{99EE99}\textbf{2.1}
-                                    & \cellcolor[HTML]{99FF99}\textbf{1.5}
-                                    & \cellcolor[HTML]{99F499}\textbf{1.9}
-                                    & \cellcolor[HTML]{99BB99}\textbf{4.0}
+                                     & \cellcolor[HTML]{99CC99}{0.50}
+                                     & \cellcolor[HTML]{99CC99}{0.50}\\
+Specific features (normalized total) & \cellcolor[HTML]{99CC99}{0.50}
+                                     & \cellcolor[HTML]{99CC99}{0.50}
+                                     & \cellcolor[HTML]{999999}{1.00}
+                                     & \cellcolor[HTML]{99CC99}{0.50}
+                                     & \cellcolor[HTML]{99CC99}{0.50}
+                                     & \cellcolor[HTML]{99DD99}{0.00}\\
+                                    & \cellcolor[HTML]{99E699}\textbf{2.1}
+                                    & \cellcolor[HTML]{99E699}\textbf{2.1}
+                                    & \cellcolor[HTML]{99FE99}\textbf{1.5}
+                                    & \cellcolor[HTML]{99EE99}\textbf{1.9}
+                                    & \cellcolor[HTML]{999999}\textbf{4.0}
                                     & \cellcolor[HTML]{99FF99}\textbf{1.5}\\
 \end{tabular}
 \caption{Overall evaluation. Brighter colors and lower scores indicate better performance. Scores
