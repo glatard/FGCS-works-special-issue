@@ -8,6 +8,8 @@ Add your name and affiliation to the list of co-authors. Contact tristan.glatard
 
 Use command ```\note``` in ```paper.tex``` as follows: ```\note{John}{This is a comment}```.
 
+Use command ```\closednote``` in ```paper.tex``` as follows: ```\note{John}{This is a comment}{Jane}{This is an answer}```.
+
 # How to compile
 
 0. Install ```pdflatex``` and ```bibtex```
