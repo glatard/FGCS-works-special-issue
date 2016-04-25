@@ -1,3 +1,13 @@
+# How to contribute
+
+Fork the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
+
+Add your name and affiliation to the list of co-authors. Contact tristan.glatard@mcgill.ca if you feel that the list or order of authors should be amended.
+
+# How to add comments
+
+Use command ```\note``` in ```paper.tex``` as follows: ```\note{John}{This is a comment}```.
+
 # How to compile
 
 0. Install ```pdflatex``` and ```bibtex```
@@ -5,6 +15,7 @@
 2. Compile the document: ```pdflatex paper ; pdflatex paper```
 3. Generate the bibliography: ```bibtex paper ; pdflatex paper```
 
-Figure sources (svg) can be exported from https://drive.google.com/open?id=0BzT7pbvPDUdQejJ4SDI0TnN2NDA.
+# Additional material
 
-Table 1 is exported from https://docs.google.com/spreadsheets/d/1tQOApJJN5LMpkhT2FPpbiMqzPVHqugt-msAaUWcDa7E/edit#gid=1302437322 (see column "Latex row command").
+* Figure sources (svg): https://drive.google.com/open?id=0BzT7pbvPDUdQejJ4SDI0TnN2NDA.
+* Table 1 & 2: https://docs.google.com/spreadsheets/d/1tQOApJJN5LMpkhT2FPpbiMqzPVHqugt-msAaUWcDa7E/edit#gid=1302437322 (see column "Latex row command").
