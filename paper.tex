@@ -581,7 +581,7 @@ and in LONI Pipeline Environment~\cite{dinov2009efficient}.
 See Figure~\subref*{archi:service}. The workflow engine is available
 externally to the science gateway, in a service. The science gateway
 controls the service through a specific interaction (\texttt{d}) that
-might be implemented as a web-service call (e.g. RESTful or SOAP), as
+might be implemented as a web-service call (e.g., RESTful or SOAP), as
 a command-line or as any other method that offers a well-defined
 interface to the workflow engine. The workflow engine might be invoked
 either as a black box that completely masks the infrastructure and
@@ -602,7 +602,7 @@ framework~\cite{Kacsuk2012}. The integration between the
 HubZero science gateway and the Pegasus workflow engine performed
 in~\cite{CPE:CPE3257} also uses a service architecture where the
 \texttt{d} interaction is implemented as a set of calls to Pegasus'
-command-line tools (e.g. pegasus-status, pegasus-plan,
+command-line tools (e.g., pegasus-status, pegasus-plan,
 etc.). Figure~\ref{fig:vip-architecture} shows the architecture of the
 Virtual Imaging Platform, where the MOTEUR workflow
 engine~\cite{GLAT-08i} is invoked through a service.
@@ -816,13 +816,12 @@ systems~\cite{plankensteiner-prodan-etal:2013}.
 The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
 evaluate the architectures: integration effort, robustness of workflow
-execution, extensibility, scalability and other specific features. Criteria
-break down to specific metrics where \emph{low value indicates better
-performance}. For each criterion, a total score is computed by
-summing up the individual metrics. We ensure that the different
-metrics in a criterion measure similar entities so that summation
-does not incur in loss of accuracy. The
-criteria and metrics are explained hereafter.
+execution, extensibility, scalability and other specific
+features. Criteria break down to specific metrics where \emph{lower
+  value indicates better performance}. For each criterion, a total
+score is computed by summing up the individual metrics. We ensure that
+the different metrics in a criterion measure similar entities so that
+they can be summed. The criteria and metrics are explained hereafter.
 
 
 \begin{table*}
@@ -1040,8 +1039,8 @@ type of element that has to be added or replaced:
   modify to integrate a new type of infrastructure in the
   architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
-  (e.g. GPUs, clouds), or to enforce execution policies 
-  (e.g. constrain data to remain in a particular network domain).\note{Rafael}{Adding a new engine type may also allow run in different infrastructures. Maybe it is worth to put a sentence to clarify that the metric account for it separately.}
+  (e.g., GPUs, clouds), or to enforce execution policies 
+  (e.g., constrain data to remain in a particular network domain).\note{Rafael}{Adding a new engine type may also allow run in different infrastructures. Maybe it is worth to put a sentence to clarify that the metric account for it separately.}
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The 4 metrics are summed to obtain a global index that measures the
