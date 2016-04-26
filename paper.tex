@@ -68,6 +68,8 @@
 \author[criugm]{Pierre Bellec}
 \author[mcgill]{Alan C. Evans}
 
+\note{Marc-e}{Add Samir Das?}
+
 \address[mcgill]{McGill Centre for Integrative Neuroscience, Montreal Neurological Institute, McGill University, Canada.}
 \address[creatis]{University of Lyon, CNRS, INSERM, CREATIS, Villeurbanne, France.}
 \address[criugm]{Centre de Recherche de l'Institut de G\'eriatrie de Montr\'eal CRIUGM, Montreal, QC, Canada.}
@@ -473,7 +475,7 @@ Figure~\ref{fig:architectures}.
   the science gateway so that it becomes available to users. Note that
   integrating a workflow is not the same process as integrating a
   workflow \emph{engine}.
-  
+
 \item Task control: operations to manage tasks on the infrastructure,
   including: authentication, submission, monitoring, termination,
   deletion, etc. Controlling tasks requires to deal with the
@@ -701,8 +703,8 @@ diagrammed in Figure~\ref{fig:shiwa-pool-architecture}. In this
 Figure, interaction \texttt{d} of Figure~\subref*{archi:agent} is
 implemented in 3 different types of calls to the pool: workflow
 submission (\texttt{1} \& \texttt{2}), workflow status retrieval
-(\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come here 
-from the initial pool-model figure; it's a bit puzzling when mixed with 
+(\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come here
+from the initial pool-model figure; it's a bit puzzling when mixed with
 letters from Fig 2}{Tristan}{Fixed.}, and workflow retrieval (\texttt{13} \&
 \texttt{14}). In Figure~\ref{fig:shiwa-pool-architecture},
 interaction \texttt{f} of Figure~\subref*{archi:agent} is implemented
@@ -796,7 +798,7 @@ with service invocation.
 
 \subsection{Workflow import}
 
-See Figure~\subref*{archi:import}. This is an abstract model 
+See Figure~\subref*{archi:import}. This is an abstract model
 instantiated with the service invocation architecture for
 consistency. Workflows are integrated in the science gateway through
 format conversion from a native format to the science gateway
@@ -1040,7 +1042,7 @@ type of element that has to be added or replaced:
   modify to integrate a new type of infrastructure in the
   architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
-  (e.g., GPUs, clouds), or to enforce execution policies 
+  (e.g., GPUs, clouds), or to enforce execution policies
   (e.g., constrain data to remain in a particular network domain).\note{Rafael}{Adding a new engine type may also allow run in different infrastructures. Maybe it is worth to put a sentence to clarify that the metric account for it separately.}
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
@@ -1067,8 +1069,8 @@ features are identified:
   of auto-scaling mechanism can be implemented to control the number
   of engine instances in the architecture. \texttt{S$_1$}=1 when
   adding a new engine instance requires some form of manual
-  intervention (e.g., two-factor authentication), which prevents easy 
-  implementations of elastic engines. \texttt{S$_1$}=2 when new engine 
+  intervention (e.g., two-factor authentication), which prevents easy
+  implementations of elastic engines. \texttt{S$_1$}=2 when new engine
   instances cannot be added.
 \item Distributed engines (\texttt{S$_2$}): possibility to distribute
   the execution \emph{of a single workflow} among different engine
@@ -1210,7 +1212,7 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 
 \paragraph{Robustness} No component is specific to workflow execution
 (\texttt{R$_1$}=0), and only interaction \texttt{e} is
-(\texttt{R$_2$}=1)\note{sorina}{I understand why this is 1 (and why interactions 
+(\texttt{R$_2$}=1)\note{sorina}{I understand why this is 1 (and why interactions
 c and b are not counted here), but I wonder whether we can simply ignore these interactions
 because they are not specific to workflow execution. As far as robustness is concerned,
 the transfers have to be successful anyway...}.
