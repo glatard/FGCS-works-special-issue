@@ -1184,13 +1184,18 @@ interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 
 \paragraph{Scalability} Adding a new engine instance requires a new
 instance of the science gateway, which is in general not possible
-(\texttt{S$_1$}=2)\answerednote{Tristan}{What-about load-balancing between web
-  server instances?}{Marc-e}{Would that really be considered a
-  real architectural feature or an IT hack?}.  Distributed engines are
-not available by default (\texttt{S$_2$}=1). The scheduling of tasks
-on the infrastructure is as complex as in any other architecture since
-the workflow engine might implement any kind of scheduling policy
-(\texttt{S$_3$}=0).
+(\texttt{S$_1$}=2). Specific IT setups such as load-balancing between
+web server instances might be used to deal with this
+issue. \closedanswerednote{Tristan}{What-about load-balancing between web
+  server instances?}{Marc-e}{Would that really be considered a real
+  architectural feature or an IT hack?}{Tristan}{I agree, we should
+  keep IT setups out of the picture. Depending on the internals of the
+  science gateway, such hacks may or may not be feasible. I added a
+  sentence to mention this possibility, without changing the score.}
+Distributed engines are not available by default
+(\texttt{S$_2$}=1). The scheduling of tasks on the infrastructure is
+as complex as in any other architecture since the workflow engine
+might implement any kind of scheduling policy (\texttt{S$_3$}=0).
 
 \paragraph{Specific features} Meta-workflows are not supported by default
 (\texttt{O$_1$}=1).  Debugging is not an issue since the science
