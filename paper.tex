@@ -1196,7 +1196,7 @@ scheduling of tasks on the infrastructure is as complex as in any
 other architecture since the workflow engine might implement any kind
 of scheduling policy (\texttt{S$_3$}=0).
 
-\paragraph{Specific features} Meta-workflow are not supported by default
+\paragraph{Specific features} Meta-workflows are not supported by default
 (\texttt{O$_1$}=1). Fine-grained debugging information is usually easy
 to obtain since the workflow service provides direct access to the
 engine (\texttt{O$_2$}=0).
@@ -1312,6 +1312,7 @@ infrastructure), \texttt{a$_2$}, \texttt{b} (twice: once for each
 infrastructure), \texttt{c$_1$} (twice: once for each infrastructure),
 \texttt{c$_2$} (twice: once for each workflow engine and
 infrastructure) and \texttt{d} (twice: once for each workflow engine).
+\note{Rafael}{I like the idea of what has been discussed in the `integration effort', however I think the name may lead to misinterpretations. For example, according to Table 2, it requires more effort to integrate in a Tight architecture than in a service-based architecture. Considering the principles of software engineer, it is simpler to integrate/maintain a system using decoupled services. Maybe it should be renamed to something related to 'dependencies'.}
 
 \paragraph{Robustness} The two workflow services are specific to
 workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b}
@@ -1435,8 +1436,9 @@ important workloads, which would favor sub-tasking and pool.
 Differences in other specific features should not be neglected. Nested
 workflows (with service invocation) and workflow import (with service
 invocation) are the only architectures that support meta-workflows,
-which may be interesting in some cases. The availability of
-fine-grained debugging information may also be critical to efficient
+which may be interesting in some cases.\note{Rafael}{I would suggest to provide some
+more examples when this could be interesting.}
+The availability of fine-grained debugging information may also be critical to efficient
 user support.
 
 Table~\ref{table:overall} provides an overall comparison between
@@ -1444,7 +1446,7 @@ architectures, based on the metrics in Table~\ref{table:evaluation}.
 Overall, sub-tasking, and workflow import (with service invocation)
 perform a bit better than tight integration, service invocation and
 pool. Nested workflows stands a bit behind for the reasons mentioned
-previously.
+previously.\note{Rafael}{I would emphasize that this analysis is only for illustration purposes, since it does not account for different weights in metrics.}
 \begin{table*}
 \centering
 \begin{tabular}{rcccccc}
@@ -1559,6 +1561,7 @@ suitable for comparison, we illustrated them on real systems, we
 developed quantitative metrics for evaluation, we evaluated these
 metrics for all the architectures, and we discussed the pros and cons
 of all the architectures based on these metrics.
+\note{Rafael}{One thing that is missing in the conclusion or the limitations section is to state that this work does not intend to quantify the amount of work required to develop science gateways using a specific architecture, but the goal is to highlight what are the main components and interactions for each architecture, and the main advantages and drawbacks. This should also be stated in the introduction.}
 
 % Impact of the work
 To the best of our knowledge, our work is the first of its kind
