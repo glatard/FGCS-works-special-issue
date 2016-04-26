@@ -256,12 +256,12 @@ used as building blocks to assemble science gateways. The main
 frameworks are Apache Airavata~\cite{marru2011apache}, the Catania
 Science Gateway Framework~\cite{Ardizzone2012} and
 WS-PGRADE/gUSE~\cite{Kacsuk2012}. Numerous science gateway instances
-were built using such frameworks\note{Tristan}{Add references}. Other
-gateway instances were also built independently from any framework,
-using regular web development tools and libraries to access
-distributed systems. CBRAIN and VIP are two such science gateways,
-from which we gathered experience about the architectures described in
-this paper.
+were built using such
+frameworks~\cite{kacsuk2014science,ardizzone2012decide}. Other gateway
+instances were also built independently from any framework, using
+regular web development tools and libraries to access distributed
+systems. CBRAIN and VIP are two such science gateways, from which we
+gathered experience about the architectures described in this paper.
 
 CBRAIN\footnote{\url{http://cbrain.mcgill.ca}}~\cite{SHER-14} is an
 open-source\footnote{\url{https://github.com/aces/cbrain}}, web-based collaborative platform addressing the
@@ -445,13 +445,13 @@ classification of a few systems by architecture.
   \\
   Service & \pbox{1.5\columnwidth}{
             Apache Airvata~\cite{marru2011apache}, e-BioInfra~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{krüger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
-            Science gateways in ~\cite{kacsuk2014science}$^w$
+            Science gateways in~\cite{kacsuk2014science}$^w$
             } \\
   Sub-task & CBRAIN and PSOM~\cite{GLAT-16}$^n$, CBRAIN and FSL$^n$\\
   Pool & SHIWA pool~\cite{ROGE-13}\\
-  Nested & \pbox{1.5\columnwidth}{SHIWA Simulation Platform (Coarse-Grained Interoperability~\cite{terstyanszky2014enabling})$^w$, HubZero with Pegasus (via hierarchical workflows)~\cite{Deelman201517} \todo{Tristan}{Add others}
-  }\\
-  Import & SHIWA Simulation Platform (Fine-Grained Interoperability)~\cite{plankensteiner-prodan-etal:2013}$^w$
+  Nested & \pbox{1.5\columnwidth}{SHIWA Simulation Platform (Coarse-Grained Interoperability~\cite{terstyanszky2014enabling})$^w$, HubZero with Pegasus (via hierarchical workflows)~\cite{Deelman201517}, Tavaxy~\cite{Abouelhoda2012}.
+           }\\
+  Import & SHIWA Simulation Platform (Fine-Grained Interoperability)~\cite{plankensteiner-prodan-etal:2013}$^w$, Tavaxy~\cite{Abouelhoda2012}, system in~\cite{delaGarza2016}.
 \end{tabular}
 \caption{Classification of science gateways based on the architecture used to integrate workflow engines. $^c$: based on the Catania Science Gateway Framework. $^w$: based on WS-PGRADE/gUSE. $^n$: used for neuroimaging.}
 \label{table:system-classification}
@@ -563,8 +563,12 @@ and infrastructure (\texttt{a$_1$}) is done by an administrator, for
 security reasons. This is the model adopted in the Catania Science
 Gateway Framework~\cite{Ardizzone2012} (see specific documentation on
 workflows\footnote{\url{http://bit.ly/1oQrzvQ}}), in the Distributed
-application runtime environment (DARE~\cite{maddineni2012distributed})
-and in LONI Pipeline Environment~\cite{dinov2009efficient}.
+application runtime environment
+(DARE~\cite{maddineni2012distributed}), in
+Galaxy~\cite{goecks2010galaxy}, and in LONI Pipeline
+Environment~\cite{dinov2009efficient}. Note that tightly integrated
+architectures may provide advanced workflow edition features which are
+not covered by our analysis.
 %The Catania Science Gateway Framework would be a good illustration here (workflow engine is a Java portlet), but I can't find a suitable figure about it.
 %CIPRES~\cite{miller2010creating} (on which the Neuroscience gateway
 %described in~\cite{sivagnanam2015early} is based) % \note{Tristan}{There is no workflow engine in there.}
@@ -806,14 +810,22 @@ instantiated with the service invocation architecture for
 consistency. Workflows are integrated in the science gateway through
 format conversion from a native format to the science gateway
 format. Workflow import is usually an offline process which is not
-involved in workflow execution. Workflow import was implemented in the SHIWA
-Simulation Platform through the IWIR language that provided a common
-language for portability across grid workflow
-systems~\cite{plankensteiner-prodan-etal:2013}.
+involved in workflow execution. Workflow import was implemented in the
+SHIWA Simulation Platform through the IWIR language that provided a
+common language for portability across grid workflow
+systems~\cite{plankensteiner-prodan-etal:2013}.  Other systems rely on
+workflow import. Tavaxy~\cite{Abouelhoda2012} allows to import, merge
+and run Taverna~\cite{oinn2004taverna} and
+Galaxy~\cite{goecks2010galaxy} workflows. When some workflow parts
+cannot be imported, workflows are run by Tavaxy as nested workflows
+using their native engine. The work in~\cite{delaGarza2016} describes
+workflow import from KNIME~\cite{Berthold2008} to WS-PGRADE/gUSE and
+from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
+\closednote{Tristan}{Add description of a real system}{Tristan}{Would
+  require to reproduce a figure from another paper. The concept seems
+  simple enough to not require a figure.}
 
-\todo{Tristan}{Add description of a real system}
-
-\todo{Tristan}{Refer to ``From the desktop to the grid: scalable bioinformatics via workflow conversion Luis de la GarzaEmail author, Johannes Veit, Andras Szolek, Marc Röttig, Stephan Aiche, Sandra Gesing, Knut Reinert and Oliver Kohlbacher''}
+%Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13]. 
 
 \section{Evaluation}
 
@@ -1041,16 +1053,26 @@ type of element that has to be added or replaced:
   to integrate a new workflow in the architecture, assuming
   that the engine type and version required to execute this workflow
   are already available.
-\item New infrastructure (\texttt{E$_4$}): number of interactions or components to
-  modify to integrate a new type of infrastructure in the
-  architecture. Adding a new infrastructure allows to provide more
+\item New infrastructure (\texttt{E$_4$}): number of interactions or
+  components to modify to integrate a new type of infrastructure in
+  the architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
-  (e.g., GPUs, clouds), or to enforce execution policies
-  (e.g., constrain data to remain in a particular network domain).\note{Rafael}{Adding a new engine type may also allow run in different infrastructures. Maybe it is worth to put a sentence to clarify that the metric account for it separately.}
+  (e.g., GPUs, clouds), or to enforce execution policies (e.g.,
+  constrain data to remain in a particular network domain). 
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The 4 metrics are summed to obtain a global index that measures the
-difficulty to extend the architecture.
+difficulty to extend the architecture. Note that some extensions may
+involve several metrics in practice. For instance, adding a new type
+of engine may help integrate new infrastructures when interactions
+\texttt{b} and \texttt{c$_2$} are already present for the new engine
+and infrastructure.  \closednote{Rafael}{Adding a new engine type may
+  also allow run in different infrastructures. Maybe it is worth to
+  put a sentence to clarify that the metric account for it
+  separately.}{Tristan}{It will not *allow* because interaction c1
+  would still need to be developed. But it will definitely facilitate
+  it. I added a note on this after the description of the metrics.}
+
 
 \emph{Scalability} corresponds to the ability of the architecture to
 cope with high workloads. It is measured by counting the potential
@@ -1557,8 +1579,10 @@ to integrate workflow engines. For instance, some workflow engines may
 be already available as web services, which would tend to favor
 service invocation, and other science gateways may have strongly
 tested task and data control features (interactions \texttt{b} and
-\texttt{c}), which would favor sub-tasking. The migration cost between
-architectures has been ignored as well.
+\texttt{c}), which would favor sub-tasking. Similarly, adding a new
+type of engine may facilitate integration of a new infrastructure when
+interactions \texttt{b} and \texttt{c$_2$} are already available. The
+migration cost between architectures has been ignored as well.
 
 \section{Conclusion}
 
