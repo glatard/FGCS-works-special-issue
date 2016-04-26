@@ -459,7 +459,7 @@ Figure~\ref{fig:architectures}.
   the infrastructure; (\texttt{a$_2$}) the workflow is configured in
   the science gateway so that it becomes available to users. Note that
   integrating a workflow is not the same process as integrating a
-  workflow \emph{engine}.
+  workflow \emph{engine}. \note{Marc-e}{automation?}
 \item Task control: operations to manage tasks on the infrastructure,
   including: authentication, submission, monitoring, termination,
   deletion, etc. Controlling tasks requires to deal with the
@@ -479,8 +479,12 @@ Figure~\ref{fig:architectures}.
   intermediate results) across the infrastructure so that tasks can
   use it. The infrastructure might offer various data storage backends
   with heterogeneous interfaces. \note{Marc-Etienne}{this -c2- can be also trigerred
-    by the user}\note{Tristan}{No, it can't: this is by definition an interaction between the workflow engine and the infrastructure. It is used to transfer data to/from tasks. I reworded a bit, is it clearer now?} Tools and services such as
-  JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
+    by the user}\note{Tristan}{No, it can't: this is by definition an interaction between the workflow engine and the infrastructure. It is used to transfer data to/from tasks. I reworded a bit, is it clearer now?}
+    \note{Marc-e}{I meant, "using c1", a user in some platforms (CBRAIN), can trigger
+    some operations across the infrastructure, as in c2... not just up/download data.
+    And I see now that this is in fact the case in III, c is not differentiated.
+    You can delete this thread.}
+  Tools and services such as JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
   can be used to homogeneize these interfaces.
 \item Workflow control: operations to control workflow execution in an
   engine, including: workflow submission, monitoring, termination,
@@ -965,7 +969,7 @@ workflows (e.g., wrong user input or application errors) are not
 covered since they do not stem directly from the software
 architecture. Robustness is determined as the number of software
 components and interactions that are specific to workflow execution,
-which assumes that complex architectures tend to be prone to failure:
+which assumes that complex architectures tend to be more prone to failure:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Components (\texttt{R$_1$}): number of specific components
   involved in workflow executions. Science
@@ -1115,7 +1119,8 @@ interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 \paragraph{Scalability} Adding a new engine instance requires a new
 instance of the science gateway, which is in general not possible
 (\texttt{S$_1$}=2)\note{Tristan}{What-about load-balancing between web
-  server instances?}. Distributed engines are not available by default
+  server instances?} \note{Marc-e}{Would that really be considered a real architectural feature or an IT hack?}.
+  Distributed engines are not available by default
 (\texttt{S$_2$}=1). The scheduling of tasks on the infrastructure is
 as complex as in any other architecture since the workflow engine
 might implement any kind of scheduling policy (\texttt{S$_3$}=0).
@@ -1382,7 +1387,7 @@ is interesting given the current profusion of engines with different
 characteristics.  However, sub-tasking, workflow import (with service
 invocation) and tight integration perform worse than the others to add
 engine versions (\texttt{E$_2$}) due to the need to update
-infrastructure (sub-tasking), science gateway (tight integration), or
+infrastructure \note{Marc-e}{confusion with physical?}(sub-tasking), science gateway (tight integration), or
 workflow converter (workflow import). Workflow import performs worse
 than the others to integrate new workflows (\texttt{E$_3$}) because of
 the language conversion step. All architectures except nested
@@ -1400,7 +1405,7 @@ the sub-tasking and nested workflow architectures could well become
 showstoppers depending on the type of targeted
 infrastructure. Non-reliable infrastructures, for example, could
 hardly cope with workflow engines being wrapped in computing tasks as
-done in sub-tasking. The availability of multiple engine instances
+done in sub-tasking \note{Marc-e}{free for all? WE dev involved?}. The availability of multiple engine instances
 could also become a critical feature for science gateways with
 important workloads, which would favor sub-tasking and pool.
 
@@ -1479,11 +1484,13 @@ results of our evaluation. First of all, the evaluation is done at a
 quite high-level of abstraction that may be a bit artificial when
 applied to real systems. Abstracting architectures from their
 implementation in specific systems is useful to compare them, but we
-also realize that this comes at the cost of realism.  In particular,
-the presented architectures are pure patterns that may be blended in
+also realize that this comes at the cost of realism. In particular,
+the presented architectures are theoritical patterns that may be blended in
 actual systems. The distinction between tight integration and service
-invocation, for instance, may not be that clear in practice. Service
-invocation may also be combined with sub-tasking in some cases.
+invocation, for instance, may not be always that clear in practice. Service
+invocation may also be combined with sub-tasking in some cases. However, the
+criteria discussed in this work would still apply to broadly compare and categorize
+such cases of hydrid architectures.
 
 Moreover, all the interactions involved in the architectures were
 treated equally, as if they all required similar amounts of
@@ -1499,7 +1506,7 @@ The particular case of interaction \texttt{g} (workflow language
 conversion) should be further discussed since it is very likely that
 this interaction could not be easily generalized to any workflow
 language. For instance, converting FSL, PSOM or Nipype pipelines to
-any other workflow language is very tricky because these engines rely
+any other workflow language is problematic because these engines rely
 on general-purpose programming languages such as Bash, Octave and
 Python, which are much richer than scientific workflow languages.
 
@@ -1520,7 +1527,7 @@ be already available as web services, which would tend to favor
 service invocation, and other science gateways may have strongly
 tested task and data control features (interactions \texttt{b} and
 \texttt{c}), which would favor sub-tasking. The migration cost between
-architectures is totally ignored as well.
+architectures has been ignored as well.
 
 \section{Conclusion}
 
@@ -1547,7 +1554,7 @@ Universit\'e de Lyon, within the program ``Investissements d’Avenir''
 (ANR-11-IDEX-0007) operated by the French National Research Agency
 (ANR). This work has been made possible with the support of the Irving
 Ludmer Family Foundation and the Ludmer Centre for Neuroinformatics
-and Mental Health.
+and Mental Health. \note{Marc-e}{Would it be proper to thank EGI? Compute Canada? CANARIE?}
 
 \section*{References}
 
