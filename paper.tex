@@ -1262,19 +1262,20 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 
 \paragraph{Robustness} No component is specific to workflow execution
 (\texttt{R$_1$}=0), and only interaction \texttt{e} is
-(\texttt{R$_2$}=1)\answerednote{sorina}{I understand why this is 1 (and why
-  interactions c and b are not counted here), but I wonder whether we
-  can simply ignore these interactions because they are not specific
-  to workflow execution. As far as robustness is concerned, the
-  transfers have to be successful anyway...}{Tristan}{We cannot just
-  ignore these interactions in the architecture because they are
+(\texttt{R$_2$}=1)\closedanswerednote{sorina}{I understand why this is 1
+  (and why interactions c and b are not counted here), but I wonder
+  whether we can simply ignore these interactions because they are not
+  specific to workflow execution. As far as robustness is concerned,
+  the transfers have to be successful anyway...}{Tristan}{We cannot
+  just ignore these interactions in the architecture because they are
   required for the system to work. The transfers have to be successful
   but data movements in the workflow will use the same code as data
   movements done in the science gateway, which will make this
   architecture more robust than service for instance. In VIP, for
   instance, the code used in the GASW wrapper to transfer data (c2) is
   completely independent from the ``file transfer'' module in the
-  platform (c1), which is detrimental to robustness}.
+  platform (c1), which is detrimental to robustness}{Tristan}{Closed,
+  see github issue \#7.}.
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires to develop interaction \texttt{e} and to install the engine
