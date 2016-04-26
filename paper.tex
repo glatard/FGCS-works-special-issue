@@ -1186,13 +1186,18 @@ interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 
 \paragraph{Scalability} Adding a new engine instance requires a new
 instance of the science gateway, which is in general not possible
-(\texttt{S$_1$}=2)\answerednote{Tristan}{What-about load-balancing between web
-  server instances?}{Marc-e}{Would that really be considered a
-  real architectural feature or an IT hack?}.  Distributed engines are
-not available by default (\texttt{S$_2$}=1). The scheduling of tasks
-on the infrastructure is as complex as in any other architecture since
-the workflow engine might implement any kind of scheduling policy
-(\texttt{S$_3$}=0).
+(\texttt{S$_1$}=2). Specific IT setups such as load-balancing between
+web server instances might be used to deal with this
+issue. \closedanswerednote{Tristan}{What-about load-balancing between web
+  server instances?}{Marc-e}{Would that really be considered a real
+  architectural feature or an IT hack?}{Tristan}{I agree, we should
+  keep IT setups out of the picture. Depending on the internals of the
+  science gateway, such hacks may or may not be feasible. I added a
+  sentence to mention this possibility, without changing the score.}
+Distributed engines are not available by default
+(\texttt{S$_2$}=1). The scheduling of tasks on the infrastructure is
+as complex as in any other architecture since the workflow engine
+might implement any kind of scheduling policy (\texttt{S$_3$}=0).
 
 \paragraph{Specific features} Meta-workflows are not supported by default
 (\texttt{O$_1$}=1).  Debugging is not an issue since the science
@@ -1259,19 +1264,20 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 
 \paragraph{Robustness} No component is specific to workflow execution
 (\texttt{R$_1$}=0), and only interaction \texttt{e} is
-(\texttt{R$_2$}=1)\answerednote{sorina}{I understand why this is 1 (and why
-  interactions c and b are not counted here), but I wonder whether we
-  can simply ignore these interactions because they are not specific
-  to workflow execution. As far as robustness is concerned, the
-  transfers have to be successful anyway...}{Tristan}{We cannot just
-  ignore these interactions in the architecture because they are
+(\texttt{R$_2$}=1)\closedanswerednote{sorina}{I understand why this is 1
+  (and why interactions c and b are not counted here), but I wonder
+  whether we can simply ignore these interactions because they are not
+  specific to workflow execution. As far as robustness is concerned,
+  the transfers have to be successful anyway...}{Tristan}{We cannot
+  just ignore these interactions in the architecture because they are
   required for the system to work. The transfers have to be successful
   but data movements in the workflow will use the same code as data
   movements done in the science gateway, which will make this
   architecture more robust than service for instance. In VIP, for
   instance, the code used in the GASW wrapper to transfer data (c2) is
   completely independent from the ``file transfer'' module in the
-  platform (c1), which is detrimental to robustness}.
+  platform (c1), which is detrimental to robustness}{Tristan}{Closed,
+  see github issue \#7.}.
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires to develop interaction \texttt{e} and to install the engine
@@ -1482,13 +1488,12 @@ which is interesting given the current profusion of engines with
 different characteristics.  However, sub-tasking, workflow import
 (with service invocation) and tight integration perform worse than the
 others when adding engine versions (\texttt{E$_2$}) due to the need to
-update infrastructure \note{Marc-e}{confusion with
-  physical?}(sub-tasking), science gateway (tight integration), or
-workflow converter (workflow import). Workflow import performs worse
-than the others when integrating new workflows (\texttt{E$_3$})
-because of the language conversion step. All architectures except
-nested workflows perform the same when integrating new infrastructures
-(\texttt{E$_4$}).
+update infrastructure (sub-tasking), science gateway (tight
+integration), or workflow converter (workflow import). Workflow import
+performs worse than the others when integrating new workflows
+(\texttt{E$_3$}) because of the language conversion step. All
+architectures except nested workflows perform the same when
+integrating new infrastructures (\texttt{E$_4$}).
 
 The pool architecture is overall the most scalable, which is not a
 surprise since it was designed precisely for scalability. Tight
@@ -1659,6 +1664,18 @@ To the best of our knowledge, our work is the first of its kind
 \note{Tristan}{Be more accurate}. Our results can be used as
 recommendation for science gateway and workflow engine architects to
 build new platforms, or to upgrade existing ones.
+
+% Literature on SG architecture Very few works go beyond the
+% description of architectures of particular systems. The work in
+% http://link.springer.com/chapter/10.1007/11596141_3 discusses
+% service-oriented architectures for science gateways, with a workflow
+% engine. The work in
+% http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1414&context=nanopub
+% highlights 4 TeraGrid science gateways (GridChem, LEAD, nanoHUB,
+% CABIG). Architectures are described but there is no real focus on
+% workflow engines. GridChem doesn't include any workflow engine,
+% which btw make it relevant for integration via sub-tasking. LEAD has
+% a workflow engine.
 
 \section{Acknowledgments}
 
