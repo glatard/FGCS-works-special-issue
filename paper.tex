@@ -63,6 +63,7 @@
 
 \author[mcgill]{Reza Adalat}
 \author[mcgill]{Natacha Beck}
+\author[mcgill]{Samir Das}
 \author[isi]{Rafael Ferreira da Silva}
 \author[mcgill]{Najmeh Khalili-Mahani}
 \author[criugm]{Pierre-Olivier Quirion}
@@ -70,8 +71,6 @@
 
 \author[criugm]{Pierre Bellec}
 \author[mcgill]{Alan C. Evans}
-
-\note{Marc-e}{Add Samir Das?}
 
 \address[mcgill]{McGill Centre for Integrative Neuroscience, Montreal Neurological Institute, McGill University, Canada.}
 \address[creatis]{University of Lyon, CNRS, INSERM, CREATIS, Villeurbanne, France.}
@@ -203,11 +202,11 @@ such as Bash.
 
 \subsection{Science gateways}
 
-Science gateways are used to share resources in a community and to
-provide increased performance and capacity through facilitated access to storage and
-computing power. They are often accessible through a web interface
-that helps users manage access rights, data transfers, task execution
-and authentication on multiple computing and storage
+Science gateways are used to share resources within a community and to
+provide increased performance and capacity through facilitated access
+to storage and computing power. They are often accessible through a
+web interface that helps users manage access rights, data transfers,
+task execution and authentication on multiple computing and storage
 locations. Workflow engines are part of this ecosystem as core
 components to implement and execute applications.
 
@@ -218,13 +217,17 @@ Integration between workflow engines and science gateways varies
 across systems. Some science gateways may be tailored to a particular
 engine that manages critical functions such as task execution, data
 transfers and authentication. Other gateways may be more general and
-host applications executed by different types of
-engines. Extensibility is an important property of the integration, as
-new workflows are added frequently, different types and versions of
+host applications executed by different types of engines. Finally,
+some science gateways may not use any workflow engine and focus on the
+execution of simple tasks -- this class of systems is not covered by
+our analysis.
+
+Extensibility is an important property of the integration, as new
+workflows are added frequently, different types and versions of
 workflow engines may be integrated over time, and different kinds of
 infrastructure can be targeted.
 
-Scalability is also an important concern, since science gateways are
+Scalability is also a crucial concern, since science gateways are
 multi-user systems that manage substantial amounts of data and execute
 computationally-intensive analyses. To this end, science gateways
 may include different instances of the same engine type and implement
@@ -483,7 +486,7 @@ Figure~\ref{fig:architectures}.
   the infrastructure; (\texttt{a$_2$}) the workflow is configured in
   the science gateway so that it becomes available to users. Note that
   integrating a workflow is not the same process as integrating a
-  workflow \emph{engine}.
+  workflow \emph{engine}. 
 \item Task control: operations to manage tasks on the infrastructure,
   including: authentication, submission, monitoring, termination,
   deletion, etc. Controlling tasks requires to deal with the
@@ -917,18 +920,18 @@ New engine version -- \texttt{E$_2$} & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{999999}3\\
-New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99DD99}3
-                                     & \cellcolor[HTML]{99DD99}3
-                                     & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99DD99}3
-                                     & \cellcolor[HTML]{999999}5
-                                     & \cellcolor[HTML]{99DD99}3\\
-  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D199}\textbf{9}
-                                     & \cellcolor[HTML]{99D199}\textbf{9}
-                                     & \cellcolor[HTML]{99FF99}\textbf{7}
-                                     & \cellcolor[HTML]{99E899}\textbf{8}
-                                     & \cellcolor[HTML]{999999}\textbf{11.5}
-                                     & \cellcolor[HTML]{99E899}\textbf{8}\\
+New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99DD99}4
+                                     & \cellcolor[HTML]{99DD99}4
+                                     & \cellcolor[HTML]{99FF99}3
+                                     & \cellcolor[HTML]{99DD99}4
+                                     & \cellcolor[HTML]{999999}6
+                                     & \cellcolor[HTML]{99DD99}4\\
+  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D199}\textbf{10}
+                                     & \cellcolor[HTML]{99D199}\textbf{10}
+                                     & \cellcolor[HTML]{99FF99}\textbf{8}
+                                     & \cellcolor[HTML]{99E899}\textbf{9}
+                                     & \cellcolor[HTML]{999999}\textbf{12.5}
+                                     & \cellcolor[HTML]{99E899}\textbf{9}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Scalability}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
 Multiple engine instances -- \texttt{S$_1$}& \cellcolor[HTML]{999999}2
                                      & \cellcolor[HTML]{99CC99}1
@@ -1057,7 +1060,16 @@ be added or replaced:
   engine type is already available. Different versions of a workflow
   engine share the same interface, i.e. they can be invoked using the
   same software. When this is not the case, the different versions are
-  considered as different engine types.
+  considered as different engine types. Components are not treated
+  equally regarding engine version updates. Components whose only
+  function is to host the workflow engine, i.e. workflow services and
+  agents, are not counted in E$_2$ because updates in such components
+  are assumed to be straightforward. On the contrary, modifications of
+  components that have other functions than wrapping the engine,
+  i.e. science gateway and infrastructure, are counted in E$_2$
+  because updates in these components require more effort, e.g. new
+  release of the science gateway, gaining administrative privileges on
+  the infrastructure, etc.
 \item New workflow (\texttt{E$_3$}): adding a new workflow is a very
   common operation that does not require modifying software components
   or interactions. We measure the difficulty to integrate a new
@@ -1070,7 +1082,7 @@ be added or replaced:
   the architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
   (e.g., GPUs, clouds), or to enforce execution policies (e.g.,
-  constrain data to remain in a particular network domain).
+  constrain data to remain in a particular network domain). 
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The 4 metrics are summed to obtain a global index that measures the
@@ -1181,9 +1193,10 @@ requires to modify the science gateway as well as interactions
 \texttt{b} and \texttt{c$_2$} (\texttt{E$_1$}=3). Updating a workflow
 engine version requires modifications in the science gateway
 (\texttt{E$_2$}=1).  Inserting a new workflow is done through
-interactions \texttt{a$_1$} and \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new infrastructure generates updates in
-interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
-(\texttt{E$_4$}=3).
+interactions \texttt{a$_1$} and \texttt{a$_2$}
+(\texttt{E$_3$}=2). Adding a new infrastructure generates updates in
+interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$} and
+\texttt{c$_2$} (\texttt{E$_4$}=4).
 
 \paragraph{Scalability} Adding a new engine instance requires a new
 instance of the science gateway, which is in general not possible
@@ -1223,14 +1236,13 @@ requires to implement the corresponding workflow service, to modify
 interaction \texttt{d}, and to implement interactions \texttt{b} and
 \texttt{$c_2$} (\texttt{E$_1$}=4). New engine versions can be added by
 updating the workflow service without modifying any interaction or
-component (\texttt{E$_2$}=0). We consider that updating the engine
-version in a workflow service does not require code updates in the
-service since the only goal of this component is to wrap the engine.
-New workflows are added in the science gateway or in the workflow
-engine through interactions \texttt{a$_1$} and \texttt{a$_2$}
-(\texttt{E$_3$}=2). Adding a new type of infrastructure requires
-updates in interactions \texttt{b}, \texttt{$c_1$} and \texttt{$c_2$}
-(\texttt{E$_4$}=3).
+component (\texttt{E$_2$}=0). Updating the engine version in a
+workflow service does not count since the only goal of this component
+is to wrap the engine.  New workflows are added in the science gateway
+or in the workflow engine through interactions \texttt{a$_1$} and
+\texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new type of infrastructure
+requires updates in interactions \texttt{a$_1$}, \texttt{b},
+\texttt{$c_1$} and \texttt{$c_2$} (\texttt{E$_4$}=4).
 
 \paragraph{Scalability} The service architecture supports multiple
 engine instances through multiple workflow services. In VIP for
@@ -1286,8 +1298,8 @@ on the infrastructure (\texttt{E$_1$}=2). Updating an engine version
 requires updates only on the infrastructure (\texttt{E$_2$}=1).  New
 workflows are integrated by creating a new task in the science gateway
 through interactions \texttt{a$_1$} and \texttt{a$_2$}  (\texttt{E$_3$}=2). Adding a new
-infrastructure requires to update interactions \texttt{b} and
-\texttt{c} in the science gateway (\texttt{E$_4$}=2).
+infrastructure requires to update interactions \texttt{a$_1$}, \texttt{b} and
+\texttt{c} in the science gateway (\texttt{E$_4$}=3).
 
 \paragraph{Specific features} Meta-workflows are not available
 (\texttt{O$_1$}=1).  Obtaining fine-grained information about workflow
@@ -1350,8 +1362,8 @@ is transparent (\texttt{E$_2$=0}) since it only requires updating the
 agent that is a component dedicated to the engine. Integrating a new workflow is
 done through interactions \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Integrating a new infrastructure requires updates
-in interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
-(\texttt{E$_4$=3}).
+in interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
+(\texttt{E$_4$=4}).
 
 \paragraph{Scalability} New engine instances only require new agents,
 which is easily automated (\texttt{S$_1$=0}) and by design very
@@ -1411,8 +1423,8 @@ version in the parent or child engine only requires modifying this
 engine (\texttt{E$_2$=0}). Adding a new
 workflow is done through interaction \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Adding a new infrastructure requires to
-re-implement interactions \texttt{b} and \texttt{c$_2$} twice, and
-interaction \texttt{c$_1$} once (\texttt{E$_4$=5}).
+re-implement interactions \texttt{a$_1$}, \texttt{b} and \texttt{c$_2$} twice, and
+interaction \texttt{c$_1$} once (\texttt{E$_4$=6}).
 
 \paragraph{Scalability} As in the service architecture, adding a new
 workflow instance requires manual configuration in the science gateway
@@ -1450,8 +1462,8 @@ new engine version only requires modifying interaction \texttt{g}
 (\texttt{E$_2$=1}).  Adding a new workflow is done through
 interactions \texttt{a$_1$}, \texttt{a$_2$} and \texttt{g} (\texttt{E$_3$=3}). As in the
 service architecture, interfacing with a new infrastructure requires
-modifications in the workflow service and in interactions \texttt{b}
-and \texttt{c$_2$} (\texttt{E$_4$=3}).
+modifications in the workflow service and in interactions \texttt{a$_1$}, \texttt{b}
+and \texttt{c$_2$} (\texttt{E$_4$=4}).
 
 \paragraph{Scalability}  Since workflow conversion is not involved in
 the execution (it is an offline process), metrics are as in the
@@ -1508,7 +1520,7 @@ the sub-tasking and nested workflow architectures could well become
 showstoppers depending on the type of the targeted
 infrastructure. Non-reliable infrastructures, for example, could
 hardly cope with workflow engines being wrapped in computing tasks as
-done in sub-tasking \note{Marc-e}{free for all? WE dev involved?}. The availability of multiple engine instances
+done in sub-tasking. The availability of multiple engine instances
 could also become a critical feature for science gateways with
 important workloads, which would favor sub-tasking and pool.
 
@@ -1630,16 +1642,22 @@ in real systems, and because service invocation is largely
 used. Nested workflows with sub-tasking, in particular, could be an
 interesting architecture to explore.
 
-Finally, the particular technical or historical context of a science
-gateway project may obviously influence the choice of an architecture
-to integrate workflow engines. For instance, some workflow engines may
-be already available as web services, which would tend to favor
-service invocation, and other science gateways may have strongly
-tested task and data control features (interactions \texttt{b} and
-\texttt{c}), which would favor sub-tasking. Similarly, adding a new
-type of engine may facilitate integration of a new infrastructure when
-interactions \texttt{b} and \texttt{c$_2$} are already available. The
-migration cost between architectures has been ignored as well.
+The particular technical or historical context of a science gateway
+project may obviously influence the choice of an architecture to
+integrate workflow engines. For instance, some workflow engines may be
+already available as web services, which would tend to favor service
+invocation, and other science gateways may have strongly tested task
+and data control features (interactions \texttt{b} and \texttt{c}),
+which would favor sub-tasking. Similarly, adding a new type of engine
+may facilitate integration of a new infrastructure when interactions
+\texttt{b} and \texttt{c$_2$} are already available. The migration
+cost between architectures has been ignored as well.
+
+Finally, workflow engines are only one of the many aspects involved in
+the design of a science gateway. Other properties definitely influence
+the design of a software architecture, for instance collaborative
+features, data visualization, search, authentication, accounting and
+so on.
 
 \section{Conclusion}
 
@@ -1647,9 +1665,8 @@ migration cost between architectures has been ignored as well.
 We reviewed architectures used to integrate workflow engines in
 science gateways, we described them in a system-independent framework
 suitable for comparison, we illustrated them on real systems, we
-developed quantitative metrics for evaluation, we evaluated these
-metrics for all the architectures, and we discussed the pros and cons
-of all the architectures based on these metrics.
+developed quantitative metrics for evaluation, and we discussed the
+pros and cons of all the presented architectures based on these metrics.
 \closedanswerednote{Rafael}{One thing that is missing in the
   conclusion or the limitations section is to state that this work
   does not intend to quantify the amount of work required to develop
@@ -1661,10 +1678,15 @@ of all the architectures based on these metrics.
   think?}{Tristan}{Fixed, as discussed in github \#8.}
 
 % Impact of the work
-To the best of our knowledge, our work is the first of its kind
-\note{Tristan}{Be more accurate}. Our results can be used as
-recommendation for science gateway and workflow engine architects to
-build new platforms, or to upgrade existing ones.
+To the best of our knowledge, our work is the first of its kind. So
+far, the literature on science gateways and workflow engines has
+focused on the description of particular systems, or on the
+presentation of a particular architecture. For instance, the work
+in~\cite{Gannon2005} discusses service-oriented architectures for
+science gateways with workflow engines.  Instead, our analysis
+abstracts and evaluates architectural patterns independently from any
+particular system. It provides general insight to integrate science
+gateways and workflow engines.
 
 % Literature on SG architecture Very few works go beyond the
 % description of architectures of particular systems. The work in
@@ -1690,7 +1712,7 @@ for their help related to the VIP platform. The CBRAIN team is grateful for the
 computing cycles, storage, and support obtained from Compute Canada
 (\url{https://computecanada.ca}) and platform development program from CANARIE
  (\url{http://www.canarie.ca/}). This work has been made possible with the support of the Irving Ludmer Family Foundation and
-the Ludmer Centre for Neuroinformatics and Mental Health. \answerednote{Marc-e}{Would it be proper to thank EGI?
+the Ludmer Centre for Neuroinformatics and Mental Health. \closedanswerednote{Marc-e}{Would it be proper to thank EGI?
   Compute Canada? CANARIE?}{Tristan}{Added EGI and Compute Canada. Not sure if
   Canarie should be added. What about Calcul QC?}{Marc-e}{CQ, no. CANARIE, I'd
   say yes since they funded a major chunk of CBRAIN's development.}
