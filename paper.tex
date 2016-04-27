@@ -915,18 +915,18 @@ New engine version -- \texttt{E$_2$} & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{999999}3\\
-New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99DD99}3
-                                     & \cellcolor[HTML]{99DD99}3
-                                     & \cellcolor[HTML]{99FF99}2
-                                     & \cellcolor[HTML]{99DD99}3
-                                     & \cellcolor[HTML]{999999}5
-                                     & \cellcolor[HTML]{99DD99}3\\
-  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D199}\textbf{9}
-                                     & \cellcolor[HTML]{99D199}\textbf{9}
-                                     & \cellcolor[HTML]{99FF99}\textbf{7}
-                                     & \cellcolor[HTML]{99E899}\textbf{8}
-                                     & \cellcolor[HTML]{999999}\textbf{11.5}
-                                     & \cellcolor[HTML]{99E899}\textbf{8}\\
+New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99DD99}4
+                                     & \cellcolor[HTML]{99DD99}4
+                                     & \cellcolor[HTML]{99FF99}3
+                                     & \cellcolor[HTML]{99DD99}4
+                                     & \cellcolor[HTML]{999999}6
+                                     & \cellcolor[HTML]{99DD99}4\\
+  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D199}\textbf{10}
+                                     & \cellcolor[HTML]{99D199}\textbf{10}
+                                     & \cellcolor[HTML]{99FF99}\textbf{8}
+                                     & \cellcolor[HTML]{99E899}\textbf{9}
+                                     & \cellcolor[HTML]{999999}\textbf{12.5}
+                                     & \cellcolor[HTML]{99E899}\textbf{9}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Scalability}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
 Multiple engine instances -- \texttt{S$_1$}& \cellcolor[HTML]{999999}2
                                      & \cellcolor[HTML]{99CC99}1
@@ -1179,9 +1179,10 @@ requires to modify the science gateway as well as interactions
 \texttt{b} and \texttt{c$_2$} (\texttt{E$_1$}=3). Updating a workflow
 engine version requires modifications in the science gateway
 (\texttt{E$_2$}=1).  Inserting a new workflow is done through
-interactions \texttt{a$_1$} and \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new infrastructure generates updates in
-interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
-(\texttt{E$_4$}=3).
+interactions \texttt{a$_1$} and \texttt{a$_2$}
+(\texttt{E$_3$}=2). Adding a new infrastructure generates updates in
+interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$} and
+\texttt{c$_2$} (\texttt{E$_4$}=4).
 
 \paragraph{Scalability} Adding a new engine instance requires a new
 instance of the science gateway, which is in general not possible
@@ -1227,8 +1228,8 @@ service since the only goal of this component is to wrap the engine.
 New workflows are added in the science gateway or in the workflow
 engine through interactions \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$}=2). Adding a new type of infrastructure requires
-updates in interactions \texttt{b}, \texttt{$c_1$} and \texttt{$c_2$}
-(\texttt{E$_4$}=3).
+updates in interactions \texttt{a$_1$}, \texttt{b}, \texttt{$c_1$} and \texttt{$c_2$}
+(\texttt{E$_4$}=4).
 
 \paragraph{Scalability} The service architecture supports multiple
 engine instances through multiple workflow services. In VIP for
@@ -1284,8 +1285,8 @@ on the infrastructure (\texttt{E$_1$}=2). Updating an engine version
 requires updates only on the infrastructure (\texttt{E$_2$}=1).  New
 workflows are integrated by creating a new task in the science gateway
 through interactions \texttt{a$_1$} and \texttt{a$_2$}  (\texttt{E$_3$}=2). Adding a new
-infrastructure requires to update interactions \texttt{b} and
-\texttt{c} in the science gateway (\texttt{E$_4$}=2).
+infrastructure requires to update interactions \texttt{a$_1$}, \texttt{b} and
+\texttt{c} in the science gateway (\texttt{E$_4$}=3).
 
 \paragraph{Specific features} Meta-workflows are not available
 (\texttt{O$_1$}=1).  Obtaining fine-grained information about workflow
@@ -1348,8 +1349,8 @@ is transparent (\texttt{E$_2$=0}) since it only requires updating the
 agent that is a component dedicated to the engine. Integrating a new workflow is
 done through interactions \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Integrating a new infrastructure requires updates
-in interactions \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
-(\texttt{E$_4$=3}).
+in interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
+(\texttt{E$_4$=4}).
 
 \paragraph{Scalability} New engine instances only require new agents,
 which is easily automated (\texttt{S$_1$=0}) and by design very
@@ -1409,8 +1410,8 @@ version in the parent or child engine only requires modifying this
 engine (\texttt{E$_2$=0}). Adding a new
 workflow is done through interaction \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Adding a new infrastructure requires to
-re-implement interactions \texttt{b} and \texttt{c$_2$} twice, and
-interaction \texttt{c$_1$} once (\texttt{E$_4$=5}).
+re-implement interactions \texttt{a$_1$}, \texttt{b} and \texttt{c$_2$} twice, and
+interaction \texttt{c$_1$} once (\texttt{E$_4$=6}).
 
 \paragraph{Scalability} As in the service architecture, adding a new
 workflow instance requires manual configuration in the science gateway
@@ -1448,8 +1449,8 @@ new engine version only requires modifying interaction \texttt{g}
 (\texttt{E$_2$=1}).  Adding a new workflow is done through
 interactions \texttt{a$_1$}, \texttt{a$_2$} and \texttt{g} (\texttt{E$_3$=3}). As in the
 service architecture, interfacing with a new infrastructure requires
-modifications in the workflow service and in interactions \texttt{b}
-and \texttt{c$_2$} (\texttt{E$_4$=3}).
+modifications in the workflow service and in interactions \texttt{a$_1$}, \texttt{b}
+and \texttt{c$_2$} (\texttt{E$_4$=4}).
 
 \paragraph{Scalability}  Since workflow conversion is not involved in
 the execution (it is an offline process), metrics are as in the
