@@ -202,11 +202,11 @@ such as Bash.
 
 \subsection{Science gateways}
 
-Science gateways are used to share resources in a community and to
-provide increased performance and capacity through facilitated access to storage and
-computing power. They are often accessible through a web interface
-that helps users manage access rights, data transfers, task execution
-and authentication on multiple computing and storage
+Science gateways are used to share resources within a community and to
+provide increased performance and capacity through facilitated access
+to storage and computing power. They are often accessible through a
+web interface that helps users manage access rights, data transfers,
+task execution and authentication on multiple computing and storage
 locations. Workflow engines are part of this ecosystem as core
 components to implement and execute applications.
 
@@ -217,13 +217,17 @@ Integration between workflow engines and science gateways varies
 across systems. Some science gateways may be tailored to a particular
 engine that manages critical functions such as task execution, data
 transfers and authentication. Other gateways may be more general and
-host applications executed by different types of
-engines. Extensibility is an important property of the integration, as
-new workflows are added frequently, different types and versions of
+host applications executed by different types of engines. Finally,
+some science gateways may not use any workflow engine and focus on the
+execution of simple tasks -- this class of systems is not covered by
+our analysis.
+
+Extensibility is an important property of the integration, as new
+workflows are added frequently, different types and versions of
 workflow engines may be integrated over time, and different kinds of
 infrastructure can be targeted.
 
-Scalability is also an important concern, since science gateways are
+Scalability is also a crucial concern, since science gateways are
 multi-user systems that manage substantial amounts of data and execute
 computationally-intensive analyses. To this end, science gateways
 may include different instances of the same engine type and implement
