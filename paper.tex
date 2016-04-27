@@ -1641,16 +1641,22 @@ in real systems, and because service invocation is largely
 used. Nested workflows with sub-tasking, in particular, could be an
 interesting architecture to explore.
 
-Finally, the particular technical or historical context of a science
-gateway project may obviously influence the choice of an architecture
-to integrate workflow engines. For instance, some workflow engines may
-be already available as web services, which would tend to favor
-service invocation, and other science gateways may have strongly
-tested task and data control features (interactions \texttt{b} and
-\texttt{c}), which would favor sub-tasking. Similarly, adding a new
-type of engine may facilitate integration of a new infrastructure when
-interactions \texttt{b} and \texttt{c$_2$} are already available. The
-migration cost between architectures has been ignored as well.
+The particular technical or historical context of a science gateway
+project may obviously influence the choice of an architecture to
+integrate workflow engines. For instance, some workflow engines may be
+already available as web services, which would tend to favor service
+invocation, and other science gateways may have strongly tested task
+and data control features (interactions \texttt{b} and \texttt{c}),
+which would favor sub-tasking. Similarly, adding a new type of engine
+may facilitate integration of a new infrastructure when interactions
+\texttt{b} and \texttt{c$_2$} are already available. The migration
+cost between architectures has been ignored as well.
+
+Finally, workflow engines are only one of the many aspects involved in
+the design of a science gateway. Other properties definitely influence
+the design of a software architecture, for instance collaborative
+features, data visualization, search, authentication, accounting and
+so on.
 
 \section{Conclusion}
 
