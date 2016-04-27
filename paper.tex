@@ -1055,7 +1055,16 @@ be added or replaced:
   engine type is already available. Different versions of a workflow
   engine share the same interface, i.e. they can be invoked using the
   same software. When this is not the case, the different versions are
-  considered as different engine types.
+  considered as different engine types. Components are not treated
+  equally regarding engine version updates. Components whose only
+  function is to host the workflow engine, i.e. workflow services and
+  agents, are not counted in E$_2$ because updates in such components
+  are assumed to be straightforward. On the contrary, modifications of
+  components that have other functions than wrapping the engine,
+  i.e. science gateway and infrastructure, are counted in E$_2$
+  because updates in these components require more effort, e.g. new
+  release of the science gateway, gaining administrative privileges on
+  the infrastructure, etc.
 \item New workflow (\texttt{E$_3$}): adding a new workflow is a very
   common operation that does not require modifying software components
   or interactions. We measure the difficulty to integrate a new
@@ -1222,14 +1231,13 @@ requires to implement the corresponding workflow service, to modify
 interaction \texttt{d}, and to implement interactions \texttt{b} and
 \texttt{$c_2$} (\texttt{E$_1$}=4). New engine versions can be added by
 updating the workflow service without modifying any interaction or
-component (\texttt{E$_2$}=0). We consider that updating the engine
-version in a workflow service does not require code updates in the
-service since the only goal of this component is to wrap the engine.
-New workflows are added in the science gateway or in the workflow
-engine through interactions \texttt{a$_1$} and \texttt{a$_2$}
-(\texttt{E$_3$}=2). Adding a new type of infrastructure requires
-updates in interactions \texttt{a$_1$}, \texttt{b}, \texttt{$c_1$} and \texttt{$c_2$}
-(\texttt{E$_4$}=4).
+component (\texttt{E$_2$}=0). Updating the engine version in a
+workflow service does not count since the only goal of this component
+is to wrap the engine.  New workflows are added in the science gateway
+or in the workflow engine through interactions \texttt{a$_1$} and
+\texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new type of infrastructure
+requires updates in interactions \texttt{a$_1$}, \texttt{b},
+\texttt{$c_1$} and \texttt{$c_2$} (\texttt{E$_4$}=4).
 
 \paragraph{Scalability} The service architecture supports multiple
 engine instances through multiple workflow services. In VIP for
