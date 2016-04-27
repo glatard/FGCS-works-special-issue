@@ -63,6 +63,7 @@
 
 \author[mcgill]{Reza Adalat}
 \author[mcgill]{Natacha Beck}
+\author[mcgill]{Samir Das}
 \author[isi]{Rafael Ferreira da Silva}
 \author[mcgill]{Najmeh Khalili-Mahani}
 \author[criugm]{Pierre-Olivier Quirion}
@@ -231,7 +232,7 @@ task scheduling policies on the infrastructure, e.g. to ensure fairness
 among users~\cite{FERR-14,CPE:CPE3708} or to improve
 fault-tolerance~\cite{wilkins2008teragrid,FERR-13}.
 
-Robustness is a highly desirable characteristic in production gateways. In this respect, the 
+Robustness is a highly desirable characteristic in production gateways. In this respect, the
 multiplicity of software components and interactions involved in architectures is
 a challenge as it often leads to complex systems.
 Architectures showing reduced system complexity will greatly
@@ -830,7 +831,7 @@ from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
   require to reproduce a figure from another paper. The concept seems
   simple enough to not require a figure.}
 
-%Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13]. 
+%Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13].
 
 \section{Evaluation}
 
@@ -1505,7 +1506,7 @@ the sub-tasking and nested workflow architectures could well become
 showstoppers depending on the type of the targeted
 infrastructure. Non-reliable infrastructures, for example, could
 hardly cope with workflow engines being wrapped in computing tasks as
-done in sub-tasking. The availability of multiple engine instances
+done in sub-tasking \note{Marc-e}{free for all? WE dev involved?}. The availability of multiple engine instances
 could also become a critical feature for science gateways with
 important workloads, which would favor sub-tasking and pool.
 
@@ -1683,14 +1684,14 @@ Universit\'e de Lyon, within the program ``Investissements d’Avenir''
 (ANR). This work also falls into the scope of the scientific topics of
 the French National Grid Institute (IdG). We thank the site
 administrators of the European Grid Initiative and the GGUS support
-for their help related to the VIP platform. We are grateful for the
+for their help related to the VIP platform. The CBRAIN team is grateful for the
 computing cycles, storage, and support obtained from Compute Canada
-(\url{https://computecanada.ca}) for CBRAIN. This work has been made
-possible with the support of the Irving Ludmer Family Foundation and
-the Ludmer Centre for Neuroinformatics and Mental
-Health. \answerednote{Marc-e}{Would it be proper to thank EGI?
+(\url{https://computecanada.ca}) and platform development program from CANARIE
+ (\url{http://www.canarie.ca/}). This work has been made possible with the support of the Irving Ludmer Family Foundation and
+the Ludmer Centre for Neuroinformatics and Mental Health. \answerednote{Marc-e}{Would it be proper to thank EGI?
   Compute Canada? CANARIE?}{Tristan}{Added EGI and Compute Canada. Not sure if
-  Canarie should be added. What about Calcul QC?}
+  Canarie should be added. What about Calcul QC?}{Marc-e}{CQ, no. CANARIE, I'd
+  say yes since they funded a major chunk of CBRAIN's development.}
 
 \section*{References}
 
