@@ -63,7 +63,7 @@
 
 \author[mcgill]{Reza Adalat}
 \author[mcgill]{Natacha Beck}
-\author[mcgill]{Samir Das}
+\author[mcgill]{\\Samir Das}
 \author[isi]{Rafael Ferreira da Silva}
 \author[mcgill]{Najmeh Khalili-Mahani}
 \author[criugm]{Pierre-Olivier Quirion}
@@ -74,30 +74,29 @@
 
 \address[mcgill]{McGill Centre for Integrative Neuroscience, Montreal Neurological Institute, McGill University, Canada.}
 \address[creatis]{University of Lyon, CNRS, INSERM, CREATIS, Villeurbanne, France.}
-\address[criugm]{Centre de Recherche de l'Institut de G\'eriatrie de Montr\'eal CRIUGM, Montreal, QC, Canada.}
+\address[criugm]{Centre de Recherche de l'Institut de G\'eriatrie de Montr\'eal CRIUGM, Montr\'eal, QC, Canada.}
 \address[isi]{University of Southern California, Information Sciences Institute, Marina del Rey, CA, USA.}
 
 \begin{abstract}
   We investigate software architectures commonly used to integrate
-  workflow engines in science gateways. Based on our experience with
-  the development and operations of the CBRAIN and VIP science
-  gateways, and our past involvement in the SHIWA project, we abstract
-  software components and interactions in 6 architectures that we use
-  to classify 18 systems. We compare these architectures using metrics
-  measuring global complexity, robustness, extensibility, scalability
-  and other specific features. Results show the pros and cons of the
-  different architectures: tight integration and sub-tasking are the
-  simplest architectures and should therefore be the easiest to
-  implement and the most robust ones, most architectures perform the
-  same in terms of extensibility, the pool model is the most scalable
-  and meta-workflows are only available in nested workflows and
-  workflow import. These results provide insights for software
-  architects on how to integrate science gateways and workflow
-  engines.
+  workflow engines in science gateways, based on our experience with
+  the CBRAIN and VIP platforms, and on our past involvement in the
+  SHIWA project. We abstract software components and interactions in 6
+  architectures that we use to classify 18 systems. We compare these
+  architectures using metrics measuring global complexity, robustness,
+  extensibility, scalability and other specific features. Results show
+  the pros and cons of the different architectures: tight integration
+  and sub-tasking are the simplest architectures and should therefore
+  be the easiest to implement and the most robust ones, most
+  architectures perform the same in terms of extensibility, the pool
+  model is the most scalable and meta-workflows are only available in
+  nested workflows and workflow import. Our analysis provides insights
+  for software architects on how to integrate science gateways and
+  workflow engines.
 \end{abstract}
 
 \begin{keyword}
-Workflow engines \sep science gateways \sep software architecture.
+Workflow engines \sep science gateways \sep software architectures.
 \end{keyword}
 
 \end{frontmatter}
@@ -108,13 +107,13 @@ Workflow engines \sep science gateways \sep software architecture.
 
 \section{Introduction}
 
-Workflow engines are critical components of the ecosystem of tools and
-services offered by science gateways to leverage distributed
-infrastructures for the efficient execution of applications through
-the web. Several software architectures can be adopted to integrate
-workflow engines in science gateways, with important consequences on
-the required development effort and on the resulting system. This
-paper describes, exemplifies and compares such architectures, based on
+Workflow engines are critical components in the ecosystem of tools and
+services offered by science gateways for the efficient and transparent
+execution of applications on distributed infrastructures. Several
+software architectures can be adopted to integrate workflow engines in
+science gateways, with important consequences on the required
+development effort and on the resulting system. This paper describes,
+exemplifies and compares such architectures, based on
 system-independent representations of their main components and
 interactions.
 
@@ -141,24 +140,20 @@ for science gateway and workflow engine architects.
 \subsection{Workflow engines}
 
 In the last decade, the e-Science community has developed workflow
-systems to help developers access distributed infrastructures such as
-clusters, grids, clouds and web services. These efforts resulted in
-tools such as Askalon~\cite{fahringer2005askalon},
+systems to help application developers access distributed
+infrastructures such as clusters, grids, clouds and web
+services. These efforts resulted in tools such as
+Askalon~\cite{fahringer2005askalon},
 Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
 Pegasus~\cite{deelman2005pegasus,Deelman201517},
 Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
 Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing},
 WS-PGRADE~\cite{Kacsuk2012} and others. Such workflow engines usually
-describe applications in a high-level language that offers specific
-data and control flow constructs, parallelization operators, visual
-edition features, links with domain-specific tool repositories,
-provenance recording, among other features. An overview of workflow
-systems features and capability is available
-in~\cite{deelman2009workflows}.
-% Descriptions and experiments
-%conducted with e-Science workflow engines were published in journals
-%such as Future Generation Computer Systems and conference venues such
-%as WORKS.
+describe applications in a high-level language with specific data and
+control flow constructs, parallelization operators, visual edition
+features, links with domain-specific tool repositories, provenance
+recording and other features. An overview of workflow system
+capabilities is available in~\cite{deelman2009workflows}.
 
 At the same time, toolboxes were emerging in various scientific
 domains to facilitate the assembly of software components in
@@ -170,21 +165,20 @@ Parametric Mapping~\cite{ashburner2011spm}) and FSL (FMRIB Software
 Library~\cite{Jenkinson2012782}) provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
-computing systems, in particular clusters, to handle high-throughput
-task executions. For instance, FSL can launch tasks on SGE through its
-fsl\_sub tool, Nipype has execution plugins for S/OGE, Torque,
+computing infrastructures, in particular clusters, to execute tasks at
+a high throughput. For instance, FSL can launch tasks on SGE through
+its fsl\_sub tool, Nipype has execution plugins for S/OGE, Torque,
 IPython, ssh and multi-processor servers, and PSOM is interfaced to
 Torque, SGE, MOAB, LSF, and HTCondor. Some of these tools also support
 advanced features such as provenance tracking (Nipype, PSOM),
 redundancy detection across analyses to avoid re-computation (PSOM),
 and so on. A wide-array of workflows have been implemented using these
 pipelines and are now shared across neuroimaging groups
-world-wide. These
-domain-specific engines represent a tremendous opportunity for science
-gateways to leverage existing tools and applications. They nicely
-complement e-Science engines that are more oriented towards the
-exploitation of distributed computing infrastructures, in particular
-grids and clouds.
+world-wide. These domain-specific engines represent a tremendous
+opportunity for science gateways to leverage existing tools and
+applications. They nicely complement e-Science engines that are more
+oriented towards the exploitation of distributed computing
+infrastructures, in particular grids and clouds.
 
 For the sake of the analysis conducted in this paper, we define a
 \emph{workflow engine} (also abbreviated \emph{engine}) as a piece of
@@ -206,7 +200,7 @@ Science gateways are used to share resources within a community and to
 provide increased performance and capacity through facilitated access
 to storage and computing power. They are often accessible through a
 web interface that helps users manage access rights, data transfers,
-task execution and authentication on multiple computing and storage
+task execution, and authentication on multiple computing and storage
 locations. Workflow engines are part of this ecosystem as core
 components to implement and execute applications.
 
@@ -312,9 +306,7 @@ as other applications and invoked through a dedicated service. The
 Fine-Grained Interoperability framework was also developed in the
 SHIWA project, where conversions between workflow languages are
 achieved through a common intermediate
-representation~\cite{plankensteiner-prodan-etal:2013}. \note{Tristan}{Silvia,
-  do you think it is legitimate to refer to SHIWA like this in the
-  paper, or should we involve Gabor in the writing?}
+representation~\cite{plankensteiner-prodan-etal:2013}. 
 
 \subsection{Infrastructures}
 
@@ -470,8 +462,7 @@ classification of a few systems by architecture.
 \subsection{Interactions}
 
 The interactions involved in the architectures are described below and
-labeled consistently with the notations used on
-Figure~\ref{fig:architectures}.
+labeled consistently with Figure~\ref{fig:architectures}.
 
 \begin{enumerate}[leftmargin=0cm,itemindent=0.65cm,label=\texttt{(\alph*)}]
 
@@ -504,7 +495,7 @@ Figure~\ref{fig:architectures}.
   (\texttt{$c_2$}), to transfer workflow data (inputs, outputs, or
   intermediate results) across the infrastructure so that tasks can
   use it. The infrastructure might offer various data storage backends
-  with heterogeneous interfaces. \closednote{Marc-Etienne}{this -c2- can be also trigerred
+  with heterogeneous interfaces. \closedanswerednote{Marc-Etienne}{this -c2- can be also trigerred
     by the user}{Tristan}{No, it can't: this is by definition an interaction between the workflow engine and the infrastructure. It is used to transfer data to/from tasks. I reworded a bit, is it clearer now?}
     {Marc-e}{I meant, "using c1", a user in some platforms (CBRAIN), can trigger
     some operations across the infrastructure, as in c2... not just up/download data.
@@ -689,16 +680,18 @@ reproduced from~\cite{GLAT-16}]{ \def\svgwidth{\columnwidth}
   starts workflow engine (FSL tool or PSOM master) via task
   scheduler. 6: Workflow engine submits sub-tasks to execution server
   (FSL tasks or PSOM agents). 7-8: Execution server starts sub-tasks
-  through task scheduler. 8': (PSOM only) PSOM master and workers
-  execute workflow. 9. Execution server transfers results to storage
-  server(s). Interaction \texttt{b} in Figure~\ref{fig:architectures}
-  is implemented by steps \texttt{4}, \texttt{5}, \texttt{7} and
-  \texttt{8} (regular interactions with batch manager). Interaction
-  \texttt{c} is implemented by steps \texttt{3} and
-  \texttt{9}. Interaction \texttt{e} is implemented by step \texttt{6}
-  (for FSL: through a modified version of the fsl\_sub script
-  available in \url{https://github.com/aces/cbrain-plugins-neuro}; for
-  PSOM: through a specific development in PSOM).}
+  through task scheduler. FSL sub-tasks will run locally
+  instead of being submitted to CBRAIN through interaction 6. 8':
+  (PSOM only) PSOM master and workers execute workflow. 9. Execution
+  server transfers results to storage server(s). Interaction
+  \texttt{b} in Figure~\ref{fig:architectures} is implemented by steps
+  \texttt{4}, \texttt{5}, \texttt{7} and \texttt{8} (regular
+  interactions with batch manager). Interaction \texttt{c} is
+  implemented by steps \texttt{3} and \texttt{9}. Interaction
+  \texttt{e} is implemented by step \texttt{6} (for FSL: through a
+  modified version of the fsl\_sub script available in
+  \url{https://github.com/aces/cbrain-plugins-neuro}; for PSOM:
+  through a specific development in PSOM).}
 \label{fig:cbrain-sub-tasking}
 \end{figure*}
 
