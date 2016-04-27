@@ -171,7 +171,7 @@ Parametric Mapping~\cite{ashburner2011spm}) and FSL (FMRIB Software
 Library~\cite{Jenkinson2012782}) provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
-computing systems, in particular clusters, to handle high-throughput
+computing systems, in particular cluster schedulers, to handle high-throughput
 task executions. For instance, FSL can launch tasks on SGE through its
 fsl\_sub tool, Nipype has execution plugins for S/OGE, Torque,
 IPython, ssh and multi-processor servers, and PSOM is interfaced to
@@ -193,8 +193,8 @@ software that submits interdependent computing \emph{tasks} to an
 \emph{infrastructure} (local server, cluster, grid or cloud) based on
 a workflow description (a.k.a \emph{workflow}) and using input data
 that may consist of files, database entries or simple parameter
-values. Although simplistic, this definition covers both e-Science and
-domain-specific engines. Some workflow engines, usually e-Science
+values. Although simplistic, this definition covers both e-Science workflow systems and
+domain-specific pipelines.\note{Marc-e}{To remain consistent with above descriptions} Some workflow engines, usually e-Science
 ones, may transfer data across the infrastructure, and others, usually
 domain-specific ones, may leave this role to external processes. Workflows
 may be expressed in any language, including high-level XML or JSON
@@ -265,7 +265,7 @@ Science Gateway Framework~\cite{Ardizzone2012} and
 WS-PGRADE/gUSE~\cite{Kacsuk2012}. Numerous science gateway instances
 were built using such
 frameworks~\cite{kacsuk2014science,ardizzone2012decide}. Other gateway
-instances were also built independently from any framework, using
+instances were also built independently from such specialized framework, using
 regular web development tools and libraries to access distributed
 systems. CBRAIN and VIP are two such science gateways, from which we
 gathered experience about the architectures described in this paper.
@@ -277,10 +277,11 @@ research. It offers transparent web-based access to remote data
 sources, distributed computing sites, and an array of processing and
 visualization tools, within a secure environment. CBRAIN is deployed
 at a wide range of computing sites, including a network of national HPC
-centers in Canada, one in Korea, one in Germany, and on numerous local
-servers. As February 2016, CBRAIN has served over 420 users across 50
-cities in 22 countries and has a national computing allocation of 660 CPU years
-per annum.
+centers in Canada, a cluster in Germany, and on numerous local research
+servers. CBRAIN is a task-centric platform where various workflow engines
+can be deployed on the infrastructure as any other task would. As February 2016,
+CBRAIN has served over 420 users across 50 cities in 22 countries and has a
+national computing allocation of 660 CPU years per annum.
 
 The Virtual Imaging Platform
 (VIP\footnote{\url{http://www.creatis.insa-lyon.fr/vip}})~\cite{GLAT-13}
@@ -323,7 +324,7 @@ workflow engines and science gateways may assume specific
 characteristics about the infrastructure, such as the presence of a
 shared file system between the computing nodes, the availability of a
 global task meta-scheduler, the presence of a file catalog, etc. In
-the analysis presented below, such specific functions are not
+the analysis presented below, such specific requirements are not
 discussed. Instead, we consider the infrastructure as an abstract
 system that can execute tasks and store data regardless of the
 enabling mechanisms.
