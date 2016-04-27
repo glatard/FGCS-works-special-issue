@@ -1519,7 +1519,7 @@ the sub-tasking and nested workflow architectures could well become
 showstoppers depending on the type of the targeted
 infrastructure. Non-reliable infrastructures, for example, could
 hardly cope with workflow engines being wrapped in computing tasks as
-done in sub-tasking \note{Marc-e}{free for all? WE dev involved?}. The availability of multiple engine instances
+done in sub-tasking. The availability of multiple engine instances
 could also become a critical feature for science gateways with
 important workloads, which would favor sub-tasking and pool.
 
@@ -1664,9 +1664,8 @@ so on.
 We reviewed architectures used to integrate workflow engines in
 science gateways, we described them in a system-independent framework
 suitable for comparison, we illustrated them on real systems, we
-developed quantitative metrics for evaluation, we evaluated these
-metrics for all the architectures, and we discussed the pros and cons
-of all the architectures based on these metrics.
+developed quantitative metrics for evaluation, and we discussed the
+pros and cons of all the presented architectures based on these metrics.
 \closedanswerednote{Rafael}{One thing that is missing in the
   conclusion or the limitations section is to state that this work
   does not intend to quantify the amount of work required to develop
@@ -1678,10 +1677,15 @@ of all the architectures based on these metrics.
   think?}{Tristan}{Fixed, as discussed in github \#8.}
 
 % Impact of the work
-To the best of our knowledge, our work is the first of its kind
-\note{Tristan}{Be more accurate}. Our results can be used as
-recommendation for science gateway and workflow engine architects to
-build new platforms, or to upgrade existing ones.
+To the best of our knowledge, our work is the first of its kind. So
+far, the literature on science gateways and workflow engines has
+focused on the description of particular systems, or on the
+presentation of a particular architecture. For instance, the work
+in~\cite{Gannon2005} discusses service-oriented architectures for
+science gateways with workflow engines.  Instead, our analysis
+abstracts and evaluates architectural patterns independently from any
+particular system. It provides general insight to integrate science
+gateways and workflow engines.
 
 % Literature on SG architecture Very few works go beyond the
 % description of architectures of particular systems. The work in
@@ -1707,7 +1711,7 @@ for their help related to the VIP platform. The CBRAIN team is grateful for the
 computing cycles, storage, and support obtained from Compute Canada
 (\url{https://computecanada.ca}) and platform development program from CANARIE
  (\url{http://www.canarie.ca/}). This work has been made possible with the support of the Irving Ludmer Family Foundation and
-the Ludmer Centre for Neuroinformatics and Mental Health. \answerednote{Marc-e}{Would it be proper to thank EGI?
+the Ludmer Centre for Neuroinformatics and Mental Health. \closedanswerednote{Marc-e}{Would it be proper to thank EGI?
   Compute Canada? CANARIE?}{Tristan}{Added EGI and Compute Canada. Not sure if
   Canarie should be added. What about Calcul QC?}{Marc-e}{CQ, no. CANARIE, I'd
   say yes since they funded a major chunk of CBRAIN's development.}
