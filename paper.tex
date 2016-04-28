@@ -79,20 +79,19 @@
 
 \begin{abstract}
   We investigate software architectures commonly used to integrate
-  workflow engines in science gateways, based on our experience with
-  the CBRAIN and VIP platforms, and on our past involvement in the
-  SHIWA project. We abstract software components and interactions in 6
-  architectures that we use to classify 18 systems. We compare these
-  architectures using metrics measuring global complexity, robustness,
-  extensibility, scalability and other specific features. Results show
-  the pros and cons of the different architectures: tight integration
-  and sub-tasking are the simplest architectures and should therefore
-  be the easiest to implement and the most robust ones, most
-  architectures perform the same in terms of extensibility, the pool
-  model is the most scalable and meta-workflows are only available in
-  nested workflows and workflow import. Our analysis provides insights
-  for software architects on how to integrate science gateways and
-  workflow engines.
+  workflow engines in science gateways. We abstract software
+  components and interactions in 6 architectures that we use to
+  classify 18 systems. We compare these architectures using metrics
+  measuring global complexity, robustness, extensibility, scalability
+  and other specific features. Results show the pros and cons of the
+  different architectures: tight integration and sub-tasking are the
+  simplest architectures and should therefore be the easiest to
+  implement and the most robust ones, most architectures perform the
+  same in terms of extensibility, the pool model is the most scalable
+  and meta-workflows are only available in nested workflows and
+  workflow import. Our analysis provides insights for software
+  architects on how to integrate science gateways and workflow
+  engines.
 \end{abstract}
 
 \begin{keyword}
@@ -264,49 +263,7 @@ were built using such
 frameworks~\cite{kacsuk2014science,ardizzone2012decide}. Other gateway
 instances were also built independently from any framework, using
 regular web development tools and libraries to access distributed
-systems. CBRAIN and VIP are two such science gateways, from which we
-gathered experience about the architectures described in this paper.
-
-CBRAIN\footnote{\url{http://cbrain.mcgill.ca}}~\cite{SHER-14} is an
-open-source\footnote{\url{https://github.com/aces/cbrain}}, web-based collaborative platform addressing the
-challenges of data-heavy, computation-intensive neuroimaging
-research. It offers transparent web-based access to remote data
-sources, distributed computing sites, and an array of processing and
-visualization tools, within a secure environment. CBRAIN is deployed
-at a wide range of computing sites, including a network of national HPC
-centers in Canada, one in Korea, one in Germany, and on numerous local
-servers. As February 2016, CBRAIN has served over 420 users across 50
-cities in 22 countries and has a national computing allocation of 660 CPU years
-per annum.
-
-The Virtual Imaging Platform
-(VIP\footnote{\url{http://www.creatis.insa-lyon.fr/vip}})~\cite{GLAT-13}
-is a web portal for medical simulation and image data analysis. It
-leverages computing and storage resources available in the biomed
-Virtual Organization of the European Grid Infrastructure (EGI) to
-offer an open service to academic researchers worldwide. VIP
-completely masks the infrastructure to enable a transparent user
-experience. It uses the MOTEUR workflow engine~\cite{GLAT-13} and the
-DIRAC pilot-job framework~\cite{tsaregorodtsev2008dirac} to execute
-applications on EGI. Almost 900 users were registered in VIP by
-April 2016 and the average CPU consumption between January 2013 and
-March 2016 was 35 CPU years per month.
-
-The architectures described hereafter also build on experience with
-the SHIWA Simulation Platform~\cite{terstyanszky2014enabling}. The
-SHIWA Simulation Platform is a WS-PGRADE/gUSE science gateway that was
-developed in the European projects
-SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and
-ER-flow\footnote{\url{http://www.erflow.eu}}. It focuses on workflow
-interoperability for various disciplines, in particular through the
-building of meta-workflows, i.e. workflows that are built out of other
-workflows. It implements the so-called Coarse-Grained Interoperability
-framework where workflow engines are integrated in the science gateway
-as other applications and invoked through a dedicated service. The
-Fine-Grained Interoperability framework was also developed in the
-SHIWA project, where conversions between workflow languages are
-achieved through a common intermediate
-representation~\cite{plankensteiner-prodan-etal:2013}. 
+systems, for instance CBRAIN~\cite{SHER-14} and VIP~\cite{GLAT-13}.
 
 \subsection{Infrastructures}
 
