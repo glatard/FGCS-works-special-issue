@@ -19,7 +19,7 @@
 \newcommand{\note}[2]{\pdfmargincomment[color=yellow,author=#1,open=true]{#2}}
 \newcommand{\closednote}[4]{} % closed notes are hidden. This should obviously be a parameter of \note rather than a separate command.
 \newcommand{\answerednote}[4]{\pdfmargincomment[color=green,author=#1-#3,open=true]{#1: #2 \textCR \textCR #3: #4}}
-\newcommand{\closedanswerednote}[6]{\pdfmargincomment[color=gray,author=#1-#3-#5,open=true]{#1: #2 \textCR \textCR #3: #4 \textCR \textCR #5: #6}}
+\newcommand{\closedanswerednote}[6]{}
 
 
 \renewcommand\thesubfigure{\Roman{subfigure}}
@@ -82,7 +82,7 @@
   workflow engines in science gateways. We abstract software
   components and interactions in 6 architectures that we use to
   classify 18 systems. We compare these architectures using metrics
-  measuring global complexity, robustness, extensibility, scalability
+  measuring integration challenge, robustness, extensibility, scalability
   and other specific features. Results show the pros and cons of the
   different architectures: tight integration and task encapsulation are the
   simplest architectures and should therefore be the easiest to
@@ -128,7 +128,7 @@ infrastructures. In Section~\ref{sec:architectures}, we describe 6
 architectures in a consistent framework based on the functional
 interactions between the main software components involved. In
 Section~\ref{sec:evaluation}, we introduce metrics to measure
-global complexity, robustness, extensibility, scalability and other
+integration challenge, robustness, extensibility, scalability and other
 specific features of the architectures. We use these metrics to
 evaluate and compare the 6 architectures. The paper closes on a
 discussion and conclusion that highlight architectural recommendations
@@ -800,10 +800,10 @@ from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 
 The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
-evaluate the architectures: global complexity, execution complexity,
+evaluate the architectures: integration challenge, execution complexity,
 extensibility, scalability and other specific features. Criteria break
 down to specific metrics where \emph{lower value indicates better
-  performance}. For each criterion, a total score is computed by
+  performance}. For each criterion, a global score is computed by
 summing up the individual metrics. We ensure that the different
 metrics in a criterion measure similar entities so that they can be
 summed. The criteria and metrics are explained hereafter.
@@ -819,7 +819,7 @@ summed. The criteria and metrics are explained hereafter.
                                      & \textbf{Pool}
                                      & \textbf{Nested}
                                      & \textbf{Import} \\
-\cellcolor[HTML]{EEEEEE}\textbf{Global complexity}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Integration challenge}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
   Total components -- \texttt{I$_1$} & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99DD99}3
                                      & \cellcolor[HTML]{99FF99}2
@@ -947,7 +947,7 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
 
 \subsection{Evaluation metrics}
 
-\emph{Global complexity} is obtained by counting the total number of
+\emph{Integration challenge} is obtained by counting the total number of
 interactions and components on the architecture diagram. It breaks
 down to the following 2 metrics:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
@@ -959,8 +959,8 @@ One may wonder whether infrastructure should be counted in
 integrate workflow engines in science gateway. However, integrating an
 infrastructure in the architecture usually requires some technical
 effort (e.g., account creation, software installation, APIs, etc.), which is
-why we keep it in the metric. The two metrics are summed to obtain the
-total score for global complexity. Global complexity measures the
+why we keep it in the metric. The two metrics are summed to obtain a
+global score that measures the
 total number of software pieces to develop, including interactions and
 components. It may be used to measure the development effort required
 to build the architecture.
@@ -988,7 +988,7 @@ user data, etc.
 These specific components and interactions are the ones represented in
 red in the architecture diagrams in
 Figure~\ref{fig:architectures}. \texttt{R$_1$} and \texttt{R$_2$} are
-summed to obtain the total score for this criterion, which measures
+summed to obtain the global score for this criterion, which measures
 the total number of software pieces that are specifically involved in
 the workflow execution.
 
@@ -1134,7 +1134,7 @@ evaluated along these metrics in the remainder of this Section.
 
 \subsection{Tight integration}
 
-\paragraph{Global complexity} This architecture does not require any
+\paragraph{Integration challenge} This architecture does not require any
 component in addition to the science gateway and infrastructure
 (\texttt{I$_1$=2}). It involves 5 interactions: \texttt{a$_1$},
 \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
@@ -1176,7 +1176,7 @@ gateway can retrieve any information from the workflow engine directly
 
 \subsection{Service invocation}
 
-\paragraph{Global complexity} Service invocation requires a workflow service
+\paragraph{Integration challenge} Service invocation requires a workflow service
 in addition to the science gateway and infrastructure
 (\texttt{I$_1$}=3). The architecture involves 6 interactions:
 \texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$},
@@ -1226,7 +1226,7 @@ engine (\texttt{O$_2$}=0).
 
 \subsection{Task encapsulation}
 
-\paragraph{Global complexity} Task encapsulation requires only 2
+\paragraph{Integration challenge} Task encapsulation requires only 2
 components (\texttt{I$_1$}=2).  It involves 5 interactions:
 \texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \texttt{c} and
 \texttt{e} (\texttt{I$_2$}=5).
@@ -1303,7 +1303,7 @@ which makes such deadlocks unlikely to happen.
 
 \subsection{Pool model}
 
-\paragraph{Global complexity} The pool model requires a workflow pool and an
+\paragraph{Integration challenge} The pool model requires a workflow pool and an
 agent in addition to the science gateway and infrastructure
 (\texttt{I$_1$=4}). It involves 7 interactions: \texttt{a$_1$},
 \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$}, \texttt{c$_2$}, \texttt{d}
@@ -1339,7 +1339,7 @@ for that (\texttt{O$_2$=0}).
 
 \subsection{Nested workflows with service invocation}
 
-\paragraph{Global complexity} Setting up a nested workflow
+\paragraph{Integration challenge} Setting up a nested workflow
 architecture with service invocation requires a science gateway, 2
 workflow services and 2 infrastructures (\texttt{I$_1$=5}). The
 architecture involves 11 interactions (\texttt{I$_2$=11}):
@@ -1358,13 +1358,14 @@ architecture involves 11 interactions (\texttt{I$_2$=11}):
   integrated one. But I take your point. 'Dependencies' is not very
   suitable either. What about 'development effort'?}{Tristan}{Replaced
   'Integration effort' with 'global complexity', as discussed in
-  github issue \#8.} \note{Marc-e}{I understand both points. However, complexity is
-  addressed in Robustness as well... I liked the idea of development effort. It's a tough call.}
+  github issue \#8.} 
 
 \paragraph{Robustness} The two workflow services are specific to
 workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b}
 (counted twice), \texttt{c$_2$} (twice) and \texttt{d} (twice) also
 are (\texttt{R$_2$=6}).
+\note{Marc-e}{I understand both points. However, complexity is
+  addressed in Robustness as well... I liked the idea of development effort. It's a tough call.}
 
 \paragraph{Extensibility} Adding a new type of \emph{parent} engine
 requires to implement the corresponding service, to implement
@@ -1400,7 +1401,7 @@ sub-workflow (\texttt{O$_2$=1}).
 
 \subsection{Workflow import with service invocation}
 
-\paragraph{Global complexity} Workflow import with service invocation
+\paragraph{Integration challenge} Workflow import with service invocation
 requires the same components as for service invocation
 (\texttt{I$_1$}=3). It requires an additional \texttt{g} interaction
 for workflow import (\texttt{I$_1$}=7).
@@ -1510,7 +1511,7 @@ the reasons mentioned previously.\closednote{Rafael}{I would emphasize
                                     & \textbf{Pool}
                                     & \textbf{Nested}
                                     & \textbf{Import} \\
-  Global complexity (normalized total) &
+  Integration (normalized total)    &
                                     \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99E899}{0.22}
                                     & \cellcolor[HTML]{99FF99}{0.00}
@@ -1550,7 +1551,7 @@ Specific features (normalized total) & \cellcolor[HTML]{99CC99}{0.50}
                                     & \cellcolor[HTML]{99FF99}\textbf{1.5}\\
 \end{tabular}
 \caption{Overall evaluation. Brighter colors and lower scores indicate better performance. Scores
-  are obtained by summing the normalized total scores ($m'$ values) of
+  are obtained by summing the normalized global scores ($m'$ values) of
   each criterion in Table~\ref{table:evaluation} and the colors are obtained by normalizing these scores
   as done in Table~\ref{table:evaluation}. }
 \label{table:overall}
