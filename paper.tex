@@ -835,7 +835,7 @@ Total interactions -- \texttt{I$_2$} & \cellcolor[HTML]{99FF99}5
 \textbf{Total} (total software pieces) & \cellcolor[HTML]{99FF99}\textbf{7}
                                      & \cellcolor[HTML]{99E899}\textbf{9}
                                      & \cellcolor[HTML]{99FF99}\textbf{7}
-                                     & \cellcolor[HTML]{99D199}\textbf{11}
+                                     & \cellcolor[HTML]{99D299}\textbf{11}
                                      & \cellcolor[HTML]{999999}\textbf{16}
                                      & \cellcolor[HTML]{99DD99}\textbf{10}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Robustness}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
@@ -845,10 +845,10 @@ Specific components -- \texttt{R$_1$} & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{999999}2
                                      & \cellcolor[HTML]{999999}2
                                      & \cellcolor[HTML]{99CC99}1\\
-  Specific interactions -- \texttt{R$_2$} & \cellcolor[HTML]{99EA99}2
+  Specific interactions -- \texttt{R$_2$} & \cellcolor[HTML]{99EB99}2
                                      & \cellcolor[HTML]{99D699}3
                                      & \cellcolor[HTML]{99FF99}1
-                                     & \cellcolor[HTML]{99C199}4
+                                     & \cellcolor[HTML]{99C299}4
                                      & \cellcolor[HTML]{999999}6
                                      & \cellcolor[HTML]{99D699}3\\
   \textbf{Total} (execution software pieces)& \cellcolor[HTML]{99F099}\textbf{2}
@@ -858,10 +858,10 @@ Specific components -- \texttt{R$_1$} & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{999999}\textbf{8}
                                      & \cellcolor[HTML]{99D399}\textbf{4}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Extensibility}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
-  New engine type -- \texttt{E$_1$}  & \cellcolor[HTML]{99C499}3
-                                     & \cellcolor[HTML]{99A799}4
-                                     & \cellcolor[HTML]{99E199}2
-                                     & \cellcolor[HTML]{99C499}3
+  New engine type -- \texttt{E$_1$}  & \cellcolor[HTML]{99C599}3
+                                     & \cellcolor[HTML]{99A899}4
+                                     & \cellcolor[HTML]{99E299}2
+                                     & \cellcolor[HTML]{99C599}3
                                      & \cellcolor[HTML]{999999}4.5
                                      & \cellcolor[HTML]{99FF99}1\\
 New engine version -- \texttt{E$_2$} & \cellcolor[HTML]{999999}1
@@ -882,8 +882,8 @@ New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{999999}6
                                      & \cellcolor[HTML]{99DD99}4\\
-  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D199}\textbf{10}
-                                     & \cellcolor[HTML]{99D199}\textbf{10}
+  \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D299}\textbf{10}
+                                     & \cellcolor[HTML]{99D299}\textbf{10}
                                      & \cellcolor[HTML]{99FF99}\textbf{8}
                                      & \cellcolor[HTML]{99E899}\textbf{9}
                                      & \cellcolor[HTML]{999999}\textbf{12.5}
@@ -941,7 +941,7 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
   $\frac{m-m_{\mathrm{min}}}{m_{\mathrm{min}}-m_{\mathrm{max}}}$ where
   $m$ is the initial metric value, $m_{\mathrm{min}}$ and $m_{\mathrm{max}}$
   are the minimal and maximal values among all architectures. The RGB hexadecimal color code of the cell
-  is \texttt{\#99XX99}, where X=F-4m'. \closednote{Tristan}{Use 6. Round to the nearest integer.}{Tristan}{Fixed.}}
+  is \texttt{\#99XX99}, where X=\texttt{round}(F-6m') (\texttt{round} rounds a number to the nearest integer). \closednote{Tristan}{Use 6. Round to the nearest integer.}{Tristan}{Fixed.}}
 \label{table:evaluation}
 \end{table*}
 
@@ -1515,7 +1515,7 @@ the reasons mentioned previously.\closednote{Rafael}{I would emphasize
                                     \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99E899}{0.22}
                                     & \cellcolor[HTML]{99FF99}{0.00}
-                                    & \cellcolor[HTML]{99D199}{0.44}
+                                    & \cellcolor[HTML]{99D299}{0.44}
                                     & \cellcolor[HTML]{999999}{1.00}
                                       & \cellcolor[HTML]{99DD99}{0.33}\\
 Robustness (normalized total) &
@@ -1525,8 +1525,8 @@ Robustness (normalized total) &
                                     & \cellcolor[HTML]{99B699}{0.71}
                                     & \cellcolor[HTML]{999999}{1.00}
                                     & \cellcolor[HTML]{99D399}{0.43}\\
-  Extensibility (normalized total)  & \cellcolor[HTML]{99D199}{0.44}
-                                     & \cellcolor[HTML]{99D199}{0.44}
+  Extensibility (normalized total)  & \cellcolor[HTML]{99D299}{0.44}
+                                     & \cellcolor[HTML]{99D299}{0.44}
                                      & \cellcolor[HTML]{99FF99}{0.00}
                                      & \cellcolor[HTML]{99E899}{0.22}
                                      & \cellcolor[HTML]{999999}{1.00}
@@ -1542,11 +1542,11 @@ Specific features (normalized total) & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{999999}{1.00}
                                      & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{99CC99}{0.50}
-                                     & \cellcolor[HTML]{99DD99}{0.00}\\
-                                    & \cellcolor[HTML]{99E699}\textbf{2.1}
+                                     & \cellcolor[HTML]{99FF99}{0.00}\\
+                                    & \cellcolor[HTML]{99E799}\textbf{2.1}
                                     & \cellcolor[HTML]{99E699}\textbf{2.1}
                                     & \cellcolor[HTML]{99FE99}\textbf{1.5}
-                                    & \cellcolor[HTML]{99EE99}\textbf{1.9}
+                                    & \cellcolor[HTML]{99EF99}\textbf{1.9}
                                     & \cellcolor[HTML]{999999}\textbf{4.0}
                                     & \cellcolor[HTML]{99FF99}\textbf{1.5}\\
 \end{tabular}
