@@ -100,8 +100,6 @@ Workflow engines \sep science gateways \sep software architectures.
 
 \end{frontmatter}
 
-
-
 %\maketitle
 
 \section{Introduction}
@@ -540,7 +538,7 @@ not covered by our analysis.
 \input{figures/VIP.pdf_tex}
 \caption{Architecture of the Virtual Imaging Platform (service
   invocation).  Step \texttt{3} corresponds to interaction \texttt{d}
-  on Figure~\ref{fig:architectures}, step \texttt{2} corresponds to
+  on Figure~\ref{fig:architectures}(II), step \texttt{2} corresponds to
   interaction \texttt{c$_1$}, and step \texttt{4} maps to interactions
   \texttt{b} and \texttt{c$_2$} (in VIP, workflow data transfers are
   performed by the tasks and embedded in their descriptions).}
@@ -576,7 +574,8 @@ etc.). Figure~\ref{fig:vip-architecture} shows the architecture of the
 Virtual Imaging Platform, where the MOTEUR workflow
 engine~\cite{GLAT-08i} is invoked through a service.
 
-\subsection{Task encapsulation} \answerednote{Marc-e}{May I propose
+\subsection{Task encapsulation}
+\closednote{Marc-e}{May I propose
   another name here? Either "Task-centric" or "Task Oriented". My
   reasoning is that the WE is just another task, as well as the
   sub-tasks themselves.}{Tristan}{I agree: sub-tasking is not the
@@ -647,7 +646,7 @@ reproduced from~\cite{GLAT-16}]{ \def\svgwidth{\columnwidth}
   instead of being submitted to CBRAIN through interaction 6. 8':
   (PSOM only) PSOM master and workers execute workflow. 9. Execution
   server transfers results to storage server(s). Interaction
-  \texttt{b} in Figure~\ref{fig:architectures} is implemented by steps
+  \texttt{b} in Figure~\ref{fig:architectures}(III) is implemented by steps
   \texttt{4}, \texttt{5}, \texttt{7} and \texttt{8} (regular
   interactions with batch manager). Interaction \texttt{c} is
   implemented by steps \texttt{3} and \texttt{9}. Interaction
@@ -672,35 +671,36 @@ interaction \texttt{c$_1$}, and administrator installs workflows
 through interaction \texttt{a$_1$} and \texttt{a$_2$}.
 
 The pool model was implemented in the SHIWA pool~\cite{ROGE-13}
-diagrammed in Figure~\ref{fig:shiwa-pool-architecture}. In this
-Figure, interaction \texttt{d} of Figure~\subref*{archi:agent} is
-implemented in 3 different types of calls to the pool: workflow
-submission (\texttt{1} \& \texttt{2}), workflow status retrieval
-(\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come here
-from the initial pool-model figure; it's a bit puzzling when mixed with
-letters from Fig 2}{Tristan}{Fixed.}, and workflow retrieval (\texttt{13} \&
-\texttt{14}). \note{Marc-e}{Maybe easier to follow if the following would be in fig
- legend instead of here, as for 2 previous figures} In Figure~\ref{fig:shiwa-pool-architecture},
-interaction \texttt{f} of Figure~\subref*{archi:agent} is implemented
-through 2 types of calls: workflow instance retrieval (\texttt{4},
-\texttt{5} and \texttt{6}), and workflow instance update (\texttt{11}
-and \texttt{12}). Workflow instance retrieval is used by the agents to
-fetch work from the pool. Workflow instance update is used by the
-agents to update workflow statuses. In the SHIWA pool, agents can wrap
-different types of workflow engines to execute workflows expressed
-with different languages. Calls \texttt{0}, \texttt{7}, \texttt{8} and
-\texttt{9} on Figure~\ref{fig:shiwa-pool-architecture} are used by
-workflow engine plugins to declare their supported language and launch
-engines, and by workflow engines to report their status to the
-agent. These calls are specific to the SHIWA Pool implementation of
-the \texttt{agent} component and therefore have no corresponding
-representation in Figure~\subref*{archi:agent}.
+diagrammed in Figure~\ref{fig:shiwa-pool-architecture}. In the SHIWA
+pool, agents can wrap different types of workflow engines to execute
+workflows expressed with different languages.
 
 \begin{figure*}
 \centering
 \includegraphics[width=1.5\columnwidth]{figures/pool-interactions.pdf}
-\caption{Architecture of the SHIWA pool. Circle-terminated arrows indicate messages
-  that are broadcast to all pool clients. Figure reproduced
+\caption{Architecture of the SHIWA pool. Circle-terminated arrows
+  indicate messages that are broadcast to all pool
+  clients. Interaction \texttt{d} of Figure~\ref{fig:architectures}(IV) is
+  implemented in 3 different types of calls to the pool: workflow
+  submission (\texttt{1} \& \texttt{2}), workflow status retrieval
+  (\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come
+    here from the initial pool-model figure; it's a bit puzzling when
+    mixed with letters from Fig 2}{Tristan}{Fixed.}, and workflow
+  retrieval (\texttt{13} \& \texttt{14}). \closednote{Marc-e}{Maybe
+    easier to follow if the following would be in fig legend instead
+    of here, as for 2 previous figures}{Tristan}{fixed} Interaction
+  \texttt{f} is implemented through 2 types of calls: workflow
+  instance retrieval (\texttt{4}, \texttt{5} and \texttt{6}), and
+  workflow instance update (\texttt{11} and \texttt{12}). Workflow
+  instance retrieval is used by the agents to fetch work from the
+  pool. Workflow instance update is used by the agents to update
+  workflow statuses.  Calls \texttt{0}, \texttt{7}, \texttt{8} and
+  \texttt{9} are used by
+  workflow engine plugins to declare their supported language and to
+  launch engines, and by workflow engines to report their status to
+  the agent. These calls are specific to the SHIWA Pool implementation
+  of the \texttt{agent} component and therefore have no corresponding
+  representation in Figure~\ref{fig:architectures}(IV). Figure reproduced
   from~\cite{ROGE-13}.}
 \label{fig:shiwa-pool-architecture}
 \end{figure*}
@@ -758,7 +758,7 @@ with service invocation.
 \caption{Nested workflow execution through SHIWA Science Gateway. The
   parent workflow engine is \texttt{WS-PGRADE}, invoked as a service
   in the Science Gateway (step \texttt{1}, interaction \texttt{d} on
-  Figure 2(V)-Right. Ten different child engines can be used by nested
+  Figure~\ref{fig:architectures}(V)-Right. Ten different child engines can be used by nested
   workflows, invoked through the \texttt{Submission service} (step
   \texttt{2}, interaction \texttt{d}). Each of these engines can
   submit tasks and transfer data to a distributed computing
@@ -1676,6 +1676,7 @@ the Ludmer Centre for Neuroinformatics and Mental Health. \closedanswerednote{Ma
 
 \section*{References}
 
+\enlargethispage{5mm}
 \bibliographystyle{elsarticle-num}
 \bibliography{biblio}
 
