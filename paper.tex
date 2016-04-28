@@ -164,7 +164,7 @@ Parametric Mapping~\cite{ashburner2011spm}) and FSL (FMRIB Software
 Library~\cite{Jenkinson2012782}) provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
-computing infrastructures, in particular clusters, to execute tasks at
+computing infrastructures, in particular cluster schedulers, to execute tasks at
 a high throughput. For instance, FSL can launch tasks on SGE through
 its fsl\_sub tool, Nipype has execution plugins for S/OGE, Torque,
 IPython, ssh and multi-processor servers, and PSOM is interfaced to
@@ -185,8 +185,8 @@ software that submits interdependent computing \emph{tasks} to an
 \emph{infrastructure} (local server, cluster, grid or cloud) based on
 a workflow description (a.k.a \emph{workflow}) and using input data
 that may consist of files, database entries or simple parameter
-values. Although simplistic, this definition covers both e-Science and
-domain-specific engines. Some workflow engines, usually e-Science
+values. Although simplistic, this definition covers both e-Science workflow systems and
+domain-specific pipelines.\note{Marc-e}{To remain consistent with above descriptions} Some workflow engines, usually e-Science
 ones, may transfer data across the infrastructure, and others, usually
 domain-specific ones, may leave this role to external processes. Workflows
 may be expressed in any language, including high-level XML or JSON
@@ -261,7 +261,7 @@ Science Gateway Framework~\cite{Ardizzone2012} and
 WS-PGRADE/gUSE~\cite{Kacsuk2012}. Numerous science gateway instances
 were built using such
 frameworks~\cite{kacsuk2014science,ardizzone2012decide}. Other gateway
-instances were also built independently from any framework, using
+instances were also built independently from such specialized framework, using
 regular web development tools and libraries to access distributed
 systems, for instance CBRAIN~\cite{SHER-14} and VIP~\cite{GLAT-13}.
 
@@ -275,7 +275,7 @@ workflow engines and science gateways may assume specific
 characteristics about the infrastructure, such as the presence of a
 shared file system between the computing nodes, the availability of a
 global task meta-scheduler, the presence of a file catalog, etc. In
-the analysis presented below, such specific functions are not
+the analysis presented below, such specific requirements are not
 discussed. Instead, we consider the infrastructure as an abstract
 system that can execute tasks and store data regardless of the
 enabling mechanisms.
@@ -433,7 +433,7 @@ labeled consistently with Figure~\ref{fig:architectures}.
   the infrastructure; (\texttt{a$_2$}) the workflow is configured in
   the science gateway so that it becomes available to users. Note that
   integrating a workflow is not the same process as integrating a
-  workflow \emph{engine}. 
+  workflow \emph{engine}.
 \item Task control: operations to manage tasks on the infrastructure,
   including: authentication, submission, monitoring, termination,
   deletion, etc. Controlling tasks requires to deal with the
@@ -547,7 +547,7 @@ not covered by our analysis.
 \end{figure*}
 
 See Figure~\subref*{archi:service}. The workflow engine is available
-externally to the science gateway, in a service. The science gateway
+externally to the science gateway, as a service. The science gateway
 controls the service through a specific interaction (\texttt{d}) that
 might be implemented as a web-service call (e.g., RESTful or SOAP), as
 a command-line or as any other method that offers a well-defined
@@ -575,7 +575,9 @@ etc.). Figure~\ref{fig:vip-architecture} shows the architecture of the
 Virtual Imaging Platform, where the MOTEUR workflow
 engine~\cite{GLAT-08i} is invoked through a service.
 
-\subsection{Sub-tasking}
+\subsection{Sub-tasking} \note{Marc-e}{May I propose another name here? Either
+"Task-centric" or "Task Oriented". My reasoning is that the WE is just another
+task, as well as the sub-tasks themselves.}
 
 See Figure~\subref*{archi:sub-task}. The workflow engine is a particular
 task that can submit sub-tasks to the science gateway through
@@ -615,7 +617,7 @@ Figure~\ref{fig:cbrain-psom-architecture}. The PSOM workflow engine
 adopts a pilot-job architecture~\cite{turilli2015comprehensive} where
 a master coordinates workflow execution by submitting workers and
 establishing direct communication channels with them. Note how this
-peculiar execution model is totally supported by the sub-tasking
+peculiar execution model is well supported by the sub-tasking
 architecture.
 
 \begin{figure*}
@@ -673,7 +675,8 @@ submission (\texttt{1} \& \texttt{2}), workflow status retrieval
 (\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come here
 from the initial pool-model figure; it's a bit puzzling when mixed with
 letters from Fig 2}{Tristan}{Fixed.}, and workflow retrieval (\texttt{13} \&
-\texttt{14}). In Figure~\ref{fig:shiwa-pool-architecture},
+\texttt{14}). \note{Marc-e}{Maybe easier to follow if the following would be in fig
+ legend instead of here, as for 2 previous figures} In Figure~\ref{fig:shiwa-pool-architecture},
 interaction \texttt{f} of Figure~\subref*{archi:agent} is implemented
 through 2 types of calls: workflow instance retrieval (\texttt{4},
 \texttt{5} and \texttt{6}), and workflow instance update (\texttt{11}
@@ -951,7 +954,7 @@ One may wonder whether infrastructure should be counted in
 \texttt{I$_1$} since it is usually not developed by the groups who
 integrate workflow engines in science gateway. However, integrating an
 infrastructure in the architecture usually requires some technical
-effort (e.g., account creation, software installation, etc.), which is
+effort (e.g., account creation, software installation, APIs, etc.), which is
 why we keep it in the metric. The two metrics are summed to obtain the
 total score for global complexity. Global complexity measures the
 total number of software pieces to develop, including interactions and
@@ -1031,7 +1034,7 @@ be added or replaced:
   the architecture. Adding a new infrastructure allows to provide more
   computing or storage power, to access specific types of resources
   (e.g., GPUs, clouds), or to enforce execution policies (e.g.,
-  constrain data to remain in a particular network domain). 
+  constrain data to remain in a particular network domain).
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The 4 metrics are summed to obtain a global index that measures the
@@ -1244,7 +1247,8 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires to develop interaction \texttt{e} and to install the engine
 on the infrastructure (\texttt{E$_1$}=2). Updating an engine version
-requires updates only on the infrastructure (\texttt{E$_2$}=1).  New
+in this architechture shares the same mechanism as version updates of existing
+tasks or tools, which requires an update on the infrastructure (\texttt{E$_2$}=1).  New
 workflows are integrated by creating a new task in the science gateway
 through interactions \texttt{a$_1$} and \texttt{a$_2$}  (\texttt{E$_3$}=2). Adding a new
 infrastructure requires to update interactions \texttt{a$_1$}, \texttt{b} and
@@ -1334,10 +1338,8 @@ for that (\texttt{O$_2$=0}).
 architecture with service invocation requires a science gateway, 2
 workflow services and 2 infrastructures (\texttt{I$_1$=5}). The
 architecture involves 11 interactions (\texttt{I$_2$=11}):
-\texttt{a$_1$} (appears twice: once for each infrastructure),
-\texttt{a$_2$}, \texttt{b} (twice: once for each infrastructure),
-\texttt{c$_1$} (twice: once for each infrastructure), \texttt{c$_2$}
-(twice: once for each workflow engine and infrastructure) and
+\texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$} (twice: once for each infrastructure),
+\texttt{c$_2$} (twice: once for each workflow engine and infrastructure) and
 \texttt{d} (twice: once for each workflow engine).
 \closedanswerednote{Rafael}{I like the idea of what has been discussed in
   the `integration effort', however I think the name may lead to
@@ -1351,7 +1353,8 @@ architecture involves 11 interactions (\texttt{I$_2$=11}):
   integrated one. But I take your point. 'Dependencies' is not very
   suitable either. What about 'development effort'?}{Tristan}{Replaced
   'Integration effort' with 'global complexity', as discussed in
-  github issue \#8.}
+  github issue \#8.} \note{Marc-e}{I understand both points. However, complexity is
+  addressed in Robustness as well... I liked the idea of development effort. It's a tough call.}
 
 \paragraph{Robustness} The two workflow services are specific to
 workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b}
