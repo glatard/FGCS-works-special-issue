@@ -164,7 +164,7 @@ Parametric Mapping~\cite{ashburner2011spm}) and FSL (FMRIB Software
 Library~\cite{Jenkinson2012782}) provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
-computing infrastructures, in particular cluster schedulers, to execute tasks at
+computing infrastructures, in particular clusters\closednote{Tristan}{Reverted from Marc's 'cluster scheduler'}{}{}, to execute tasks at
 a high throughput. For instance, FSL can launch tasks on SGE through
 its fsl\_sub tool, Nipype has execution plugins for S/OGE, Torque,
 IPython, ssh and multi-processor servers, and PSOM is interfaced to
@@ -186,7 +186,7 @@ software that submits interdependent computing \emph{tasks} to an
 a workflow description (a.k.a \emph{workflow}) and using input data
 that may consist of files, database entries or simple parameter
 values. Although simplistic, this definition covers both e-Science workflow systems and
-domain-specific pipelines.\note{Marc-e}{To remain consistent with above descriptions} Some workflow engines, usually e-Science
+domain-specific pipelines.\closednote{Marc-e}{To remain consistent with above descriptions}{Tristan}{yes!} Some workflow engines, usually e-Science
 ones, may transfer data across the infrastructure, and others, usually
 domain-specific ones, may leave this role to external processes. Workflows
 may be expressed in any language, including high-level XML or JSON
@@ -261,9 +261,10 @@ Science Gateway Framework~\cite{Ardizzone2012} and
 WS-PGRADE/gUSE~\cite{Kacsuk2012}. Numerous science gateway instances
 were built using such
 frameworks~\cite{kacsuk2014science,ardizzone2012decide}. Other gateway
-instances were also built independently from such specialized framework, using
-regular web development tools and libraries to access distributed
-systems, for instance CBRAIN~\cite{SHER-14} and VIP~\cite{GLAT-13}.
+instances were also built independently from such specialized
+framework, using regular web development tools and libraries to access
+distributed systems. CBRAIN~\cite{SHER-14} and VIP~\cite{GLAT-13} are
+two such gateways.
 
 \subsection{Infrastructures}
 
@@ -1247,12 +1248,13 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires to develop interaction \texttt{e} and to install the engine
 on the infrastructure (\texttt{E$_1$}=2). Updating an engine version
-in this architechture shares the same mechanism as version updates of existing
-tasks or tools, which requires an update on the infrastructure (\texttt{E$_2$}=1).  New
-workflows are integrated by creating a new task in the science gateway
-through interactions \texttt{a$_1$} and \texttt{a$_2$}  (\texttt{E$_3$}=2). Adding a new
-infrastructure requires to update interactions \texttt{a$_1$}, \texttt{b} and
-\texttt{c} in the science gateway (\texttt{E$_4$}=3).
+in this architechture shares the same mechanism as version updates of
+other tasks, which requires an update on the
+infrastructure (\texttt{E$_2$}=1).  New workflows are integrated by
+creating a new task in the science gateway through interactions
+\texttt{a$_1$} and \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new
+infrastructure requires to update interactions \texttt{a$_1$},
+\texttt{b} and \texttt{c} in the science gateway (\texttt{E$_4$}=3).
 
 \paragraph{Specific features} Meta-workflows are not available
 (\texttt{O$_1$}=1).  Obtaining fine-grained information about workflow
@@ -1338,9 +1340,9 @@ for that (\texttt{O$_2$=0}).
 architecture with service invocation requires a science gateway, 2
 workflow services and 2 infrastructures (\texttt{I$_1$=5}). The
 architecture involves 11 interactions (\texttt{I$_2$=11}):
-\texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$} (twice: once for each infrastructure),
-\texttt{c$_2$} (twice: once for each workflow engine and infrastructure) and
-\texttt{d} (twice: once for each workflow engine).
+\texttt{a$_1$} (twice), \texttt{a$_2$}, \texttt{b} (twice), \texttt{c$_1$} (twice),
+\texttt{c$_2$} (twice) and
+\texttt{d} (twice).
 \closedanswerednote{Rafael}{I like the idea of what has been discussed in
   the `integration effort', however I think the name may lead to
   misinterpretations. For example, according to Table 2, it requires
