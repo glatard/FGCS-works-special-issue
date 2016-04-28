@@ -79,19 +79,17 @@
 
 \begin{abstract}
   We investigate software architectures commonly used to integrate
-  workflow engines in science gateways. We abstract software
-  components and interactions in 6 architectures that we use to
-  classify 18 systems. We compare these architectures using metrics
-  measuring integration challenge, robustness, extensibility, scalability
-  and other specific features. Results show the pros and cons of the
-  different architectures: tight integration and task encapsulation are the
-  simplest architectures and should therefore be the easiest to
-  implement and the most robust ones, most architectures perform the
-  same in terms of extensibility, the pool model is the most scalable
-  and meta-workflows are only available in nested workflows and
-  workflow import. Our analysis provides insights for software
-  architects on how to integrate science gateways and workflow
-  engines.
+  workflow engines in science gateways. We describe and evaluate 6
+  architectures with metrics measuring integration challenge,
+  robustness, extensibility, scalability and other specific
+  features. Results show the pros and cons of the different
+  architectures: tight integration and task encapsulation are the
+  simplest architectures and are therefore the easiest to integrate
+  and the most robust ones, most architectures perform the same in
+  terms of extensibility, the pool model is the most scalable and
+  meta-workflows are only available in nested workflows and workflow
+  import. Our analysis provides insights for software architects on
+  how to integrate science gateways and workflow engines.
 \end{abstract}
 
 \begin{keyword}
@@ -118,21 +116,20 @@ Our analysis is fed by experience gathered from the development and
 sustained operation of the CBRAIN~\cite{SHER-14} and
 VIP~\cite{GLAT-13} science gateways for medical image analysis during
 the past 7 years. It also builds on the lessons learned from several
-science gateway and workflow-related projects, including
+science gateway and workflow projects, including
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and related
 initiatives.
 
 The remainder of this Section provides background information and
 definitions about workflow engines, science gateways and
 infrastructures. In Section~\ref{sec:architectures}, we describe 6
-architectures in a consistent framework based on the functional
-interactions between the main software components involved. In
-Section~\ref{sec:evaluation}, we introduce metrics to measure
-integration challenge, robustness, extensibility, scalability and other
-specific features of the architectures. We use these metrics to
-evaluate and compare the 6 architectures. The paper closes on a
-discussion and conclusion that highlight architectural recommendations
-for science gateway and workflow engine architects.
+architectures in a consistent framework that highlight the functional
+interactions between their main software components. In
+Section~\ref{sec:evaluation}, we evaluate the architectures with
+metrics measuring integration challenge, robustness, extensibility,
+scalability and other specific features. The paper closes on a
+discussion and conclusion that compare architectures and highlight
+recommendations for science gateway architects.
 
 \subsection{Workflow engines}
 
