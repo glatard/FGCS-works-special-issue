@@ -303,12 +303,12 @@ various ways.
 
 Red color is used to represent the components and interactions that
 are specific to workflow execution, i.e. that are not involved in any
-other process. Tasks refer to computing tasks created by the workflow
-engine and executed on the infrastructure. Data represents any type of
-file or database involved in workflow execution and stored on the
-infrastructure. It does not cover workflow parameters such as strings,
-numbers, etc. Administrator refers to a science gateway user with
-extended privileges to install applications.
+other process. Tasks refer to computing tasks executed on the
+infrastructure. Data represents any type of file or database entry involved
+in workflow execution and stored on the infrastructure. It does not
+cover workflow parameters such as strings, numbers, etc. Administrator
+refers to a science gateway user with extended privileges to install
+applications.
 
 The remainder of this section describes the different types of
 interactions involved in the architectures. Architectures are then
@@ -402,7 +402,7 @@ classification of a few systems by architecture.
 \subsection{Interactions}
 
 The interactions involved in the architectures are described below and
-labeled consistently with Figure~\ref{fig:architectures}.
+labeled as in Figure~\ref{fig:architectures}.
 
 \begin{enumerate}[leftmargin=0cm,itemindent=0.65cm,label=\texttt{(\alph*)}]
 
@@ -412,11 +412,11 @@ labeled consistently with Figure~\ref{fig:architectures}.
   for instance a web form, where users can enter the parameters of the
   workflow to be executed. The interaction has two aspects:
   (\texttt{a$_1$}) the programs used in the workflow are installed on
-  the infrastructure, which may require administrative privileges on
-  the infrastructure; (\texttt{a$_2$}) the workflow is configured in
-  the science gateway so that it becomes available to users. Note that
-  integrating a workflow is not the same process as integrating a
-  workflow \emph{engine}.
+  the infrastructure, which may require administrative privileges;
+  (\texttt{a$_2$}) the workflow is configured in the science gateway
+  so that it becomes available to users. Note that integrating a
+  workflow is not the same process as integrating a workflow
+  \emph{engine}.
 \item Task control: operations to manage tasks on the infrastructure,
   including: authentication, submission, monitoring, termination,
   deletion, etc. Controlling tasks requires to deal with the
@@ -449,12 +449,12 @@ labeled consistently with Figure~\ref{fig:architectures}.
   tasks created by a workflow execution are masked and the user only
   has a global view of the workflow execution. In a fine-grained
   model, user is exposed to the workflow topology, i.e. to the outputs
-  of the individual tasks, their statuses and so on.
+  of the individual tasks, their statuses, dependencies and so on.
 \item Sub-task control: operations used by tasks to submit sub-tasks
   on the infrastructure, including: submission, monitoring,
   termination, deletion, etc. Sub-task control is similar to
   interaction \texttt{b}, except that information about the parent
-  task, which submitted a sub-task, is usually available and used for
+  of a sub-task is usually available and used for
   additional control. For instance, the parent task may wait for all
   its sub-tasks to complete before finishing, and conversely all the
   sub-tasks may be terminated if the parent task is killed.
@@ -469,7 +469,7 @@ labeled consistently with Figure~\ref{fig:architectures}.
 \item Workflow conversion: translation from one workflow language to
   another one. This interaction may not be available or implementable
   for every workflow language. It has been developed mostly for
-  well-structured and relatively simple workflow language such as between GWorkflowDL
+  well-structured and relatively simple workflow languages such as between GWorkflowDL
   and Scufl~\cite{OLAB-09}, and between the 4 languages that were involved in the
   SHIWA initiative. In SHIWA, workflow conversion is done through an
   intermediate representation, the Interoperable Workflow Intermediate
@@ -506,7 +506,7 @@ Gateway Framework~\cite{Ardizzone2012} (see specific documentation on
 workflows\footnote{\url{http://bit.ly/1oQrzvQ}}), in the Distributed
 application runtime environment
 (DARE~\cite{maddineni2012distributed}), in
-Galaxy~\cite{goecks2010galaxy}, and in LONI Pipeline
+Galaxy~\cite{goecks2010galaxy}, and in the LONI Pipeline
 Environment~\cite{dinov2009efficient}. Note that tightly integrated
 architectures may provide advanced workflow edition features which are
 not covered by our analysis.
@@ -522,9 +522,9 @@ not covered by our analysis.
 \input{figures/VIP.pdf_tex}
 \caption{Architecture of the Virtual Imaging Platform (service
   invocation).  Step \texttt{3} corresponds to interaction \texttt{d}
-  on Figure~\ref{fig:architectures}(II), step \texttt{2} corresponds to
-  interaction \texttt{c$_1$}, and step \texttt{4} maps to interactions
-  \texttt{b} and \texttt{c$_2$} (in VIP, workflow data transfers are
+  in Figure~\ref{fig:architectures}(II), step \texttt{2} corresponds to
+  interaction \texttt{c$_1$}, step \texttt{4} maps to interaction
+  \texttt{b}, and steps 7 and 9 map to \texttt{c$_2$} (in VIP, workflow data transfers are
   performed by the tasks and embedded in their descriptions).}
 \label{fig:vip-architecture}
 \end{figure*}
@@ -574,7 +574,7 @@ dependencies between the sub-tasks, but their execution is delegated
 to the science gateway that executes them on the infrastructure
 through interaction \texttt{b}. Although the science gateway has no
 global vision of the workflow, it can keep track of the sub-tasks
-submitted by a given task, for instance to be able to cancel them when
+submitted by a given task, for instance to cancel them when
 the task is canceled. The science gateway may also implement
 mechanisms to facilitate the handling of task dependencies, for
 instance basic dependency lists as available in most batch managers
@@ -589,19 +589,17 @@ pieces of code.
 
 Task encapsulation is implemented in CBRAIN~\cite{SHER-14} where it is
 used to integrate the FSL toolkit~\cite{Jenkinson2012782} and the PSOM
-workflow engine~\cite{bellec2012pipeline}.
+workflow engine~\cite{bellec2012pipeline}. The CBRAIN-FSL integration
+allows to leverage FSL pipelines written in low-level workflow
+languages (Linux executables and scripts) that submit tasks uniformly
+through a specific tool called fsl\_sub. It is diagrammed in
+Figure~\subref*{fig:cbrain-fsl-architecture}, where the science gateway is
+represented by components \texttt{CBRAIN portal} and \texttt{CBRAIN
+  execution server} and the infrastructure consists of \texttt{Storage
+  servers} and \texttt{Computing cluster with shared file system}.
 
-The CBRAIN-FSL integration allows to leverage FSL pipelines written in
-low-level workflow languages (Linux executables and scripts) that
-submit tasks uniformly through a specific tool called fsl\_sub. It is
-diagrammed in Figure~\ref{fig:cbrain-fsl-architecture}, where the
-science gateway is represented by components \texttt{CBRAIN portal}
-and \texttt{CBRAIN execution server} and the infrastructure consists
-of \texttt{Storage servers} and \texttt{Computing cluster with shared
-  file system}.
-
-The CBRAIN-PSOM integration~\cite{GLAT-16} is shown on
-Figure~\ref{fig:cbrain-psom-architecture}. The PSOM workflow engine
+The CBRAIN-PSOM integration~\cite{GLAT-16} is shown in
+Figure~\subref*{fig:cbrain-psom-architecture}. The PSOM workflow engine
 adopts a pilot-job architecture~\cite{turilli2015comprehensive} where
 a master coordinates workflow execution by submitting workers and
 establishing direct communication channels with them. Note how this
@@ -614,7 +612,7 @@ peculiar execution model is well supported by task encapsulation.
 \input{figures/CBRAIN-FSL.pdf_tex}
 \label{fig:cbrain-fsl-architecture}
 } \hfill \subfloat[CBRAIN-PSOM integration. Figure
-reproduced from~\cite{GLAT-16}]{ \def\svgwidth{\columnwidth}
+reproduced from~\cite{GLAT-16}].{ \def\svgwidth{\columnwidth}
   \input{figures/CBRAIN-PSOM.pdf_tex}
 \label{fig:cbrain-psom-architecture}
 }
@@ -627,7 +625,7 @@ reproduced from~\cite{GLAT-16}]{ \def\svgwidth{\columnwidth}
   scheduler. 6: Workflow engine submits sub-tasks to execution server
   (FSL tasks or PSOM agents). 7-8: Execution server starts sub-tasks
   through task scheduler. FSL sub-tasks will run locally
-  instead of being submitted to CBRAIN through interaction 6. 8':
+  instead of being submitted again to CBRAIN through interaction 6. 8':
   (PSOM only) PSOM master and workers execute workflow. 9. Execution
   server transfers results to storage server(s). Interaction
   \texttt{b} in Figure~\ref{fig:architectures}(III) is implemented by steps
@@ -644,7 +642,7 @@ reproduced from~\cite{GLAT-16}]{ \def\svgwidth{\columnwidth}
 \subsection{Pool model}
 \label{sec:pool}
 See Figure~\subref*{archi:agent}. Workflows are submitted by the science
-gateway to a pool through interaction \texttt{d}. Agents connect to
+gateway to a central pool through interaction \texttt{d}. Agents connect to
 the pool asynchronously to retrieve and execute workflows through
 interaction \texttt{f}. Agents may be started according to various
 policies, for instance to ensure load balancing. Agents may wrap
@@ -665,7 +663,7 @@ workflows expressed with different languages.
 \caption{Architecture of the SHIWA pool. Circle-terminated arrows
   indicate messages that are broadcast to all pool
   clients. Interaction \texttt{d} of Figure~\ref{fig:architectures}(IV) is
-  implemented in 3 different types of calls to the pool: workflow
+  implemented by 3 different calls to the pool: workflow
   submission (\texttt{1} \& \texttt{2}), workflow status retrieval
   (\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come
     here from the initial pool-model figure; it's a bit puzzling when
@@ -713,10 +711,10 @@ Nested workflows are abstract architectural patterns that can be
 instantiated in the various architectures described previously. We
 focus on instantiation with the service invocation model
 (Figure~\subref*{archi:nested}-Right) as this is the most used
-architecture. In such an instantiation, we assume that the parent and
+architecture. In the instantiation, we assume that the parent and
 child workflow engines are distinct pieces of software that require
 different workflow services invoked by distinct \texttt{d}
-interactions. If this is not the case, then workflow services can be
+interactions. If this is not the case then workflow services can be
 collapsed in a single one with a \texttt{d} interaction with
 itself. An example of such interaction is the use of hierarchical
 workflows in Pegasus~\cite{Deelman201517}.
@@ -742,12 +740,12 @@ with service invocation.
 \caption{Nested workflow execution through SHIWA Science Gateway. The
   parent workflow engine is \texttt{WS-PGRADE}, invoked as a service
   in the Science Gateway (step \texttt{1}, interaction \texttt{d} on
-  Figure~\ref{fig:architectures}(V)-Right. Ten different child engines can be used by nested
+  Figure~\ref{fig:architectures}(V)-Right). Ten different child engines can be used by nested
   workflows, invoked through the \texttt{Submission service} (step
   \texttt{2}, interaction \texttt{d}). Each of these engines can
   submit tasks and transfer data to a distributed computing
   infrastructure (\texttt{DCI}, step \texttt{3}, interactions
-  \texttt{b} and \texttt{c$_2$}). Data interactions (\texttt{c}) and
+  \texttt{b} and \texttt{c$_2$}). User data interactions (\texttt{c$_1$}) and
   application porting ones (\texttt{a}) are not represented. Figure
   reproduced from~\cite{terstyanszky2014enabling} with permission of
   the first author.}
@@ -760,14 +758,14 @@ See Figure~\subref*{archi:import}. This is an abstract model
 instantiated with the service invocation architecture for
 consistency. Workflows are integrated in the science gateway through
 format conversion from a native format to the science gateway
-format. Workflow import is usually an offline process which is not
-involved in workflow execution. Workflow import was implemented in the
-SHIWA Simulation Platform through the IWIR language that provided a
-common language for portability across grid workflow
-systems~\cite{plankensteiner-prodan-etal:2013}.  Other systems rely on
-workflow import. Tavaxy~\cite{Abouelhoda2012} allows to import, merge
-and run Taverna~\cite{oinn2004taverna} and
-Galaxy~\cite{goecks2010galaxy} workflows. When some workflow parts
+format. Workflow import is usually an offline process that is not
+involved in workflow execution. A few systems have implemented
+workflow import. In the SHIWA Simulation Platform, it is implemented
+through the IWIR language that provides a common language for
+portability across grid workflow
+systems~\cite{plankensteiner-prodan-etal:2013}. Tavaxy~\cite{Abouelhoda2012}
+allows to import, merge and run Taverna~\cite{oinn2004taverna} and
+Galaxy~\cite{goecks2010galaxy} workflows; when some workflow parts
 cannot be imported, workflows are run by Tavaxy as nested workflows
 using their native engine. The work in~\cite{delaGarza2016} describes
 workflow import from KNIME~\cite{Berthold2008} to WS-PGRADE/gUSE and
@@ -784,7 +782,7 @@ from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 
 The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
-evaluate the architectures: integration challenge, execution complexity,
+evaluate the architectures: integration challenge, robustness,
 extensibility, scalability and other specific features. Criteria break
 down to specific metrics where \emph{lower value indicates better
   performance}. For each criterion, a global score is computed by
@@ -918,13 +916,11 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}\textbf{0}\\
 \end{tabular}
 
-\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. On each row, metric values are
-  normalized between 0 (best value) and 1 (worst value) to determine the
-  color of the corresponding table cell. The normalized metric value $m'$ is
-  defined as
-  $\frac{m-m_{\mathrm{min}}}{m_{\mathrm{min}}-m_{\mathrm{max}}}$ where
-  $m$ is the initial metric value, $m_{\mathrm{min}}$ and $m_{\mathrm{max}}$
-  are the minimal and maximal values among all architectures. The RGB hexadecimal color code of the cell
+\caption{Architecture evaluation. Lower values (brighter colors) indicate better performance. Cell color is set as follows: (1) on each row, metric values are
+  normalized between 0 (best value) and 1 (worst value):
+  $m'=\frac{m-m_{\mathrm{min}}}{m_{\mathrm{max}}-m_{\mathrm{min}}}$ where
+  $m$ is the metric value, $m_{\mathrm{min}}$ and $m_{\mathrm{max}}$
+  are the minimal and maximal values among all architectures; (2) the RGB hexadecimal color code of the cell
   is \texttt{\#99XX99}, where X=\texttt{round}(F-6m') (\texttt{round} rounds a number to the nearest integer). \closednote{Tristan}{Use 6. Round to the nearest integer.}{Tristan}{Fixed.}}
 \label{table:evaluation}
 \end{table*}
@@ -977,8 +973,7 @@ the total number of software pieces that are specifically involved in
 the workflow execution.
 
 \emph{Extensibility} measures the difficulty to replace or add
-elements in the architecture. It is also a consequence of global
-complexity and it is determined as the number of interactions and
+elements in the architecture. It is determined as the number of interactions and
 components that need to be modified when a new element is
 added. Modification of a component is required when its code needs to
 be updated or recompiled (science gateway or workflow service), or
@@ -1040,7 +1035,7 @@ and infrastructure.  \closednote{Rafael}{Adding a new engine type may
 
 \emph{Scalability} corresponds to the ability of the architecture to
 cope with high workloads. It is measured by counting the potential
-scalability issues in the architectures, i.e. the lack of scalability
+scalability issues in the architectures, i.e. the missing scalability
 features. Features are evaluated using a 3-level metric: 0 means that
 the feature is very easy to enable, 1 means that it can be implemented
 but with some difficulty, and 2 means that the feature could only be
@@ -1067,7 +1062,7 @@ features are identified:
   the architecture rather than these of the workflow
   engine. \texttt{S$_2$}=0 when distributed engines are possible in
   the architecture, \texttt{S$_2$}=1 when they require specific
-  developments in the workflow engine..  \closednote{Rafael}{$S_2$
+  developments in the workflow engine.  \closednote{Rafael}{$S_2$
     would be 2 if the paradigm does not allow to distribute the
     orchestration? e.g., workflow executions implemented within MPI
     jobs, in Pegasus PMC and dispel4Py.}{Tristan}{The problem is that
@@ -1177,7 +1172,7 @@ interaction \texttt{d}, and to implement interactions \texttt{b} and
 \texttt{$c_2$} (\texttt{E$_1$}=4). New engine versions can be added by
 updating the workflow service without modifying any interaction or
 component (\texttt{E$_2$}=0). Updating the engine version in a
-workflow service does not count since the only goal of this component
+workflow service does not count in \texttt{E$_2$} since the only goal of this component
 is to wrap the engine.  New workflows are added in the science gateway
 or in the workflow engine through interactions \texttt{a$_1$} and
 \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new type of infrastructure
@@ -1235,7 +1230,7 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires to develop interaction \texttt{e} and to install the engine
 on the infrastructure (\texttt{E$_1$}=2). Updating an engine version
-in this architechture shares the same mechanism as version updates of
+in the architecture shares the same mechanism as version updates of
 other tasks, which requires an update on the
 infrastructure (\texttt{E$_2$}=1).  New workflows are integrated by
 creating a new task in the science gateway through interactions
@@ -1243,19 +1238,12 @@ creating a new task in the science gateway through interactions
 infrastructure requires to update interactions \texttt{a$_1$},
 \texttt{b} and \texttt{c} in the science gateway (\texttt{E$_4$}=3).
 
-\paragraph{Specific features} Meta-workflows are not available
-(\texttt{O$_1$}=1).  Obtaining fine-grained information about workflow
-tasks is not straightforward since the science gateway has no
-knowledge about the workflow topology, and the workflow engine is
-integrated as a task (\texttt{O$_2$}=1).
-
 %\todo{Integrating a workflow engine as a sub-task
 %only requires to implement interaction \texttt{e} (\texttt{I$_2$}=1)
 %and to install the workflow engine on the infrastructure
 %(\texttt{I$_3$}=1). A new task type is created in the science gateway
 %only when a new workflow has to be integrated (see M$_4$), but this is
 %not required to integrate the engine itself (\texttt{I$_1$}=0).}
-
 
 \paragraph{Scalability}
 New engine instances are spawned and executed on the infrastructure as
@@ -1271,11 +1259,11 @@ resubmitted if the workflow task fails. The workflow task is also
 longer than all its sub-tasks, which increases its chances of
 failure. In addition, task parameters, for instance estimated
 walltime, are more difficult to estimate for the workflow task than
-for sub-tasks which may generate issues such as selection of wrong
+for the sub-tasks, which may generate issues such as selection of wrong
 batch queues on clusters. Finally, the interdependencies between the
 workflow task and its sub-tasks may create deadlocks when there is
 contention. For instance, if only 1 computing resource is
-available for the science gateway and that the workflow task is
+available for the science gateway and if the workflow task is
 running on it and submits sub-tasks, then the sub-tasks could only
 execute when the resource is available, which will never happen
 because the workflow task will not complete until the sub-tasks
@@ -1284,6 +1272,12 @@ with $n$ resources where $n$ workflows are submitted. In practice,
 however, the number of submitted workflows usually remains lower than
 the number of computing resources available on this infrastructure,
 which makes such deadlocks unlikely to happen.
+
+\paragraph{Specific features} Meta-workflows are not available
+(\texttt{O$_1$}=1).  Obtaining fine-grained information about workflow
+tasks is not straightforward since the science gateway has no
+knowledge about the workflow topology, and the workflow engine is
+integrated as a task (\texttt{O$_2$}=1).
 
 \subsection{Pool model}
 
@@ -1346,7 +1340,7 @@ architecture involves 11 interactions (\texttt{I$_2$=11}):
 
 \paragraph{Robustness} The two workflow services are specific to
 workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b}
-(counted twice), \texttt{c$_2$} (twice) and \texttt{d} (twice) also
+(twice), \texttt{c$_2$} (twice) and \texttt{d} (twice) also
 are (\texttt{R$_2$=6}).
 \closednote{Marc-e}{I understand both points. However, complexity is
   addressed in Robustness as well... I liked the idea of development effort. It's a tough call.}{Tristan}{Maybe 'integration challenge' is a good compromise.}
@@ -1362,11 +1356,12 @@ engine, and to implement interaction \texttt{d} in the parent service
 (\texttt{E$_1$=4}). We use \texttt{E$_1$=4.5} in
 Table~\ref{table:evaluation} to reflect both conditions. Adding a new
 version in the parent or child engine only requires modifying this
-engine (\texttt{E$_2$=0}). Adding a new
-workflow is done through interaction \texttt{a$_1$} and \texttt{a$_2$}
+engine (\texttt{E$_2$=0}). Adding a new workflow is done through
+interaction \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Adding a new infrastructure requires to
-re-implement interactions \texttt{a$_1$}, \texttt{b} and \texttt{c$_2$} twice, and
-interaction \texttt{c$_1$} once (\texttt{E$_4$=6}).
+re-implement interactions \texttt{a$_1$}, \texttt{b} and
+\texttt{c$_2$} twice, and interaction \texttt{c$_1$} once so that it
+can be supported by both workflow engines (\texttt{E$_4$=6}).
 
 \paragraph{Scalability} As in the service architecture, adding a new
 workflow instance requires manual configuration in the science gateway
@@ -1399,12 +1394,12 @@ aims at supporting more workflows, we consider that it only requires
 to re-implement interaction \texttt{g} in this architecture  (\texttt{E$_1$=1}). Note,
 however, that implementing interaction \texttt{g} can require very
 substantial work depending on the complexity of the language used by
-the new engine. Based on the same logic, adding a
+the new engine. Similarly, adding a
 new engine version only requires modifying interaction \texttt{g}
 (\texttt{E$_2$=1}).  Adding a new workflow is done through
 interactions \texttt{a$_1$}, \texttt{a$_2$} and \texttt{g} (\texttt{E$_3$=3}). As in the
 service architecture, interfacing with a new infrastructure requires
-modifications in the workflow service and in interactions \texttt{a$_1$}, \texttt{b}
+modifications in interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$}
 and \texttt{c$_2$} (\texttt{E$_4$=4}).
 
 \paragraph{Scalability}  Since workflow conversion is not involved in
@@ -1421,8 +1416,8 @@ service invocation architecture (\texttt{O$_2$=0}).
 
 \subsection{Comparison between architectures}
 
-Tight integration and task encapsulation are globally the simplest
-architectures, followed by service integration, workflow import (with
+Tight integration and task encapsulation are the simplest
+architectures to integrate, followed by service integration, workflow import (with
 service invocation) and pool. Nested workflows (with service
 invocation) requires more integration than the other
 architectures. Robustness roughly leads to the same ordering of
@@ -1430,7 +1425,7 @@ architectures, with tight integration and task encapsulation in the top
 group, service integration and workflow import (with service
 invocation) close behind, pool in a third group, and nested workflows
 (with service invocation) at the end. This ordering is consistent
-across metrics, it reflects the global complexity of the
+across metrics; it reflects the global complexity of the
 architectures.
 
 Regarding extensibility, most architectures are overall comparable,
@@ -1453,13 +1448,13 @@ integrating new infrastructures (\texttt{E$_4$}).
 The pool architecture is overall the most scalable, which is not a
 surprise since it was designed precisely for scalability. Tight
 integration is the least scalable and all the other architectures
-perform the same. The overall scalability score, however, should not
+perform the same overall. The global scalability score, however, should not
 mask the unique characteristics of architectures regarding this
 criterion. Nested workflows are the only architecture that can easily
 accommodate distributed workflow execution, which can be critical in
 some cases. At the same time, the scheduling constraints created by
 task encapsulation and nested workflows could well become
-showstoppers depending on the type of the targeted
+showstoppers depending on the type of targeted
 infrastructure. Non-reliable infrastructures, for example, could
 hardly cope with workflow engines being wrapped in computing tasks as
 done in task encapsulation. The availability of multiple engine instances
@@ -1495,33 +1490,33 @@ the reasons mentioned previously.\closednote{Rafael}{I would emphasize
                                     & \textbf{Pool}
                                     & \textbf{Nested}
                                     & \textbf{Import} \\
-  Integration (normalized total)    &
+  Integration (global score)    &
                                     \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99E899}{0.22}
                                     & \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99D299}{0.44}
                                     & \cellcolor[HTML]{999999}{1.00}
                                       & \cellcolor[HTML]{99DD99}{0.33}\\
-Robustness (normalized total) &
+Robustness (global score) &
                                 \cellcolor[HTML]{99F099}{0.14}
                                     & \cellcolor[HTML]{99D399}{0.43}
                                     & \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99B699}{0.71}
                                     & \cellcolor[HTML]{999999}{1.00}
                                     & \cellcolor[HTML]{99D399}{0.43}\\
-  Extensibility (normalized total)  & \cellcolor[HTML]{99D299}{0.44}
+  Extensibility (global score)  & \cellcolor[HTML]{99D299}{0.44}
                                      & \cellcolor[HTML]{99D299}{0.44}
                                      & \cellcolor[HTML]{99FF99}{0.00}
                                      & \cellcolor[HTML]{99E899}{0.22}
                                      & \cellcolor[HTML]{999999}{1.00}
                                      & \cellcolor[HTML]{99E899}{0.22}\\
-Scalability (normalized total)  & \cellcolor[HTML]{999999}{1.00}
+Scalability (global score)  & \cellcolor[HTML]{999999}{1.00}
                                      & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{99FF99}{0.00}
                                      & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{99CC99}{0.50}\\
-Specific features (normalized total) & \cellcolor[HTML]{99CC99}{0.50}
+Specific features (global score) & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{99CC99}{0.50}
                                      & \cellcolor[HTML]{999999}{1.00}
                                      & \cellcolor[HTML]{99CC99}{0.50}
@@ -1536,8 +1531,7 @@ Specific features (normalized total) & \cellcolor[HTML]{99CC99}{0.50}
 \end{tabular}
 \caption{Overall evaluation. Brighter colors and lower scores indicate better performance. Scores
   are obtained by summing the normalized global scores ($m'$ values) of
-  each criterion in Table~\ref{table:evaluation} and the colors are obtained by normalizing these scores
-  as done in Table~\ref{table:evaluation}. }
+  each criterion in Table~\ref{table:evaluation} and the colors are obtained as in Table~\ref{table:evaluation}. }
 \label{table:overall}
 \end{table*}
 
@@ -1548,13 +1542,14 @@ results of our evaluation. First of all, the evaluation is done at a
 quite high-level of abstraction that may be a bit artificial when
 applied to real systems. Abstracting architectures from their
 implementation in specific systems is useful to compare them, but we
-also realize that this comes at the cost of realism. In particular,
-the presented architectures are theoritical patterns that may be blended in
-actual systems. The distinction between tight integration and service
-invocation, for instance, may not be always that clear in practice. Service
-invocation may also be combined with task encapsulation in some cases. However, the
-criteria discussed in this work would still apply to broadly compare and categorize
-such cases of hydrid architectures.
+also realize that it comes at the cost of realism. In particular, the
+presented architectures are theoretical patterns that may be blended
+in actual systems. The distinction between tight integration and
+service invocation, for instance, may not always be that clear in
+practice. Service invocation may also be combined with task
+encapsulation in some cases. However, the criteria discussed in this
+work would still apply to broadly compare and categorize such cases of
+hydrid architectures.
 
 Moreover, all the interactions involved in the architectures were
 treated equally while some of them are obviously more complex
@@ -1577,12 +1572,13 @@ Python, which are much richer than scientific workflow languages.
 The abstract nested workflows and workflow import patterns were
 instantiated with service invocation so that they can be analyzed in
 the same framework as the other architectures. Other types of
-instantiation, for instance nested workflows with task encapsulation, could
-also be envisaged. We chose to limit ourselves to instantiations with
-service invocation because the resulting architectures are implemented
-in real systems, and because service invocation is largely
-used. Nested workflows with task encapsulation, in particular, could be an
-interesting architecture to explore.
+instantiation, for instance nested workflows with task encapsulation,
+could also be envisaged. We chose to limit ourselves to instantiations
+with service invocation because the resulting architectures are
+implemented in real systems, and because service invocation is largely
+used. Nevertheless, it could be interesting to explore other types of
+instantiations, in particular nested workflows with task
+encapsulation.
 
 The particular technical or historical context of a science gateway
 project may obviously influence the choice of an architecture to
@@ -1628,7 +1624,8 @@ in~\cite{Gannon2005} discusses service-oriented architectures for
 science gateways with workflow engines.  Instead, our analysis
 abstracts and evaluates architectural patterns independently from any
 particular system. It provides general insight to integrate science
-gateways and workflow engines.
+gateways and workflow engines, which we hope will be useful for
+software architects.
 
 % Literature on SG architecture Very few works go beyond the
 % description of architectures of particular systems. The work in
