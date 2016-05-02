@@ -50,7 +50,7 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{Software Architectures to Integrate Workflow Engines in Science Gateways}
+\title{Software Architectures for Integrating Workflow Engines in Science Gateways} \note{Naj}{'what' software architectures? what is their qualifier, adjective?}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -78,18 +78,15 @@
 \address[isi]{University of Southern California, Information Sciences Institute, Marina del Rey, CA, USA.}
 
 \begin{abstract}
-  We investigate software architectures commonly used to integrate
-  workflow engines in science gateways. We describe and evaluate 6
-  architectures with metrics measuring integration challenge,
+  We investigate six software architectures commonly used to integrate
+  workflow engines in science gateways. We describe and evaluate these software
+  architectures with metrics that measure integration complexity,
   robustness, extensibility, scalability and other specific
-  features. Results show the pros and cons of the different
-  architectures: tight integration and task encapsulation are the
-  simplest architectures and are therefore the easiest to integrate
-  and the most robust ones, most architectures perform the same in
-  terms of extensibility, the pool model is the most scalable and
-  meta-workflows are only available in nested workflows and workflow
+  features\note{Naj}{Please be precise, what are they?}. Results illustrate the pros and cons of different
+  architectures: Simple architectures with tight integration and task encapsulation are the
+  the easiest to integrate and are most robust.Extensibility is equivalent in most architectures. The pool model is the most scalable one and meta-workflows are only available in nested workflows and workflow
   import. Our analysis provides insights for science gateway
-  architects and workflow engine developers.
+  architects and workflow engine developers. \note{Naj}{I find this abstract to be vague, it can be made more concise and poignant}
 \end{abstract}
 
 \begin{keyword}
@@ -102,33 +99,28 @@ Workflow engines \sep science gateways \sep software architectures.
 
 \section{Introduction}
 
-Workflow engines are critical components in the ecosystem of tools and
-services offered by science gateways for the efficient and transparent
-exploitation of distributed infrastructures. Several
+Workflow engines are critical for the efficient and transparent
+exploitation of distributed infrastructures in the ecosystem of tools and
+services offered by science gateways . Several
 software architectures can be adopted to integrate workflow engines in
-science gateways, with important consequences on the 
-development effort required and on the resulting system. This paper describes,
-exemplifies and compares such architectures, based on
-system-independent representations of their main components and
-interactions.
-
-Our analysis is fed by experience gathered from the development and
+science gateways, however 
+development effort required and the resulting system vary across different architectures. This paper and our analytical approach to comparison of software architectures is informed by our experince in the development and
 sustained operation of the CBRAIN~\cite{SHER-14} and
 VIP~\cite{GLAT-13} science gateways for medical image analysis during
-the past 7 years. It also builds on the lessons learned from several
+the past 7 years; as well as by lessons learned from several
 science gateway and workflow projects, including
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and related
-initiatives.
-
-The remainder of this Section provides background information and
-definitions about workflow engines, science gateways and
-infrastructures. In Section~\ref{sec:architectures}, we describe 6
-architectures in a consistent framework that highlight the functional
+initiatives. This paper describes,
+provides examples and compares such architectures, based on
+system-independent representations of their main components and
+interactions. In this section we provide background information and
+definitions of different workflow engines, science gateways and
+infrastructures. In Section~\ref{sec:architectures}, we describe six
+architectures within a consistent framework that underlines the functional
 interactions between their main software components. In
-Section~\ref{sec:evaluation}, we evaluate the architectures with
+Section~\ref{sec:evaluation}, different architectures are evaluated with
 metrics measuring integration challenge, robustness, extensibility,
-scalability and other specific features. The paper closes on a
-discussion and conclusion that compare architectures and highlight
+scalability and other specific features. We compare different architectures and highlight
 recommendations for science gateway architects and workflow engine developers.
 
 \subsection{Workflow engines}
@@ -149,7 +141,7 @@ features, links with domain-specific tool repositories, provenance
 recording and other features. An overview of workflow system
 capabilities is available in~\cite{deelman2009workflows}.
 
-At the same time, toolboxes were emerging in various scientific
+At the same time, toolboxes have been emerging in various scientific
 domains to facilitate the assembly of software components in
 consistent ``pipelines''. In neuroimaging, our primary domain of
 interest, tools such as Nipype (Neuroimaging in Python, Pipelines and
@@ -161,7 +153,7 @@ handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
 computing infrastructures, in particular clusters\closednote{Tristan}{Reverted from Marc's 'cluster scheduler'}{}{}, to execute tasks at
 a high throughput. Some of these tools also support
-advanced features such as provenance tracking (Nipype, PSOM),
+advanced features such as provenance tracking (Nipype, PSOM), \note{Naj}{should we not mention PMP which is used for CIVET?}
 redundancy detection across analyses to avoid re-computation (PSOM),
 and so on. A wide-array of workflows have been implemented using these
 pipelines and are now shared across neuroimaging groups
@@ -171,13 +163,13 @@ applications. They nicely complement e-Science engines that are more
 oriented towards the exploitation of distributed computing
 infrastructures, in particular grids and clouds.
 
-For the sake of the analysis conducted in this paper, we define a
-\emph{workflow engine} (also abbreviated \emph{engine}) as a piece of
+In this paper, the working definition of a
+\emph{workflow engine} (also abbreviated \emph{engine}) is "a piece of
 software that submits interdependent computing \emph{tasks} to an
 \emph{infrastructure} (local server, cluster, grid or cloud) based on
 a workflow description (a.k.a \emph{workflow}) and using input data
 that may consist of files, database entries or simple parameter
-values. Although simplistic, this definition covers both e-Science workflow systems and
+values." Although simplistic, this definition covers both e-Science workflow systems and
 domain-specific pipelines.\closednote{Marc-e}{To remain consistent with above descriptions}{Tristan}{yes!} Some workflow engines, usually e-Science
 ones, may transfer data across the infrastructure, and others, usually
 domain-specific ones, may leave this role to external processes. Workflows
@@ -193,7 +185,7 @@ to storage and computing power. They are often accessible through a
 web interface that helps users manage access rights, data transfers,
 task execution, and authentication on multiple computing and storage
 locations. Workflow engines are part of this ecosystem as core
-components to implement and execute applications.
+components to implement and execute applications. \note{provide examples?}
 
 % Software properties: integration effort, extensibility, robustness,
 % scalability, specific features
@@ -207,7 +199,7 @@ workflow engine and focus on the execution of simple tasks.
 Extensibility is an important property of the integration, as new
 workflows are added frequently, different types and versions of
 workflow engines may be integrated over time, and different kinds of
-infrastructure can be targeted.Scalability is also a crucial concern
+infrastructure can be targeted. Scalability is also a crucial concern
 for such multi-user systems that manage substantial amounts of data
 and execute computationally-intensive analyses. To this end, science
 gateways may balance the load among different instances of the same
@@ -296,19 +288,19 @@ workflow engine itself is represented by a specific symbol enclosed in a dotted 
 Software interactions among these components are represented with
 labeled, plain black arrows.  \emph{Abstract} interactions are
 specific types of interactions that may be implemented using different
-components and interactions. They are represented with dotted arrows
+components and interactions. \note{Naj}{three 'interactions' in one sentence} They are represented with dotted arrows
 and labeled with \texttt{*}. An architecture that has an abstract
 interaction is an abstract architecture that can be instantiated in
 various ways.
 
-Red color is used to represent the components and interactions that
+Red color (WHERE?) is used to represent the components and interactions that
 are specific to workflow execution, i.e. that are not involved in any
 other process. Tasks refer to computing tasks executed on the
 infrastructure. Data represents any type of file or database entry involved
 in workflow execution and stored on the infrastructure. It does not
 cover workflow parameters such as strings, numbers, etc. Administrator
 refers to a science gateway user with extended privileges to install
-applications.
+applications. \note{Naj}{I propose a table of definitions.}
 
 The remainder of this section describes the different types of
 interactions involved in the architectures. Architectures are then
@@ -386,7 +378,7 @@ classification of a few systems by architecture.
           }
   \\
   Service & \pbox{1.5\columnwidth}{
-            Apache Airvata~\cite{marru2011apache}, e-BioInfra~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{krüger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
+            Apache Airvata~\cite{marru2011apache}, e-BioInfra~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{krüger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
             Science gateways in~\cite{kacsuk2014science}$^w$
             } \\
   Task & CBRAIN and PSOM~\cite{GLAT-16}$^n$, CBRAIN and FSL$^n$\\
@@ -694,7 +686,7 @@ See Figure~\subref*{archi:nested}. In nested workflows
 (Figure~\subref*{archi:nested}-Left), a task of a \emph{parent}
 workflow executed by the \emph{parent} engine is itself a workflow,
 called \emph{child} workflow, that is executed by a \emph{child}
-engine. The parent and child engines might use different workflow
+engine. \note{Naj} {this reads funny} The parent and child engines might use different workflow
 description languages. They might also execute workflows on different
 infrastructures. The parent workflow is also called meta-workflow. The
 science gateway communicates with the parent engine through abstract
@@ -1021,7 +1013,7 @@ be added or replaced:
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The 4 metrics are summed to obtain a global index that measures the
-difficulty to extend the architecture. Note that some extensions may
+difficulty to extend the architecture. \note{Naj}{I would rather compare each metric separately, this woudl also give a sense of how different architectures compare across metrics} Note that some extensions may
 involve several metrics in practice. For instance, adding a new type
 of engine may help integrate new infrastructures when interactions
 \texttt{b} and \texttt{c$_2$} are already present for the new engine
@@ -1039,7 +1031,7 @@ scalability issues in the architectures, i.e. the missing scalability
 features. Features are evaluated using a 3-level metric: 0 means that
 the feature is very easy to enable, 1 means that it can be implemented
 but with some difficulty, and 2 means that the feature could only be
-implemented with a nonsensical amount of effort. Four different
+implemented with a nonsensical amount of effort\note{Naj}{how do you metricize "nonesensical amount fo effors?"}. Four different
 features are identified:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Multiple engine instances (\texttt{S$_1$}): possibility to have
@@ -1076,9 +1068,9 @@ features are identified:
   issue that depends more on the implementation of specific algorithms
   in the science gateway, workflow engine and infrastructure than on
   the architecture used to integrate the workflow engine in the
-  science gateway. Some architectures, however, complexify the task
-  scheduling problem by introducing additional software layers or
-  create tasks with specific characteristics. \texttt{S$_3$}=0 when
+  science gateway. Some architectures, however, complicate the task
+  scheduling problem by introducing additional software layers, or by
+  creating tasks with specific characteristics. \texttt{S$_3$}=0 when
   the architecture does not introduce any additional complexity to the
   scheduling problem, and \texttt{S$_3$}=1 otherwise.
 \end{itemize}
