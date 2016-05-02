@@ -125,7 +125,7 @@ Section~\ref{sec:architectures}, we describe six architectures within
 a consistent framework that underlines the functional interactions
 between their main software components. In
 Section~\ref{sec:evaluation}, the different architectures are
-evaluated with metrics measuring integration challenge, robustness,
+evaluated with metrics measuring integration complexity, robustness,
 extensibility, scalability and other specific features. We finally
 compare the architectures and highlight recommendations for science
 gateway architects and workflow engine developers.
@@ -766,7 +766,7 @@ from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 
 The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
-evaluate the architectures: integration challenge, robustness,
+evaluate the architectures: integration complexity, robustness,
 extensibility, scalability and other specific features. Criteria break
 down to specific metrics where \emph{lower value indicates better
   performance}. For each criterion, a global score is computed by
@@ -785,7 +785,7 @@ summed. The criteria and metrics are explained hereafter.
                                      & \textbf{Pool}
                                      & \textbf{Nested}
                                      & \textbf{Import} \\
-\cellcolor[HTML]{EEEEEE}\textbf{Integration challenge}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Integration complexity}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
   Total components -- \texttt{I$_1$} & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99DD99}3
                                      & \cellcolor[HTML]{99FF99}2
@@ -911,7 +911,7 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
 
 \subsection{Evaluation metrics}
 
-\emph{Integration challenge} is obtained by counting the total number of
+\emph{Integration complexity} is obtained by counting the total number of
 interactions and components on the architecture diagram. It breaks
 down to the following 2 metrics:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
@@ -1102,7 +1102,7 @@ evaluated along these metrics in the remainder of this Section.
 
 \subsection{Tight integration}
 
-\paragraph{Integration challenge} This architecture does not require any
+\paragraph{Integration complexity} This architecture does not require any
 component in addition to the science gateway and infrastructure
 (\texttt{I$_1$=2}). It involves 5 interactions: \texttt{a$_1$},
 \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
@@ -1144,7 +1144,7 @@ gateway can retrieve any information from the workflow engine directly
 
 \subsection{Service invocation}
 
-\paragraph{Integration challenge} Service invocation requires a workflow service
+\paragraph{Integration complexity} Service invocation requires a workflow service
 in addition to the science gateway and infrastructure
 (\texttt{I$_1$}=3). The architecture involves 6 interactions:
 \texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$},
@@ -1194,7 +1194,7 @@ engine (\texttt{O$_2$}=0).
 
 \subsection{Task encapsulation}
 
-\paragraph{Integration challenge} Task encapsulation requires only 2
+\paragraph{Integration complexity} Task encapsulation requires only 2
 components (\texttt{I$_1$}=2).  It involves 5 interactions:
 \texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \texttt{c} and
 \texttt{e} (\texttt{I$_2$}=5).
@@ -1270,7 +1270,7 @@ integrated as a task (\texttt{O$_2$}=1).
 
 \subsection{Pool model}
 
-\paragraph{Integration challenge} The pool model requires a workflow pool and an
+\paragraph{Integration complexity} The pool model requires a workflow pool and an
 agent in addition to the science gateway and infrastructure
 (\texttt{I$_1$=4}). It involves 7 interactions: \texttt{a$_1$},
 \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$}, \texttt{c$_2$}, \texttt{d}
@@ -1306,7 +1306,7 @@ for that (\texttt{O$_2$=0}).
 
 \subsection{Nested workflows with service invocation}
 
-\paragraph{Integration challenge} Setting up a nested workflow
+\paragraph{Integration complexity} Setting up a nested workflow
 architecture with service invocation requires a science gateway, 2
 workflow services and 2 infrastructures (\texttt{I$_1$=5}). The
 architecture involves 11 interactions (\texttt{I$_2$=11}):
@@ -1369,7 +1369,7 @@ sub-workflow (\texttt{O$_2$=1}).
 
 \subsection{Workflow import with service invocation}
 
-\paragraph{Integration challenge} Workflow import with service invocation
+\paragraph{Integration complexity} Workflow import with service invocation
 requires the same components as for service invocation
 (\texttt{I$_1$}=3). It requires an additional \texttt{g} interaction
 for workflow import (\texttt{I$_1$}=7).
