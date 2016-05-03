@@ -50,7 +50,7 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{An analysis of existing software architectures\\ to integrate workflow engines in science gateways\closednote{Naj}{'what' software architectures? what is their qualifier, adjective?}{Tristan}{There is no qualifier except 'for integrating workflow engines in science gatewats'. They are just software architectures :) The point of the paper is to describe them properly. It's a general formulation to cover any kind of software architecture that is used to integrated workflow engines in science gateways. Does it make sense?}} 
+\title{A comprehensive analysis of existing software architectures\\ to integrate workflow engines in science gateways\closednote{Naj}{'what' software architectures? what is their qualifier, adjective?}{Tristan}{There is no qualifier except 'for integrating workflow engines in science gatewats'. They are just software architectures :) The point of the paper is to describe them properly. It's a general formulation to cover any kind of software architecture that is used to integrated workflow engines in science gateways. Does it make sense?}} 
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -79,19 +79,28 @@
 
 \begin{abstract}
   We investigate six software architectures commonly used to integrate
-  workflow engines in science gateways. We describe and evaluate these
-  architectures with metrics that measure integration complexity,
-  robustness, extensibility, scalability and support for
-  meta-workflows and fine-grained debugging\closednote{Naj}{Please be
-    precise, what are they?}{Tristan}{Done, thanks}. Results
-  illustrate the pros and cons of different architectures: Tight
+  workflow engines in science gateways. (1) In \emph{tight
+    integration}, the workflow engine shares software components with
+  the science gateway; (2) In \emph{service invocation}, the engine is
+  isolated and invoked through a specific software interface; (3) In
+  \emph{task encapsulation}, the engine is wrapped as a computing task
+  executed on the infrastructure; (4) In the \emph{pool model}, the
+  engine is bundled in an agent that connects to a central pool to
+  fetch and execute workflows; (5) In \emph{nested workflows}, the
+  engine is integrated as a child process of another engine; (6) In
+  \emph{workflow import}, the engine is integrated through workflow
+  language conversion. We describe and evaluate these architectures
+  with metrics that measure integration complexity, robustness,
+  extensibility, scalability and support for meta-workflows and
+  fine-grained debugging\closednote{Naj}{Please be precise, what are
+    they?}{Tristan}{Done, thanks}. Results provide insights for
+  science gateway architects and workflow engine developers. Tight
   integration and task encapsulation are the easiest to integrate and
   are most robust. Extensibility is equivalent in most
   architectures. The pool model is the most scalable one and
   meta-workflows are only available in nested workflows and workflow
-  import. Our analysis provides insights for science gateway
-  architects and workflow engine developers. \note{Naj}{I find this
-    abstract to be vague, it can be made more concise and poignant}
+  import. \note{Naj}{I find this abstract to be vague, it can be made
+    more concise and poignant}
 \end{abstract}
 
 \begin{keyword}
