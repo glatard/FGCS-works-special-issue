@@ -79,18 +79,18 @@
 
 \begin{abstract}
   We investigate six software architectures commonly used to integrate
-  workflow engines in science gateways. (1) In \emph{tight
-    integration}, the workflow engine shares software components with
-  the science gateway; (2) In \emph{service invocation}, the engine is
-  isolated and invoked through a specific software interface; (3) In
-  \emph{task encapsulation}, the engine is wrapped as a computing task
-  executed on the infrastructure; (4) In the \emph{pool model}, the
-  engine is bundled in an agent that connects to a central pool to
-  fetch and execute workflows; (5) In \emph{nested workflows}, the
-  engine is integrated as a child process of another engine; (6) In
-  \emph{workflow import}, the engine is integrated through workflow
-  language conversion. We describe and evaluate these architectures
-  with metrics that measure integration complexity, robustness,
+  workflow engines in science gateways. In \emph{tight integration},
+  the workflow engine shares software components with the science
+  gateway. In \emph{service invocation}, the engine is isolated and
+  invoked through a specific software interface. In \emph{task
+    encapsulation}, the engine is wrapped as a computing task executed
+  on the infrastructure. In the \emph{pool model}, the engine is
+  bundled in an agent that connects to a central pool to fetch and
+  execute workflows. In \emph{nested workflows}, the engine is
+  integrated as a child process of another engine. In \emph{workflow
+    import}, the engine is integrated through workflow language
+  conversion. We describe and evaluate these architectures with
+  metrics that measure integration complexity, robustness,
   extensibility, scalability and support for meta-workflows and
   fine-grained debugging\closednote{Naj}{Please be precise, what are
     they?}{Tristan}{Done, thanks}. Results provide insights for
@@ -99,8 +99,9 @@
   are most robust. Extensibility is equivalent in most
   architectures. The pool model is the most scalable one and
   meta-workflows are only available in nested workflows and workflow
-  import. \note{Naj}{I find this abstract to be vague, it can be made
-    more concise and poignant}
+  import. \closednote{Naj}{I find this abstract to be vague, it can be made
+    more concise and poignant}{Tristan}{Added a description of the
+    architectures, following @pbellec's suggestion.}
 \end{abstract}
 
 \begin{keyword}
@@ -117,8 +118,8 @@ Workflow engines are critical for the efficient and transparent
 exploitation of distributed infrastructures in the ecosystem of tools
 and services offered by science gateways. Several software
 architectures can be adopted to integrate workflow engines in science
-gateways, however development effort required and the resulting system
-vary across different architectures. 
+gateways, with important consequences on the development effort
+required and resulting system.
 
 This paper describes, provides examples and compares such
 architectures, based on system-independent representations of their
@@ -128,7 +129,7 @@ and VIP~\cite{GLAT-13} science gateways for medical image analysis
 during the past 7 years; as well as by lessons learned from several
 science gateway and workflow projects such as
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}}.  In this section
-we provide background information and definitions of different
+we provide background information and definitions of 
 workflow engines, science gateways and infrastructures. In
 Section~\ref{sec:architectures}, we describe six architectures within
 a consistent framework that underlines the functional interactions
@@ -162,26 +163,25 @@ domains to facilitate the assembly of software components in
 consistent ``pipelines''. In neuroimaging, our primary domain of
 interest, tools such as Nipype (Neuroimaging in Python, Pipelines and
 Interfaces~\cite{gorgolewski2011nipype}), PSOM (Pipeline System for
-Octave and Matlab~\cite{bellec2012pipeline}), RPPL~\cite{1174106} and PMP
-(Poor Man's Pipeline~\cite{Ad-DabbaghY2006}), SPM (Statistical Parametric
-Mapping~\cite{ashburner2011spm}) and FSL (FMRIB Software
+Octave and Matlab~\cite{bellec2012pipeline}), RPPL~\cite{1174106} and
+PMP (Poor Man's Pipeline~\cite{Ad-DabbaghY2006}), SPM (Statistical
+Parametric Mapping~\cite{ashburner2011spm}) and FSL (FMRIB Software
 Library~\cite{Jenkinson2012782}) provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
 computing infrastructures, in particular
 clusters\closednote{Tristan}{Reverted from Marc's 'cluster
   scheduler'}{}{}, to execute tasks at a high throughput. Some of
-these tools also support advanced features such as provenance tracking
-(Nipype, PSOM), \closednote{Naj}{should we not mention PMP which is
-  used for CIVET?}{Tristan}{Done, as discussed.}
-redundancy detection across analyses to avoid re-computation (PSOM),
-and so on. A wide-array of workflows have been implemented using these
-pipelines and are now shared across neuroimaging groups
-world-wide. These domain-specific engines represent a tremendous
-opportunity for science gateways to leverage existing tools and
-applications. They nicely complement e-Science engines that are more
-oriented towards the exploitation of distributed computing
-infrastructures, in particular grids and clouds.
+these tools also support advanced features such as provenance
+tracking, \closednote{Naj}{should we not mention PMP which is used for
+  CIVET?}{Tristan}{Done, as discussed.}  redundancy detection across
+analyses to avoid re-computation, and so on. A wide-array of
+workflows have been implemented using these pipelines and are now
+shared across neuroimaging groups world-wide. These domain-specific
+engines represent a tremendous opportunity for science gateways to
+leverage existing tools and applications. They nicely complement
+e-Science engines that are more oriented towards the exploitation of
+distributed computing infrastructures, in particular grids and clouds.
 
 In this paper, a
 \emph{workflow engine} (also abbreviated \emph{engine}) is a piece of
@@ -214,9 +214,8 @@ frameworks such as Apache Airavata~\cite{marru2011apache}, the Catania
 Science Gateway Framework~\cite{Ardizzone2012} and
 WS-PGRADE/gUSE~\cite{Kacsuk2012}. Numerous science gateways were built
 using such frameworks~\cite{kacsuk2014science,ardizzone2012decide} or
-as standalone systems~\cite{SHER-14,GLAT-13}. Most of these science
-gateway frameworks and instances include one or several workflow
-engines.
+as standalone systems~\cite{SHER-14,GLAT-13}. Most of these frameworks
+and instances include one or several workflow engines.
 
 % Software properties: integration effort, extensibility, robustness,
 % scalability, specific features
@@ -225,39 +224,37 @@ Integration between workflow engines and science gateways varies
 across systems. Some science gateways are tailored to a particular
 engine while other ones are more general and host applications
 executed by different types of engines. Some gateways may not even use any
-workflow engine and focus on the execution of simple tasks.
+workflow engine and instead focus on the execution of simple tasks.
 
-Extensibility is an important property of the integration, as new
+Extensibility is an important property of the integration. New
 workflows are added frequently, different types and versions of
 workflow engines may be integrated over time, and different kinds of
-infrastructure can be targeted. Scalability is also a crucial concern
-for such multi-user systems that manage substantial amounts of data
-and execute computationally-intensive analyses. To this end, science
-gateways may balance the load among different instances of the same
-engine. They may also use advanced task scheduling policies on the
-infrastructure, e.g. to ensure fairness among
-users~\cite{FERR-14,CPE:CPE3708} or to improve
-fault-tolerance~\cite{wilkins2008teragrid,FERR-13}.
+infrastructure can be targeted. 
 
-Robustness is a highly desirable characteristic as well. Architectures
-showing reduced system complexity will greatly facilitate the
+Scalability is also a crucial concern for such multi-user,
+high-throughput systems. To this end, science gateways may balance the
+load among different instances of the same engine, and use advanced
+task scheduling policies on the infrastructure to improve performance,
+fault-tolerance and fairness among users.
+
+Robustness is highly desirable as well since it is key to a
+good user experience. Simple architectures facilitate the
 implementation effort towards robust interactions which, in turn, have
 a positive impact on characteristics such as gateway predictability,
-transparence, general reliability and results traceability and
-reproducibility; characteristics that are also key to a good user
-experience. \closednote{Marc-Etienne}{I find that something is weak in
-  this last paragraph. Robustness will help with transparency, sure,
-  but it seems only a small facet.  Also, the text seem to timidly
-  favor architectures with less components/interactions without much
-  explanation... Complex systems can be robust, but at greater
-  costs...  Here is one: "Architectures showing reduced system
+transparency, reliability, traceability and
+reproducibility. \closednote{Marc-Etienne}{I find that something is
+  weak in this last paragraph. Robustness will help with transparency,
+  sure, but it seems only a small facet.  Also, the text seem to
+  timidly favor architectures with less components/interactions
+  without much explanation... Complex systems can be robust, but at
+  greater costs...  Here is one: "Architectures showing reduced system
   complexity will greatly facilitate the implementation effort towards
   robust interactions which, in turn, have a positive impact on
   characteristics such as gateway predictability, transparence,
   general reliability and results traceability and reproducibility;
   characteristics that are also key to a good user
   experience."}{Tristan}{Agreed, fixed as
-  suggested.}\note{Tristan}{Work on the this sentence again.}
+  suggested.}\closednote{Tristan}{Work on the this sentence again.}{Tristan}{done.}
 
 Specific features may also be available in science gateways, such as
 data vizualisation and quality control, workflow edition, debugging
