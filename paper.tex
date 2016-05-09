@@ -154,7 +154,7 @@ Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing},
 WS-PGRADE~\cite{Kacsuk2012} and others. Such workflow engines usually
 describe applications in a high-level language with specific data and
 control flow constructs, parallelization operators, visual edition
-features, links with domain-specific tool repositories, provenance
+tools, links with domain-specific application repositories, provenance
 recording and other features. An overview of workflow system
 capabilities is available in~\cite{deelman2009workflows}.
 
@@ -175,13 +175,13 @@ clusters\closednote{Tristan}{Reverted from Marc's 'cluster
 these tools also support advanced features such as provenance
 tracking, \closednote{Naj}{should we not mention PMP which is used for
   CIVET?}{Tristan}{Done, as discussed.}  redundancy detection across
-analyses to avoid re-computation, and so on. A wide-array of
-workflows have been implemented using these pipelines and are now
-shared across neuroimaging groups world-wide. These domain-specific
-engines represent a tremendous opportunity for science gateways to
-leverage existing tools and applications. They nicely complement
-e-Science engines that are more oriented towards the exploitation of
-distributed computing infrastructures, in particular grids and clouds.
+analyses to avoid re-computation, and so on. A wide array of workflows
+have been implemented using these pipelines and are now shared across
+neuroimaging groups world-wide, which represents a tremendous
+opportunity for science gateways to leverage. Domain-specific engines
+nicely complement e-Science systems that are more oriented towards the
+exploitation of distributed computing infrastructures, in particular
+grids and clouds.
 
 In this paper, a
 \emph{workflow engine} (also abbreviated \emph{engine}) is a piece of
@@ -190,7 +190,7 @@ software that submits interdependent computing \emph{tasks} to an
 a workflow description (a.k.a \emph{workflow}) and using input data
 that may consist of files, database entries or simple parameter
 values. Although simplistic, this definition covers both e-Science workflow systems and
-domain-specific pipelines.\closednote{Marc-e}{To remain consistent with above descriptions}{Tristan}{yes!} Some workflow engines, usually e-Science
+domain-specific pipeline systems.\closednote{Marc-e}{To remain consistent with above descriptions}{Tristan}{yes!} Some workflow engines, usually e-Science
 ones, may transfer data across the infrastructure, and others, usually
 domain-specific ones, may leave this role to external processes. Workflows
 may be expressed in any language, including high-level XML or JSON
@@ -209,13 +209,13 @@ components to implement and execute
 applications. \closednote{Naj}{provide examples?}{Tristan}{Examples
   are mentioned in the last paragraph of this section. Moved it next.}
 
-Various science gateways have been developed, including complete
-frameworks such as Apache Airavata~\cite{marru2011apache}, the Catania
-Science Gateway Framework~\cite{Ardizzone2012} and
+Various science gateways have been developed, including frameworks
+such as Apache Airavata~\cite{marru2011apache}, the Catania Science
+Gateway Framework~\cite{ardizzone2012decide} and
 WS-PGRADE/gUSE~\cite{Kacsuk2012}. Numerous science gateways were built
 using such frameworks~\cite{kacsuk2014science,ardizzone2012decide} or
-as standalone systems~\cite{SHER-14,GLAT-13}. Most of these frameworks
-and instances include one or several workflow engines.
+as standalone systems~\cite{SHER-14,GLAT-13}. Most of these systems
+include one or several workflow engines.
 
 % Software properties: integration effort, extensibility, robustness,
 % scalability, specific features
@@ -223,8 +223,9 @@ and instances include one or several workflow engines.
 Integration between workflow engines and science gateways varies
 across systems. Some science gateways are tailored to a particular
 engine while other ones are more general and host applications
-executed by different types of engines. Some gateways may not even use any
-workflow engine and instead focus on the execution of simple tasks.
+executed by different types of engines. 
+%Some gateways may not even use any
+%workflow engine and instead focus on the execution of simple tasks.
 
 Extensibility is an important property of the integration. New
 workflows are added frequently, different types and versions of
@@ -256,17 +257,17 @@ reproducibility. \closednote{Marc-Etienne}{I find that something is
   experience."}{Tristan}{Agreed, fixed as
   suggested.}\closednote{Tristan}{Work on the this sentence again.}{Tristan}{done.}
 
-Specific features may also be available in science gateways, such as
+Specific features may also be available, for instance
 data vizualisation and quality control, workflow edition, debugging
 instruments, social tools among users, etc.
 
 \subsection{Infrastructure}
 
-In this paper, infrastructure consists of the computing and storage
+Infrastructure consists of the computing and storage
 resources involved in workflow execution, as well as the software
 services used to access these resources. Infrastructure can be
 composed of computing or file servers, databases, clusters, grids or
-clouds. Some workflow engines and science gateways may assume specific
+clouds. Some workflow engines and science gateways may require specific
 characteristics, such as the presence of a shared file system between
 the computing nodes, the availability of a global task meta-scheduler,
 the presence of a file catalog, etc. In the analysis presented below,
@@ -371,7 +372,7 @@ classification of a few systems by architecture.
   \textbf{Architecture} & \textbf{Systems} \\
   \hline
   Tight & \pbox{1.5\columnwidth}{
-          Catania Science Gateway Framework~\cite{Ardizzone2012},
+          Catania Science Gateway Framework~\cite{ardizzone2012decide},
           Distributed application runtime environment (DARE~\cite{maddineni2012distributed}),
           DECIDE~\cite{ardizzone2012decide}$^{c,n}$, LONI Pipeline Environment$^n$~\cite{dinov2009efficient}
           }
@@ -401,7 +402,7 @@ labeled as in Figure~\ref{fig:architectures}.
   system so that users can execute it. It is triggered by an
   administrator of the science gateway and it results in an interface,
   for instance a web form, where users can enter the parameters of the
-  workflow to be executed. The interaction has two aspects:
+  workflow to be executed. The interaction has two steps:
   (\texttt{a$_1$}) the programs used in the workflow are installed on
   the infrastructure, which may require administrative privileges;
   (\texttt{a$_2$}) the workflow is configured in the science gateway
@@ -462,11 +463,7 @@ labeled as in Figure~\ref{fig:architectures}.
   for every workflow language. It has been developed mostly for
   well-structured and relatively simple workflow languages such as between GWorkflowDL
   and Scufl~\cite{OLAB-09}, and between the 4 languages that were involved in the
-  SHIWA initiative. In SHIWA, workflow conversion is done through an
-  intermediate representation, the Interoperable Workflow Intermediate
-  Representation~\cite{plankensteiner-montagnat-etal:2011}, which
-  allows to convert among $n$ workflow languages using $2n$
-  interactions instead of $n^2$.
+  SHIWA initiative.
 \end{enumerate}
 
 
@@ -493,7 +490,7 @@ for instance a data management interface. As in any other model, the
 installation of new workflows in the science gateway (\texttt{a$_2$})
 and infrastructure (\texttt{a$_1$}) is done by an administrator, for
 security reasons. This is the model adopted in the Catania Science
-Gateway Framework~\cite{Ardizzone2012} (see specific documentation on
+Gateway Framework~\cite{ardizzone2012decide} (see specific documentation on
 workflows\footnote{\url{http://bit.ly/1oQrzvQ}}), in the Distributed
 application runtime environment
 (DARE~\cite{maddineni2012distributed}), in
@@ -645,9 +642,9 @@ interaction \texttt{c$_1$}, and administrator installs workflows
 through interaction \texttt{a$_1$} and \texttt{a$_2$}.
 
 The pool model was implemented in the SHIWA pool~\cite{ROGE-13}
-diagrammed in Figure~\ref{fig:shiwa-pool-architecture}. In the SHIWA
-pool, agents can wrap different types of workflow engines to execute
-workflows expressed with different languages.
+diagrammed in Figure~\ref{fig:shiwa-pool-architecture}, where agents
+can wrap different types of workflow engines to execute workflows
+expressed with different languages.
 
 \begin{figure*}
 \centering
@@ -753,7 +750,9 @@ involved in workflow execution. A few systems have implemented
 workflow import. In the SHIWA Simulation Platform, it is implemented
 through the IWIR language that provides a common language for
 portability across grid workflow
-systems~\cite{plankensteiner-prodan-etal:2013}. Tavaxy~\cite{Abouelhoda2012}
+systems~\cite{plankensteiner-prodan-etal:2013} and allows to convert
+among $n$ workflow languages using $2n$ interactions instead of $n^2$.
+Tavaxy~\cite{Abouelhoda2012}
 allows to import, merge and run Taverna~\cite{oinn2004taverna} and
 Galaxy~\cite{goecks2010galaxy} workflows; when some workflow parts
 cannot be imported, workflows are run by Tavaxy as nested workflows
@@ -771,14 +770,14 @@ from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 \label{sec:evaluation}
 
 The architectures described in Section~\ref{sec:architectures} are
-evaluated in Table~\ref{table:evaluation}. We use 5 main criteria to
-evaluate the architectures: integration complexity, robustness,
-extensibility, scalability and other specific features. Criteria break
-down to specific metrics where \emph{lower value indicates better
-  performance}. For each criterion, a global score is computed by
-summing up the individual metrics. We ensure that the different
-metrics in a criterion measure similar entities so that they can be
-summed. The criteria and metrics are explained hereafter.
+evaluated in Table~\ref{table:evaluation} using 5 main criteria:
+integration complexity, robustness, extensibility, scalability and
+other specific features. Criteria break down to specific metrics where
+\emph{lower value indicates better performance}. For each criterion, a
+global score is computed by summing up the individual metrics. We
+ensure that the different metrics in a criterion measure similar
+entities so that they can be summed. The criteria and metrics are
+explained hereafter.
 
 
 \begin{table*}
@@ -976,9 +975,7 @@ be added or replaced:
 \item New engine type (\texttt{E$_1$}): number of interactions or
   components to modify to integrate a new type of workflow engine in
   the architecture. Workflow engines belong to different types when
-  they cannot be invoked using the same interface. Adding a new type
-  of workflow engine allows to execute more workflows in the science
-  gateway.
+  they cannot be invoked using the same interface. 
 \item New engine version (\texttt{E$_2$}): number of interactions or
   components to modify to integrate a new version of a workflow engine
   in the architecture, assuming that another version of the same
@@ -1035,7 +1032,7 @@ realistically be implemented. \closednote{Naj}{how do you metricize
   of common sense and experience to draw the line between what is
   easily implemented and what is more tricky. I would like to avoid
   'impossible' because nothing is impossible to implement if enough
-  effort is put.}. Four different features are identified:
+  effort is put.} Four different features are identified:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Multiple engine instances (\texttt{S$_1$}): possibility to have
   more than 1 engine instance in the architecture. Workflow engines
@@ -1176,9 +1173,9 @@ requires updates in interactions \texttt{a$_1$}, \texttt{b},
 
 \paragraph{Scalability} The service architecture supports multiple
 engine instances through multiple workflow services. In VIP for
-instance, this feature has been available from release 1.17 (April
-2016). A basic load-balancing mechanism is available that sends new
-workflow executions to the engine instance that has the least active
+instance, this feature has been available from release 1.17. A basic
+load-balancing mechanism is available that sends new workflow
+executions to the engine instance that has the least active
 executions. To avoid ``black-hole'' syndromes created by failing
 engine instances, engine instances are automatically disabled when
 workflows cannot be submitted to them. Adding a new engine instance,
@@ -1186,12 +1183,12 @@ however, requires manual intervention to declare the new instance in
 the science gateway (\texttt{S$_1$}=1). Consequently, elastic engines
 are difficult to implement because they require a mechanism to update
 the science gateway configuration when a new engine instance is
-available. Distributing the execution of a single
-workflow in multiple engines is usually not possible unless the
-workflow engine has specific abilities (\texttt{S$_2$}=1). The
-scheduling of tasks on the infrastructure is as complex as in any
-other architecture since the workflow engine might implement any kind
-of scheduling policy (\texttt{S$_3$}=0).
+available. Distributing the execution of a single workflow in multiple
+engines is usually not possible unless the workflow engine has
+specific abilities (\texttt{S$_2$}=1). The scheduling of tasks on the
+infrastructure is as complex as in any other architecture since the
+workflow engine might implement any kind of scheduling policy
+(\texttt{S$_3$}=0).
 
 \paragraph{Specific features} Meta-workflows are not supported by default
 (\texttt{O$_1$}=1). Fine-grained debugging information is usually easy
@@ -1657,7 +1654,7 @@ the Ludmer Centre for Neuroinformatics and Mental Health. \closedanswerednote{Ma
 \section*{References}
 
 \enlargethispage{5mm}
-\bibliographystyle{elsarticle-num}
+\bibliographystyle{plain}
 \bibliography{biblio}
 
 \end{document}
