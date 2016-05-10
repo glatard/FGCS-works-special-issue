@@ -145,13 +145,13 @@ gateway architects and workflow engine developers.
 In the last decade, the e-Science community has developed workflow
 systems to help application developers access distributed
 infrastructures such as clusters, grids, clouds and web
-services. These efforts resulted in tools such as
+services. These efforts resulted in tools among which
 Askalon~\cite{fahringer2005askalon},
 Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
 Pegasus~\cite{deelman2005pegasus,Deelman201517},
 Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
-Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing},
-WS-PGRADE~\cite{Kacsuk2012} and others. Such workflow engines usually
+Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing}
+and WS-PGRADE~\cite{Kacsuk2012}. Such workflow engines usually
 describe applications in a high-level language with specific data and
 control flow constructs, parallelization operators, visual edition
 tools, links with domain-specific application repositories, provenance
@@ -163,8 +163,8 @@ domains to facilitate the assembly of software components in
 consistent ``pipelines''. In neuroimaging, our primary domain of
 interest, tools such as Nipype (Neuroimaging in Python, Pipelines and
 Interfaces~\cite{gorgolewski2011nipype}), PSOM (Pipeline System for
-Octave and Matlab~\cite{bellec2012pipeline}), RPPL~\cite{1174106} and
-PMP (Poor Man's Pipeline~\cite{Ad-DabbaghY2006}), SPM (Statistical
+Octave and Matlab~\cite{bellec2012pipeline}), 
+PMP (Poor Man's Pipeline~\cite{Ad-DabbaghY2006}), RPPL~\cite{1174106}, SPM (Statistical
 Parametric Mapping~\cite{ashburner2011spm}) and FSL (FMRIB Software
 Library~\cite{Jenkinson2012782}) provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
@@ -176,7 +176,7 @@ these tools also support advanced features such as provenance
 tracking, \closednote{Naj}{should we not mention PMP which is used for
   CIVET?}{Tristan}{Done, as discussed.}  redundancy detection across
 analyses to avoid re-computation, and so on. A wide array of workflows
-have been implemented using these pipelines and are now shared across
+have been implemented using these pipeline systems and are now shared across
 neuroimaging groups world-wide, which represents a tremendous
 opportunity for science gateways to leverage. Domain-specific engines
 nicely complement e-Science systems that are more oriented towards the
@@ -233,10 +233,11 @@ workflow engines may be integrated over time, and different kinds of
 infrastructure can be targeted. 
 
 Scalability is also a crucial concern for such multi-user,
-high-throughput systems. To this end, science gateways may balance the
-load among different instances of the same engine, and use advanced
-task scheduling policies on the infrastructure to improve performance,
-fault-tolerance and fairness among users.
+high-throughput systems. For this purpose, science gateways may
+balance the load among different instances of the same engine, start
+new engines elastically, and use advanced task scheduling policies on
+the infrastructure to improve performance, fault-tolerance and
+fairness among users.
 
 Robustness is highly desirable as well since it is key to a
 good user experience. Simple architectures facilitate the
@@ -257,7 +258,7 @@ reproducibility. \closednote{Marc-Etienne}{I find that something is
   experience."}{Tristan}{Agreed, fixed as
   suggested.}\closednote{Tristan}{Work on the this sentence again.}{Tristan}{done.}
 
-Specific features may also be available, for instance
+Other specific features may also be available, for instance
 data vizualisation and quality control, workflow edition, debugging
 instruments, social tools among users, etc.
 
@@ -280,11 +281,9 @@ data regardless of the enabling mechanisms.
 
 Architectures to integrate workflow engines in science gateways are
 diagrammed in Figure~\ref{fig:architectures} using the graphical
-notations shown in Figure~\ref{fig:notations}. This section describes the different types of
-interactions involved in the architectures. Architectures are then
-detailed and illustrated using examples of real
-systems. Table~\ref{table:system-classification} summarizes the
-classification of a few systems by architecture.
+notations shown in
+Figure~\ref{fig:notations}. Table~\ref{table:system-classification}
+summarizes the classification of a few systems by architecture.
 
 \closednote{Marc-e}{A
   few things bother me a bit with the notation fig., making it harder
@@ -473,9 +472,9 @@ See Figure~\subref*{archi:tight}. The workflow engine is tightly
 integrated with the science gateway, which means that it is deployed
 on the same machine and potentially shares code, libraries and other
 software components with the science gateway. For instance, the
-workflow engine might be a portlet in a Liferay portal or a controller
+workflow engine might be a portlet in a Liferay portal or a model
 in a Ruby on Rails application. The workflow engine and the science
-gateway usually share a database where application, users and other
+gateway usually share a database where applications, users and other
 resources are stored\closednote{sorina}{VIP and Moteur also share the
   WorkflowsDB}{Tristan}{Yes, you are right. This is an example where
   such abstract architectures may not completely apply in real
@@ -493,7 +492,7 @@ security reasons. This is the model adopted in the Catania Science
 Gateway Framework~\cite{ardizzone2012decide} (see specific documentation on
 workflows\footnote{\url{http://bit.ly/1oQrzvQ}}), in the Distributed
 application runtime environment
-(DARE~\cite{maddineni2012distributed}), in
+(DARE)~\cite{maddineni2012distributed}, in
 Galaxy~\cite{goecks2010galaxy}, and in the LONI Pipeline
 Environment~\cite{dinov2009efficient}. Note that tightly integrated
 architectures may provide advanced workflow edition features which are
@@ -565,7 +564,7 @@ global vision of the workflow, it can keep track of the sub-tasks
 submitted by a given task, for instance to cancel them when
 the task is canceled. The science gateway may also implement
 mechanisms to facilitate the handling of task dependencies, for
-instance basic dependency lists as available in most batch managers
+instance basic dependency lists as available in most cluster managers
 (see for instance attribute \texttt{depend} of option \texttt{-W} in
 Torque\footnote{\url{http://docs.adaptivecomputing.com}}).
 
@@ -613,7 +612,7 @@ reproduced from~\cite{GLAT-16}.]{\def\svgwidth{\columnwidth}
   starts workflow engine (FSL tool or PSOM master) via task
   scheduler. 6: Workflow engine submits sub-tasks to execution server
   (FSL tasks or PSOM agents). 7-8: Execution server starts sub-tasks
-  through task scheduler. FSL sub-tasks will run locally
+  through task scheduler (FSL sub-tasks or PSOM workers). FSL sub-tasks will run locally
   instead of being submitted again to CBRAIN through interaction 6. 8':
   (PSOM only) PSOM master and workers execute workflow. 9. Execution
   server transfers results to storage server(s). Interaction
@@ -630,16 +629,16 @@ reproduced from~\cite{GLAT-16}.]{\def\svgwidth{\columnwidth}
 
 \subsection{Pool model}
 \label{sec:pool}
-See Figure~\subref*{archi:agent}. Workflows are submitted by the science
-gateway to a central pool through interaction \texttt{d}. Agents connect to
-the pool asynchronously to retrieve and execute workflows through
-interaction \texttt{f}. Agents may be started according to various
-policies, for instance to ensure load balancing. Agents may wrap
-different types of workflow engines. Workflow engine controls tasks
-and data on the infrastructure through interactions \texttt{b} and
-\texttt{c$_2$}, science gateway transfers user data through
-interaction \texttt{c$_1$}, and administrator installs workflows
-through interaction \texttt{a$_1$} and \texttt{a$_2$}.
+See Figure~\subref*{archi:agent}. Workflows are submitted by the
+science gateway to a central pool through interaction
+\texttt{d}. Agents connect to the pool asynchronously to retrieve and
+execute workflows through interaction \texttt{f}. Agents may be
+started according to various policies, for instance to ensure load
+balancing. Workflow engine controls tasks and data on the
+infrastructure through interactions \texttt{b} and \texttt{c$_2$},
+science gateway transfers user data through interaction
+\texttt{c$_1$}, and administrator installs workflows through
+interaction \texttt{a$_1$} and \texttt{a$_2$}.
 
 The pool model was implemented in the SHIWA pool~\cite{ROGE-13}
 diagrammed in Figure~\ref{fig:shiwa-pool-architecture}, where agents
@@ -681,7 +680,7 @@ expressed with different languages.
 
 See Figure~\subref*{archi:nested}. In nested workflows
 (Figure~\subref*{archi:nested}-Left), workflows include other
-workflows that are executed by a \emph{child} engine. However, parent
+workflows that are executed by a \emph{child} engine. Parent
 and child engines might use different languages and might run on
 different infrastructures. A parent workflow is
 also called meta-workflow. The science gateway communicates with the
@@ -931,12 +930,11 @@ effort (e.g., account creation, software installation, APIs, etc.), which is
 why we keep it in the metric. The two metrics are summed to obtain a
 global score that measures the
 total number of software pieces to develop, including interactions and
-components. It may be used to measure the development effort required
-to build the architecture.
+components. 
 
 \emph{Robustness of workflow execution} measures the likelihood that
 workflow execution fails due to errors in the components or with the
-interactions in the software architecture. Note that errors coming
+interactions in the software architecture. Errors coming
 from the infrastructure (e.g., unavailable data or terminated tasks)
 or workflows (e.g., wrong user input or application errors) are not
 covered since they do not stem directly from the software
@@ -969,7 +967,7 @@ be updated or recompiled (science gateway or workflow service), or
 when a new piece of software has to be installed (infrastructure
 only). Modification of an interaction is deemed necessary when the
 parameters involved in this interaction are modified.  Extensibility
-breaks down in 4 metrics depending on the type of element that has to
+breaks down to 4 metrics depending on the type of element that has to
 be added or replaced:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item New engine type (\texttt{E$_1$}): number of interactions or
@@ -1411,7 +1409,7 @@ service invocation architecture (\texttt{O$_2$=0}).
 Tight integration and task encapsulation are the simplest
 architectures to integrate, followed by service integration, workflow import (with
 service invocation) and pool. Nested workflows (with service
-invocation) requires more integration than the other
+invocation) require more integration than the other
 architectures. Robustness roughly leads to the same ordering of
 architectures, with tight integration and task encapsulation in the top
 group, service integration and workflow import (with service
@@ -1434,7 +1432,7 @@ update infrastructure (task encapsulation), science gateway (tight
 integration), or workflow converter (workflow import). Workflow import
 performs worse than the others when integrating new workflows
 (\texttt{E$_3$}) because of the language conversion step. All
-architectures except nested workflows perform the same when
+architectures except nested workflows are equivalent when
 integrating new infrastructures (\texttt{E$_4$}).
 
 The pool architecture is overall the most scalable, which is not a
@@ -1529,7 +1527,7 @@ Specific features (global score) & \cellcolor[HTML]{99CC99}{0.50}
 
 \subsection{Limitations}
 
-A few limitations remain that should be considered when using the
+A few limitations should be considered when using the
 results of our evaluation. First of all, the evaluation is done at a
 quite high-level of abstraction that may be a bit artificial when
 applied to real systems. Abstracting architectures from their
@@ -1611,16 +1609,16 @@ pros and cons of all the presented architectures based on these metrics.
 To the best of our knowledge, our work is the first of its kind. So
 far, the literature on science gateways and workflow engines has
 focused on the description of particular systems, or on the
-presentation of a particular architecture. For instance, the work
-in~\cite{Gannon2005} discusses service-oriented architectures for
-science gateways with workflow engines.  Instead, our analysis
+presentation of a particular architecture.  Instead, our analysis
 abstracts and evaluates architectural patterns independently from any
 particular system. It provides general insight to integrate science
 gateways and workflow engines, which we hope will be useful for
 software architects.
 
 % Literature on SG architecture Very few works go beyond the
-% description of architectures of particular systems. The work in
+% description of architectures of particular systems. For instance, the work
+%in~\cite{Gannon2005} discusses service-oriented architectures for
+% science gateways with workflow engines.  The work in
 % http://link.springer.com/chapter/10.1007/11596141_3 discusses
 % service-oriented architectures for science gateways, with a workflow
 % engine. The work in
