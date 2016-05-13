@@ -381,7 +381,7 @@ summarizes the classification of a few systems by architecture.
           }
   \\
   Service & \pbox{1.5\columnwidth}{
-            Apache Airvata~\cite{marru2011apache}, Neurosciece Gateway~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{kruger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
+            Apache Airvata~\cite{marru2011apache}, Neuroscience Gateway~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{kruger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
             Science gateways in~\cite{kacsuk2014science}$^w$
             } \\
   Task & CBRAIN and PSOM~\cite{GLAT-16}$^n$, CBRAIN and FSL$^n$\\
@@ -710,8 +710,8 @@ focus on instantiation with the service invocation model
 architecture. In the instantiation, we assume that the parent and
 child workflow engines are distinct pieces of software that require
 different workflow services invoked by distinct \texttt{d}
-interactions. If this is not the case then workflow services can be
-collapsed in a single one with a \texttt{d} interaction with
+interactions. If this is not the case, then workflow services can be
+collapsed into a single one with a \texttt{d} interaction with
 itself. An example of such interaction is the use of hierarchical
 workflows in Pegasus~\cite{Deelman201517}.
 Workflow engines communicate with infrastructures using
@@ -733,8 +733,8 @@ with service invocation.
 \begin{figure*}
 \centering
 \includegraphics[width=1.5\columnwidth]{figures/shiwa-science-gateway.pdf}
-\caption{Nested workflow execution through SHIWA Science Gateway. The
-  parent workflow engine is \texttt{WS-PGRADE}, invoked as a service
+\caption{Nested workflow execution through the SHIWA Science Gateway. The
+  parent workflow engine is \texttt{WS-PGRADE/gUSE}, invoked as a service
   in the Science Gateway (step \texttt{1}, interaction \texttt{d} on
   Figure~\ref{fig:architectures}(V)-Right). Ten different child engines can be used by nested
   workflows, invoked through the \texttt{Submission service} (step
@@ -757,12 +757,12 @@ format conversion from a native format to the science gateway
 format. Workflow import is usually an offline process that is not
 involved in workflow execution. A few systems have implemented
 workflow import. In the SHIWA Simulation Platform, it is implemented
-through the IWIR language that provides a common language for
+through the IWIR language, which provides a common language for
 portability across grid workflow
-systems~\cite{plankensteiner-prodan-etal:2013} and allows to convert
+systems~\cite{plankensteiner-prodan-etal:2013} and allows conversion
 among $n$ workflow languages using $2n$ interactions instead of $n^2$.
 Tavaxy~\cite{Abouelhoda2012}
-allows to import, merge and run Taverna~\cite{oinn2004taverna} and
+enables the import, merging and execution of Taverna~\cite{oinn2004taverna} and
 Galaxy~\cite{goecks2010galaxy} workflows; when some workflow parts
 cannot be imported, workflows are run by Tavaxy as nested workflows
 using their native engine. The work in~\cite{delaGarza2016} describes
