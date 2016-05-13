@@ -1431,42 +1431,51 @@ Regarding extensibility, most architectures are overall comparable,
 except nested workflows (with service invocation) which are
 significantly behind. This is explained by the complexity of the
 nested workflow architecture, with 2 infrastructures and 2 workflow
-services. Task encapsulation and workflow import (with service invocation)
-perform slightly better when integrating new engines (\texttt{E$_1$}),
-which is interesting given the current profusion of engines with
-different characteristics.\note {Naj}{what is interesting?}  However, task encapsulation, workflow import
-(with service invocation) and tight integration perform worse than the
-others when adding engine versions (\texttt{E$_2$}), due to the need to
-update infrastructure (task encapsulation), science gateway (tight
+services. Task encapsulation and workflow import (with service
+invocation) perform slightly better when integrating new engines
+(\texttt{E$_1$}), which makes them useful architectures for science
+gateways that do not focus on a particular engine.\closednote{Naj}{what is
+  interesting?}{Tristan}{Rephrased, thanks.}  However, task encapsulation, workflow import (with
+service invocation) and tight integration perform worse than the
+others when adding engine versions (\texttt{E$_2$}), due to the need
+to update infrastructure (task encapsulation), science gateway (tight
 integration), or workflow converter (workflow import). Workflow import
 performs worse than the others when integrating new workflows
 (\texttt{E$_3$}) because of the language conversion step. All
-architectures except nested workflows are equivalent when
-integrating new infrastructures (\texttt{E$_4$}).
+architectures except nested workflows are equivalent when integrating
+new infrastructures (\texttt{E$_4$}).
 
-The pool architecture is overall the most scalable, which is not surprising since it is designed precisely for scalability. Tight
+The pool architecture is overall the most scalable, which is not
+surprising since it is designed precisely for scalability. Tight
 integration is the least scalable and all the other architectures
-perform the same overall. The global scalability score, however, should not
-mask \note{Naj}{what do you mean by mask?}the unique characteristics of architectures regarding this
-criterion. Nested workflows are the only architecture that can easily
-accommodate distributed workflow execution, which can be critical in
-some cases. At the same time, the scheduling constraints created by
-task encapsulation and nested workflows could well become
-showstoppers \note{Naj}{please don't use these from-film-marketing words?! :-) }depending on the type of targeted
-infrastructure. Non-reliable infrastructures \note{Naj}{you mean by the showstoppers, i.e. the nested workflows which can accommodate distributed executions but are limited by scheduling constraints?} , for example, could
-hardly cope with workflow engines being wrapped in computing tasks as
-done in task encapsulation. The availability of multiple engine instances
-could also become a critical feature for science gateways with
-important workloads, which would favor task encapsulation and pool. \note{Naj}{I feel this paragraph is a bit vague, and doesn't distill and contextualize the thorough work described before.} 
+perform the same overall. The global scalability score, however,
+should not conceal \closednote{Naj}{what do you mean by
+  mask?}{Tristan}{I guess 'hide' or 'conceal' are better
+  words. Fixed.} the unique characteristics of architectures regarding
+this criterion. Nested workflows are the only architecture that can
+easily accommodate distributed workflow execution, which can be
+critical in some cases. At the same time, the scheduling constraints
+created by task encapsulation and nested workflows may become problematic \closednote{Naj}{please don't use these from-film-marketing
+  words?! :-) }{Tristan}{OK!} depending on the type of targeted
+infrastructure. Non-reliable infrastructures \closednote{Naj}{you mean by
+  the showstoppers, i.e. the nested workflows which can accommodate
+  distributed executions but are limited by scheduling constraints?}{Tristan}{Yes. I rephrased a bit this part.} ,
+for example, could hardly cope with workflow engines being wrapped in
+computing tasks as done in task encapsulation. The availability of
+multiple engine instances could also become a critical feature for
+science gateways with important workloads, which would favor task
+encapsulation and pool. \note{Naj}{I feel this paragraph is a bit
+  vague, and doesn't distill and contextualize the thorough work
+  described before.}
 
 Differences in other specific features should not be neglected. Nested
 workflows (with service invocation) and workflow import (with service
-invocation) are the only architectures that support meta-workflows,
-which may be interesting in some cases \note{Naj}{Which?}. Also, task encapsulation and nested
-workflows may complexify fine-grained debugging. \closednote{Rafael}{I would
-  suggest to provide some more examples when this could be
-  interesting.}{Tristan}{Done.}  The availability of fine-grained debugging
-information may also be critical to efficient user support.
+invocation) are the only architectures that support meta-workflows;
+task encapsulation and nested workflows may complexify
+fine-grained debugging. \closednote{Rafael}{I would suggest to provide
+  some more examples when this could be interesting.}{Tristan}{Done.}
+The availability of fine-grained debugging information may also be
+critical to efficient user support.
 
 Table~\ref{table:overall} provides an overall comparison between
 architectures, based on the metrics in Table~\ref{table:evaluation}.
@@ -1563,12 +1572,14 @@ associated with each interaction and software component will not be
 precise.
 
 The particular case of interaction \texttt{g} (workflow language
-conversion) should be further discussed \note{Naj}{so are you discussing it here, or in the future?}since 
-this interaction may not be easily generalized to any workflow
-language. For instance, converting FSL, PSOM or Nipype pipelines to
-any other workflow language is problematic because these engines rely
-on general-purpose programming languages such as Bash, Octave and
-Python, which are much richer than scientific workflow languages.
+conversion) requires particular attention when implementing a real
+system \closednote{Naj}{so are you discussing it here, or in the
+  future?}{Tristan}{It's out of scope, a complete paper in itself. Rephrased this part.} since this interaction may not be easily generalized to any
+workflow language. For instance, converting FSL, PSOM or Nipype
+pipelines to any other workflow language is problematic because these
+engines rely on general-purpose programming languages such as Bash,
+Octave and Python, which are much richer than scientific workflow
+languages.
 
 The abstract nested workflows and workflow import patterns were
 instantiated with service invocation so that they can be analyzed in
@@ -1579,7 +1590,7 @@ with service invocation because the resulting architectures are
 implemented in real systems, and because service invocation is largely
 used. Nevertheless, it could be interesting to explore other types of
 instantiations, in particular nested workflows with task
-encapsulation.\note{Naj}{I think in the discussion, you may want to close the circle on a statement in introduction, which referred to your 7-year experience with CBRAIN and VIP}
+encapsulation.\answerednote{Naj}{I think in the discussion, you may want to close the circle on a statement in introduction, which referred to your 7-year experience with CBRAIN and VIP}{Tristan}{Good idea, will think about it.}
 
 The particular technical or historical context of a science gateway
 project may obviously influence the choice of an architecture to
@@ -1616,14 +1627,17 @@ pros and cons of all the presented architectures based on these metrics.
   think?}{Tristan}{Fixed, as discussed in github \#8.}
 
 % Impact of the work
-To the best of our knowledge, our work is the first of its kind.\note{Naj}{instead of its kind, explain what kind it is, e.g. systematic review of all ...} So
-far, the literature on science gateways and workflow engines has
-focused on the description of particular systems, or on the
-presentation of a particular architecture.  Instead, our analysis
-abstracts and evaluates architectural patterns independently from any
-particular system. It provides general insight to integrate science
-gateways and workflow engines, which we hope will be useful for
-software architects.
+To the best of our knowledge, our work is the first to systematically
+review and compare software architectures used to integrate workflow
+engines in science gateways.\closednote{Naj}{instead of its kind,
+  explain what kind it is, e.g. systematic review of all
+  ...}{Tristan}{Done.} So far, the literature on science gateways and
+workflow engines has focused on the description of particular systems,
+or on the presentation of a particular architecture.  Instead, our
+analysis abstracts and evaluates architectural patterns independently
+from any particular system. It provides general insight to integrate
+science gateways and workflow engines, which we hope will be useful
+for software architects.
 
 % Literature on SG architecture Very few works go beyond the
 % description of architectures of particular systems. For instance, the work
