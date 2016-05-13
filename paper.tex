@@ -90,13 +90,13 @@
   integrated as a child process of another engine. In \emph{workflow
     import}, the engine is integrated through workflow language
   conversion. We describe and evaluate these architectures with
-  metrics that measure integration complexity, robustness,
+  metrics for assessment of integration complexity, robustness,
   extensibility, scalability and support for meta-workflows and
   fine-grained debugging\closednote{Naj}{Please be precise, what are
     they?}{Tristan}{Done, thanks}. Results provide insights for
   science gateway architects and workflow engine developers. Tight
   integration and task encapsulation are the easiest to integrate and
-  are most robust. Extensibility is equivalent in most
+  the most robust. Extensibility is equivalent in most
   architectures. The pool model is the most scalable one and
   meta-workflows are only available in nested workflows and workflow
   import. \closednote{Naj}{I find this abstract to be vague, it can be made
@@ -126,7 +126,7 @@ architectures, based on system-independent representations of their
 main components and interactions. It is informed by our experince in
 the development and sustained operation of the CBRAIN~\cite{SHER-14}
 and VIP~\cite{GLAT-13} science gateways for medical image analysis
-during the past 7 years; as well as by lessons learned from several
+during the past 7 years, as well as by lessons learned from several
 science gateway and workflow projects such as
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}}.  In this section
 we provide background information and definitions of 
@@ -190,8 +190,10 @@ software that submits interdependent computing \emph{tasks} to an
 a workflow description (a.k.a \emph{workflow}), \closednote{Naj}{I think and is redundant here, you can replace is with a comma}{Tristan}{yes!} using input data
 that may consist of files, database entries or simple parameter
 values. Although simplistic, this definition covers both e-Science workflow systems and
-domain-specific pipeline systems.\closednote{Marc-e}{To remain consistent with above descriptions}{Tristan}{yes!} Some workflow engines, usually e-Science
-ones, may transfer data across the infrastructure, and others, usually
+domain-specific pipeline systems.\closednote{Marc-e}{To remain consistent with above descriptions}{Tristan}{yes!} 
+Some workflow engines, 
+usually from the e-Science community, 
+may transfer data across the infrastructure, and others, usually
 domain-specific ones, may leave this role to external processes. Workflows
 may be expressed in any language, including high-level XML or JSON
 dialects such as Scufl or Hyperflow, and low-level scripting languages
@@ -222,7 +224,7 @@ include one or several workflow engines.
 
 Integration between workflow engines and science gateways varies
 across systems. Some science gateways are tailored to a particular
-engine, while other ones are more general and host applications
+engine, while others are more general and host applications
 executed by different types of engines. %Some gateways may not even use any
 %workflow engine and focus on the execution of simple tasks.
 
@@ -280,8 +282,8 @@ data regardless of the enabling mechanisms.
 \label{sec:architectures}
 
 Architectures to integrate workflow engines in science gateways are
-diagrammed in Figure~\ref{fig:architectures} using the graphical
-notations shown in
+presented in Figure~\ref{fig:architectures} using the graphical
+notations defined in
 Figure~\ref{fig:notations}. Table~\ref{table:system-classification}
 summarizes the classification of a few systems by architecture.
 
@@ -393,7 +395,7 @@ summarizes the classification of a few systems by architecture.
 \subsection{Interactions}
 
 The interactions involved in the architectures are described below and
-labeled as in Figure~\ref{fig:architectures}.
+labeled (a,b,c, ...) as in Figure~\ref{fig:architectures}.
 
 \begin{enumerate}[leftmargin=0cm,itemindent=0.65cm,label=\texttt{(\alph*)}]
 
@@ -457,12 +459,14 @@ labeled as in Figure~\ref{fig:architectures}.
   type of interaction is used in pilot-job
   systems~\cite{turilli2015comprehensive} and other agent-based
   computing models.
-\item Workflow conversion: translation from one workflow language to
-  another one. This interaction may not be available or implementable
+\item Workflow conversion: translation from one workflow language into
+  another. This interaction may not be available or possible
   for every workflow language. It has been developed mostly for
-  well-structured and relatively simple workflow languages such as between GWorkflowDL
-  and Scufl~\cite{OLAB-09}, and between the 4 languages that were involved in the
+  translation between well-structured and relatively simple workflow languages such as GWorkflowDL
+  and Scufl~\cite{OLAB-09}, and the 4 languages that were involved in the
   SHIWA initiative.
+ \note{Silvia}{Should we add here the 4?
+ 	and for translation among the 5 workflow systems in the SHIWA project: Askalon, MOTEUR, Taverna, Triana and WS-PGRADE)} 
 \end{enumerate}
 
 
