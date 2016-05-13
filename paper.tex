@@ -1035,40 +1035,40 @@ and the infrastructure.  \closednote{Rafael}{Adding a new engine type may
   it. I added a note on this after the description of the metrics.}
 
 
-\emph{Scalability} corresponds to the ability of the architecture to
-cope with high workloads. It is measured by counting the potential
-scalability issues in the architectures, i.e. the missing scalability
-features. Features are evaluated using a 3-level metric: 0 means that
+\emph{Scalability} corresponds to the ability of an architecture to
+cope with high workloads through the following mechanisms: starting multiple engine instances, distributing engines and task scheduling. 
+This is measured by assessing the potential
+scalability difficulties due to (partial) absence of a given feature in the architecture.  
+Features are evaluated using a 3-level metric: 0 means that
 the feature is very easy to enable, 1 means that it can be implemented
 but with some difficulty, and 2 means that the feature cannot
-realistically be implemented. \closednote{Naj}{how do you metricize
+ be implemented in a realistic scenario. \closednote{Naj}{how do you metricize
   "nonesensical amount fo effors?"}{Tristan}{You don't :) Rephrased to
   'cannot realistically be implemented'. At some point it's a matter
   of common sense and experience to draw the line between what is
   easily implemented and what is more tricky. I would like to avoid
   'impossible' because nothing is impossible to implement if enough
-  effort is put.} Four different features are identified:
+  effort is put.} Three different features are identified:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Multiple engine instances (\texttt{S$_1$}): possibility to have
-  more than 1 engine instance in the architecture. Workflow engines
+\item Multiple engine instances (\texttt{S$_1$}): measures the possibility \note{sil}{are we measuring possibility or potential? i think the second, because it is hypothetical. possibility brings me the idea of it is possible or not - which would be zero to almost all these features} of having
+  more than one engine instance in the architecture simultaneously. Workflow engines
   may require important amounts of resources when several workflows,
   or large workflows, are executed. At some point, it may be required
-  for the science gateway to distribute the load among several
-  engines. \texttt{S$_1$}=0 when adding a new engine instance is a
+  for the science gateway to means that adding a new engine instance is a
   fully automated process, i.e. the workflow engine only has to be
   started. In this case, elastic engines are possible, i.e. some kind
   of auto-scaling mechanism can be implemented to control the number
-  of engine instances in the architecture. \texttt{S$_1$}=1 when
+  of engine instances in the architecture. \texttt{S$_1$}=1 means that
   adding a new engine instance requires some form of manual
-  intervention (e.g., two-factor authentication), which prevents easy
-  implementations of elastic engines. \texttt{S$_1$}=2 when new engine
+  intervention (e.g., two-factor authentication \note{sil}{what is this?}), which prevents easy
+  implementations of elastic engines. \texttt{S$_1$}=2 means that a new engine
   instances cannot be added.
-\item Distributed engines (\texttt{S$_2$}): possibility to distribute
+\item Distributed engines (\texttt{S$_2$}): measures the possibility of distributing
   the execution \emph{of a single workflow} among different engine
   instances. In our scope, this feature focuses on the capabilities of
   the architecture rather than these of the workflow
-  engine. \texttt{S$_2$}=0 when distributed engines are possible in
-  the architecture, \texttt{S$_2$}=1 when they require specific
+  engine. \texttt{S$_2$}=0 means that distributed engines are possible in
+  the architecture, and \texttt{S$_2$}=1 that they require specific
   developments in the workflow engine.  \closednote{Rafael}{$S_2$
     would be 2 if the paradigm does not allow to distribute the
     orchestration? e.g., workflow executions implemented within MPI
@@ -1079,18 +1079,17 @@ realistically be implemented. \closednote{Naj}{how do you metricize
     jobs coordinated by an MPI job? Moreover, S2=2 is not used so I'd
     prefer to leave it like this, unless you have a suggestion to
     reflect this in the text.}
-\item Task scheduling (\texttt{S$_3$}): task scheduling is a difficult
-  issue that depends more on the implementation of specific algorithms
+\item Task scheduling (\texttt{S$_3$}): measures ??? \note{sil}{need to be more specific about what is being called task scheduling here. also explain why it is difficult, or dont say anything if it is common knowledge}. Task scheduling typically depends more on the implementation of specific algorithms
   in the science gateway, workflow engine and infrastructure than on
   the architecture used to integrate the workflow engine in the
   science gateway. Some architectures, however, complicate the task
   scheduling problem by introducing additional software layers or
-  creating tasks with specific characteristics. \texttt{S$_3$}=0 when
+  creating tasks with specific characteristics. \texttt{S$_3$}=0 means that
   the architecture does not introduce any additional complexity to the
   scheduling problem, and \texttt{S$_3$}=1 otherwise.
 \end{itemize}
-The 3 metrics are summed to obtain a global measure of the scalability
-issues that are present in the architecture.
+These three metrics are summed to obtain a global measure of the scalability
+potential of the architecture.
 
 \emph{Specific features} include:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
