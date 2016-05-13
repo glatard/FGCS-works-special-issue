@@ -1110,6 +1110,7 @@ potential of the architecture.
 \texttt{O$_1$} and \texttt{O$_2$} are summed to obtain a total number of missing specific
 features in the architecture.
 
+\note{sil}{since we are dreaming, it seems to me that keeping provenance properly is also something to consider. the architecture can hide some details, and make it nearly impossible to keep provenance without hard coded hacks across the layers/components - i think}
 
 %"A Formal Approach to Support Interoperability in Scientific
 %Meta-workflows" (reviewed for IWSG and JoGC) has a formal model to
@@ -1124,7 +1125,7 @@ evaluated along these metrics in the remainder of this Section.
 
 \paragraph{Integration complexity} This architecture does not require any
 component in addition to the science gateway and infrastructure
-(\texttt{I$_1$=2}). It involves 5 interactions: \texttt{a$_1$},
+(\texttt{I$_1$=2}) and it involves 5 interactions: \texttt{a$_1$},
 \texttt{a$_2$}, \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 (\texttt{I$_2$=5}).
 
@@ -1133,7 +1134,7 @@ component in addition to the science gateway and infrastructure
 (\texttt{R$_2$}=2).
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
-requires to modify the science gateway as well as interactions
+requires modifying the science gateway as well as interactions
 \texttt{b} and \texttt{c$_2$} (\texttt{E$_1$}=3). Updating a workflow
 engine version requires modifications in the science gateway
 (\texttt{E$_2$}=1).  Inserting a new workflow is done through
@@ -1143,22 +1144,29 @@ interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$} and
 \texttt{c$_2$} (\texttt{E$_4$}=4).
 
 \paragraph{Scalability} Adding a new engine instance requires a new
-instance of the science gateway, which is in general not possible
-(\texttt{S$_1$}=2). Specific IT setups such as load-balancing between
-web server instances might be used to deal with this
-issue. \closedanswerednote{Tristan}{What-about load-balancing between web
+instance of the complete science gateway
+%, which is in general not possible
+\note{sil}{why not? i agree that S=2, but i do not agree that it would be impossible. you say how below}
+(\texttt{S$_1$}=2). 
+Specific IT setups such as load-balancing between
+web server instances might be used to create new gateway instances, distributing the users, but would not solve the problem for the workload of a single workflow or user.
+\closedanswerednote{Tristan}{What-about load-balancing between web
   server instances?}{Marc-e}{Would that really be considered a real
   architectural feature or an IT hack?}{Tristan}{I agree, we should
   keep IT setups out of the picture. Depending on the internals of the
   science gateway, such hacks may or may not be feasible. I added a
   sentence to mention this possibility, without changing the score.}
 Distributed engines are not available by default
-(\texttt{S$_2$}=1). The scheduling of tasks on the infrastructure is
+(\texttt{S$_2$}=1). 
+The scheduling of tasks on the infrastructure is
 as complex as in any other architecture since the workflow engine
 might implement any kind of scheduling policy (\texttt{S$_3$}=0).
+\note{sil}{so same as the others = "easy"? i think this requires more explanation. maybe we should introduce a score for "dont know"?}
 
 \paragraph{Specific features} Meta-workflows are not supported by default
-(\texttt{O$_1$}=1).  Debugging is not an issue since the science
+(\texttt{O$_1$}=1).  
+\note{sil}{why not? if the engine is ws-pgrade it can. i really think that meta-workflows is a property exclusively of the engine. you can see that in fig 2.V interaction *6}
+Debugging is not an issue since the science
 gateway can retrieve any information from the workflow engine directly
 (\texttt{O$_2$}=0).
 
@@ -1691,6 +1699,8 @@ the Ludmer Centre for Neuroinformatics and Mental Health. \closedanswerednote{Ma
   Compute Canada? CANARIE?}{Tristan}{Added EGI and Compute Canada. Not sure if
   Canarie should be added. What about Calcul QC?}{Marc-e}{CQ, no. CANARIE, I'd
   say yes since they funded a major chunk of CBRAIN's development.}
+
+\note{sil}{should we then also thank SURF foundation (for the dutchgrid), FP7 (for SCI_BUS, SHIWA and ER-flow), and COMMIT/ and HUvA HPCN for the funding for the amc science gateway activities. My participation has been minimal, and the amc gateways are not discussed in detail (my fault), so maybe it would be an overkill}
 
 \section*{References}
 
