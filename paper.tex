@@ -920,7 +920,7 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
   normalized between 0 (best value) and 1 (worst value):
   $m'=\frac{m-m_{\mathrm{min}}}{m_{\mathrm{max}}-m_{\mathrm{min}}}$ where
   $m$ is the metric value, $m_{\mathrm{min}}$ and $m_{\mathrm{max}}$
-  are the minimal and maximal values among all architectures; (2) the RGB hexadecimal color code of the cell
+  are the minimum and maximum values for all architectures; (2) the RGB hexadecimal color code of the cell
   is \texttt{\#99XX99}, where X=\texttt{round}(F-6m') (\texttt{round} rounds a number to the nearest integer). \closednote{Tristan}{Use 6. Round to the nearest integer.}{Tristan}{Fixed.}}
 \label{table:evaluation}
 \end{table*}
@@ -1509,7 +1509,7 @@ easily accommodate distributed workflow execution, which can be
 critical in some cases. At the same time, the scheduling constraints
 created by task encapsulation and nested workflows may become problematic \closednote{Naj}{please don't use these from-film-marketing
   words?! :-) }{Tristan}{OK!} depending on the type of targeted
-infrastructure. Non-reliable infrastructures \closednote{Naj}{you mean by
+infrastructure. Non-reliable infrastructures\closednote{Naj}{you mean by
   the showstoppers, i.e. the nested workflows which can accommodate
   distributed executions but are limited by scheduling constraints?}{Tristan}{Yes. I rephrased a bit this part.} ,
 for example, could hardly cope with workflow engines being wrapped in
@@ -1523,7 +1523,7 @@ encapsulation and pool. \note{Naj}{I feel this paragraph is a bit
 Differences in other specific features should not be neglected. Nested
 workflows (with service invocation) and workflow import (with service
 invocation) are the only architectures that support meta-workflows;
-task encapsulation and nested workflows may complexify
+task encapsulation and nested workflows may hamper
 fine-grained debugging. \closednote{Rafael}{I would suggest to provide
   some more examples when this could be interesting.}{Tristan}{Done.}
 The availability of fine-grained debugging information may also be
@@ -1531,11 +1531,11 @@ critical to efficient user support.
 
 Table~\ref{table:overall} provides an overall comparison between
 architectures, based on the metrics in Table~\ref{table:evaluation}.
-Note that this analysis is only for illustration purposes since it
+Note that this analysis is only meant for illustration purposes, since it
 assumes that all criteria have equal weights while real systems would
 favor some of them. Overall, task encapsulation, and workflow import (with
 service invocation) perform a bit better than tight integration,
-service invocation and pool. Nested workflows stands a bit behind for
+service invocation and pool. Nested workflows stand a bit behind for
 the reasons mentioned previously.\closednote{Rafael}{I would emphasize
   that this analysis is only for illustration purposes, since it does
   not account for different weights in metrics.}{Tristan}{Done.}
@@ -1602,7 +1602,7 @@ evaluation. First, our evaluation methods aimed to provide comparative
 metrics, however the high-level of abstraction used to derive these
 metrics hinders the complexity of real systems to some
 extent.\closednote{Naj}{Here, you were bashing your article harshly,
-  so I rewrote it}{Tristan}{yup, thanks!}. In particular, the
+  so I rewrote it}{Tristan}{yup, thanks!} In particular, the
 presented architectures are abstract patterns that may be mixed
 together in actual systems.\answerednote{Naj}{something about "theoretical
   pattern", and "blending" is jarring, are these common words in the
@@ -1614,19 +1614,18 @@ work would still apply to broadly compare and categorize such cases of
 hybrid architectures.
 
 Moreover, all the interactions involved in the architectures were
-treated equally while some of them are obviously more complex than
+treated equally, whereas some of them are obviously more complex than
 others. For example, interaction \texttt{g} (workflow language
 conversion) is clearly more complex than interaction \texttt{d}
-(service invocation), and may create much more reliability issues as
-well. However, without entering into the details of a particular
+(service invocation), and may challenge reliability more strongly. However, without entering into the details of a particular
 system, quantification of the robustness or the amount of development
-associated with each interaction and software component will not be
+associated with each interaction and software component will hardly be
 precise.
 
 The particular case of interaction \texttt{g} (workflow language
 conversion) requires particular attention when implementing a real
 system \closednote{Naj}{so are you discussing it here, or in the
-  future?}{Tristan}{It's out of scope, a complete paper in itself. Rephrased this part.} since this interaction may not be easily generalized to any
+  future?}{Tristan}{It's out of scope, a complete paper in itself. Rephrased this part.} since this interaction may not be easily generalizable to any
 workflow language. For instance, converting FSL, PSOM or Nipype
 pipelines to any other workflow language is problematic because these
 engines rely on general-purpose programming languages such as Bash,
@@ -1660,7 +1659,15 @@ the design of a science gateway. Other properties definitely influence
 the design of a software architecture, for instance collaborative
 features, data visualization, search, authentication, accounting and
 so on.
-
+\note{sil}{do you want to refer to the science gateway canvas paper here?
+	@inproceedings{shahand:2015ab,
+		Address = {Portland, OR, USA},
+		Author = {Shahand, Shayan and van Kampen, Antoine H. C. and Olabarriaga, S\'{\i}lvia D.},
+		Booktitle = {{Proceedings of the Science of Cyberinfrastructure: Research, Experience, Applications and Models}},
+		Series = {SCREAM'15},
+		Title = {{Science Gateway Canvas: A business reference model for Science Gateways}},
+		Year = {2015},
+	}
 \section{Conclusion}
 
 % Summary of contributions
@@ -1681,7 +1688,7 @@ pros and cons of all the presented architectures based on these metrics.
 % Impact of the work
 To the best of our knowledge, our work is the first to systematically
 review and compare software architectures used to integrate workflow
-engines in science gateways.\closednote{Naj}{instead of its kind,
+engines into science gateways.\closednote{Naj}{instead of its kind,
   explain what kind it is, e.g. systematic review of all
   ...}{Tristan}{Done.} So far, the literature on science gateways and
 workflow engines has focused on the description of particular systems,
