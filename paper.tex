@@ -1337,18 +1337,18 @@ and \texttt{f} (\texttt{I$_2$}=7).
 workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b},
 \texttt{c$_2$}, \texttt{d} and \texttt{f} also are (\texttt{R$_2$=4}).
 
-\paragraph{Extensibility} Adding a new engine type requires to wrap
-the engine in the agent and to update interactions \texttt{b} and
+\paragraph{Extensibility} Adding a new engine type requires wrapping
+the engine into the agent and updating interactions \texttt{b} and
 \texttt{c$_2$} (\texttt{E$_1$=3}). Updating the version of an engine
 is transparent (\texttt{E$_2$=0}) since it only requires updating the
-agent that is a component dedicated to the engine. Integrating a new workflow is
+agent, which is a component dedicated to the engine. Integrating a new workflow is
 done through interactions \texttt{a$_1$} and \texttt{a$_2$}
 (\texttt{E$_3$=2}). Integrating a new infrastructure requires updates
 in interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 (\texttt{E$_4$=4}).
 
 \paragraph{Scalability} New engine instances only require new agents,
-which is easily automated (\texttt{S$_1$=0}) and by design very
+which can be easily automated (\texttt{S$_1$=0}) and by design very
 suitable for elastic computing.\closednote{Naj}{I feel the concept of elastic computing should be mentioned in introductory sections}{Tristan}{You are right, this is now fixed.} For instance, auto-scaling rules can
 be implemented to start new agents when the workload in the science
 gateway exceeds a certain threshold~\cite{lorido2012auto}. Distributed
@@ -1357,9 +1357,12 @@ scheduling is as complex as in any other architecture
 (\texttt{S$_3$=0}).
 
 \paragraph{Specific features} Meta-workflows are not available by default
-(\texttt{O$_1$=1}).  Accessing debugging information is not likely to
+(\texttt{O$_1$=1}).  
+\note{sil}{see comment in section 3.1}
+Accessing debugging information is not likely to
 be an issue since the workflow pool could implement specific functions
 for that (\texttt{O$_2$=0}).
+\note{sil}{i think the case here is the same as for service. or actually i would give this one a worse score, because there is one additional component - the pool - to cross}
 
 \subsection{Nested workflows with service invocation}
 
