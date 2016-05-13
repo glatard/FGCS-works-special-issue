@@ -789,7 +789,7 @@ global score is computed by summing up the individual scores for each metric. We
 ensure that the different metrics used to calculate the global score for a criterion are comparable, so that they can be combined meaningfully. The criteria and metrics are
 explained hereafter.
 
-\note{Sil}{is any normalization used, for example, to the maximum values found in the analysis?}
+\note{Sil}{normalization is explained in caption tab 2. i wonder whether something should be said here, as questions about the range of the score immediately pops to mind..}
 
 \begin{table*}
 \footnotesize
@@ -927,6 +927,11 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
 
 \subsection{Evaluation metrics}
 
+\note{Sil}{i was wondering whether it would be more clear to present the metrics like this:
+\item \texttt{I$_1$}: total number of components, and
+
+now the parenthesis are next to text that does not really match the metric definition (exception in this case) could also use boldface
+	}
 Science gateway \emph{integration complexity} is measured through the number of software components and their interactions. It breaks
 down to the following 2 metrics:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
@@ -941,50 +946,52 @@ effort (e.g., account creation, software installation, APIs, etc.), therefore in
 global score that measures the
 total number of software pieces affected by integration. 
 
-\emph{Robustness of workflow execution} measures the likelihood that
-workflow execution fails due to errors in the components or with the
-interactions in the software architecture. Errors coming
+\emph{Robustness of workflow execution} measures the likelihood that the
+workflow execution fails due to errors in the components or in the
+interactions of the software architecture. Errors coming
 from the infrastructure (e.g., unavailable data or terminated tasks)
 or workflows (e.g., wrong user input or application errors) are not
-covered since they do not stem directly from the software
+covered, since they do not stem directly from the software
 architecture. Robustness is measured here as a consequence of global
-complexity since complex architectures tend to be more prone to
-failure. More precisely, robustness is determined as the number of
-software components and interactions that are specific to workflow
-execution:
-\begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Components (\texttt{R$_1$}): number of specific components
-  involved in workflow executions. Science
-gateway, for instance, is \emph{not} specific to workflow execution
-since it is used to authenticate users, add new workflows, transfer
-user data, etc.
-\item Interactions (\texttt{R$_2$}): number of specific interactions
-  involved in workflow executions.
-\end{itemize}
-These specific components and interactions are the ones represented in
+complexity, since complex architectures tend to be more prone to
+failure. More precisely, robustness is determined by the number of
+software components and interactions represented in
 red in the architecture diagrams in
-Figure~\ref{fig:architectures}. \texttt{R$_1$} and \texttt{R$_2$} are
+Figure~\ref{fig:architectures}, which are specific to workflow
+execution. Two metrics are used:
+\begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
+\item Number of specific components
+involved in workflow executions (\texttt{R$_1$}). The Science
+gateway component, for instance, is \emph{not} specific to workflow execution
+since it is used to authenticate users, add new workflows, transfer
+user data, etc., and
+\item Number of specific interactions
+involved in workflow executions (\texttt{R$_2$}).
+\note{Sil}{add here an example of an interaction that is not, for example, data transfers?}
+\end{itemize}
+\texttt{R$_1$} and \texttt{R$_2$} are
 summed to obtain the global score for this criterion, which measures
 the total number of software pieces that are specifically involved in
 the workflow execution.
 
 \emph{Extensibility} measures the difficulty to replace or add
-elements in the architecture. It is determined as the number of interactions and
+elements to the architecture. It is determined by the number of interactions and
 components that need to be modified when a new element is
 added. Modification of a component is required when its code needs to
 be updated or recompiled (science gateway or workflow service), or
 when a new piece of software has to be installed (infrastructure
 only). Modification of an interaction is deemed necessary when the
 parameters involved in this interaction are modified.  Extensibility
-breaks down to 4 metrics depending on the type of element that has to
+breaks down to 4 metrics depending on the type of element (engine, workflow or infrastructure) that has to
 be added or replaced:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item New engine type (\texttt{E$_1$}): number of interactions or
-  components to modify to integrate a new type of workflow engine in
+\item New engine \texttt{E$_1$}: number of interactions or
+  components that need to be modified to integrate a new type of workflow engine in
   the architecture. Workflow engines belong to different types when
   they cannot be invoked using the same interface. 
-\item New engine version (\texttt{E$_2$}): number of interactions or
-  components to modify to integrate a new version of a workflow engine
+  \note{Si}{new interface = new interaction? maybe better to use one term only here. Maybe also refer to how this shows on figure 2}
+\item Engine version upgrade \texttt{E$_2$}: number of interactions or
+  components modified to integrate a new version of a workflow engine
   in the architecture, assuming that another version of the same
   engine type is already available. Different versions of a workflow
   engine share the same interface, i.e. they can be invoked using the
@@ -999,27 +1006,28 @@ be added or replaced:
   because updates in these components require more effort, e.g. new
   release of the science gateway, gaining administrative privileges on
   the infrastructure, etc.
-\item New workflow (\texttt{E$_3$}): adding a new workflow is a very
+  \note{Silv}{it seems to me that this metric cannot be calculated in a straighforward manner from the diagrams.. is that correct? if it can, give an example of how this is seen in the diagram}
+\item New workflow \texttt{E$_3$}: number of interactions required
+to integrate a new workflow in the architecture. Adding a new workflow is a very
   common operation that does not require modifying software components
-  or interactions. We measure the difficulty to integrate a new
-  workflow by counting the number of interactions required
-  to integrate a new workflow in the architecture, assuming
+  or interactions, assuming
   that the engine type and version required to execute this workflow
   are already available.
+  \note{sil}{again here it would be good to indicate how this is seen in the diagram}
 \item New infrastructure (\texttt{E$_4$}): number of interactions or
-  components to modify to integrate a new type of infrastructure in
-  the architecture. Adding a new infrastructure allows to provide more
-  computing or storage power, to access specific types of resources
-  (e.g., GPUs, clouds), or to enforce execution policies (e.g.,
+  components affected for the integration of a new type of infrastructure in
+  the architecture. Adding a new infrastructure typically aims at providing more
+  computing or storage power, enabling access to specific types of resources
+  (e.g., GPUs, clouds), or  enforcing execution policies (e.g.,
   constrain data to remain in a particular network domain).
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
-The 4 metrics are summed to obtain a global index that measures the
+The four metrics are summed to obtain a global score that measures the
 difficulty to extend the architecture. \closednote{Naj}{I would rather compare each metric separately, this woudl also give a sense of how different architectures compare across metrics}{Tristan}{Metrics are compared separately too, see Table 2 and discussion.} Note that some extensions may
 involve several metrics in practice. For instance, adding a new type
-of engine may help integrate new infrastructures when interactions
+of engine may help integrating new infrastructures when interactions
 \texttt{b} and \texttt{c$_2$} are already present for the new engine
-and infrastructure.  \closednote{Rafael}{Adding a new engine type may
+and the infrastructure.  \closednote{Rafael}{Adding a new engine type may
   also allow run in different infrastructures. Maybe it is worth to
   put a sentence to clarify that the metric account for it
   separately.}{Tristan}{It will not *allow* because interaction c1
