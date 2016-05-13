@@ -1431,18 +1431,17 @@ sub-workflow (\texttt{O$_2$=1}).
 
 \paragraph{Integration complexity} Workflow import with service invocation
 requires the same components as for service invocation
-(\texttt{I$_1$}=3). It requires an additional \texttt{g} interaction
-for workflow import (\texttt{I$_1$}=7).
+(\texttt{I$_1$}=3), and an additional \texttt{g} interaction (\texttt{I$_1$}=7).
 
 \paragraph{Robustness} Since workflow conversion is not involved in
-the execution (it is an offline process), metrics are as in the
+the execution (it is an offline process), the scores are the same as for the
 service architecture (\texttt{R$_1$=1}, \texttt{R$_2$=3}).
 
 \paragraph{Extensibility} Since adding a new type of workflow engine
 aims at supporting more workflows, we consider that it only requires
-to re-implement interaction \texttt{g} in this architecture  (\texttt{E$_1$=1}). Note,
-however, that implementing interaction \texttt{g} can require very
-substantial work depending on the complexity of the language used by
+re-implementing interaction \texttt{g} in this architecture  (\texttt{E$_1$=1}). Note,
+however, that implementing interaction \texttt{g} can require
+substantial work depending on the complexity of the workflow language used by
 the new engine. Similarly, adding a
 new engine version only requires modifying interaction \texttt{g}
 (\texttt{E$_2$=1}).  Adding a new workflow is done through
@@ -1452,14 +1451,17 @@ modifications in interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$}
 and \texttt{c$_2$} (\texttt{E$_4$=4}).
 
 \paragraph{Scalability}  Since workflow conversion is not involved in
-the execution (it is an offline process), metrics are as in the
+the execution (it is an offline process), the score is the same as for the
 service architecture (\texttt{S$_1$=1},
 \texttt{S$_2$=1}, \texttt{S$_3$=0}).
 
 \paragraph{Specific features} Meta-workflows are available after import,
 by connecting workflows in the language used in the science gateway
-(\texttt{O$_1$=0}). Debugging information is accessible as in the
+(\texttt{O$_1$=0}). 
+\note{sil}{i dont understand this about meta-workflows. translation does not imply composition, right? if the science gateway is allowed to implement workflow composition, then this is probably the case in other architectures as well?}
+Debugging information is accessible as in the
 service invocation architecture (\texttt{O$_2$=0}).
+\note{sil}{see notes 3.2}
 
 \section{Discussion}
 
