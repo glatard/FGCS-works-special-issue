@@ -281,6 +281,8 @@ data regardless of the enabling mechanisms.
 \section{Architectures}
 \label{sec:architectures}
 
+\note{Sil}{i changed above a few occurrences of "diagrammed". i know it is correct, but i am not used to seeing it. this is a matter of style, just forget my changes below then}
+
 Architectures to integrate workflow engines in science gateways are
 presented in Figure~\ref{fig:architectures} using the graphical
 notations defined in
@@ -379,7 +381,7 @@ summarizes the classification of a few systems by architecture.
           }
   \\
   Service & \pbox{1.5\columnwidth}{
-            Apache Airvata~\cite{marru2011apache}, e-BioInfra~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{kruger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
+            Apache Airvata~\cite{marru2011apache}, Neurosciece Gateway~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{kruger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
             Science gateways in~\cite{kacsuk2014science}$^w$
             } \\
   Task & CBRAIN and PSOM~\cite{GLAT-16}$^n$, CBRAIN and FSL$^n$\\
@@ -534,15 +536,16 @@ transfers to execute them (\texttt{c$_2$}). User data is usually
 managed through the science gateway (\texttt{c$_1$}), although it
 might as well be delivered by the workflow engine directly to the
 user.
+\note{Sil}{about c1: should it also show from engine to infra in the figure? this is what i understand from the above sentence}
 
-This architecture is largely adopted, in systems such as Apache
+This architecture is largely adopted in systems such as Apache
 Airvata~\cite{marru2011apache}, Vine
 Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual
-Imaging Platform~\cite{GLAT-13}, the system
-in~\cite{wu2010accelerating} and the WS-PGRADE/gUSE
+Imaging Platform~\cite{GLAT-13}, the systems
+in~\cite{wu2010accelerating,shahand:2012jgc} and the WS-PGRADE/gUSE
 framework~\cite{Kacsuk2012}. The integration between the
 HubZero science gateway and the Pegasus workflow engine performed
-in~\cite{CPE:CPE3257} also uses a service architecture where the
+in~\cite{CPE:CPE3257} also uses a service architecture, where the
 \texttt{d} interaction is implemented as a set of calls to Pegasus'
 command-line tools (e.g., pegasus-status, pegasus-plan,
 etc.). Figure~\ref{fig:vip-architecture} shows the architecture of the
@@ -574,16 +577,17 @@ Torque\footnote{\url{http://docs.adaptivecomputing.com}}).
 
 The science gateway also transfers both user and workflow data across
 the infrastructure, so that interactions \texttt{c$_1$} and
-\texttt{c$_2$} are both covered by \texttt{c}. In practice, both
+\texttt{c$_2$} are both covered by \texttt{c}. 
+\note{Sil}{is this next sentence relevant?}In practice, both
 \texttt{c$_1$} and \texttt{c$_2$} can be implemented using the same
 pieces of code.
 
 Task encapsulation is implemented in CBRAIN~\cite{SHER-14} where it is
 used to integrate the FSL toolkit~\cite{Jenkinson2012782} and the PSOM
 workflow engine~\cite{bellec2012pipeline}. The CBRAIN-FSL integration
-allows to leverage FSL pipelines written in low-level workflow
+allows leveraging FSL pipelines written in low-level workflow
 languages (Linux executables and scripts) that submit tasks uniformly
-through a specific tool called fsl\_sub. It is diagrammed in
+through a specific tool called fsl\_sub. This integration is shown in
 Figure~\subref*{fig:cbrain-fsl-architecture}, where the science gateway is
 represented by components \texttt{CBRAIN portal} and \texttt{CBRAIN
   execution server} and the infrastructure consists of \texttt{Storage
@@ -648,6 +652,8 @@ The pool model was implemented in the SHIWA pool~\cite{ROGE-13}
 diagrammed in Figure~\ref{fig:shiwa-pool-architecture}, where agents
 can wrap different types of workflow engines to execute workflows
 expressed with different languages.
+
+
 
 \begin{figure*}
 \centering
