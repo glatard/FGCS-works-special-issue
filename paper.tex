@@ -1165,7 +1165,7 @@ might implement any kind of scheduling policy (\texttt{S$_3$}=0).
 
 \paragraph{Specific features} Meta-workflows are not supported by default
 (\texttt{O$_1$}=1).  
-\note{sil}{why not? if the engine is ws-pgrade it can. i really think that meta-workflows is a property exclusively of the engine. you can see that in fig 2.V interaction *6}
+\note{sil}{why not? if the engine is ws-pgrade it does. i really think that meta-workflows (and nested workflows) is a property exclusively of the engine. you can see that in fig 2.V interaction *6}
 Debugging is not an issue since the science
 gateway can retrieve any information from the workflow engine directly
 (\texttt{O$_2$}=0).
@@ -1184,8 +1184,8 @@ involves 3 specific interactions: \texttt{b},
 \texttt{c$_2$} and \texttt{d} (\texttt{R$_2$}=3).
 
 \paragraph{Extensibility} Adding a new type of workflow engine
-requires to implement the corresponding workflow service, to modify
-interaction \texttt{d}, and to implement interactions \texttt{b} and
+requires implementing the corresponding workflow service,  modifying
+interaction \texttt{d}, and  implementing interactions \texttt{b} and
 \texttt{$c_2$} (\texttt{E$_1$}=4). New engine versions can be added by
 updating the workflow service without modifying any interaction or
 component (\texttt{E$_2$}=0). Updating the engine version in a
@@ -1196,13 +1196,13 @@ or in the workflow engine through interactions \texttt{a$_1$} and
 requires updates in interactions \texttt{a$_1$}, \texttt{b},
 \texttt{$c_1$} and \texttt{$c_2$} (\texttt{E$_4$}=4).
 
-\paragraph{Scalability} The service architecture supports multiple
+\paragraph{Scalability} The service architecture in principle supports multiple
 engine instances through multiple workflow services. In VIP for
 instance, this feature has been available from release 1.17. A basic
 load-balancing mechanism is available that sends new workflow
-executions to the engine instance which has the least active
+executions to the engine instance that has the least active
 executions. To avoid ``black-hole'' syndromes created by failing
-engine instances, engine instances are automatically disabled when
+ instances, engine instances are automatically disabled when
 workflows cannot be submitted to them. Adding a new engine instance,
 however, requires manual intervention to declare the new instance in
 the science gateway (\texttt{S$_1$}=1). Consequently, elastic engines
@@ -1210,15 +1210,30 @@ are difficult to implement because they require a mechanism to update
 the science gateway configuration when a new engine instance is
 available. Distributing the execution of a single workflow in multiple
 engines is usually not possible unless the workflow engine has
-specific abilities (\texttt{S$_2$}=1). The scheduling of tasks on the
+specific abilities (\texttt{S$_2$}=1). 
+\note{sil}{is this score for VIP? i think that the score depends on the implementation of the science gateway, which could adopt some elastic mechanism within. so we should not say s_2=1 for the architecture}
+The scheduling of tasks on the
 infrastructure is as complex as in any other architecture since the
 workflow engine might implement any kind of scheduling policy
 (\texttt{S$_3$}=0).
+\note{sil}{see comment in section 3.1}
 
 \paragraph{Specific features} Meta-workflows are not supported by default
-(\texttt{O$_1$}=1). Fine-grained debugging information is usually easy
+(\texttt{O$_1$}=1). 
+\note{sil}{see comment in section 3.1}
+Fine-grained debugging information is usually easy
 to obtain since the workflow service provides direct access to the
 engine (\texttt{O$_2$}=0).
+\note{sil}{this is really not the case. the fact that the wf service is a separate component that hides information is a big problem for debugging at the science gateway level. 
+we had a paper about this:
+	@inproceedings{olabarriaga2014scientific,
+		Author = {Olabarriaga, Silvia and Pierantoni, Gabrielle and Taffoni, Giuliano and Sciacca, Eva and Jaghoori, Mahdi and Korkhov, Vladimir and Castelli, Giuliano and Vuerli, Claudio and Becciani, Ugo and Carley, Eoin and others},
+		Booktitle = {e-Science (e-Science), 2014 IEEE 10th International Conference on},
+		Organization = {IEEE},
+		Pages = {298--305},
+		Title = {Scientific Workflow Management--For Whom?},
+		Year = {2014}}
+	}
 
 \subsection{Task encapsulation}
 
