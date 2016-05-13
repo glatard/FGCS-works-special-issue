@@ -1243,7 +1243,7 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 \texttt{e} (\texttt{I$_2$}=5).
 
 \paragraph{Robustness} No component is specific to workflow execution
-(\texttt{R$_1$}=0), and only interaction \texttt{e} is
+(\texttt{R$_1$}=0), and only interaction \texttt{e} is necessary
 (\texttt{R$_2$}=1)\closedanswerednote{sorina}{I understand why this is 1
   (and why interactions c and b are not counted here), but I wonder
   whether we can simply ignore these interactions because they are not
@@ -1260,14 +1260,14 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
   see github issue \#7.}.
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
-requires to develop interaction \texttt{e} and to install the engine
+requires developing interaction \texttt{e} and  installing the engine
 on the infrastructure (\texttt{E$_1$}=2). Updating an engine version
 in the architecture shares the same mechanism as version updates of
 other tasks, which requires an update on the
 infrastructure (\texttt{E$_2$}=1).  New workflows are integrated by
 creating a new task in the science gateway through interactions
 \texttt{a$_1$} and \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new
-infrastructure requires to update interactions \texttt{a$_1$},
+infrastructure requires updating interactions \texttt{a$_1$},
 \texttt{b} and \texttt{c} in the science gateway (\texttt{E$_4$}=3).
 
 %\todo{Integrating a workflow engine as a sub-task
@@ -1283,7 +1283,9 @@ any other task upon user submission (\texttt{S$_1$}=0). This is a
 major interest of task encapsulation. Distributed engines are not
 supported by default (\texttt{S$_2$}=1). Task scheduling is slightly
 more complex than in the other approaches due to the special role of
-the task that executes the workflow engine (\texttt{S$_3$}=1). Indeed,
+the task that executes the workflow engine (\texttt{S$_3$}=1). 
+\note{sil}{i have the impression that the comments below are about robustness, and not so much about scalability. i also think that the level of detail here is much larger than in other 3.X sections. finally, i wonder whether what is explained here (which i must admit i could not follow completely in the scope of this evaluation or architectures) is valid only for this architecture in particular. i have the impression that this argument is more general }
+Indeed,
 the reliability of this task is critical since all the sub-tasks in
 the workflow depend on it and, depending on the recovery capabilities
 of the workflow engine, may need to be resubmitted if the workflow
@@ -1315,10 +1317,13 @@ deadlocks unlikely to happen. \closednote{Naj}{so is this the solution to
   say that this situation is unlikely to happen which is true.}
 
 \paragraph{Specific features} Meta-workflows are not available
-(\texttt{O$_1$}=1).  Obtaining fine-grained information about workflow
+(\texttt{O$_1$}=1).  
+\note{sil}{see comment in section 3.1}
+Obtaining fine-grained information about workflow
 tasks is not straightforward since the science gateway has no
 knowledge about the workflow topology, and the workflow engine is
 integrated as a task (\texttt{O$_2$}=1).
+\note{sil}{mm, i think the case here is the same as for service. or actually i would give this one a better score, because there are less components to cross}
 
 \subsection{Pool model}
 
