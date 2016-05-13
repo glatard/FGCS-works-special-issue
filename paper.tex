@@ -281,7 +281,7 @@ data regardless of the enabling mechanisms.
 \section{Architectures}
 \label{sec:architectures}
 
-\note{Sil}{i changed above a few occurrences of "diagrammed". i know it is correct, but i am not used to seeing it. this is a matter of style, just forget my changes below then}
+\closednote{Sil}{i changed above a few occurrences of "diagrammed". i know it is correct, but i am not used to seeing it. this is a matter of style, just forget my changes below then}{Tristan}{That's perfect, thanks!}
 
 Architectures to integrate workflow engines in science gateways are
 presented in Figure~\ref{fig:architectures} using the graphical
@@ -397,7 +397,7 @@ summarizes the classification of a few systems by architecture.
 \subsection{Interactions}
 
 The interactions involved in the architectures are described below and
-labeled (a,b,c, ...) as in Figure~\ref{fig:architectures}.
+labeled (\texttt{a},\texttt{b},\texttt{c}, \ldots) as in Figure~\ref{fig:architectures}.
 
 \begin{enumerate}[leftmargin=0cm,itemindent=0.65cm,label=\texttt{(\alph*)}]
 
@@ -462,13 +462,14 @@ labeled (a,b,c, ...) as in Figure~\ref{fig:architectures}.
   systems~\cite{turilli2015comprehensive} and other agent-based
   computing models.
 \item Workflow conversion: translation from one workflow language into
-  another. This interaction may not be available or possible
-  for every workflow language. It has been developed mostly for
-  translation between well-structured and relatively simple workflow languages such as GWorkflowDL
-  and Scufl~\cite{OLAB-09}, and the 4 languages that were involved in the
-  SHIWA initiative.
- \note{Silvia}{Should we add here the 4?
- 	and for translation among the 5 workflow systems in the SHIWA project: Askalon, MOTEUR, Taverna, Triana and WS-PGRADE)} 
+  another. This interaction may not be available or possible for every
+  workflow language. It has been developed mostly for translation
+  between well-structured and relatively simple workflow languages
+  such as GWorkflowDL and Scufl~\cite{OLAB-09}, and for translation
+  among the 5 workflow systems in the SHIWA project: Askalon, MOTEUR,
+  Taverna, Triana and WS-PGRADE.  \closednote{Silvia}{Should we add here the
+    4?  and for translation among the 5 workflow systems in the SHIWA
+    project: Askalon, MOTEUR, Taverna, Triana and WS-PGRADE)}{Tristan}{Yes, done!}
 \end{enumerate}
 
 
@@ -533,10 +534,16 @@ tasks, or as a white box that allows for some interaction with
 them. The workflow engine is responsible for controlling the tasks on
 the infrastructure (\texttt{b}) and for performing the required data
 transfers to execute them (\texttt{c$_2$}). User data is usually
-managed through the science gateway (\texttt{c$_1$}), although it
-might as well be delivered by the workflow engine directly to the
-user.
-\note{Sil}{about c1: should it also show from engine to infra in the figure? this is what i understand from the above sentence}
+managed through the science gateway (\texttt{c$_1$}), although in some
+variations of the architecture (not represented in
+Figure~\ref{fig:architectures}) it might as well be delivered by the
+workflow engine directly to the user. \answerednote{Sil}{about c1: should it
+  also show from engine to infra in the figure? this is what i
+  understand from the above sentence}{Tristan}{Actually c1 is either
+  coming from the science gatewray or from the workflow engine but
+  then it merges with c2. I don't think we can cover both cases in a
+  single architecture, the latter case would be another variation of
+  this architecture. I modified a bit the text, is it clearer now?}
 
 This architecture is largely adopted in systems such as Apache
 Airvata~\cite{marru2011apache}, Vine
@@ -578,9 +585,9 @@ Torque\footnote{\url{http://docs.adaptivecomputing.com}}).
 The science gateway also transfers both user and workflow data across
 the infrastructure, so that interactions \texttt{c$_1$} and
 \texttt{c$_2$} are both covered by \texttt{c}. 
-\note{Sil}{is this next sentence relevant?}In practice, both
-\texttt{c$_1$} and \texttt{c$_2$} can be implemented using the same
-pieces of code.
+\closednote{Sil}{is this next sentence relevant?}{Tristan}{I just wanted to  justify why these two interactions can be grouped but I guess you're right (I removed the sentence.}%In practice, both
+%\texttt{c$_1$} and \texttt{c$_2$} can be implemented using the same
+%pieces of code.
 
 Task encapsulation is implemented in CBRAIN~\cite{SHER-14} where it is
 used to integrate the FSL toolkit~\cite{Jenkinson2012782} and the PSOM
@@ -1480,12 +1487,12 @@ encapsulation and pool. \note{Naj}{I feel this paragraph is a bit
 
 Differences in other specific features should not be neglected. Nested
 workflows (with service invocation) and workflow import (with service
-invocation) are the only architectures that support meta-workflows;
-task encapsulation and nested workflows may complexify
-fine-grained debugging. \closednote{Rafael}{I would suggest to provide
-  some more examples when this could be interesting.}{Tristan}{Done.}
-The availability of fine-grained debugging information may also be
-critical to efficient user support.
+invocation) are the only architectures that support
+meta-workflows. Besides, task encapsulation and nested workflows may
+complexify fine-grained debugging. \closednote{Rafael}{I would suggest
+  to provide some more examples when this could be
+  interesting.}{Tristan}{Done.}  The availability of fine-grained
+debugging information may also be critical to efficient user support.
 
 Table~\ref{table:overall} provides an overall comparison between
 architectures, based on the metrics in Table~\ref{table:evaluation}.
@@ -1562,7 +1569,7 @@ metrics hinders the complexity of real systems to some
 extent.\closednote{Naj}{Here, you were bashing your article harshly,
   so I rewrote it}{Tristan}{yup, thanks!}. In particular, the
 presented architectures are abstract patterns that may be mixed
-together in actual systems.\answerednote{Naj}{something about "theoretical
+together in actual systems.\closednote{Naj}{something about "theoretical
   pattern", and "blending" is jarring, are these common words in the
   computer sci context?}{Tristan}{Better now?} The distinction between tight integration and
 service invocation, for instance, may not always be that clear in
