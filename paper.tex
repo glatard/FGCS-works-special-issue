@@ -50,7 +50,7 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{Software architectures to integrate workflow engines in science gateways\closednote{Naj}{'what' software architectures? what is their qualifier, adjective?}{Tristan}{There is no qualifier except 'for integrating workflow engines in science gatewats'. They are just software architectures :) The point of the paper is to describe them properly. It's a general formulation to cover any kind of software architecture that is used to integrated workflow engines in science gateways. Does it make sense?}} 
+\title{Software architectures to integrate workflow engines in science gateways} 
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -79,38 +79,29 @@
 \address[amc]{Academic Medical Center of the University of Amsterdam, Department of Clinical Epidemiology, Biostatistics and Bioinformatics, Amsterdam, NL.}
 
 \begin{abstract}
-	\note{sil}{i find this a dry start. what about an intro sentence?
-		Workflow engines are critical for the efficient and transparent
-		exploitation of distributed infrastructures in the ecosystem of tools
-		and services offered by science gateways.}
-  We investigate six software architectures commonly used to integrate
-  workflow engines into science gateways. In \emph{tight integration},
-  the workflow engine shares software components with the science
-  gateway. In \emph{service invocation}, the engine is isolated and
-  invoked through a specific software interface. In \emph{task
-    encapsulation}, the engine is wrapped as a computing task executed
-  on the infrastructure. In the \emph{pool model}, the engine is
-  bundled in an agent that connects to a central pool to fetch and
-  execute workflows. In \emph{nested workflows}, the engine is
-  integrated as a child process of another engine. In \emph{workflow
-    import}, the engine is integrated through workflow language
-  conversion. We describe and evaluate these architectures with
-  metrics for assessment of integration complexity, robustness,
-  extensibility, scalability and support for meta-workflows and
-  fine-grained debugging\closednote{Naj}{Please be precise, what are
-    they?}{Tristan}{Done, thanks}. Results provide insights for
-  science gateway architects and workflow engine developers. 
-  \note{sil}{what are the insights for wf engine developers?. this is not clear in the discussion and conclusions. i think the focus lies more on the integration and not on one or the other} Tight
-  integration and task encapsulation are the easiest to integrate and
-  the most robust. Extensibility is equivalent in most
-  architectures. The pool model is the most scalable one and
+  Workflow engines are critical for the efficient and transparent
+  exploitation of distributed infrastructures in the ecosystem of
+  tools and services offered by science gateways.  We investigate six
+  software architectures commonly used to integrate workflow engines
+  into science gateways. In \emph{tight integration}, the workflow
+  engine shares software components with the science gateway. In
+  \emph{service invocation}, the engine is isolated and invoked
+  through a specific software interface. In \emph{task encapsulation},
+  the engine is wrapped as a computing task executed on the
+  infrastructure. In the \emph{pool model}, the engine is bundled in
+  an agent that connects to a central pool to fetch and execute
+  workflows. In \emph{nested workflows}, the engine is integrated as a
+  child process of another engine. In \emph{workflow import}, the
+  engine is integrated through workflow language conversion. We
+  describe and evaluate these architectures with metrics for
+  assessment of integration complexity, robustness, extensibility,
+  scalability and support for meta-workflows and fine-grained
+  debugging. Tight integration and task encapsulation are the easiest
+  to integrate and the most robust. Extensibility is equivalent in
+  most architectures. The pool model is the most scalable one and
   meta-workflows are only available in nested workflows and workflow
-  import. \closednote{Naj}{I find this abstract to be vague, it can be made
-    more concise and poignant}{Tristan}{Added a description of the
-    architectures, following @pbellec's suggestion.}
-\note{sil{what about closing with this sentence from above:
-		These results provide insights for
-		science gateway architects and workflow engine developers. }
+  import. These results provide insights for science gateway
+  architects and developers.
 \end{abstract}
 
 \begin{keyword}
@@ -179,11 +170,9 @@ Library~\cite{Jenkinson2012782}) provide abstractions and functions to
 handle the data and computing flow between processes implemented in a
 variety of programming languages. Such tools were interfaced to
 computing infrastructures, in particular
-clusters\closednote{Tristan}{Reverted from Marc's 'cluster
-  scheduler'}{}{}, to execute tasks at a high throughput. Some of
+clusters, to execute tasks at a high throughput. Some of
 these tools also support advanced features such as provenance
-tracking, \closednote{Naj}{should we not mention PMP which is used for
-  CIVET?}{Tristan}{Done, as discussed.} or  redundancy detection across
+tracking, or  redundancy detection across
 analyses to avoid re-computation. A wide array of workflows
 have been implemented using these pipeline systems and are now shared across
 neuroimaging groups world-wide, which represents a tremendous
@@ -196,10 +185,10 @@ In this paper, a
 \emph{workflow engine} (also abbreviated \emph{engine}) is a piece of
 software that submits interdependent computing \emph{tasks} to an
 \emph{infrastructure} (local server, cluster, grid or cloud) based on
-a workflow description (a.k.a \emph{workflow}), \closednote{Naj}{I think and is redundant here, you can replace is with a comma}{Tristan}{yes!} using input data
+a workflow description (a.k.a \emph{workflow}), using input data
 that may consist of files, database entries or simple parameter
 values. Although simplistic, this definition covers both e-Science workflow systems and
-domain-specific pipeline systems.\closednote{Marc-e}{To remain consistent with above descriptions}{Tristan}{yes!} 
+domain-specific pipeline systems.
 Some workflow engines, 
 usually from the e-Science community, 
 may transfer data across the infrastructure, and others, usually
@@ -219,8 +208,7 @@ web interface that helps users manage access rights, data transfers,
 task execution, and authentication on multiple computing and storage
 locations. Workflow engines are part of this ecosystem as core
 components to implement and execute
-applications. \closednote{Naj}{provide examples?}{Tristan}{Examples
-  are mentioned in the last paragraph of this section. Moved it next.}
+applications. 
 
 Various science gateways have been developed, including frameworks
 such as Apache Airavata~\cite{marru2011apache}, the Catania Science
@@ -257,23 +245,11 @@ good user experience. Simple architectures facilitate the
 implementation effort towards robust interactions which, in turn, have
 a positive impact on characteristics such as gateway predictability,
 transparency, reliability, traceability and
-reproducibility. \closednote{Marc-Etienne}{I find that something is
-  weak in this last paragraph. Robustness will help with transparency,
-  sure, but it seems only a small facet.  Also, the text seem to
-  timidly favor architectures with less components/interactions
-  without much explanation... Complex systems can be robust, but at
-  greater costs...  Here is one: "Architectures showing reduced system
-  complexity will greatly facilitate the implementation effort towards
-  robust interactions which, in turn, have a positive impact on
-  characteristics such as gateway predictability, transparence,
-  general reliability and results traceability and reproducibility;
-  characteristics that are also key to a good user
-  experience."}{Tristan}{Agreed, fixed as
-  suggested.}\closednote{Tristan}{Work on the this sentence again.}{Tristan}{done.}
+reproducibility. 
 
 Other specific features may also be available, for instance
 data vizualisation and quality control, workflow edition, debugging
-instruments, or social tools among users. \closednote{Naj}{I think using etc after such as, for example and e.g. is not correct. --sorry for being pedantic}{Tristan}{You are completely right, this is now fixed.}
+instruments, or social tools among users. 
 
 \subsection{Infrastructure}
 
@@ -292,35 +268,12 @@ data regardless of the enabling mechanisms.
 \section{Architectures}
 \label{sec:architectures}
 
-\note{Sil}{i changed above a few occurrences of "diagrammed". i know it is correct, but i am not used to seeing it. this is a matter of style, just forget my changes below then}
 
 Architectures to integrate workflow engines in science gateways are
 presented in Figure~\ref{fig:architectures} using the graphical
 notations defined in
 Figure~\ref{fig:notations}. Table~\ref{table:system-classification}
 summarizes the classification of a few systems by architecture.
-
-\closednote{Marc-e}{A
-  few things bother me a bit with the notation fig., making it harder
-  to assimilate 1- The interactions are padded in the middle of other
-  stuff (Administrator, Data) 2- The Software component example says
-  "Science gateway", should it not be empty?  3- The red arrow to
-  explain the use of red; it looks like a very specific type of
-  interactions instead of the desired "any interactions or components
-  can be red meaning...", especially with 'a' and 'd' which the reader
-  does not know the meaning yet.  Maybe a little red arrow and square
-  with "Red used when specific to workflow execution"?  I don't have a
-  great solution...  Red has special meaning, maybe remove it from the
-  other pics (workflow eng, tasks) as it creates lots of visual
-  interference when looking for red?  4- Order in text jumps all over
-  the fig notations. Explanations are given for, in order: Components,
-  workflow engine, interactions, abstract interactions, red color,
-  tasks, data (no Administrator?)...  Could re-ordering the fig fix
-  this? A figure figure legend could go a long way too (are there some
-  in this journal?)  }{Tristan}{Marc-E, is Figure 1 better now?}
-\closednote{Naj}{I propose a table of definitions.}{Tristan}{Added
-  information in Figure 1 and removed the corresponding text.}
-
 
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4782949
 
@@ -408,7 +361,7 @@ summarizes the classification of a few systems by architecture.
 \subsection{Interactions}
 
 The interactions involved in the architectures are described below and
-labeled (a,b,c, ...) as in Figure~\ref{fig:architectures}.
+labeled (\texttt{a},\texttt{b},\texttt{c}, \ldots) as in Figure~\ref{fig:architectures}.
 
 \begin{enumerate}[leftmargin=0cm,itemindent=0.65cm,label=\texttt{(\alph*)}]
 
@@ -441,11 +394,7 @@ labeled (a,b,c, ...) as in Figure~\ref{fig:architectures}.
   (\texttt{$c_2$}), to transfer workflow data (inputs, outputs, or
   intermediate results) across the infrastructure so that tasks can
   use it. The infrastructure might offer various data storage backends
-  with heterogeneous interfaces. \closedanswerednote{Marc-Etienne}{this -c2- can be also trigerred
-    by the user}{Tristan}{No, it can't: this is by definition an interaction between the workflow engine and the infrastructure. It is used to transfer data to/from tasks. I reworded a bit, is it clearer now?}
-    {Marc-e}{I meant, "using c1", a user in some platforms (CBRAIN), can trigger
-    some operations across the infrastructure, as in c2... not just up/download data.
-    And I clearly see now that this is in fact the case in III, c is not differentiated. Closing this thread for good.}
+  with heterogeneous interfaces. 
   Tools and services such as JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
   can be used to homogeneize these interfaces.
 \item Workflow control: operations to control workflow execution in an
@@ -473,13 +422,12 @@ labeled (a,b,c, ...) as in Figure~\ref{fig:architectures}.
   systems~\cite{turilli2015comprehensive} and other agent-based
   computing models.
 \item Workflow conversion: translation from one workflow language into
-  another. This interaction may not be available or possible
-  for every workflow language. It has been developed mostly for
-  translation between well-structured and relatively simple workflow languages such as GWorkflowDL
-  and Scufl~\cite{OLAB-09}, and the 4 languages that were involved in the
-  SHIWA initiative.
- \note{Silvia}{Should we add here the 4?
- 	and for translation among the 5 workflow systems in the SHIWA project: Askalon, MOTEUR, Taverna, Triana and WS-PGRADE)} 
+  another. This interaction may not be available or possible for every
+  workflow language. It has been developed mostly for translation
+  between well-structured and relatively simple workflow languages
+  such as GWorkflowDL and Scufl~\cite{OLAB-09}, and for translation
+  among the 5 workflow systems in the SHIWA project: Askalon, MOTEUR,
+  Taverna, Triana and WS-PGRADE.  
 \end{enumerate}
 
 
@@ -492,13 +440,7 @@ software components with the science gateway. For instance, the
 workflow engine might be a portlet in a Liferay portal or a model
 in a Ruby on Rails application. The workflow engine and the science
 gateway usually share a database where applications, users and other
-resources are stored\closednote{sorina}{VIP and Moteur also share the
-  WorkflowsDB}{Tristan}{Yes, you are right. This is an example where
-  such abstract architectures may not completely apply in real
-  life. See comment about ``blended'' architectures in the
-  discussion. In case of VIP, the sharing of the DB is more an
-  implementation detail rather than a strong architectural pattern: we
-  could avoid sharing the DB if we wanted.}.  In this model, task and
+resources are stored.  In this model, task and
 data control are both initiated from the science gateway. Interactions
 \texttt{b} and \texttt{c$_2$} are initiated from the workflow engine
 while \texttt{c$_1$} comes from other parts of the science gateway,
@@ -544,10 +486,16 @@ tasks, or as a white box that allows for some interaction with
 them. The workflow engine is responsible for controlling the tasks on
 the infrastructure (\texttt{b}) and for performing the required data
 transfers to execute them (\texttt{c$_2$}). User data is usually
-managed through the science gateway (\texttt{c$_1$}), although it
-might as well be delivered by the workflow engine directly to the
-user.
-\note{Sil}{about c1: should it also show from engine to infra in the figure? this is what i understand from the above sentence}
+managed through the science gateway (\texttt{c$_1$}), although in some
+variations of the architecture (not represented in
+Figure~\ref{fig:architectures}) it might as well be delivered by the
+workflow engine directly to the user. \answerednote{Sil}{about c1: should it
+  also show from engine to infra in the figure? this is what i
+  understand from the above sentence}{Tristan}{Actually c1 is either
+  coming from the science gatewray or from the workflow engine but
+  then it merges with c2. I don't think we can cover both cases in a
+  single architecture, the latter case would be another variation of
+  this architecture. I modified a bit the text, is it clearer now?}
 
 This architecture is largely adopted in systems such as Apache
 Airvata~\cite{marru2011apache}, Vine
@@ -564,13 +512,6 @@ Virtual Imaging Platform, where the MOTEUR workflow
 engine~\cite{GLAT-08i} is invoked through a service.
 
 \subsection{Task encapsulation}
-\closednote{Marc-e}{May I propose
-  another name here? Either "Task-centric" or "Task Oriented". My
-  reasoning is that the WE is just another task, as well as the
-  sub-tasks themselves.}{Tristan}{I agree: sub-tasking is not the
-  integration model, it is the process that engines use when they
-  are integrated as tasks. I think 'task encapsulation' is more
-  consistent  with 'service invocation' than 'task-oriented'}
 
 See Figure~\subref*{archi:sub-task}. The workflow engine is wrapped in
 a particular task that can submit sub-tasks to the science gateway
@@ -589,9 +530,6 @@ Torque\footnote{\url{http://docs.adaptivecomputing.com}}).
 The science gateway also transfers both user and workflow data across
 the infrastructure, so that interactions \texttt{c$_1$} and
 \texttt{c$_2$} are both covered by \texttt{c}. 
-\note{Sil}{is this next sentence relevant?}In practice, both
-\texttt{c$_1$} and \texttt{c$_2$} can be implemented using the same
-pieces of code.
 
 Task encapsulation is implemented in CBRAIN~\cite{SHER-14} where it is
 used to integrate the FSL toolkit~\cite{Jenkinson2012782} and the PSOM
@@ -674,12 +612,8 @@ expressed with different languages.
   clients. Interaction \texttt{d} of Figure~\ref{fig:architectures}(IV) is
   implemented by 3 different calls to the pool: workflow
   submission (\texttt{1} \& \texttt{2}), workflow status retrieval
-  (\texttt{0} \& \texttt{3})\closednote{sorina}{I suppose letters come
-    here from the initial pool-model figure; it's a bit puzzling when
-    mixed with letters from Fig 2}{Tristan}{Fixed.}, and workflow
-  retrieval (\texttt{13} \& \texttt{14}). \closednote{Marc-e}{Maybe
-    easier to follow if the following would be in fig legend instead
-    of here, as for 2 previous figures}{Tristan}{fixed} Interaction
+  (\texttt{0} \& \texttt{3}), and workflow
+  retrieval (\texttt{13} \& \texttt{14}). Interaction
   \texttt{f} is implemented through 2 types of calls: workflow
   instance retrieval (\texttt{4}, \texttt{5} and \texttt{6}), and
   workflow instance update (\texttt{11} and \texttt{12}). Workflow
@@ -779,9 +713,6 @@ cannot be imported, workflows are run by Tavaxy as nested workflows
 using their native engine. The work in~\cite{delaGarza2016} describes
 workflow import from KNIME~\cite{Berthold2008} to WS-PGRADE/gUSE and
 from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
-\closednote{Tristan}{Add description of a real system}{Tristan}{Would
-  require to reproduce a figure from another paper. The concept seems
-  simple enough to not require a figure.}
 
 %Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13].
 
@@ -792,13 +723,16 @@ from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation} using five main criteria:
 integration complexity, robustness, extensibility, scalability and
-other specific features. These are based on science gateway properties introduced in Section~\ref{sec:intro_sg}. Criteria break down to specific metrics where
-\emph{lower value indicates better performance}. For each criterion, a
-global score is computed by summing up the individual scores for each metric. We
-ensure that the different metrics used to calculate the global score for a criterion are comparable, so that they can be combined meaningfully. The criteria and metrics are
+other specific features. These are based on science gateway properties
+introduced in Section~\ref{sec:intro_sg}. Criteria break down to
+specific metrics where \emph{lower value indicates better
+  performance}. Colors in Table~\ref{table:evaluation} represent
+normalized scores, as explained in the Table caption. For each
+criterion, a global score is computed by summing up the individual
+scores for each metric. We ensure that the different metrics used to
+calculate the global score for a criterion are comparable, so that
+they can be combined meaningfully. The criteria and metrics are
 explained hereafter.
-
-\note{Sil}{normalization is explained in caption tab 2. i wonder whether something should be said here, as questions about the range of the score immediately pops to mind..}
 
 \begin{table*}
 \footnotesize
@@ -930,22 +864,19 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
   $m'=\frac{m-m_{\mathrm{min}}}{m_{\mathrm{max}}-m_{\mathrm{min}}}$ where
   $m$ is the metric value, $m_{\mathrm{min}}$ and $m_{\mathrm{max}}$
   are the minimum and maximum values for all architectures; (2) the RGB hexadecimal color code of the cell
-  is \texttt{\#99XX99}, where X=\texttt{round}(F-6m') (\texttt{round} rounds a number to the nearest integer). \closednote{Tristan}{Use 6. Round to the nearest integer.}{Tristan}{Fixed.}}
+  is \texttt{\#99XX99}, where X=\texttt{round}(F-6m') (\texttt{round} rounds a number to the nearest integer). }
 \label{table:evaluation}
 \end{table*}
 
 \subsection{Evaluation metrics}
 
-\note{Sil}{i was wondering whether it would be more clear to present the metrics like this:
-\item \texttt{I$_1$}: total number of components, and
-
-now the parenthesis are next to text that does not really match the metric definition (exception in this case) could also use boldface
-	}
 Science gateway \emph{integration complexity} is measured through the number of software components and their interactions. It breaks
 down to the following 2 metrics:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Total number of components (\texttt{I$_1$}), and
-\item Total number of interactions (\texttt{I$_2$}).
+\item Total components (\texttt{I$_1$}): total number of components in
+  the architecture.
+\item Total interactions (\texttt{I$_2$}): total number of
+  interactions in the architecture.
 \end{itemize}
 One may wonder whether infrastructure should be counted in
 \texttt{I$_1$}, since it is usually an external entity that is not developed nor maintained by the groups who
@@ -969,14 +900,16 @@ red in the architecture diagrams in
 Figure~\ref{fig:architectures}, which are specific to workflow
 execution. Two metrics are used:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Number of specific components
-involved in workflow executions (\texttt{R$_1$}). The Science
+\item Specific components  (\texttt{R$_1$}): number of specific components
+involved in workflow executions. The Science
 gateway component, for instance, is \emph{not} specific to workflow execution
 since it is used to authenticate users, add new workflows, transfer
 user data, etc., and
-\item Number of specific interactions
-involved in workflow executions (\texttt{R$_2$}).
-\note{Sil}{add here an example of an interaction that is not, for example, data transfers?}
+\item Specific interactions (\texttt{R$_2$}): number of specific
+  interactions involved in workflow executions. Data control
+  (interaction \texttt{c}), for instance, is \emph{not} specific to
+  workflow execution since it is also used by the science gateway to
+  transfer user data. 
 \end{itemize}
 \texttt{R$_1$} and \texttt{R$_2$} are
 summed to obtain the global score for this criterion, which measures
@@ -994,18 +927,18 @@ parameters involved in this interaction are modified.  Extensibility
 breaks down to 4 metrics depending on the type of element (engine, workflow or infrastructure) that has to
 be added or replaced:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item New engine \texttt{E$_1$}: number of interactions or
-  components that need to be modified to integrate a new type of workflow engine in
-  the architecture. Workflow engines belong to different types when
-  they cannot be invoked using the same interface. 
-  \note{Si}{new interface = new interaction? maybe better to use one term only here. Maybe also refer to how this shows on figure 2}
-\item Engine version upgrade \texttt{E$_2$}: number of interactions or
-  components modified to integrate a new version of a workflow engine
-  in the architecture, assuming that another version of the same
-  engine type is already available. Different versions of a workflow
-  engine share the same interface, i.e. they can be invoked using the
-  same software. When this is not the case, the different versions are
-  considered as different engine types. Components are not treated
+\item New engine (\texttt{E$_1$}): number of interactions or
+  components that need to be modified to integrate a new type of
+  workflow engine in the architecture. Workflow engines belong to
+  different types when they cannot be invoked using the same
+  implementation of the interactions.
+ \item Engine version upgrade (\texttt{E$_2$}): number of interactions
+  or components modified to integrate a new version of a workflow
+  engine in the architecture, assuming that another version of the
+  same engine type is already available. Different versions of a
+  workflow engine can be invoked using the same interaction
+  implementation(s). When this is not the case, the different versions
+  are considered as different engine types. Components are not treated
   equally regarding engine version updates. Components whose only
   function is to host the workflow engine, i.e. workflow services and
   agents, are not counted in E$_2$ because updates in such components
@@ -1014,15 +947,17 @@ be added or replaced:
   i.e. science gateway and infrastructure, are counted in E$_2$
   because updates in these components require more effort, e.g. new
   release of the science gateway, gaining administrative privileges on
-  the infrastructure, etc.
-  \note{Silv}{it seems to me that this metric cannot be calculated in a straighforward manner from the diagrams.. is that correct? if it can, give an example of how this is seen in the diagram}
-\item New workflow \texttt{E$_3$}: number of interactions required
-to integrate a new workflow in the architecture. Adding a new workflow is a very
-  common operation that does not require modifying software components
-  or interactions, assuming
-  that the engine type and version required to execute this workflow
-  are already available.
-  \note{sil}{again here it would be good to indicate how this is seen in the diagram}
+  the infrastructure, etc. In practice, E$_2$=0 when the workflow
+  engine is wrapped in a service or in an agent, and E$_2$=1 when it is
+  wrapped in another component.  
+\item New workflow (\texttt{E$_3$}): number of interactions required
+  to integrate a new workflow in the architecture. Adding a new
+  workflow is a very common operation that does not require modifying
+  software components or interactions, assuming that the engine type
+  and version required to execute this workflow are already
+  available. In most cases, adding a new workflow requires only
+  interactions \texttt{a$_1$} and \texttt{a$_2$}, but \texttt{g}
+  is required as well when workflow conversion is used. 
 \item New infrastructure (\texttt{E$_4$}): number of interactions or
   components affected for the integration of a new type of infrastructure in
   the architecture. Adding a new infrastructure typically aims at providing more
@@ -1032,17 +967,11 @@ to integrate a new workflow in the architecture. Adding a new workflow is a very
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The four metrics are summed to obtain a global score that measures the
-difficulty to extend the architecture. \closednote{Naj}{I would rather compare each metric separately, this woudl also give a sense of how different architectures compare across metrics}{Tristan}{Metrics are compared separately too, see Table 2 and discussion.} Note that some extensions may
+difficulty to extend the architecture. Note that some extensions may
 involve several metrics in practice. For instance, adding a new type
 of engine may help integrating new infrastructures when interactions
 \texttt{b} and \texttt{c$_2$} are already present for the new engine
-and the infrastructure.  \closednote{Rafael}{Adding a new engine type may
-  also allow run in different infrastructures. Maybe it is worth to
-  put a sentence to clarify that the metric account for it
-  separately.}{Tristan}{It will not *allow* because interaction c1
-  would still need to be developed. But it will definitely facilitate
-  it. I added a note on this after the description of the metrics.}
-
+and the infrastructure.
 
 \emph{Scalability} corresponds to the ability of an architecture to
 cope with high workloads through the following mechanisms: starting multiple engine instances, distributing engines and task scheduling. 
@@ -1051,51 +980,40 @@ scalability difficulties due to (partial) absence of a given feature in the arch
 Features are evaluated using a 3-level metric: 0 means that
 the feature is very easy to enable, 1 means that it can be implemented
 but with some difficulty, and 2 means that the feature cannot
- be implemented in a realistic scenario. \closednote{Naj}{how do you metricize
-  "nonesensical amount fo effors?"}{Tristan}{You don't :) Rephrased to
-  'cannot realistically be implemented'. At some point it's a matter
-  of common sense and experience to draw the line between what is
-  easily implemented and what is more tricky. I would like to avoid
-  'impossible' because nothing is impossible to implement if enough
-  effort is put.} Three different features are identified:
+ be implemented in a realistic scenario. Three different features are identified:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Multiple engine instances (\texttt{S$_1$}): measures the possibility \note{sil}{are we measuring possibility or potential? i think the second, because it is hypothetical. possibility brings me the idea of it is possible or not - which would be zero to almost all these features} of having
+\item Multiple engine instances (\texttt{S$_1$}): measures the potential of having
   more than one engine instance in the architecture simultaneously. Workflow engines
   may require important amounts of resources when several workflows,
   or large workflows, are executed. At some point, it may be required
   for the science gateway to means that adding a new engine instance is a
   fully automated process, i.e. the workflow engine only has to be
-  started. In this case, elastic engines are possible, i.e. some kind
-  of auto-scaling mechanism can be implemented to control the number
+  started. In this case, elastic engines can be implemented through some kind
+  of auto-scaling mechanism to control the number
   of engine instances in the architecture. \texttt{S$_1$}=1 means that
   adding a new engine instance requires some form of manual
-  intervention (e.g., two-factor authentication \note{sil}{what is this?}), which prevents easy
-  implementations of elastic engines. \texttt{S$_1$}=2 means that a new engine
+  intervention, which prevents easy
+  implementations of elastic engines. \texttt{S$_1$}=2 means that new engine
   instances cannot be added.
-\item Distributed engines (\texttt{S$_2$}): measures the possibility of distributing
+\item Distributed engines (\texttt{S$_2$}): measures the potential of distributing
   the execution \emph{of a single workflow} among different engine
   instances. In our scope, this feature focuses on the capabilities of
   the architecture rather than these of the workflow
-  engine. \texttt{S$_2$}=0 means that distributed engines are possible in
+  engine. \texttt{S$_2$}=0 means that distributed engines are enabled by
   the architecture, and \texttt{S$_2$}=1 that they require specific
-  developments in the workflow engine.  \closednote{Rafael}{$S_2$
-    would be 2 if the paradigm does not allow to distribute the
-    orchestration? e.g., workflow executions implemented within MPI
-    jobs, in Pegasus PMC and dispel4Py.}{Tristan}{The problem is that
-    it is very difficult to define ``does not allow to''. For
-    instance, why couldn't you hack Pegasus PMC so much that it
-    becomes possible to distribute workflow executions in several MPI
-    jobs coordinated by an MPI job? Moreover, S2=2 is not used so I'd
-    prefer to leave it like this, unless you have a suggestion to
-    reflect this in the text.}
-\item Task scheduling (\texttt{S$_3$}): measures ??? \note{sil}{need to be more specific about what is being called task scheduling here. also explain why it is difficult, or dont say anything if it is common knowledge}. Task scheduling typically depends more on the implementation of specific algorithms
-  in the science gateway, workflow engine and infrastructure than on
-  the architecture used to integrate the workflow engine in the
-  science gateway. Some architectures, however, complicate the task
-  scheduling problem by introducing additional software layers or
-  creating tasks with specific characteristics. \texttt{S$_3$}=0 means that
-  the architecture does not introduce any additional complexity to the
-  scheduling problem, and \texttt{S$_3$}=1 otherwise.
+  developments in the workflow engine. 
+\item Task scheduling (\texttt{S$_3$}): measures the complexity
+  introduced by the architecture regarding task scheduling on
+  the infrastructure. Task
+  scheduling typically depends more on the implementation of specific
+  algorithms in the science gateway, workflow engine and
+  infrastructure than on the architecture used to integrate the
+  workflow engine in the science gateway. Some architectures, however,
+  complicate the task scheduling problem by introducing additional
+  software layers or creating tasks with specific
+  characteristics. \texttt{S$_3$}=0 means that the architecture does
+  not introduce any additional complexity to the scheduling problem,
+  and \texttt{S$_3$}=1 otherwise.
 \end{itemize}
 These three metrics are summed to obtain a global measure of the scalability
 potential of the architecture.
@@ -1105,7 +1023,7 @@ potential of the architecture.
 \item Meta-workflow (\texttt{O$_1$}): measures the ability to describe
   meta-workflows from existing workflows. Meta-workflows offer an
   additional level of flexibility to build workflows from reusable
-  components. \texttt{O$_1$}=0 means that the feature is available, and
+  components. \texttt{O$_1$}=0 means that meta-workflows are enabled by the architecture, and
   \texttt{O$_1$}=1 otherwise.
   \note{si}{why here we do not have the "possible to implement" situation?}
 
@@ -1159,12 +1077,6 @@ instance of the complete science gateway
 (\texttt{S$_1$}=2). 
 Specific IT setups such as load-balancing between
 web server instances might be used to create new gateway instances, distributing the users, but would not solve the problem for the workload of a single workflow or user.
-\closedanswerednote{Tristan}{What-about load-balancing between web
-  server instances?}{Marc-e}{Would that really be considered a real
-  architectural feature or an IT hack?}{Tristan}{I agree, we should
-  keep IT setups out of the picture. Depending on the internals of the
-  science gateway, such hacks may or may not be feasible. I added a
-  sentence to mention this possibility, without changing the score.}
 Distributed engines are not available by default
 (\texttt{S$_2$}=1). 
 The scheduling of tasks on the infrastructure is
@@ -1205,27 +1117,22 @@ or in the workflow engine through interactions \texttt{a$_1$} and
 requires updates in interactions \texttt{a$_1$}, \texttt{b},
 \texttt{$c_1$} and \texttt{$c_2$} (\texttt{E$_4$}=4).
 
-\paragraph{Scalability} The service architecture in principle supports multiple
-engine instances through multiple workflow services. In VIP for
-instance, this feature has been available from release 1.17. A basic
-load-balancing mechanism is available that sends new workflow
-executions to the engine instance that has the least active
-executions. To avoid ``black-hole'' syndromes created by failing
- instances, engine instances are automatically disabled when
-workflows cannot be submitted to them. Adding a new engine instance,
-however, requires manual intervention to declare the new instance in
-the science gateway (\texttt{S$_1$}=1). Consequently, elastic engines
-are difficult to implement because they require a mechanism to update
-the science gateway configuration when a new engine instance is
+\paragraph{Scalability} The service architecture in principle supports
+multiple engine instances through multiple workflow services. Adding a
+new engine instance, however, requires manual intervention to declare
+the new instance in the science gateway
+(\texttt{S$_1$}=1). Consequently, elastic engines are difficult to
+implement because they require a mechanism to update the science
+gateway configuration when a new engine instance is
 available. Distributing the execution of a single workflow in multiple
 engines is usually not possible unless the workflow engine has
-specific abilities (\texttt{S$_2$}=1). 
-\note{sil}{is this score for VIP? i think that the score depends on the implementation of the science gateway, which could adopt some elastic mechanism within. so we should not say s_2=1 for the architecture}
-The scheduling of tasks on the
-infrastructure is as complex as in any other architecture since the
-workflow engine might implement any kind of scheduling policy
-(\texttt{S$_3$}=0).
-\note{sil}{see comment in section 3.1}
+specific abilities (\texttt{S$_2$}=1).  \answerednote{sil}{is this score for
+  VIP? i think that the score depends on the implementation of the
+  science gateway, which could adopt some elastic mechanism within. so
+  we should not say s_2=1 for the architecture}{Tristan}{Removed VIP example. Score definition still has to be modified according to the discussion in @SilviaOlabarriaga's PR (\#20).} The scheduling of
+tasks on the infrastructure is as complex as in any other architecture
+since the workflow engine might implement any kind of scheduling
+policy (\texttt{S$_3$}=0).  \note{sil}{see comment in section 3.1}
 
 \paragraph{Specific features} Meta-workflows are not supported by default
 (\texttt{O$_1$}=1). 
@@ -1253,20 +1160,7 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 
 \paragraph{Robustness} No component is specific to workflow execution
 (\texttt{R$_1$}=0), and only interaction \texttt{e} is necessary
-(\texttt{R$_2$}=1)\closedanswerednote{sorina}{I understand why this is 1
-  (and why interactions c and b are not counted here), but I wonder
-  whether we can simply ignore these interactions because they are not
-  specific to workflow execution. As far as robustness is concerned,
-  the transfers have to be successful anyway...}{Tristan}{We cannot
-  just ignore these interactions in the architecture because they are
-  required for the system to work. The transfers have to be successful
-  but data movements in the workflow will use the same code as data
-  movements done in the science gateway, which will make this
-  architecture more robust than service for instance. In VIP, for
-  instance, the code used in the GASW wrapper to transfer data (c2) is
-  completely independent from the ``file transfer'' module in the
-  platform (c1), which is detrimental to robustness}{Tristan}{Closed,
-  see github issue \#7.}.
+(\texttt{R$_2$}=1).
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires developing interaction \texttt{e} and  installing the engine
@@ -1293,7 +1187,6 @@ major interest of task encapsulation. Distributed engines are not
 supported by default (\texttt{S$_2$}=1). Task scheduling is slightly
 more complex than in the other approaches due to the special role of
 the task that executes the workflow engine (\texttt{S$_3$}=1). 
-\note{sil}{i have the impression that the comments below are about robustness, and not so much about scalability. i also think that the level of detail here is much larger than in other 3.X sections. finally, i wonder whether what is explained here (which i must admit i could not follow completely in the scope of this evaluation or architectures) is valid only for this architecture in particular. i have the impression that this argument is more general }
 Indeed,
 the reliability of this task is critical since all the sub-tasks in
 the workflow depend on it and, depending on the recovery capabilities
@@ -1307,9 +1200,7 @@ parameter estimations accumulate in the workflow, and additional
 control constructs such as tests and loops may further increase the
 uncertainty. Such parameter estimation errors may generate issues such
 as selection of wrong batch queues on clusters or task termination due
-to exceeded quotas. \closednote{Naj}{The lay reader wonders why?  an
-  example like the one offered for interdependencies can
-  help}{Tristan}{Done, thanks.} Finally, the interdependencies between
+to exceeded quotas. Finally, the interdependencies between
 the workflow task and its sub-tasks may create deadlocks when there is
 contention. For instance, if only 1 computing resource is available
 for the science gateway and if the workflow task is running on it and
@@ -1320,10 +1211,7 @@ configuration can be generalized to an infrastructure with $n$
 resources where $n$ workflows are submitted. In practice, however, the
 number of submitted workflows usually remains lower than the number of
 computing resources available on this infrastructure, which makes such
-deadlocks unlikely to happen. \closednote{Naj}{so is this the solution to
-  fixing the above mentioned limitations with
-  scalability?}{Tristan}{Unfortunately this is not a solution. We just
-  say that this situation is unlikely to happen which is true.}
+deadlocks unlikely to happen. 
 
 \paragraph{Specific features} Meta-workflows are not available
 (\texttt{O$_1$}=1).  
@@ -1358,7 +1246,7 @@ in interactions \texttt{a$_1$}, \texttt{b}, \texttt{c$_1$} and \texttt{c$_2$}
 
 \paragraph{Scalability} New engine instances only require new agents,
 which can be easily automated (\texttt{S$_1$=0}) and by design very
-suitable for elastic computing.\closednote{Naj}{I feel the concept of elastic computing should be mentioned in introductory sections}{Tristan}{You are right, this is now fixed.} For instance, auto-scaling rules can
+suitable for elastic computing. For instance, auto-scaling rules can
 be implemented to start new agents when the workload in the science
 gateway exceeds a certain threshold~\cite{lorido2012auto}. Distributed
 engines are not available by default (\texttt{S$_2$=1}) and task
@@ -1382,26 +1270,11 @@ architecture involves 11 interactions (\texttt{I$_2$=11}):
 \texttt{a$_1$} (twice), \texttt{a$_2$}, \texttt{b} (twice), \texttt{c$_1$} (twice),
 \texttt{c$_2$} (twice) and
 \texttt{d} (twice).
-\closedanswerednote{Rafael}{I like the idea of what has been discussed in
-  the `integration effort', however I think the name may lead to
-  misinterpretations. For example, according to Table 2, it requires
-  more effort to integrate in a Tight architecture than in a
-  service-based architecture. Considering the principles of software
-  engineer, it is simpler to integrate/maintain a system using
-  decoupled services. Maybe it should be renamed to something related
-  to 'dependencies'.}{Tristan}{In our scope I'm not sure that it's
-  simpler to integrate a service architecture than a tightly
-  integrated one. But I take your point. 'Dependencies' is not very
-  suitable either. What about 'development effort'?}{Tristan}{Replaced
-  'Integration effort' with 'global complexity', as discussed in
-  github issue \#8.} 
 
 \paragraph{Robustness} The two workflow services are specific to
 workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b}
 (twice), \texttt{c$_2$} (twice) and \texttt{d} (twice) also
 are necessary (\texttt{R$_2$=6}).
-\closednote{Marc-e}{I understand both points. However, complexity is
-  addressed in Robustness as well... I liked the idea of development effort. It's a tough call.}{Tristan}{Maybe 'integration challenge' is a good compromise.}
 
 \paragraph{Extensibility} Adding a new type of \emph{parent} engine
 requires implementing the corresponding service,  implementing
@@ -1425,13 +1298,12 @@ can be supported by both workflow engines (\texttt{E$_4$=6}).
 workflow instance requires manual configuration in the science gateway
 (instance of a parent engine), or in the parent engine (instance of a
 child engine) (\texttt{S$_1$=1}). Similarly, elastic engines are
-difficult to achieve. Distributed engines are
-possible, through meta-workflows (\texttt{S$_2$=0}). Task scheduling
+difficult to achieve. Distributed engines can be implemented through meta-workflows (\texttt{S$_2$=0}). Task scheduling
 is more complex than in other architectures though, due to the fact
 that workflow execution is split in different engines (\texttt{S$_3$=1}).
 
 \paragraph{Specific features}
-Meta-workflows are possible, which is one of the main interest of this
+Meta-workflows can be implemented, which is one of the main interest of this
 architecture (\texttt{O$_1$=0}).  Debugging is difficult because the
 science gateway cannot directly access fine-grained information in the
 sub-workflow (\texttt{O$_2$=1}).
@@ -1495,8 +1367,7 @@ nested workflow architecture, with 2 infrastructures and 2 workflow
 services. Task encapsulation and workflow import (with service
 invocation) perform slightly better when integrating new engines
 (\texttt{E$_1$}), which makes them useful architectures for science
-gateways that do not focus on a particular engine.\closednote{Naj}{what is
-  interesting?}{Tristan}{Rephrased, thanks.}  However, task encapsulation, workflow import (with
+gateways that do not focus on a particular engine.  However, task encapsulation, workflow import (with
 service invocation) and tight integration perform worse than the
 others when adding engine versions (\texttt{E$_2$}), due to the need
 to update infrastructure (task encapsulation), science gateway (tight
@@ -1510,17 +1381,12 @@ The pool architecture is overall the most scalable, which is not
 surprising since it is designed precisely for scalability. Tight
 integration is the least scalable and all the other architectures
 perform the same overall. The global scalability score, however,
-should not conceal \closednote{Naj}{what do you mean by
-  mask?}{Tristan}{I guess 'hide' or 'conceal' are better
-  words. Fixed.} the unique characteristics of architectures regarding
+should not conceal the unique characteristics of architectures regarding
 this criterion. Nested workflows are the only architecture that can
 easily accommodate distributed workflow execution, which can be
 critical in some cases. At the same time, the scheduling constraints
-created by task encapsulation and nested workflows may become problematic \closednote{Naj}{please don't use these from-film-marketing
-  words?! :-) }{Tristan}{OK!} depending on the type of targeted
-infrastructure. Non-reliable infrastructures\closednote{Naj}{you mean by
-  the showstoppers, i.e. the nested workflows which can accommodate
-  distributed executions but are limited by scheduling constraints?}{Tristan}{Yes. I rephrased a bit this part.} ,
+created by task encapsulation and nested workflows may become problematic  depending on the type of targeted
+infrastructure. Non-reliable infrastructures,
 for example, could hardly cope with workflow engines being wrapped in
 computing tasks as done in task encapsulation. The availability of
 multiple engine instances could also become a critical feature for
@@ -1531,10 +1397,9 @@ encapsulation and pool. \note{Naj}{I feel this paragraph is a bit
 
 Differences in other specific features should not be neglected. Nested
 workflows (with service invocation) and workflow import (with service
-invocation) are the only architectures that support meta-workflows;
+invocation) are the only architectures that support meta-workflows. Besides,
 task encapsulation and nested workflows may hamper
-fine-grained debugging. \closednote{Rafael}{I would suggest to provide
-  some more examples when this could be interesting.}{Tristan}{Done.}
+fine-grained debugging. 
 The availability of fine-grained debugging information may also be
 critical to efficient user support.
 
@@ -1545,9 +1410,7 @@ assumes that all criteria have equal weights while real systems would
 favor some of them. Overall, task encapsulation, and workflow import (with
 service invocation) perform a bit better than tight integration,
 service invocation and pool. Nested workflows stand a bit behind for
-the reasons mentioned previously.\closednote{Rafael}{I would emphasize
-  that this analysis is only for illustration purposes, since it does
-  not account for different weights in metrics.}{Tristan}{Done.}
+the reasons mentioned previously.
 \begin{table*}
 \footnotesize
 \centering
@@ -1610,12 +1473,9 @@ A few limitations should be considered when using the results of our
 evaluation. First, our evaluation methods aimed to provide comparative
 metrics, however the high-level of abstraction used to derive these
 metrics hinders the complexity of real systems to some
-extent.\closednote{Naj}{Here, you were bashing your article harshly,
-  so I rewrote it}{Tristan}{yup, thanks!} In particular, the
+extent. In particular, the
 presented architectures are abstract patterns that may be mixed
-together in actual systems.\answerednote{Naj}{something about "theoretical
-  pattern", and "blending" is jarring, are these common words in the
-  computer sci context?}{Tristan}{Better now?} The distinction between tight integration and
+together in actual systems. The distinction between tight integration and
 service invocation, for instance, may not always be that clear in
 practice. Service invocation may also be combined with task
 encapsulation in some cases. However, the criteria discussed in this
@@ -1633,8 +1493,7 @@ precise.
 
 The particular case of interaction \texttt{g} (workflow language
 conversion) requires particular attention when implementing a real
-system \closednote{Naj}{so are you discussing it here, or in the
-  future?}{Tristan}{It's out of scope, a complete paper in itself. Rephrased this part.} since this interaction may not be easily generalizable to any
+system since this interaction may not be easily generalizable to any
 workflow language. For instance, converting FSL, PSOM or Nipype
 pipelines to any other workflow language is problematic because these
 engines rely on general-purpose programming languages such as Bash,
@@ -1668,15 +1527,31 @@ the design of a science gateway. Other properties definitely influence
 the design of a software architecture, for instance collaborative
 features, data visualization, search, authentication, accounting and
 so on.
-\note{sil}{do you want to refer to the science gateway canvas paper here?
-	@inproceedings{shahand:2015ab,
-		Address = {Portland, OR, USA},
-		Author = {Shahand, Shayan and van Kampen, Antoine H. C. and Olabarriaga, S\'{\i}lvia D.},
-		Booktitle = {{Proceedings of the Science of Cyberinfrastructure: Research, Experience, Applications and Models}},
-		Series = {SCREAM'15},
-		Title = {{Science Gateway Canvas: A business reference model for Science Gateways}},
-		Year = {2015},
-	}
+
+\section{Related work}
+\label{sec:related}
+ 
+The early work~\cite{yuTaxonomy} proposes a generic architecture for
+grid workflow systems that is based on the workflow reference model
+defined by the Workflow Management Coalition~\cite{wfRefModel}.
+Deelman et al. \cite{deelman2009workflows} have further characterized
+the features of workflow systems and proposed a general architecture??
+These two works, however, do not mention science gateways.
+
+Shahand et al.~\cite{shahand:2015ab} presents the Science Gateway
+Canvas, which is a business reference model where the most relevant
+functional components are organized into functional groups. Although
+workflow management is mentioned as a possible component to coordinate
+distributed computations in science gateways, the paper does not
+comment on architecture to achieve this.
+
+Olabarriaga et al.~\cite{olabarriaga2014} presents a user-centered
+view of the ecosystem of science gateways with focus on workflow
+management. Their proposed layered system architecture includes
+gateway, workflow engine and distributed infrastructure components,
+similarly to the "service invocation" pattern. However other patterns
+are not identified.
+
 \section{Conclusion}
 
 % Summary of contributions
@@ -1684,22 +1559,11 @@ We have systematically reviewed architectures used to integrate workflow engines
 science gateways. These architectures are described in a system-independent framework
 suitable for comparison, illustrated on real systems, and evaluated using novel quantitative metrics that allow simple comparison across architectures. We have discussed the
 pros and cons of all the presented architectures based on these metrics.
-\closedanswerednote{Rafael}{One thing that is missing in the
-  conclusion or the limitations section is to state that this work
-  does not intend to quantify the amount of work required to develop
-  science gateways using a specific architecture, but the goal is to
-  highlight what are the main components and interactions for each
-  architecture, and the main advantages and drawbacks. This should
-  also be stated in the introduction.}{Tristan}{This is in
-  contradiction with the metric on 'integration effort'. What do you
-  think?}{Tristan}{Fixed, as discussed in github \#8.}
 
 % Impact of the work
 To the best of our knowledge, our work is the first to systematically
 review and compare software architectures used to integrate workflow
-engines into science gateways.\closednote{Naj}{instead of its kind,
-  explain what kind it is, e.g. systematic review of all
-  ...}{Tristan}{Done.} So far, the literature on science gateways and
+engines into science gateways. So far, the literature on science gateways and
 workflow engines has focused on the description of particular systems,
 or on the presentation of a particular architecture.  Instead, our
 analysis abstracts and evaluates architectural patterns independently
@@ -1723,28 +1587,30 @@ for software architects.
 
 \section{Acknowledgments}
 
-This work is in the scope of the LABEX PRIMES (ANR-11- LABX-0063) of
-Universit\'e de Lyon, within the program ``Investissements d’Avenir''
-(ANR-11-IDEX-0007) operated by the French National Research Agency
-(ANR). This work also falls into the scope of the scientific topics of
-the French National Grid Institute (IdG). We thank the site
-administrators of the European Grid Initiative and the GGUS support
-for their help related to the VIP platform. The CBRAIN team is grateful for the
-computing cycles, storage, and support obtained from Compute Canada
-(\url{https://computecanada.ca}) and platform development program from CANARIE
- (\url{http://www.canarie.ca/}). The integration between PSOM and CBRAIN was supported by a Brain 
-Canada Platform Support Grant, as well as the Canadian Consortium on
-Neurodegeneration in Aging (CCNA), through a grant from the Canadian Institute
-of Health Research and funding from several partners. This work has been made possible with the support of the Irving Ludmer Family Foundation and
-the Ludmer Centre for Neuroinformatics and Mental Health. \closedanswerednote{Marc-e}{Would it be proper to thank EGI?
-  Compute Canada? CANARIE?}{Tristan}{Added EGI and Compute Canada. Not sure if
-  Canarie should be added. What about Calcul QC?}{Marc-e}{CQ, no. CANARIE, I'd
-  say yes since they funded a major chunk of CBRAIN's development.}
-
-\note{sil}{should we then also thank the dutch crowd?
-	 We also acknowledge the Dutch national e-Infrastructure with the support of SURF Cooperative,  the Dutch national program COMMIT/ and the High Performance Computing and Networking (HPCN) Fund of the University of Amsterdam for their support to the science gateway actitivies at the AMC. 
-	 We are also greatful to the financial support provided by FP7 E-INFRASTRUCTURE program for financial support to SCI_BUS, SHIWA and ER-flow projects.  
-	 My participation has been minimal, and the amc gateways are not discussed in detail (my fault), so maybe it would be an overkill}
+This work has been made possible with the support of the Irving Ludmer
+Family Foundation and the Ludmer Centre for Neuroinformatics and
+Mental Health. The integration between PSOM and CBRAIN was supported
+by a Brain Canada Platform Support Grant, as well as the Canadian
+Consortium on Neurodegeneration in Aging (CCNA), through a grant from
+the Canadian Institute of Health Research and funding from several
+partners.  This work is in the scope of the LABEX PRIMES (ANR-11-
+LABX-0063) of Universit\'e de Lyon, within the program
+``Investissements d’Avenir'' (ANR-11-IDEX-0007) operated by the French
+National Research Agency (ANR). This work also falls into the scope of
+the scientific topics of the French National Grid Institute (IdG). The
+VIP team thanks the site administrators of the European Grid
+Initiative and the GGUS support for their help related to the VIP
+platform. The CBRAIN team is grateful for the computing cycles,
+storage, and support obtained from Compute Canada
+(\url{https://computecanada.ca}) and platform development program from
+CANARIE (\url{http://www.canarie.ca/}). We also acknowledge the Dutch
+national e-Infrastructure with the support of SURF Cooperative, the
+Dutch national program COMMIT/ and the High Performance Computing and
+Networking (HPCN) Fund of the University of Amsterdam for their
+support to the science gateway actitivies at the AMC.  We are also
+grateful to the financial support provided by FP7 E-INFRASTRUCTURE
+program for financial support to SCI-BUS, SHIWA and ER-flow
+projects. 
 
 \section*{References}
 
