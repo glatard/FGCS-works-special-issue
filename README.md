@@ -1,3 +1,5 @@
+This is a paper for the FGCS special issue on workflows: http://www.journals.elsevier.com/future-generation-computer-systems/call-for-papers/special-issue-on-workflows-for-data-driven-research.
+
 # How to contribute
 
 Fork the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
