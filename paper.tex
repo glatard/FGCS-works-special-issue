@@ -988,7 +988,7 @@ but with some difficulty, and 2 means that the feature cannot
   more than one engine instance in the architecture simultaneously. Workflow engines
   may require important amounts of resources when several workflows,
   or large workflows, are executed. At some point, it may be required
-  for the science gateway to means that adding a new engine instance is a
+  for the science gateway to means \note{vladimir}{is this the right word here, 'to means'?} that adding a new engine instance is a
   fully automated process, i.e. the workflow engine only has to be
   started. In this case, elastic engines can be implemented through some kind
   of auto-scaling mechanism to control the number
@@ -1028,13 +1028,14 @@ potential of the architecture.
   components. \texttt{O$_1$}=0 means that meta-workflows are enabled by the architecture, and
   \texttt{O$_1$}=1 otherwise.
   \note{si}{why here we do not have the "possible to implement" situation?}
+  \note{vladimir}{I agree with Silvia, we should have the intermediate values as well, since meta-workflows might be straightforwardly supported by the gateway, or they are still possible to implement but only with some workarounds. Like it was with SHIWA: first 6 months coarsed-grained interoperability looked more like a workaround till it was better integrated and supported by WS-PGRADE itself}
 
 \item Fine-grained debugging (\texttt{O$_2$}): availability of
   fine-grained debugging information about workflow tasks (white-box
   workflow).  Fine-grained information about workflow tasks is
   required to properly troubleshoot workflow executions.
   \texttt{O$_2$}=0 means that such information is easy to access, and
-  \texttt{O$_2$}=1 otherwise.
+  \texttt{O$_2$}=1 otherwise. \note{vladimir}{otherwise - does it mean the fine-grained info is available but hard to access or not available it all? the latter happens as well}
 \end{itemize}
 \texttt{O$_1$} and \texttt{O$_2$} are summed to obtain a total number of missing specific
 features in the architecture.
@@ -1163,6 +1164,7 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 \paragraph{Robustness} No component is specific to workflow execution
 (\texttt{R$_1$}=0), and only interaction \texttt{e} is necessary
 (\texttt{R$_2$}=1).
+\note{vladimir}{there is a large piece of text in Scalability about reliability of the workflow engine task which on my opinion suits Robustness better}
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires developing interaction \texttt{e} and  installing the engine
@@ -1194,7 +1196,7 @@ the reliability of this task is critical since all the sub-tasks in
 the workflow depend on it and, depending on the recovery capabilities
 of the workflow engine, may need to be resubmitted if the workflow
 task fails. The workflow task is also longer than all its sub-tasks,
-which increases its chances of failure. In addition, task parameters,
+which increases its chances of failure.\note{vladimir}{isn't this about robustness?} In addition, task parameters,
 for instance estimated walltime, are more difficult to estimate for
 the workflow task than for the sub-tasks because workflows are by
 definition more complex than their sub-tasks: errors on sub-task
@@ -1272,6 +1274,7 @@ architecture involves 11 interactions (\texttt{I$_2$=11}):
 \texttt{a$_1$} (twice), \texttt{a$_2$}, \texttt{b} (twice), \texttt{c$_1$} (twice),
 \texttt{c$_2$} (twice) and
 \texttt{d} (twice).
+\note{vladimir}{and if we have a meta-workflow with 3 and more sub-workflows the score will be even higher, is it a fair calculation for an architecture? we did not increase the scores for possible meta-workflows supported by wf engines in other cases}
 
 \paragraph{Robustness} The two workflow services are specific to
 workflow execution (\texttt{R$_1$=2}). Interactions \texttt{b}
