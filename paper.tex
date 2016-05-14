@@ -151,7 +151,7 @@ Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
 Pegasus~\cite{deelman2005pegasus,Deelman201517},
 Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
 Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing}
-and WS-PGRADE~\cite{Kacsuk2012} \note{vladimir}{As a past developer of it, I would suggest to refer to WS-VLAM as well, despite it is not very famous, if you do not mind :)}. Such workflow engines usually
+and WS-PGRADE~\cite{Kacsuk2012} \note{vladimir}{As a past developer of it, I would suggest to refer to WS-VLAM~\cite{wsvlam} as well, despite it is not very famous, but it played an important role for Amsterdam e-science workflows}. Such workflow engines usually
 describe applications in a high-level language with specific data and
 control flow constructs, parallelization operators, visual edition
 tools, links with domain-specific application repositories, provenance
@@ -1165,6 +1165,7 @@ components (\texttt{I$_1$}=2).  It involves 5 interactions:
 (\texttt{R$_1$}=0), and only interaction \texttt{e} is necessary
 (\texttt{R$_2$}=1).
 \note{vladimir}{there is a large piece of text in Scalability about reliability of the workflow engine task which on my opinion suits Robustness better}
+\note{vladimir}{in addition, the claim of very good robustness of task encapsulation seems questionable to me as in this model you delegate the critical task of controlling workflow execution to, let's say, some 'random' node on the grid that you have no control of, not sure about its performance, connectivity and reliability and so on; however, considering the models and dependencies presented in fig.2 this evaluation of robustness metric may be correct}
 
 \paragraph{Extensibility} Integrating a new type of workflow engine
 requires developing interaction \texttt{e} and  installing the engine
@@ -1402,7 +1403,7 @@ encapsulation and pool. \note{Naj}{I feel this paragraph is a bit
 
 Differences in other specific features should not be neglected. Nested
 workflows (with service invocation) and workflow import (with service
-invocation) are the only architectures that support meta-workflows. Besides,
+invocation) are the only architectures that support meta-workflows. \note{vladimir}{As mentioned earlier by Silvia, this might not be exactly the case, depending on the point of view} Besides,
 task encapsulation and nested workflows may hamper
 fine-grained debugging. 
 The availability of fine-grained debugging information may also be
@@ -1556,6 +1557,7 @@ management. Their proposed layered system architecture includes
 gateway, workflow engine and distributed infrastructure components,
 similarly to the "service invocation" pattern. However other patterns
 are not identified.
+\note{vladimir}{@silvia, does it make sense to mention workflow classification efforts based on workflow motifs and so on?}
 
 \section{Conclusion}
 
