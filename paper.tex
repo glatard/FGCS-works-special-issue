@@ -123,7 +123,7 @@ required and resulting system.
 
 This paper describes, provides examples and compares such
 architectures, based on system-independent representations of their
-main components and interactions. It is informed by our experince in
+main components and interactions. It is informed \note{vladimir}{is this a good word for this context, 'informed'? maybe 'based on'?} by our experience in
 the development and sustained operation of the CBRAIN~\cite{SHER-14}
 and VIP~\cite{GLAT-13} science gateways for medical image analysis
 during the past 7 years, as well as by lessons learned from several
@@ -131,12 +131,12 @@ science gateway and workflow projects such as
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}}.  In this section
 we provide background information and definitions of 
 workflow engines, science gateways and infrastructures. In
-Section~\ref{sec:architectures}, we describe six architectures within
+Section~\ref{sec:architectures}, we describe six architectures \note{vladimir}{why is it exactly six? are these architectures the ones that happened to be implemented during various projects, or is it a full set of all possibilities (I believe not)? I think, it must be stated clearly why the focus is given to these particular ones - we are reviewing and evaluating the approaches that have been used already in our projects} within
 a consistent framework that underlines the functional interactions
 between their main software components. In
 Section~\ref{sec:evaluation}, the different architectures are
 evaluated with metrics measuring integration complexity, robustness,
-extensibility, scalability and other specific features. We finally
+extensibility, scalability and other specific features \note{vladimir}{can we explain why exactly these metrics are used but not anything else? I think, we need to justify that these ones are especially important for the SG case; it would be nice to refer to some related research on software architecture metrics, Google gives about 2 million pages on this, where you can find metrics like cohesion, depth of scenario and so on}. We finally
 compare the architectures and highlight recommendations for science
 gateway architects and workflow engine developers.
 
@@ -151,7 +151,7 @@ Hyperflow~\cite{balis2016hyperflow}, MOTEUR~\cite{GLAT-08i},
 Pegasus~\cite{deelman2005pegasus,Deelman201517},
 Swift~\cite{zhao2007swift}, Taverna~\cite{oinn2004taverna},
 Triana~\cite{taylor2007triana}, VisTrails~\cite{callahan2006managing}
-and WS-PGRADE~\cite{Kacsuk2012}. Such workflow engines usually
+and WS-PGRADE~\cite{Kacsuk2012} \note{vladimir}{As a past developer of it, I would suggest to refer to WS-VLAM as well, despite it is not very famous, if you do not mind :)}. Such workflow engines usually
 describe applications in a high-level language with specific data and
 control flow constructs, parallelization operators, visual edition
 tools, links with domain-specific application repositories, provenance
@@ -371,7 +371,7 @@ labeled (\texttt{a},\texttt{b},\texttt{c}, \ldots) as in Figure~\ref{fig:archite
   for instance a web form, where users can enter the parameters of the
   workflow to be executed. The interaction has two steps:
   (\texttt{a$_1$}) the programs used in the workflow are installed on
-  the infrastructure, which may require administrative privileges;
+  the infrastructure, which may require administrative privileges \note{vladimir}{or bundled in packages considering all needed dependencies than can be deployed on the fly during the workflow execution};
   (\texttt{a$_2$}) the workflow is configured in the science gateway
   so that it becomes available to users. Note that integrating a
   workflow is not the same process as integrating a workflow
@@ -699,7 +699,7 @@ See Figure~\subref*{archi:import}. This is an abstract model
 instantiated with the service invocation architecture for
 consistency. Workflows are integrated in the science gateway through
 format conversion from a native format to the science gateway
-format. Workflow import is usually an offline process that is not
+format. \note{vladimir}{Are we talking only about importing workflows from other wf languages? I would suggest to modify the title of the section to 'Workflow conversion and import' then, as some gateways use the term 'import' to import their own native workflows, like WS-PGRADE, and using import only in the context of converting workflows can be confusing} Workflow import is usually an offline process that is not
 involved in workflow execution. A few systems have implemented
 workflow import. In the SHIWA Simulation Platform, it is implemented
 through the IWIR language, which provides a common language for
@@ -892,7 +892,9 @@ interactions of the software architecture. Errors coming
 from the infrastructure (e.g., unavailable data or terminated tasks)
 or workflows (e.g., wrong user input or application errors) are not
 covered, since they do not stem directly from the software
-architecture. Robustness is measured here as a consequence of global
+architecture. 
+\note{vladimir}{I believe, proper error handling through the different levels of wf engine/gateway must be especially mentioned even if not especially covered. One of serious issues we faced while working with gateways at the AMC, in particular with gUse/WS-PGRADE, was that when it failed sometimes it was completely not clear what was the problem exactly. So we might consider discussing not only the number of software components but how explicit and clear interactions are between them; how transparently we can monitor the execution through all the levels and thus detect and prevent possible malfunction}
+Robustness is measured here as a consequence of global
 complexity, since complex architectures tend to be more prone to
 failure. More precisely, robustness is determined by the number of
 software components and interactions represented in
