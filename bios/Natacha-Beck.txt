@@ -1,0 +1,4 @@
+​Software developer at MCIN since 2011, I have a formation and background in bioinformatic.
+I previously work at the University of Montreal on some genetic annotation pipeline used to annotate mitochondrial genome.
+At the MCIN I work on the CBRAIN platform and a web-based software that allows neuroimaging researchers to perform computationally
+intensive analyses on data by connecting them to High-Performance Computing (HPC). 
