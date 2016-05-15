@@ -1,0 +1,4 @@
+* We investigate six software architectures commonly used to integrate workflow engines into science gateways. 
+* We describe these architectures in a consistent framework.
+* We evaluate them with metrics for assessment of integration complexity, robustness, extensibility, scalability and support for meta-workflows and fine-grained debugging.
+* Results provide insights for science gateway architects and developers.
