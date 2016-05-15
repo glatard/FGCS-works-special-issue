@@ -116,6 +116,7 @@ Workflow engines \sep science gateways \sep software architectures.
 
 \section{Introduction}
 
+
 Workflow engines are critical for the efficient and transparent
 exploitation of distributed infrastructures in the ecosystem of tools
 and services offered by science gateways. Several software
@@ -167,6 +168,7 @@ developers.
 
 \subsection{Workflow engines}
 
+\label{sec:introduction-engines}
 In the last decade, the e-Science community has developed workflow
 systems to help application developers access distributed
 infrastructures such as clusters, grids, clouds and web
@@ -1477,16 +1479,16 @@ for example, could hardly cope with workflow engines being wrapped in
 computing tasks as done in task encapsulation. The availability of
 multiple engine instances could also become a critical feature for
 science gateways with important workloads, which would favor task
-encapsulation and pool. \note{Naj}{I feel this paragraph is a bit
+encapsulation and pool. \closednote{Naj}{I feel this paragraph is a bit
   vague, and doesn't distill and contextualize the thorough work
-  described before.}
+  described before.}{Tristan}{Rejected comment :)}
 
 Differences in other specific features should not be neglected. Task encapsulation, nested
 workflows (with service invocation) and workflow conversion (with service
 invocation) are the only architectures that intrinsically support meta-workflows. \closednote{vladimir}{As mentioned earlier by Silvia, this might not be exactly the case, depending on the point of view}{Tristan}{The example given by Silvia (WS-PGRADE) actually comes down to the nested workflow architecture. I added 'intrinsically' to the sentence to better reflect that.} Besides,
-task encapsulation and nested workflows may hamper
+tight integration is the only architecture that allows
 fine-grained debugging. 
-The availability of fine-grained debugging information may also be
+The availability of fine-grained debugging information may be
 critical to efficient user support.
 
 Table~\ref{table:overall} provides an overall comparison between
@@ -1593,13 +1595,12 @@ could also be envisaged. We chose to limit ourselves to instantiations
 with service invocation because the resulting architectures are
 implemented in real systems, and because service invocation is largely
 used. Nevertheless, it could be interesting to explore other types of
-instantiations, in particular nested workflows with task
-encapsulation.\answerednote{Naj}{I think in the discussion, you may want to close the circle on a statement in introduction, which referred to your 7-year experience with CBRAIN and VIP}{Tristan}{Good idea, will think about it.}
+instantiations.\closednote{Naj}{I think in the discussion, you may want to close the circle on a statement in introduction, which referred to your 7-year experience with CBRAIN and VIP}{Tristan}{Not sure how to do this without making the conclusion sound too specific to these systems.}
 
 The particular technical or historical context of a science gateway
 project may obviously influence the choice of an architecture to
-integrate workflow engines. For instance, some workflow engines may be
-already available as web services\note{Naj}{This is a good place to offer some examples}, which would tend to favor service
+integrate workflow engines. For instance, many workflow engines are
+already available as web services\closednote{Naj}{This is a good place to offer some examples}{Tristan}{Many of them are, precised the text, not sure adding explicit examples makes sense at this stage.}, which tends to favor service
 invocation, and other science gateways may have strongly tested task
 and data control features (interactions \texttt{b} and \texttt{c}),
 which would favor task encapsulation. Similarly, adding a new type of engine
@@ -1616,36 +1617,46 @@ so on.
 \section{Related work}
 \label{sec:related}
  
-The early work~\cite{yuTaxonomy} proposes a generic architecture for
-grid workflow systems that is based on the workflow reference model
-defined by the Workflow Management
+There is abundant literature describing specific workflow engines and
+systems; some of the main references are cited in
+Section~\ref{sec:introduction-engines}. A few works described the
+architecture and features of workflow system at an abstract level. For
+instance, the early work~\cite{yuTaxonomy} proposes a generic
+architecture for grid workflow systems that is based on the workflow
+reference model defined by the Workflow Management
 Coalition\footnote{\url{http://www.wfmc.org}}.  Deelman et
 al. \cite{deelman2009workflows} have further characterized the
-features of workflow systems and proposed a general architecture??
-These two works, however, do not mention science gateways.
+features of workflow systems. These two works, however, do not mention
+science gateways.
 
-Shahand et al.~\cite{shahand:2015ab} presents the Science Gateway
-Canvas, which is a business reference model where the most relevant
-functional components are organized into functional groups. Although
-workflow management is mentioned as a possible component to coordinate
-distributed computations in science gateways, the paper does not
-comment on architecture to achieve this.
+Numerous science gateways have been described, as mentioned in
+Section~\ref{sec:intro_sg}. However, only a few works focused on
+science gateway architectures. Shahand et al.~\cite{shahand:2015ab}
+presents the Science Gateway Canvas, which is a business reference
+model where the most relevant functional components are organized into
+functional groups. Although workflow management is mentioned as a
+possible component to coordinate distributed computations in science
+gateways, the paper does not comment on architecture to achieve this.
 
 Olabarriaga et al.~\cite{olabarriaga2014} presents a user-centered
 view of the ecosystem of science gateways with focus on workflow
 management. Their proposed layered system architecture includes
 gateway, workflow engine and distributed infrastructure components,
-similarly to the "service invocation" pattern. However other patterns
+similarly to the ``service invocation'' pattern. However other patterns
 are not identified.
-\note{vladimir}{@silvia, does it make sense to mention workflow classification efforts based on workflow motifs and so on?}
+
+\closednote{vladimir}{@silvia, does it make sense to mention workflow classification efforts based on workflow motifs and so on?}{Tristan}{I'm  not  sure. Which papers are you thinking of?}
 
 \section{Conclusion}
 
 % Summary of contributions
-We have systematically reviewed architectures used to integrate workflow engines in
-science gateways. These architectures are described in a system-independent framework
-suitable for comparison, illustrated on real systems, and evaluated using novel quantitative metrics that allow simple comparison across architectures. We have discussed the
-pros and cons of all the presented architectures based on these metrics.
+We have systematically reviewed architectures used to integrate
+workflow engines in science gateways. These architectures are
+described in a system-independent framework suitable for comparison,
+illustrated on real systems, and evaluated using novel quantitative
+metrics that allow simple comparison across architectures. We have
+discussed the pros and cons of all the presented architectures based
+on these metrics.
 
 % Impact of the work
 To the best of our knowledge, our work is the first to systematically
