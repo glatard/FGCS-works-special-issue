@@ -731,10 +731,10 @@ The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation} using five main criteria:
 integration complexity, robustness, extensibility, scalability and
 other specific features. These are based on science gateway properties
-introduced in Section~\ref{sec:intro_sg}. Criteria break down to
+introduced in Section~\ref{sec:intro_sg}. Criteria break down into
 specific metrics where \emph{lower value indicates better
   performance}. Colors in Table~\ref{table:evaluation} represent
-normalized scores, as explained in the Table caption. For each
+normalized scores (see caption). For each
 criterion, a global score is computed by summing up the individual
 scores for each metric. We ensure that the different metrics used to
 calculate the global score for a criterion are comparable, so that
@@ -878,7 +878,7 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
 \subsection{Evaluation metrics}
 
 Science gateway \emph{integration complexity} is measured through the number of software components and their interactions. It breaks
-down to the following 2 metrics:
+down into the following 2 metrics:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Total components (\texttt{I$_1$}): total number of components in
   the architecture.
@@ -932,7 +932,7 @@ be updated or recompiled (science gateway or workflow service), or
 when a new piece of software has to be installed (infrastructure
 only). Modification of an interaction is deemed necessary when the
 parameters involved in this interaction are modified.  Extensibility
-breaks down to 4 metrics depending on the type of element (engine, workflow or infrastructure) that has to
+breaks down into 4 metrics depending on the type of element (engine, workflow or infrastructure) that has to
 be added or replaced:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item New engine (\texttt{E$_1$}): number of interactions or
@@ -976,7 +976,7 @@ be added or replaced:
 \end{itemize}
 The four metrics are summed to obtain a global score that measures the
 difficulty to extend the architecture. Note that some extensions may
-involve several metrics in practice. For instance, adding a new type
+affect several metrics in practice. For instance, adding a new type
 of engine may help integrating new infrastructures when interactions
 \texttt{b} and \texttt{c$_2$} are already present for the new engine
 and the infrastructure.
@@ -998,7 +998,7 @@ scalability difficulties due to (partial) absence of a given feature in the arch
   architecture. In this case, elastic engines can be implemented
   through some kind of auto-scaling mechanism to control the number of
   engine instances in the architecture. \texttt{S$_1$}=1 means that
-  multiple engine instances requires specific developments in the
+  supporting multiple engine instances requires specific developments in the
   science gateway or workflow engine. \texttt{S$_1$}=2 means that new
   engine instances cannot be added.
 \item Distributed engines (\texttt{S$_2$}): measures the potential of distributing
@@ -1009,7 +1009,7 @@ scalability difficulties due to (partial) absence of a given feature in the arch
   the architecture, and \texttt{S$_2$}=1 that they require specific
   developments in the workflow engine. 
 \item Task scheduling (\texttt{S$_3$}): measures the complexity
-  added by the architecture to task scheduling on
+  added by the architecture to implement task scheduling on
   the infrastructure. Task
   scheduling typically depends more on the implementation of specific
   algorithms in the science gateway, workflow engine and
@@ -1381,11 +1381,11 @@ workflows (with service invocation) and workflow conversion (with service
 invocation) are the only architectures that intrinsically support meta-workflows. Besides,
 tight integration is the only architecture that allows
 fine-grained debugging, which may be
-critical to efficient user support.
+critical for efficient user support.
 
 Table~\ref{table:overall} provides an overall comparison between
 architectures, based on the metrics in Table~\ref{table:evaluation}.
-Note that this analysis is only meant for illustration purposes since
+Note that this analysis is only meant for illustration purposes, since
 it assumes that all criteria have equal weights while real systems
 would favor some of them. Overall, task encapsulation performs a bit
 better than the other architectures and nested workflows stand a bit
@@ -1457,11 +1457,11 @@ presented architectures are abstract patterns that may be mixed
 together in actual systems. The distinction between tight integration and
 service invocation, for instance, may not always be that clear in
 practice. Service invocation may also be combined with task
-encapsulation in some cases. However, the criteria discussed in this
-work would still apply to broadly compare and categorize such cases of
+encapsulation in some cases. Nevertheless, the criteria discussed in this
+work would still be applicable for broadly comparing and categorizing such cases of
 hybrid architectures.
 
-Moreover, all the interactions involved in the architectures were
+Note also that all the interactions involved in the architectures were
 treated equally, whereas some of them are obviously more complex than
 others. For example, interaction \texttt{g} (workflow language
 conversion) is clearly more complex than interaction \texttt{d}
@@ -1484,13 +1484,13 @@ instantiated with service invocation so that they can be analyzed in
 the same framework as the other architectures. Other types of
 instantiation, for instance nested workflows with task encapsulation,
 could also be envisaged. We chose to limit ourselves to instantiations
-with service invocation because the resulting architectures are
+with service invocation because the resulting architectures have already been
 implemented in real systems, and because service invocation is largely
 used. Nevertheless, it could be interesting to explore other types of
 instantiations.
 
 The particular technical or historical context of a science gateway
-project may obviously influence the choice of an architecture to
+project may also influence the choice of an architecture to
 integrate workflow engines. For instance, many workflow engines are
 already available as web services, which tends to favor service
 invocation, and other science gateways may have strongly tested task
@@ -1512,7 +1512,7 @@ so on.
 There is abundant literature describing specific workflow engines and
 systems; some of the main references are cited in
 Section~\ref{sec:introduction-engines}. A few works described the
-architecture and features of workflow system at an abstract level. For
+architecture and features of workflow systems at an abstract level. For
 instance, the early work~\cite{yuTaxonomy} proposes a generic
 architecture for grid workflow systems that is based on the workflow
 reference model defined by the Workflow Management
@@ -1555,9 +1555,9 @@ engines into science gateways. So far, the literature on science gateways and
 workflow engines has focused on the description of particular systems,
 or on the presentation of a particular architecture.  Instead, our
 analysis abstracts and evaluates architectural patterns independently
-from any particular system. It provides general insight to integrate
-science gateways and workflow engines, which we hope will be useful
-for software architects.
+from any particular system, providing general insight about ways to integrate
+science gateways and workflow engines. These insights will be valuable
+for software architects when considering alternatives for the architecture and evaluating the impact of their decisions.
 
 % Literature on SG architecture Very few works go beyond the
 % description of architectures of particular systems. For instance, the work
