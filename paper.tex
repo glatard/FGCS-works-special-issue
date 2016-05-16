@@ -81,12 +81,11 @@
 \address[stpetersburg]{St. Petersburg State University, Russia.}
 
 \begin{abstract}
-  Workflow engines are critical for the efficient and transparent
-  exploitation of distributed infrastructures in the ecosystem of
-  tools and services offered by science gateways.  We investigate six
-  software architectures commonly used to integrate workflow engines
-  into science gateways. In \emph{tight integration}, the workflow
-  engine shares software components with the science gateway. In
+  Science gateways often rely on workflow engines to execute
+  applications on distributed infrastructures. We investigate six software
+  architectures commonly used to integrate workflow engines into
+  science gateways. In \emph{tight integration}, the workflow engine
+  shares software components with the science gateway. In
   \emph{service invocation}, the engine is isolated and invoked
   through a specific software interface. In \emph{task encapsulation},
   the engine is wrapped as a computing task executed on the
@@ -116,9 +115,7 @@ Workflow engines \sep science gateways \sep software architectures.
 
 \section{Introduction}
 
-
-Workflow engines are critical for the efficient and transparent
-exploitation of distributed infrastructures in the ecosystem of tools
+Workflow engines are critical components in the ecosystem of tools
 and services offered by science gateways. Several software
 architectures can be adopted to integrate workflow engines in science
 gateways, with important consequences for the development effort
@@ -126,21 +123,20 @@ required and resulting system.
 
 This paper describes, provides examples and compares such
 architectures, based on system-independent representations of their
-main components and interactions. It is informed
- by our experience in the development and
-sustained operation of the CBRAIN~\cite{SHER-14},
-VIP~\cite{GLAT-13} and NSG~\cite{shahand2015data,shahand:2012jgc} science gateways for medical image analysis during
-the past 7 years, as well as by lessons learned from several science
-gateway and workflow projects such as
+main components and interactions. It is informed by our experience in
+the development and sustained operation of the CBRAIN~\cite{SHER-14},
+VIP~\cite{GLAT-13} and NSG~\cite{shahand2015data,shahand:2012jgc}
+science gateways for medical image analysis during the past 7 years,
+as well as by lessons learned from several science gateway and
+workflow projects such as
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and
 ER-flow\footnote{\url{http://www.erflow.eu}}.  In this section we
 provide background information and definitions of workflow engines,
 science gateways and infrastructures. In
-Section~\ref{sec:architectures}, we describe six architectures
- that cover
-the main patterns that we encountered in the various systems that we
-studied during the last few years. The architectures are described
-within a consistent framework that underlines the functional
+Section~\ref{sec:architectures}, we describe six architectures that
+cover the main patterns that we encountered in the various systems
+that we studied during the last few years. The architectures are
+described within a consistent framework that underlines the functional
 interactions between their main software components. In
 Section~\ref{sec:evaluation}, the different architectures are
 evaluated with metrics measuring integration complexity, robustness,
@@ -148,8 +144,7 @@ extensibility, scalability and other specific features. These metrics
 are specifically designed to measure the ability of the architectures
 to address workflow-related issues commonly encountered in science
 gateways. We finally compare the architectures and highlight
-recommendations for science gateway architects and 
-developers.
+recommendations for science gateway architects and developers.
 
 \subsection{Workflow engines}
 
@@ -505,19 +500,18 @@ Figure~\ref{fig:architectures}) it might as well be delivered by the
 workflow engine directly to the user. 
 
 This architecture is largely adopted in systems such as Apache
-Airvata~\cite{marru2011apache}, Vine
+Airvata~\cite{marru2011apache}, GridSFEA~\cite{Elts2010}, Vine
 Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual
 Imaging Platform~\cite{GLAT-13}, the systems
 in~\cite{wu2010accelerating,shahand:2012jgc} and the WS-PGRADE/gUSE
-framework~\cite{Kacsuk2012}. The integration between the
-HubZero science gateway and the Pegasus workflow engine performed
+framework~\cite{Kacsuk2012}. The integration between the HubZero
+science gateway and the Pegasus workflow engine performed
 in~\cite{CPE:CPE3257} also uses a service architecture, where the
 \texttt{d} interaction is implemented as a set of calls to Pegasus'
 command-line tools (e.g., pegasus-status, pegasus-plan,
 etc.). Figure~\ref{fig:vip-architecture} shows the architecture of the
 Virtual Imaging Platform, where the MOTEUR workflow
-engine~\cite{GLAT-08i} is invoked through a service. GridSFEA~\cite{Elts2010} 
-uses WS-VLAM as a WS-RF service.
+engine~\cite{GLAT-08i} is invoked through a service.
 
 \subsection{Task encapsulation}
 
