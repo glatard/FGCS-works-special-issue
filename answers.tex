@@ -1,0 +1,246 @@
+\documentclass[a4]{letter}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\name{Tristan Glatard}
+\signature{\includegraphics[width=4cm]{signature.png}}
+\date{October 16th, 2016}
+
+\newenvironment{review}%          environment name
+{\textbf{Reviewer comment:}\begin{quote}}% begin code
+{\end{quote}}%  
+\newcommand{\answer}[1]{\textbf{Answer:} #1}
+
+\newcommand{\revised}[1]{\color{blue} #1\color{black}}
+
+\begin{document}
+
+\begin{letter}{}
+
+\opening{Dear Editors,}
+
+We would like to thank you for offering us the opportunity to revise
+and re-submit our paper entitled ``Software architectures to integrate
+workflow engines in science gateways'' to Future Generation Computer
+Systems.
+
+The remainder of this letter contains our answer to the 3 reviews that
+we received following the evaluation process. A revised version of the
+manuscript follows, where corrected parts appear in blue for a better
+identification. 
+
+We thank you again for your time and consideration, and we remain available for any further information you may need.
+
+\vspace{0.5cm}
+
+Sincerely yours,
+
+\vspace{1cm}
+
+\closing{Tristan Glatard, PhD.\\On behalf of the authors.}
+
+\newpage
+
+\textbf{Reviewer \#1}
+
+\begin{review}
+  The work presents a comprehensive overview on six of the most
+  typical approaches that influenced the design of existing science
+  gateways. The initial description of the individual architectures is
+  indeed useful as background information leading to the realisation
+  of a new gateway system. However, as the authors acknowledge, the
+  different solutions may coexist in real implementations and the
+  abstract perspectives provided are subject to a certain level of
+  generality. In the opinion of the reviewer, the evaluation provided
+  may result, in some cases, misleading for the the non-expert
+  designer.
+\end{review}
+
+\answer{}
+
+\begin{review}
+  Section 2: In the description of the Task Encapsulation pattern, it
+  is not really clear what is intended as the interaction 'e' that
+  envisage the submission of task to the science gateway. Are these
+  tasks pure notifications about the progressing of the sub-task, or
+  the actual workflow engine, deployed in the infrastructure, requires
+  the gateway to directly control its own sub-tasks?
+\end{review}
+
+\answer{}
+
+\begin{review}
+Section 3:
+The evaluation is conducted by introducing a novel framework of metrics. It provides measurements based on the number of components of the gateway and the number of formal interactions required to satisfy four general characteristics: Robustness of Workflow execution, Extensibility, Scalability and Specific Features. Some aspects are a bit confusing. For instance, it is not immediately clear from the text, the difference between the Scalability metrics S1 and S2. Eventually they seem to differ, respectively, for the focus on dynamic elasticity of the former, versus the pre-hoc allocation of multiple workflow instances of the latter.
+\end{review}
+
+\begin{review}
+The metric E3, measuring the complexity of integrating more workflows applications, seems to be more functional rather than architectural. The implications and impacts on the formal interactions required to support this feature across patterns are very similar. On the other hand, is opinion of the reviewer that integrating new workflow applications would rather affect more the Robustness of the system, especially in the case of the Workflow Conversion pattern. In this context, a formal conversion interaction (g), if not validated, could lead to logical or system errors.
+\end{review}
+
+\begin{review}
+ Given these observations and the other measurements provided by the paper, the overall performance presented in Table 3, where the Workflow Conversion outperforms the Service Invocation pattern, is considered counter intuitive. The result is justified though by the evaluation of the Service-invocation pattern. Here, a high value (low score) is assigned to the Extensibility metrics E1, concerning the inclusion
+of new workflow engines. This seems to be too negative, since a service invocation approach can rely on generic interfaces, re-purposing via a common service layer supporting multiple technologies. This is reflected also in the negative evaluation of the S1,S2 metrics for the same pattern. On the contrary, the choice of this architecture would intuitively suggest re-usable, scalable and decoupled solutions. Eventually, the arguments presented were not considered convincing.
+\end{review}
+
+\begin{review}
+Again on the definition of Robustness. It introduces two metrics: Specific Components and Interactions. These are explained in terms of what they not include but no evidence or examples are provided to better understand what is intended specific. Moreover, some interactions which are mentioned as being not specific, become specific during the evaluation. For instance, interaction 'c', which is defined as the upload of input data and results (c1) and to transfer processed data across infrastructures (c2), are initially considered as an example of not specific interaction. Though, when measuring the Robustness of the Pool Model,  c2 suddenly appears in the count,  Does the definition of R2 means that non-specific interactions should be counted? The higher number the worse robustness?
+\end{review}
+
+\begin{review}
+It is not always obvious that Scalability could be badly affected in a Tight Integration. The example of a liferay portlet is actually potentially demonstrating the opposite. Portlets can be independent web application that can be even remotely deployed (via WSRP). The integration of a workflow engine via ad-hoc portlet applications could instead guarantee quite of a level of decoupling from the rest of the gateway. Here, the limitations highlighted seems to be a bit superficial.
+\end{review}
+
+\begin{review}
+The "Specific Feature", referring to the Fine-grained debugging does not specify what is relevant to be monitored and who is going to gain benefit from the monitoring. The scientists, the gateway developers or the administrators? What is a white box, the workflow engine or the workflow task? Why multiple software layers affect the accuracy of the tasks' internals?
+\end{review}
+
+\begin{review}
+To conclude, the general feeling is that the definition of the metrics and the interaction patterns are not rigorous enough to provide an interpretation of the final evaluation which is entirely useful for the reader. Probably, some more information on how "Future Generation" systems should be designed, starting from the general overview provided, with more technical understanding of the system complexities, could represent a more valuable contribution to the main aim of this particular publication.
+\end{review}
+
+\begin{review}
+To improve the reading, Dedicating separate sections to the introduction of the metrics and the evaluation of each pattern would be beneficial. For instance Section 3 Metrics, Section 4 Evaluation.
+\end{review}
+
+\textbf{Reviewer \#2}
+
+\begin{review}
+  This work describes and evaluates six software architectures
+  commonly used to integrate workflow engines into science gateways
+  with metrics for assessment of integration complexity, robustness,
+  extensibility, scalability and support for meta-workflows and
+  fine-grained debugging. The paper is well written in general, and
+  the motivation is very nice, clearly comparing the different types
+  of architectures that can be found at the back end of a science
+  gateway. However, the work has a list of issues that could be
+  addressed by the authors:
+
+1. Apache Araviate and WS-PGRADE/gUSE are not science gateways. They
+are open source science gateway framework that enables users to access
+computing infrastructures frameworks. Therefore, in the Table 1, where
+the classifications of science gateways are displayed, it should list
+the science gateways that have used those architectures instead of the
+frameworks. Otherwise, is quite confusing.
+\end{review}
+
+\begin{review}
+  2. Tight Architecture -→ What happens if the workflow engine is
+  built into the Science Gateway, but still need a submission
+  framework (e.g. WS-PGRADE/gUSE or SAGA) for submitting the enteir
+  workflow to the infrastructure.  It would be a tight architecture or
+  a task architecture ? I can not see this type of architecture
+  reflected in the paper.
+\end{review}
+
+\begin{review}
+  3. Why there isn't a figure to illustrate an example of a real
+  science gateway that corresponds to this architecture, like the
+  other types of archtictures (e.g. Figure 3, Figure 4)
+\end{review}
+
+\begin{review}
+  4. In my opininion Figures 3, 4, 5, 6, should use the iteractions
+  explained in the subction 2.1, instead the steps/calls, to be more
+  clear. Right now, they are difficult to read.
+\end{review}
+
+\begin{review}
+  5.  Subsection 2.4, "see for instrance attribute depend of option -W
+  torque"-→ repharase, and explain it better.
+\end{review}
+
+\begin{review}
+6.  Figures 4, 5, 6 are very difficult to understand. Maybe will be a
+good idea to create a subsection for explaining them better and reduce
+the captions of those figures.
+\end{review}
+
+\begin{review}
+  7.  Metrics: The metrics that have been used in this paper favour
+  the simplest architectures. For example, looking at the Robustnes
+  metrics, R1 and R2, they measure the probability that a workflow
+  fails due to the errors of components and interactions that contains
+  each architecture. But those metrics do not measure how "grave" are
+  those failures and how "difficult" are those failures to repair. The
+  same thing for the "Extensibility" metrics, some components can be
+  much more difficult to "replace" than others.  Maybe would be a good
+  idea to ponderete those metrics based on the number of components or
+  interactions (e.g E.1---> dividing the number of interactions or
+  components that need to be modified to integrate a new workflow
+  between the total number of interactions or components. )
+\end{review}
+
+
+\begin{review}
+8. In my opinion, if the workflow it is integrated in the science
+gateway (tight architecture), then the science gateway should be
+evaluated as a component, since it also could fail. The same thing for
+the task encapsulation and the infrastructure, in that case, the
+Infraestructure should be also considered as component. So, I would
+modifiy the table 2, according to that ( e.g., R1=1 for Tight and Task
+architecture).
+\end{review}
+
+\begin{review}
+9. According with Figure 2.I, this workflow architecture has 3
+interactions b, c1 and c2, since data movement can be done by the
+users and workflows in this type of architecture (those interactions
+are not exlcuyents) so R2=3
+\end{review}
+
+\begin{review}
+  10. The text of Sections 3.2, 3.3, 3.4, 3.5, 3.6 and 3.7 could be
+  reduced, since most of the values are obvious from Figures 2.II and
+  Table 2.
+\end{review}
+
+\begin{review}
+  11. Service invocation and Task encapsulation can also be the same
+  thing
+\end{review}
+
+\begin{review}
+12. No so sure that tight integration are the most easy for
+integrating a workflow engine, since in case a the workflow engine
+needs to be modified, the whole science gateway has to be change
+(e.g. re-programe a portlet in Liferay). On the other hand, with
+Service invocation, the replacement could be very much more easier.
+\end{review}
+
+\textbf{Reviewer \#3}
+
+\begin{review}
+This paper provides a comparison of 6 different software architectures commonly used to integrate workflow engines into science gateways. For this comparison, the authors define seven different types of interactions to outline the differences in approach. The combination of components and interactions for the 6 overview models in Figure 2 that form the underlying basis for the comparisons.
+
+The authors then provide a set of Metrics: complexity, robustness, extensibility, scalability \& specific features to compare and contrast the different software architectures.
+
+Complexity, for example, is measured by counting the number of components and interactions that were defined and annotated in Figure 2.  Extensibility measures the difficulty to replace or add elements to the architecture e.g. a workflow engine, an engine version update, add a new workflow or add new infrastructure. 
+
+I liked this paper but I also struggled a lot with it too because ultimately, whilst this metric structure provides some rudimentary structure to quantify the various software architectures, a many software architecture perspectives are missing, and the results are not normalized against the functionality a system provides.
+
+For example, when you normally think of software architectures, a good design is often one that is layered and componentized. There are multiple benefits of such an an approach over monolithic systems but using the metrics defined in this paper, good software practices to expose functionality is not really factored in. So, the result is that the more layers to components in the system, the worse it scores. So, these aspects of good software engineering or providing enhanced functionality seem penalized in this paper, as it stands. 
+\end{review}
+
+\begin{review}
+An example where the logic fails I believe is in the Extensibility. Let's take two cases initially:
+-	Pool architecture
+-	Nested.
+For pool this score is 9 but for nested the score is 12.5. So, using these metrics the pool architecture is easier to extend.  But, if this is based on the same interface (e.g. SHIWA), then the difficulty to extend each system seems quite similar, because basically a workflow engine needs to implement the SHIWA course grained ORE interface to allow it to work. If it implements this interface as a client and a server then it can both consume other workflows and be embedded by them. For the pool architecture in the most generic sense, a workflow would need to do both (to digest ORE bundles and to pass them on), and for a nested architecture, a workflow engine would need to do one of the other depending on whether it was calling another workflow or being invoked by one.  However, as I understand, the case here assumes there is no connectivity (passing of bundles) in the pool case, so it seems less complex to extend. So, in the end, it is not about how complex the extension is
+it is about what you want to do.  For example, for the nested case, you could always assume one master workflow, then it would be simpler (but less flexible). So in the end this table could look very different depending on how the different systems are defined in scope, and you could potentially have various versions of either of these cases. 
+\end{review}
+
+\begin{review}
+Adding functionality e.g. in this case to add the ability to pass bundles to one system and another is a positive (and complex) thing to accomplish. There should be a way of counting this and having this score higher than Tight, Service or task, or normalizing this functionality into the metrics to provide a more balanced view. The "Scalability" touches on this but "Functionality" could be another aspect here to consider.
+\end{review}
+
+\begin{review}
+Another example is for complexity.  Again, the less components and interactions the system has the less complex it is. But in practice, it is not so simple. For example, the tight integration is where the workflow system is integration directly into the science gateway and into the infrastructure. Whereas this architecture has the least number of components and interactions of them all it does not mean it is less complex in practice. Integrating a workflow into science gateway and directly on top of the infrastructure depends very much on the tools they sit upon and the complexity of that integration. Such tight integrated systems therefore could be massive monolithic pieces of code that are extremely difficult and complex to develop and maintain.  Whereas a task-based approach or service based approach through breaking code out to different services and tasks may be far simpler to develop and maintain. 
+\end{review}
+
+\begin{review}
+I therefore think that the metrics defined only provide a very high level structure for an evaluation of the different software architectures and they should discuss other factors and scenarios that can affect development. Some of these limitations are discussed in section 4.2 but I think an extra section discuss these before the definition of the metrics would be very helpful to set the scene correctly for the evaluation. Otherwise, the reader is left asking a number of questions during the evaluation section. I also think that a few more metrics e.g. "functionality" could be added to provide a more balanced view of the different approaches. Another useful extension of the paper could be to normalize the results against the functionality each approach provides (perhaps in a separate table) - this may help to provide a more balanced table that factors in functionality.
+\end{review}
+
+\end{letter}
+\end{document}
