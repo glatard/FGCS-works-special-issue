@@ -56,7 +56,37 @@ Sincerely yours,
   designer.
 \end{review}
 
-\answer{}
+\answer{We thank the reviewer for the thorough review and useful comments.
+
+  The results and discussion reported in our paper are indeed aimed at
+  an expert audience of science gateway and workflow engine
+  developers. The evaluation metrics have been designed based on our
+  long experience with both science gateways and workflow engines, and
+  we completely acknowledge that non experts may misinterpret the
+  results.
+
+  The fact that the patterns may be mixed in real implementations is,
+  in our opinion, another motivation for our abstraction effort as it
+  helps ``untangling'' the various architectural concepts that may be
+  present in a real system. This is particularly true for the abstract
+  architectures (nested workflows and workflow conversion) that may be
+  instantiated in various ways. Our abstractions highlight that other
+  instantiation models may be worth designing, for instance nested
+  workflows with task encapsulation, as mentioned in Section 4.2. in
+  the Discussion.
+
+  We added the following paragraph to the Introduction to reflect this discussion:}
+
+\revised{The analysis presented in the paper is intended for
+experts in science gateway and workflow engine design. It is an
+abstraction effort to identify and evaluate the fundamental
+architectural patterns that are encountered while integrating workflow
+engines and science gateways. In real systems, such patterns are often
+intertwined due to considerations related to the historical and
+technical context of software projects. The following work helps
+identify the key patterns in systems and highlight potential
+improvements.}
+
 
 \begin{review}
   Section 2: In the description of the Task Encapsulation pattern, it
@@ -67,25 +97,240 @@ Sincerely yours,
   the gateway to directly control its own sub-tasks?
 \end{review}
 
-\answer{}
+\answer{The actual workflow engine deployed in the infrastructure
+  requires the gateway to directly control its own sub-tasks. We
+  revised the wording of Section 2.4 to clarify this point.}
 
 \begin{review}
-Section 3:
-The evaluation is conducted by introducing a novel framework of metrics. It provides measurements based on the number of components of the gateway and the number of formal interactions required to satisfy four general characteristics: Robustness of Workflow execution, Extensibility, Scalability and Specific Features. Some aspects are a bit confusing. For instance, it is not immediately clear from the text, the difference between the Scalability metrics S1 and S2. Eventually they seem to differ, respectively, for the focus on dynamic elasticity of the former, versus the pre-hoc allocation of multiple workflow instances of the latter.
+  Section 3: The evaluation is conducted by introducing a novel
+  framework of metrics. It provides measurements based on the number
+  of components of the gateway and the number of formal interactions
+  required to satisfy four general characteristics: Robustness of
+  Workflow execution, Extensibility, Scalability and Specific
+  Features. Some aspects are a bit confusing. For instance, it is not
+  immediately clear from the text, the difference between the
+  Scalability metrics S1 and S2. Eventually they seem to differ,
+  respectively, for the focus on dynamic elasticity of the former,
+  versus the pre-hoc allocation of multiple workflow instances of the
+  latter.
 \end{review}
 
-\begin{review}
-The metric E3, measuring the complexity of integrating more workflows applications, seems to be more functional rather than architectural. The implications and impacts on the formal interactions required to support this feature across patterns are very similar. On the other hand, is opinion of the reviewer that integrating new workflow applications would rather affect more the Robustness of the system, especially in the case of the Workflow Conversion pattern. In this context, a formal conversion interaction (g), if not validated, could lead to logical or system errors.
-\end{review}
+\answer{S1 denotes the ability of the system to start multiple engine
+  instances to execute different workflows, while S2 denotes the
+  possibility to execute a single workflow with multiple engines. We
+  revised the wording in the description of S1 (page 11) to clarify
+  this point. We find the current description of S2 clear enough on
+  this point: ``[S2] measures the ability to distribute the execution of
+  \emph{a single workflow} among different engine instances.''}
 
 \begin{review}
- Given these observations and the other measurements provided by the paper, the overall performance presented in Table 3, where the Workflow Conversion outperforms the Service Invocation pattern, is considered counter intuitive. The result is justified though by the evaluation of the Service-invocation pattern. Here, a high value (low score) is assigned to the Extensibility metrics E1, concerning the inclusion
-of new workflow engines. This seems to be too negative, since a service invocation approach can rely on generic interfaces, re-purposing via a common service layer supporting multiple technologies. This is reflected also in the negative evaluation of the S1,S2 metrics for the same pattern. On the contrary, the choice of this architecture would intuitively suggest re-usable, scalable and decoupled solutions. Eventually, the arguments presented were not considered convincing.
+The metric E3, measuring the complexity of integrating more workflows applications, seems to be more functional rather than architectural. The implications and impacts on the formal interactions required to support this feature across patterns are very similar.
+ On the other hand, is opinion of the reviewer that integrating new workflow applications would rather affect more the Robustness of the system, especially in the case of the Workflow Conversion pattern. In this context, a formal conversion interaction (g), if not validated, could lead to logical or system errors.
 \end{review}
 
+\answer{We introduced E3 precisely to account for the additional
+  complexity introduced by interaction (g) when adding new
+  workflows. 
+
+It should be understood here that workflow conversion is
+  presented as a pattern to integrate workflow \emph{engines} in a
+  science gateway, through workflow translation to a language already
+  supported by the gateway. We believe that integrating new workflow
+  engines (therefore new workflows) through workflow conversion is a
+  strong architectural design choice that may, depending on the
+  availability of a reliable interaction (g), be avoided by
+  integrating workflow engines using a different pattern. We added the following sentence at the beginning of Section 2.7 to explain that:
+
+\revised{Workflow conversion is presented here as a pattern to
+integrate workflow \emph{engines} in a science gateway, through
+workflow format conversion from a native format to the science gateway
+format.}
+}
+
+We definitely agree with the reviewer that interaction (g) is
+  a tricky one that may lead to critical errors. We added the
+  following sentence to the paragraph on interaction (g) in Section
+  4.2. of the discussion:
+
+\revised{If not properly validated, workflow language conversion
+  could introduce critical errors impacting the robustness and
+  correctness of the execution. }
+
+This sentence complements the note already made in section 3.7:
+``Note, however,
+that implementing interaction g can require sub-
+stantial work depending on the complexity of the
+workflow language used by the new engine.``
+
 \begin{review}
-Again on the definition of Robustness. It introduces two metrics: Specific Components and Interactions. These are explained in terms of what they not include but no evidence or examples are provided to better understand what is intended specific. Moreover, some interactions which are mentioned as being not specific, become specific during the evaluation. For instance, interaction 'c', which is defined as the upload of input data and results (c1) and to transfer processed data across infrastructures (c2), are initially considered as an example of not specific interaction. Though, when measuring the Robustness of the Pool Model,  c2 suddenly appears in the count,  Does the definition of R2 means that non-specific interactions should be counted? The higher number the worse robustness?
+ Given these observations and the other measurements provided by the paper, the overall performance presented in Table 3, where the Workflow Conversion outperforms the Service Invocation pattern, is considered counter intuitive. The result is justified though by the evaluation of the Service-invocation pattern.
 \end{review}
+
+\answer{As discussed previously, we share the reviewer's concerns
+  about the feasibility of workflow conversion (see comments on
+  interaction (g) in Section 4.2). The performance of workflow
+  conversion is strongly related to the availability of a validated
+  interaction (g), which is very dependent on the particular workflow
+  engines under consideration. We believe that the issue raised by the
+  reviewer basically comes down to the weight given to software
+  components and interactions in the analysis. However, using
+  different weights for different components or interactions would
+  open an infinite number of configurations for discussion. For
+  instance, in some cases, the workflow engine already comes with a
+  workflow service which therefore doesn't have to be included. To
+  address this issue, we shared a spreadsheet at
+  \url{https://frama.link/LrPRsCQp} that allows editing the following
+  weights:
+  \begin{itemize}
+  \item Weight given to software components and interactions in
+  ``integration'', ``extensibility'' and ``robustness'' criteria.
+  \item Weight given to metrics in a criterion (e.g., E$_1$ vs. E$_2$ in
+  ``extensibility'').
+  \item Weight given to criteria in overall evaluation of Table 3.
+\end{itemize}
+The paper references this spreadsheet wherever equal weights are
+assumed. The readers and reviewers are invited to rely on this
+spreadsheet for any issue related to the importance given to a
+specific component, interaction, metric or criterion in the
+analysis. In the paper, we assumed that all weights equal 1, which we
+believe is a reasonable but limited choice.
+}
+
+\begin{review}
+  Here, a high value (low score) is assigned to the Extensibility
+  metrics E1, concerning the inclusion of new workflow engines. This
+  seems to be too negative, since a service invocation approach can
+  rely on generic interfaces, re-purposing via a common service layer
+  supporting multiple technologies.
+\end{review}
+
+\answer{The reviewer is right that re-purposing software components
+  and interactions can lead to revisit the evaluation. We updated the following sentence in section 4.2. to better acknowledge this point:}
+
+The particular technical or historical context of a science gateway
+project may also influence the choice of an architecture to
+integrate workflow engines. For instance, many workflow engines are
+already available as web services, which tends to favor service
+invocation (\revised{in particular when interactions can be re-purposed}), and other science gateways may have strongly tested task
+and data control features (interactions \texttt{b} and \texttt{c}),
+which would favor task encapsulation. Similarly, adding a new type of engine
+may facilitate integration of a new infrastructure when interactions
+\texttt{b} and \texttt{c$_2$} are already available. The migration
+cost between architectures has been ignored as well.
+
+In the specific case of service invocation, we agree with the reviewer
+that, when adding a new workflow engine, the workflow service or interaction \texttt{d} can always be repurposed depending on the context. We decremented E1 and added the following explanation in section 3.3.:
+
+\revised{However, when a new type of workflow engine is added, it is always possible to reuse either an existing available workflow service or interaction \texttt{d} (when a new workflow service has to be developed). Therefore, \texttt{E$_1$}=3}.
+
+\begin{review}
+ This is reflected also in the negative evaluation of the S1,S2 metrics for the same pattern. On the contrary, the choice of this architecture would intuitively suggest re-usable, scalable and decoupled solutions.
+\end{review}
+
+\answer{While we agree with the reviewer that re-usability should
+  definitely be taken into account in E$_1$, we do not see how it
+  could help S$_1$ and S$_2$.
+
+  For S$_1$, starting new instances of the workflow service still
+  requires that a specific mechanism is implemented in the science
+  gateway to distribute the load among these services, even if all
+  these services share the same interface. Again, the difficulty to
+  implement such mechanisms could be extensively discussed: some
+  systems may rely on a simple DNS-level load balancing, but this
+  would not cope with the fact that workflow executions have different
+  resource requirements and that workflow services may have different
+  availabilities (for instance, a workflow service may crash in case a
+  workflow execution filled up its disk); other systems may balance
+  the load based on resource usage (e.g. RAM, CPU and disk) in the
+  workflow services, but this requires an elaborated monitoring
+  infrastructure. On the contrary, adding new engine instances is
+  naturally supported by task encapsulation and pool, which justifies
+  that S$_1=0$ for these models while S$_1$=1 for service invocation.
+
+  For S$_2$, we cannot think of a practical reason why the service
+  invocation model would help distribute a single workflow execution
+  in multiple engine instances. In our opinion, this feature is
+  exclusive to the nested workflow model. }
+
+\begin{review}
+ Eventually, the arguments presented were not considered convincing.
+\end{review}
+
+We hope that the update made in the extensibility scores and the
+explanations given for scalability convinced the reviewer.
+
+\begin{review}
+  Again on the definition of Robustness. It introduces two metrics:
+  Specific Components and Interactions. These are explained in terms
+  of what they not include but no evidence or examples are provided to
+  better understand what is intended specific. 
+\end{review}
+
+\answer{We updated the definition of R$_1$ and R$_2$ to include
+  positive examples as well as negative ones. In addition, the
+  specific components included in these metrics are represented in red
+  on Figure 2.}
+
+\begin{review}
+Moreover, some
+  interactions which are mentioned as being not specific, become
+  specific during the evaluation. For instance, interaction 'c', which
+  is defined as the upload of input data and results (c1) and to
+  transfer processed data across infrastructures (c2), are initially
+  considered as an example of not specific interaction. Though, when
+  measuring the Robustness of the Pool Model, c2 suddenly appears in
+  the count, 
+\end{review}
+
+\texttt{c}, \texttt{c$_1$} and \texttt{c$_2$} are three different
+interactions, which explains the confusion. \texttt{c$_2$} is always
+specific to workflow execution because it is defined as the
+interaction between the workflow engine and the infrastructure, used
+to transfer workflow data (inputs, outputs or intermediate
+results). \texttt{c$_1$} is not specific to workflow execution because
+it is used by the science gateway to transfer any data regardless of
+workflow executions. Letter \texttt{c} was used on the task
+encapsulation diagram in Figure 2 to represent that the science gateway transfers
+both user and workflow data. We now use \texttt{c$_1$} for all the
+data transfers initiated by the science gateway, and \texttt{c$_2$}
+for all the data transfers initiated by the workflow engine,
+regardless of the type of data transferred. Consequently, we now use
+\texttt{c$_1$} instead of \texttt{c} on the task encapsulation diagram in Figure 2.
+
+The ambiguity is now removed and the new definition of R$_1$ and R$_2$ reads as follows:
+
+Specific components (\texttt{R$_1$}): number of specific components involved in workflow executions. \revised{For instance, the
+  workflow service is a specific component because its main objective
+  is to execute workflows. On the contrary, the science gateway is
+  \emph{not} specific to workflow execution since it is used for a
+  variety of other functions such as user authentication, data
+  transfer, etc.}
+
+Specific interactions (\texttt{R$_2$}): number of specific
+  interactions involved in workflow executions. \revised{For
+    instance, the pool-agent interaction (interaction \texttt{f}) is
+    specific to workflow execution while data control (interaction
+    \texttt{c$_1$}) is \emph{not} because it is used by the science gateway to transfer
+    user data regardless of a particular workflow execution}.
+
+\begin{review}
+Does the definition of R2 means that non-specific
+  interactions should be counted?
+\end{review}
+
+\answer{No it doesn't. We hope that the new examples in the definition of
+R$_1$ and R$_2$ and the removal of any reference to interaction
+\texttt{c} clarifies this point.}
+
+\begin{review}
+The higher number the worse
+  robustness?
+\end{review}
+
+\answer{Yes, as for any other metric, high values indicate worse
+performance. This is explained at the beginning of section 3:
+``Criteria break down into specific met- rics where lower value
+indicates better performance.''}
 
 \begin{review}
 It is not always obvious that Scalability could be badly affected in a Tight Integration. The example of a liferay portlet is actually potentially demonstrating the opposite. Portlets can be independent web application that can be even remotely deployed (via WSRP). The integration of a workflow engine via ad-hoc portlet applications could instead guarantee quite of a level of decoupling from the rest of the gateway. Here, the limitations highlighted seems to be a bit superficial.

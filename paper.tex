@@ -20,7 +20,7 @@
 %\newcommand{\closednote}[4]{} % closed notes are hidden. This should obviously be a parameter of \note rather than a separate command.
 %\newcommand{\answerednote}[4]{\pdfmargincomment[color=green,author=#1-#3,open=true]{#1: #2 \textCR \textCR #3: #4}}
 %\newcommand{\closedanswerednote}[6]{}
-
+\newcommand{\correction}[1]{\color{blue}#1\color{black}\xspace}
 
 \renewcommand\thesubfigure{\Roman{subfigure}}
 
@@ -131,8 +131,20 @@ science gateways for medical image analysis during the past 7 years,
 as well as by lessons learned from several science gateway and
 workflow projects such as
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and
-ER-flow\footnote{\url{http://www.erflow.eu}}.  In this section we
-provide background information and definitions of workflow engines,
+ER-flow\footnote{\url{http://www.erflow.eu}}.
+
+\correction{The analysis presented in the paper is intended for
+experts in science gateway and workflow engine design. It is an
+abstraction effort to identify and evaluate the fundamental
+architectural patterns that are encountered while integrating workflow
+engines and science gateways. In real systems, such patterns are often
+intertwined due to considerations related to the historical and
+technical context of software projects. The following work helps
+identify the key patterns in systems and highlight potential
+improvements.}
+
+\correction{The reminder of this section provides}
+ background information and definitions of workflow engines,
 science gateways and infrastructures. In
 Section~\ref{sec:architectures}, we describe six architectures that
 cover the main patterns that we encountered in the various systems
@@ -397,14 +409,14 @@ labeled from \texttt{a} to \texttt{g} as in Figure~\ref{fig:architectures}.
   (Open Cloud Computing Interface~\cite{edmonds2012toward}).
 \item Data control: operations to manage data on the infrastructure,
   such as upload, download, deletion, browsing, replication, caching,
-  etc. Data movements can be triggered by the user in the science
-  gateway (\texttt{$c_1$}), to upload input data or download processed
-  data. They can also be performed by the workflow engine
-  (\texttt{$c_2$}), to transfer workflow data (inputs, outputs, or
-  intermediate results) across the infrastructure so that tasks can
-  use them. The infrastructure might offer various data storage backends
-  with heterogeneous interfaces. 
-  Tools and services such as JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
+  etc. Data movements can be triggered \correction{by} the science
+  gateway (\texttt{$c_1$}), \correction{e.g.,} to upload input data or
+  download processed data. They can also be performed by the workflow
+  engine (\texttt{$c_2$}), to transfer workflow data (inputs, outputs,
+  or intermediate results) across the infrastructure so that tasks can
+  use them. The infrastructure might offer various data storage
+  backends with heterogeneous interfaces.  Tools and services such as
+  JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
   can be used to homogeneize these interfaces.
 \item Workflow control: operations to control workflow execution in an
   engine, including workflow submission, monitoring, termination,
@@ -518,21 +530,20 @@ engine~\cite{GLAT-08i} is invoked through a service.
 
 See Figure~\subref*{archi:sub-task}. The workflow engine is wrapped in
 a particular task that can submit sub-tasks to the science gateway
-through interaction \texttt{e}. The workflow engine keeps track of the
-dependencies between the sub-tasks, but their execution is delegated
-to the science gateway that executes them on the infrastructure
-through interaction \texttt{b}. Although the science gateway has no
-global vision of the workflow, it can keep track of the sub-tasks
-submitted by a given task, for instance to cancel them when
-the task is canceled. The science gateway may also implement
+through interaction \texttt{e}. The workflow engine keeps track of
+the dependencies between the sub-tasks, but their execution is
+delegated to the science gateway that executes them on the
+infrastructure through interaction \texttt{b}. Although the science
+gateway has no global vision of the workflow, it completely \correction{controls}
+the sub-tasks. \correction{For instance, it may cancel} them when
+the \correction{workflow} is canceled. The science gateway may also implement
 mechanisms to facilitate the handling of task dependencies, for
 instance basic dependency lists as available in most cluster managers
 (see for instance attribute \texttt{depend} of option \texttt{-W} in
 Torque\footnote{\url{http://docs.adaptivecomputing.com}}).
 
 The science gateway also transfers both user and workflow data across
-the infrastructure, so that interactions \texttt{c$_1$} and
-\texttt{c$_2$} are both covered by \texttt{c}. 
+the infrastructure, through interaction \texttt{c$_1$}.
 
 Task encapsulation is implemented in CBRAIN~\cite{SHER-14} where it is
 used to integrate the FSL toolkit~\cite{Jenkinson2012782} and the PSOM
@@ -700,22 +711,23 @@ with service invocation.
 
 See Figure~\subref*{archi:import}. This is an abstract model
 instantiated with the service invocation architecture for
-consistency. Workflow engines are integrated in the science gateway
-through workflow format conversion from a native format to the science
-gateway format. Workflow conversion
-is usually an offline process that is not involved in workflow
-execution. A few systems have implemented workflow conversion. In the
-SHIWA Simulation Platform, it is implemented through the IWIR
-language, which provides a common language for portability across grid
-workflow systems~\cite{plankensteiner-prodan-etal:2013} and allows
-conversion among $n$ workflow languages using $2n$ interactions
-instead of $n^2$.  Tavaxy~\cite{Abouelhoda2012} enables the import,
-merging and execution of Taverna~\cite{oinn2004taverna} and
-Galaxy~\cite{goecks2010galaxy} workflows; when some workflow parts
-cannot be imported, workflows are run by Tavaxy as nested workflows
-using their native engine. The work in~\cite{delaGarza2016} describes
-workflow conversion from KNIME~\cite{Berthold2008} to WS-PGRADE/gUSE
-and from Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
+consistency. \correction{Workflow conversion is presented here as a pattern to
+integrate workflow \emph{engines} in a science gateway, through
+workflow format conversion from a native format to the science gateway
+format.} Workflow conversion is usually an offline process that is not
+involved in workflow execution. A few systems have implemented
+workflow conversion. In the SHIWA Simulation Platform, it is
+implemented through the IWIR language, which provides a common
+language for portability across grid workflow
+systems~\cite{plankensteiner-prodan-etal:2013} and allows conversion
+among $n$ workflow languages using $2n$ interactions instead of $n^2$.
+Tavaxy~\cite{Abouelhoda2012} enables the import, merging and execution
+of Taverna~\cite{oinn2004taverna} and Galaxy~\cite{goecks2010galaxy}
+workflows; when some workflow parts cannot be imported, workflows are
+run by Tavaxy as nested workflows using their native engine. The work
+in~\cite{delaGarza2016} describes workflow conversion from
+KNIME~\cite{Berthold2008} to WS-PGRADE/gUSE and from
+Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 
 %Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13].
 
@@ -730,11 +742,17 @@ other specific features. These are based on science gateway properties
 introduced in Section~\ref{sec:intro_sg}. Criteria break down into
 specific metrics where \emph{lower value indicates better
   performance}. Colors in Table~\ref{table:evaluation} represent
-normalized scores (see caption). For each
-criterion, a global score is computed by summing up the individual
-scores for each metric. We ensure that the different metrics used to
-calculate the global score for a criterion are comparable, so that
-they can be combined meaningfully. The criteria and metrics are
+normalized scores (see caption). For each criterion, a global score is
+computed by summing up the individual scores for each metric. We
+ensure that the different metrics used to calculate the global score
+for a criterion are comparable, so that they can be combined
+meaningfully. \correction{All the metrics in a criterion contribute
+  equally to the global score. If this is not the case, the
+  reader is invited to adjust the weights in the public spreadsheet available
+  at \url{https://frama.link/LrPRsCQp} (column B of sheet ``Metrics'')
+  to generate custom versions of Table~\ref{table:evaluation}.}
+
+The criteria and metrics are
 explained hereafter.
 
 \begin{table*}
@@ -787,7 +805,7 @@ Specific components -- \texttt{R$_1$} & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99D399}\textbf{4}\\
 \cellcolor[HTML]{EEEEEE}\textbf{Extensibility}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
   New engine type -- \texttt{E$_1$}  & \cellcolor[HTML]{99C599}3
-                                     & \cellcolor[HTML]{99A899}4
+                                     & \cellcolor[HTML]{99A899}\correction{3}
                                      & \cellcolor[HTML]{99E299}2
                                      & \cellcolor[HTML]{99C599}3
                                      & \cellcolor[HTML]{999999}4.5
@@ -811,7 +829,7 @@ New infrastructure -- \texttt{E$_4$} & \cellcolor[HTML]{99DD99}4
                                      & \cellcolor[HTML]{999999}6
                                      & \cellcolor[HTML]{99DD99}4\\
   \textbf{Total} (difficulty to extend) & \cellcolor[HTML]{99D299}\textbf{10}
-                                     & \cellcolor[HTML]{99D299}\textbf{10}
+                                     & \cellcolor[HTML]{99D299}\textbf{\correction{9}}
                                      & \cellcolor[HTML]{99FF99}\textbf{8}
                                      & \cellcolor[HTML]{99E899}\textbf{9}
                                      & \cellcolor[HTML]{999999}\textbf{12.5}
@@ -885,7 +903,7 @@ One may wonder whether infrastructure should be counted in
 \texttt{I$_1$}, since it is usually an external entity that is not developed nor maintained by the groups who
 integrate workflow engines in science gateway. We support its inclusion here because integrating an
 infrastructure into the system usually requires some technical
-effort (e.g., account creation, software installation, APIs, etc.), therefore increasing complexity. The two metrics are summed to obtain a
+effort (e.g., account creation, software installation, APIs, etc.), therefore increasing complexity. \correction{We assume that software components contribute equally to $I_1$ and that interactions also contribute equally to $I_2$. In a real system, this may not be the case due to a range of project-specific practical reasons that cannot be covered in this paper. The weights given to components and interactions can be dynamically changed in the public spreadsheet (sheet ``Components and interactions'') to generate new versions of Table~\ref{table:evaluation} as required.} The two metrics \correction{I$_1$ and I$_2$} are summed to obtain a
 global score that measures the
 total number of software pieces affected by integration. 
 
@@ -904,21 +922,24 @@ red in the architecture diagrams in
 Figure~\ref{fig:architectures}, which are specific to workflow
 execution. Two metrics are used:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
-\item Specific components  (\texttt{R$_1$}): number of specific components
-involved in workflow executions. The Science
-gateway component, for instance, is \emph{not} specific to workflow execution
-since it is used to authenticate users, add new workflows, transfer
-user data, etc.
+\item Specific components (\texttt{R$_1$}): number of specific
+  components involved in workflow executions. \correction{For instance, the
+  workflow service is a specific component because its main objective
+  is to execute workflows. On the contrary, the science gateway is
+  \emph{not} specific to workflow execution since it is used for a
+  variety of other functions such as user authentication, data
+  transfer, etc.}
 \item Specific interactions (\texttt{R$_2$}): number of specific
-  interactions involved in workflow executions. Data control
-  (interaction \texttt{c}), for instance, is \emph{not} specific to
-  workflow execution since it is also used by the science gateway to
-  transfer user data. 
+  interactions involved in workflow executions. \correction{For
+    instance, the pool-agent interaction (interaction \texttt{f}) is
+    specific to workflow execution while data control (interaction
+    \texttt{c$_1$}) is \emph{not} because it is used by the science gateway to transfer
+    user data regardless of a particular workflow execution}.
 \end{itemize}
 \texttt{R$_1$} and \texttt{R$_2$} are
 summed to obtain the global score for this criterion, which measures
 the total number of software pieces that are specifically involved in
-the workflow execution.
+the workflow execution. \correction{The weights given to software components in R$_1$ and interactions in R$_2$ can be adjusted in the public spreadsheet.}
 
 \emph{Extensibility} measures the difficulty to replace or add
 elements to the architecture. It is determined by the number of interactions and
@@ -971,7 +992,8 @@ be added or replaced:
 %\item New science gateway: \todo{Not sure if this makes sense}.
 \end{itemize}
 The four metrics are summed to obtain a global score that measures the
-difficulty to extend the architecture. Note that some extensions may
+difficulty to extend the architecture. \correction{The weights given to software components and interactions in E$_{1-4}$ can be adjusted in the public spreadsheet.} 
+Note that some extensions may
 affect several metrics in practice. For instance, adding a new type
 of engine may help integrating new infrastructures when interactions
 \texttt{b} and \texttt{c$_2$} are already present for the new engine
@@ -984,20 +1006,21 @@ scalability difficulties due to (partial) absence of a given feature in the arch
  Three different features are identified:
 \begin{itemize}[leftmargin=0cm,itemindent=0.35cm,itemsep=0cm]
 \item Multiple engine instances (\texttt{S$_1$}): measures the
-  potential for a single gateway instance to use more than one engine
-  instance simultaneously. Workflow engines may require important
-  amounts of resources when several workflows, or large workflows, are
-  executed. At some point, it may be required for the science gateway
-  to distribute the load among several engines. \texttt{S$_1$}=0 means
-  that
-  adding a new engine instance is inherently supported in the
-  architecture. In this case, elastic engines can be implemented
-  through some kind of auto-scaling mechanism to control the number of
-  engine instances in the architecture. \texttt{S$_1$}=1 means that
-  supporting multiple engine instances requires specific developments in the
-  science gateway or workflow engine. \texttt{S$_1$}=2 means that new
-  engine instances cannot be added.
-\item Distributed engines (\texttt{S$_2$}): measures the potential of distributing
+  \correction{ability} for a single gateway instance to use more than
+  one engine instance simultaneously, \correction{\emph{each workflow
+      being executed by a single engine instance}}.  Workflow engines
+  may require important amounts of resources when several workflows,
+  or large workflows, are executed. At some point, it may be required
+  for the science gateway to distribute the load among several
+  engines. \texttt{S$_1$}=0 means that adding a new engine instance is
+  inherently supported in the architecture. In this case, elastic
+  engines can be implemented through some kind of auto-scaling
+  mechanism to control the number of engine instances in the
+  architecture. \texttt{S$_1$}=1 means that supporting multiple engine
+  instances requires specific developments in the science gateway or
+  workflow engine. \texttt{S$_1$}=2 means that new engine instances
+  cannot be added.
+\item Distributed engines (\texttt{S$_2$}): measures the \correction{ability to distribute}
   the execution \emph{of a single workflow} among different engine
   instances. In our scope, this feature focuses on the capabilities of
   the architecture rather than these of the workflow
@@ -1113,7 +1136,7 @@ involves 3 specific interactions: \texttt{b},
 \paragraph{Extensibility} Adding a new type of workflow engine
 requires implementing the corresponding workflow service,  modifying
 interaction \texttt{d}, and  implementing interactions \texttt{b} and
-\texttt{$c_2$} (\texttt{E$_1$}=4). New engine versions can be added by
+\texttt{$c_2$}. \correction{However, when a new type of workflow engine is added, it is always possible to reuse either an existing available workflow service or interaction \texttt{d} (when a new workflow service has to be developed). Therefore, \texttt{E$_1$}=3}. New engine versions can be added by
 updating the workflow service without modifying any interaction or
 component (\texttt{E$_2$}=0). Updating the engine version in a
 workflow service does not count in \texttt{E$_2$} since the only goal of this component
@@ -1383,7 +1406,12 @@ Table~\ref{table:overall} provides an overall comparison between
 architectures, based on the metrics in Table~\ref{table:evaluation}.
 Note that this analysis is only meant for illustration purposes, since
 it assumes that all criteria have equal weights while real systems
-would favor some of them. Overall, task encapsulation performs a bit
+would favor some of them. \correction{Weights can be adjusted in the
+  public spreadsheet at \url{https://frama.link/LrPRsCQp} (column B of
+  sheet ``Metrics'') to produce a custom version of
+  Table~\ref{table:overall} if required.}
+
+ Overall, task encapsulation performs a bit
 better than the other architectures and nested workflows stand a bit
 behind for the reasons mentioned previously.
 \begin{table*}
@@ -1411,7 +1439,7 @@ Robustness (global score) &
                                     & \cellcolor[HTML]{999999}{1.00}
                                     & \cellcolor[HTML]{99D399}{0.43}\\
   Extensibility (global score)  & \cellcolor[HTML]{99D299}{0.44}
-                                     & \cellcolor[HTML]{99D299}{0.44}
+                                     & \cellcolor[HTML]{99D299}{\correction{0.22}}
                                      & \cellcolor[HTML]{99FF99}{0.00}
                                      & \cellcolor[HTML]{99E899}{0.22}
                                      & \cellcolor[HTML]{999999}{1.00}
@@ -1429,7 +1457,7 @@ Specific features (global score) & \cellcolor[HTML]{99FF99}{0.00}
                                      & \cellcolor[HTML]{99FF99}{0.00}
                                      & \cellcolor[HTML]{99FF99}{0.00}\\
                                     & \cellcolor[HTML]{99DA99}\textbf{1.6}
-                                    & \cellcolor[HTML]{99B899}\textbf{2.6}
+                                    & \cellcolor[HTML]{99B899}\textbf{\correction{2.4}}
                                     & \cellcolor[HTML]{99FF99}\textbf{0.5}
                                     & \cellcolor[HTML]{99BF99}\textbf{2.4}
                                     & \cellcolor[HTML]{999999}\textbf{3.5}
@@ -1472,8 +1500,10 @@ system since this interaction may not be easily generalizable to any
 workflow language. For instance, converting FSL, PSOM or Nipype
 pipelines to any other workflow language is problematic because these
 engines rely on general-purpose programming languages such as Bash,
-Octave/Matlab and Python, which are much richer than scientific workflow
-languages.
+Octave/Matlab and Python, which are much richer than scientific
+workflow languages. \correction{If not properly validated, workflow
+  language conversion could introduce critical errors impacting the
+  robustness and correctness of the execution. }
 
 The abstract nested workflows and workflow conversion patterns were
 instantiated with service invocation so that they can be analyzed in
@@ -1489,7 +1519,7 @@ The particular technical or historical context of a science gateway
 project may also influence the choice of an architecture to
 integrate workflow engines. For instance, many workflow engines are
 already available as web services, which tends to favor service
-invocation, and other science gateways may have strongly tested task
+invocation (\correction{in particular when interactions can be re-purposed}), and other science gateways may have strongly tested task
 and data control features (interactions \texttt{b} and \texttt{c}),
 which would favor task encapsulation. Similarly, adding a new type of engine
 may facilitate integration of a new infrastructure when interactions
