@@ -13,7 +13,6 @@
 \usepackage{multirow}
 \usepackage{pbox}
 \usepackage{pdfcomment}
-
 \definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
 \newcommand{\todo}[2]{\pdfmargincomment[color=red,author=#1,open=true]{#2}}
 %\newcommand{\note}[2]{\pdfmargincomment[color=yellow,author=#1,open=true]{#2}}
@@ -143,21 +142,22 @@ technical context of software projects. The following work helps
 identify the key patterns in systems and highlight potential
 improvements.}
 
-\correction{The reminder of this section provides}
- background information and definitions of workflow engines,
-science gateways and infrastructures. In
-Section~\ref{sec:architectures}, we describe six architectures that
-cover the main patterns that we encountered in the various systems
-that we studied during the last few years. The architectures are
-described within a consistent framework that underlines the functional
-interactions between their main software components. In
-Section~\ref{sec:evaluation}, the different architectures are
-evaluated with metrics measuring integration complexity, robustness,
-extensibility, scalability and other specific features. These metrics
-are specifically designed to measure the ability of the architectures
-to address workflow-related issues commonly encountered in science
-gateways. We finally compare the architectures and highlight
-recommendations for science gateway architects and developers.
+\correction{The reminder of this section provides} background
+information and definitions of workflow engines, science gateways and
+infrastructures. In Section~\ref{sec:architectures}, we describe six
+architectures that cover the main patterns that we encountered in the
+various systems that we studied during the last few years. The
+architectures are described within a consistent framework that
+underlines the functional interactions between their main software
+components. \correction{In Section~\ref{sec:metrics}, we introduce
+  metrics that measure integration complexity, robustness,
+  extensibility, scalability and other specific features. These
+  metrics are specifically designed to measure the ability of the
+  architectures to address workflow-related issues commonly
+  encountered in science gateways. In Section~\ref{sec:evaluation}, we
+  evaluate the different architectures based on the proposed metrics.}
+We finally compare the architectures and highlight recommendations for
+science gateway architects and developers.
 
 \subsection{Workflow engines}
 
@@ -731,9 +731,9 @@ Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 
 %Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13].
 
-\section{Evaluation}
+\section{\correction{Metrics}}
 
-\label{sec:evaluation}
+\label{sec:metrics}
 
 The architectures described in Section~\ref{sec:architectures} are
 evaluated in Table~\ref{table:evaluation} using five main criteria:
@@ -751,9 +751,6 @@ meaningfully. \correction{All the metrics in a criterion contribute
   reader is invited to adjust the weights in the public spreadsheet available
   at \url{https://frama.link/LrPRsCQp} (column B of sheet ``Metrics'')
   to generate custom versions of Table~\ref{table:evaluation}.}
-
-The criteria and metrics are
-explained hereafter.
 
 \begin{table*}
 \footnotesize
@@ -888,8 +885,6 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
   is \texttt{\#99XX99}, where X=\texttt{round}(F-6m') (\texttt{round} rounds a number to the nearest integer). }
 \label{table:evaluation}
 \end{table*}
-
-\subsection{Evaluation metrics}
 
 Science gateway \emph{integration complexity} is measured through the number of software components and their interactions. It breaks
 down into the following 2 metrics:
@@ -1075,8 +1070,13 @@ features in the architecture.
 %"four major approaches for workflow interoperability include a,b,c,d" (see Terstyanzky et al, "Enabli%ng scientific workflow sharing through CGI...", FGCS 2014) -> read this ref.
 % http://www.oreilly.com/programming/free/files/software-architecture-patterns.pdf
 
+
+\section{\correction{Evaluation}}
+
+\label{sec:evaluation}
+
 The architectures described in Figure~\ref{fig:architectures} are
-evaluated along these metrics in the remainder of this Section.
+evaluated \correction{hereafter with the proposed metrics}.
 
 \subsection{Tight integration}
 
@@ -1165,7 +1165,7 @@ fine-grained debugging information from the workflow service
 
 \paragraph{Integration complexity} Task encapsulation requires only 2
 components (\texttt{I$_1$}=2).  It involves 5 interactions:
-\texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \texttt{c} and
+\texttt{a$_1$}, \texttt{a$_2$}, \texttt{b}, \correction{\texttt{c$_1$}} and
 \texttt{e} (\texttt{I$_2$}=5).
 
 \paragraph{Robustness} No component is specific to workflow execution
@@ -1181,7 +1181,7 @@ infrastructure (\texttt{E$_2$}=1).  New workflows are integrated by
 creating a new task in the science gateway through interactions
 \texttt{a$_1$} and \texttt{a$_2$} (\texttt{E$_3$}=2). Adding a new
 infrastructure requires updating interactions \texttt{a$_1$},
-\texttt{b} and \texttt{c} in the science gateway (\texttt{E$_4$}=3).
+\texttt{b} and \correction{\texttt{c$_1$}} in the science gateway (\texttt{E$_4$}=3).
 
 %\todo{Integrating a workflow engine as a sub-task
 %only requires to implement interaction \texttt{e} (\texttt{I$_2$}=1)
@@ -1346,6 +1346,88 @@ conversion, by connecting workflows in the language used in the
 science gateway (\texttt{O$_1$=0}).  Debugging information is accessible
 as in the service invocation architecture (\texttt{O$_2$=1}).
 
+\correction{\section{Real systems}}
+
+\label{sec:real systems}
+
+\correction{\section{Application to systems design}}
+\label{sec:application}
+
+\correction{To illustrate how our evaluation framework can be applied to the
+design of new systems, let's consider a hypothetical system where the
+workflow engine is split in two parts: (1) a high-level part
+integrated in the science gateway, which submits sub-workflows to the
+infrastructure; (2) a lower-level part, executed on the
+infrastructure, which executes the sub-workflows. This scenario was
+suggested by Reviewer \#2 of the paper after the evaluation framework
+had been designed. 
+
+We model such a system using a nested workflow architecture where the
+parent engine is tightly integrated in the science gateway, and the
+child engine is integrated through task encapsulation.
+Figure~\ref{fig:nested-3} shows the graphical representation of the
+system. From this representation we find that the sub-tasks submitted
+by the child engine through interaction \texttt{e} should be handled
+by the parent engine rather than by the science gateway. Indeed,
+handling the tasks directly in the science gateway would lead to
+create a new specific interaction, named, e.g., \texttt{b$_1$}, while
+\texttt{b} could be reused. We also find that interaction \texttt{e}
+allows running the sub-tasks on the infrastructure supported by the
+parent engine with no further development effort required in the child
+engine.
+
+The system evaluation is presented on
+Table~\ref{table:evaluation-2}. The detailed calculations are
+available in sheet ``Metrics with reviewer 2's architecture'' of the public spreadsheet.
+
+We find that the studied system supports nested workflows with a much
+better performance than the nested workflow model instantiated with
+service invocation: the integration score is improved by a factor of
+2, the robustness is improved by a factor of 2.6, the extensibility is
+substantially improved, the scalability is not penalized, and the
+specific features are slightly improved.}
+
+\begin{figure}
+  \centering
+  \def\svgwidth{0.5\columnwidth}
+  \input{figures/nested-3.pdf_tex}
+  \caption{\correction{Nested workflow architecture instantiated with tight integration (parent engine) and task encapsulation (child engine).}}
+  \label{fig:nested-3}
+\end{figure}
+
+\begin{table}
+\footnotesize
+\centering
+\begin{tabular}{rc}
+                                     & \textbf{Nested 1}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Integration complexity}&\cellcolor[HTML]{EEEEEE}\\
+  Total components -- \texttt{I$_1$} & 2\\
+Total interactions -- \texttt{I$_2$} & 6\\
+\textbf{Total} (total software pieces) & \textbf{8}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Robustness}&\cellcolor[HTML]{EEEEEE}\\
+Specific components -- \texttt{R$_1$} & 0\\
+  Specific interactions -- \texttt{R$_2$} & 3\\
+  \textbf{Total} (execution software pieces)& \textbf{3}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Extensibility}&\cellcolor[HTML]{EEEEEE}\\
+  New engine type -- \texttt{E$_1$}  & 3\\
+New engine version -- \texttt{E$_2$} & 1\\
+  New workflow -- \texttt{E$_3$}     & 2\\
+New infrastructure -- \texttt{E$_4$} & 4\\
+  \textbf{Total} (difficulty to extend) & \textbf{10}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Scalability}& \cellcolor[HTML]{EEEEEE}\\
+Multiple engine instances -- \texttt{S$_1$}& 1\\
+Distributed engines -- \texttt{S$_2$}& 0\\
+Task scheduling -- \texttt{S$_3$}    & 1\\
+\textbf{Total} (scalability issues)  & \textbf{2}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Specific features}&\cellcolor[HTML]{EEEEEE}\\
+  Meta-workflow  -- \texttt{O$_1$}    & 0\\
+  Fine-grained debugging -- \texttt{O$_2$}  & 0.5\\
+  \textbf{Total} (missing features) & \textbf{0.5}\\
+\end{tabular}
+\caption{\correction{Evaluation of the nested workflow architecture instantiated with tight integration (parent engine) and task encapsulation (child engine).}}
+\label{table:evaluation-2}
+\end{table}
+
 \section{Discussion}
 
 \subsection{Comparison between architectures}
@@ -1402,7 +1484,7 @@ tight integration is the only architecture that allows
 fine-grained debugging, which may be
 critical for efficient user support.
 
-Table~\ref{table:overall} provides an overall comparison between
+Table~\ref{table:overall} \todo{update with new architecture?} provides an overall comparison between
 architectures, based on the metrics in Table~\ref{table:evaluation}.
 Note that this analysis is only meant for illustration purposes, since
 it assumes that all criteria have equal weights while real systems
@@ -1520,7 +1602,7 @@ project may also influence the choice of an architecture to
 integrate workflow engines. For instance, many workflow engines are
 already available as web services, which tends to favor service
 invocation (\correction{in particular when interactions can be re-purposed}), and other science gateways may have strongly tested task
-and data control features (interactions \texttt{b} and \texttt{c}),
+and data control features (interactions \texttt{b} and \correction{\texttt{c$_1$}}),
 which would favor task encapsulation. Similarly, adding a new type of engine
 may facilitate integration of a new infrastructure when interactions
 \texttt{b} and \texttt{c$_2$} are already available. The migration

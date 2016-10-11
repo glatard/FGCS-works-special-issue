@@ -1,47 +1,21 @@
-\documentclass[a4]{letter}
+\documentclass[a4]{article}
 \usepackage{graphicx}
 \usepackage{color}
-\usepackage{hyperref}
-\name{Tristan Glatard}
-\signature{\includegraphics[width=4cm]{signature.png}}
-\date{October 16th, 2016}
+\usepackage[x11names,dvipsnames,table]{xcolor} %for use in color links
 
+\usepackage{hyperref}
 \newenvironment{review}%          environment name
 {\textbf{Reviewer comment:}\begin{quote}}% begin code
 {\end{quote}}%  
 \newcommand{\answer}[1]{\textbf{Answer:} #1}
+\newcommand{\todo}[1]{\color{red}#1\color{black}}
 
 \newcommand{\revised}[1]{\color{blue} #1\color{black}}
 
+
 \begin{document}
 
-\begin{letter}{}
-
-\opening{Dear Editors,}
-
-We would like to thank you for offering us the opportunity to revise
-and re-submit our paper entitled ``Software architectures to integrate
-workflow engines in science gateways'' to Future Generation Computer
-Systems.
-
-The remainder of this letter contains our answer to the 3 reviews that
-we received following the evaluation process. A revised version of the
-manuscript follows, where corrected parts appear in blue for a better
-identification. 
-
-We thank you again for your time and consideration, and we remain available for any further information you may need.
-
-\vspace{0.5cm}
-
-Sincerely yours,
-
-\vspace{1cm}
-
-\closing{Tristan Glatard, PhD.\\On behalf of the authors.}
-
-\newpage
-
-\textbf{Reviewer \#1}
+\section{Reviewer \#1}
 
 \begin{review}
   The work presents a comprehensive overview on six of the most
@@ -72,7 +46,7 @@ Sincerely yours,
   architectures (nested workflows and workflow conversion) that may be
   instantiated in various ways. Our abstractions highlight that other
   instantiation models may be worth designing, for instance nested
-  workflows with task encapsulation, as mentioned in Section 4.2. in
+  workflows with task encapsulation, as mentioned in Section 5.2. in
   the Discussion.
 
   We added the following paragraph to the Introduction to reflect this discussion:}
@@ -150,7 +124,7 @@ format.}
 We definitely agree with the reviewer that interaction (g) is
   a tricky one that may lead to critical errors. We added the
   following sentence to the paragraph on interaction (g) in Section
-  4.2. of the discussion:
+  5.2. of the discussion:
 
 \revised{If not properly validated, workflow language conversion
   could introduce critical errors impacting the robustness and
@@ -168,7 +142,7 @@ workflow language used by the new engine.``
 
 \answer{As discussed previously, we share the reviewer's concerns
   about the feasibility of workflow conversion (see comments on
-  interaction (g) in Section 4.2). The performance of workflow
+  interaction (g) in Section 5.2). The performance of workflow
   conversion is strongly related to the availability of a validated
   interaction (g), which is very dependent on the particular workflow
   engines under consideration. We believe that the issue raised by the
@@ -205,7 +179,7 @@ believe is a reasonable but limited choice.
 \end{review}
 
 \answer{The reviewer is right that re-purposing software components
-  and interactions can lead to revisit the evaluation. We updated the following sentence in section 4.2. to better acknowledge this point:}
+  and interactions can lead to revisit the evaluation. We updated the following sentence in section 5.2. to better acknowledge this point:}
 
 The particular technical or historical context of a science gateway
 project may also influence the choice of an architecture to
@@ -329,26 +303,34 @@ The higher number the worse
 
 \answer{Yes, as for any other metric, high values indicate worse
 performance. This is explained at the beginning of section 3:
-``Criteria break down into specific met- rics where lower value
+``Criteria break down into specific metrics where lower value
 indicates better performance.''}
 
 \begin{review}
 It is not always obvious that Scalability could be badly affected in a Tight Integration. The example of a liferay portlet is actually potentially demonstrating the opposite. Portlets can be independent web application that can be even remotely deployed (via WSRP). The integration of a workflow engine via ad-hoc portlet applications could instead guarantee quite of a level of decoupling from the rest of the gateway. Here, the limitations highlighted seems to be a bit superficial.
 \end{review}
 
+\todo{think of this}
+
 \begin{review}
 The "Specific Feature", referring to the Fine-grained debugging does not specify what is relevant to be monitored and who is going to gain benefit from the monitoring. The scientists, the gateway developers or the administrators? What is a white box, the workflow engine or the workflow task? Why multiple software layers affect the accuracy of the tasks' internals?
 \end{review}
+
+\todo{think of this}
 
 \begin{review}
 To conclude, the general feeling is that the definition of the metrics and the interaction patterns are not rigorous enough to provide an interpretation of the final evaluation which is entirely useful for the reader. Probably, some more information on how "Future Generation" systems should be designed, starting from the general overview provided, with more technical understanding of the system complexities, could represent a more valuable contribution to the main aim of this particular publication.
 \end{review}
 
+\todo{think of this}
+
 \begin{review}
 To improve the reading, Dedicating separate sections to the introduction of the metrics and the evaluation of each pattern would be beneficial. For instance Section 3 Metrics, Section 4 Evaluation.
 \end{review}
 
-\textbf{Reviewer \#2}
+\answer{This was done as suggested.}
+
+\section{Reviewer \#2}
 
 \begin{review}
   This work describes and evaluates six software architectures
@@ -369,6 +351,10 @@ the science gateways that have used those architectures instead of the
 frameworks. Otherwise, is quite confusing.
 \end{review}
 
+\todo{just remove CSGF, Airvata and pgrade from the table, keeping the
+  exponents. But we don't have examples of gateways using Airvata,
+  still need to be found.}
+
 \begin{review}
   2. Tight Architecture -→ What happens if the workflow engine is
   built into the Science Gateway, but still need a submission
@@ -377,6 +363,48 @@ frameworks. Otherwise, is quite confusing.
   a task architecture ? I can not see this type of architecture
   reflected in the paper.
 \end{review}
+
+\answer{The task submission framework is part of the infrastructure
+  and its nature doesn't influence the architecture used to integrate
+  workflow engines in the science gateway. Formally, it is part of
+  interaction \texttt{b} (see definition in 2.1).
+
+  If the ``entire workflow'', i.e. the complete control and data flow,
+  is submitted to the infrastructure through interaction \texttt{b} as
+  a single task that will manage the execution and potentially submit
+  sub-tasks, then this is a task encapsulation architecture. In
+  particular, a dedicated engine instance can easily be started for
+  every workflow execution.
+
+  If only the workflow tasks are submitted to the infrastructure
+  through interaction \texttt{b}, and the main workflow logic is
+  controlled from within the science gateway, then this is clearly a
+  tight integration.
+
+  The reviewer's use case, however, suggest that the workflow engine
+  is split in two parts: (1) a high-level part integrated in the
+  science gateway, which submits ``entire workflows'' to the
+  infrastructure; (2) a lower-level part, executed on the
+  infrastructure, which executes such ``entire workflows''. It seems
+  to us that this matches the definition of a nested workflow model,
+  where the parent engine is integrated in the science gateway, and
+  the child engine runs on the infrastructure. This is another
+  instantiation of the nested workflow abstract model, which is not
+  evaluated in the paper as mentioned in section 5.2: "\emph{The
+    abstract nested workflows and workflow conversion patterns were
+    instantiated with service invocation so that they can be analyzed
+    in the same framework as the other architectures. Other types of
+    instantiation, for instance nested workflows with task
+    encapsulation, could also be envisaged.}". It sounds like the
+  architecture described by the reviewer is a nested workflow pattern
+  instantiated with a tight integration (parent engine) and task
+  encapsulation (child engine).
+
+  We found this scenario interesting and we evaluated it in our
+  framework. The analysis is reported in the new section 6 of the
+  paper.}
+
+  
 
 \begin{review}
   3. Why there isn't a figure to illustrate an example of a real
@@ -416,6 +444,9 @@ the captions of those figures.
   between the total number of interactions or components. )
 \end{review}
 
+\todo{Don't divide by the total number of interactions because then a
+  given interaction could have a different value depending on the
+  architecture. Refer to spreadsheet where weights can be adjusted.}
 
 \begin{review}
 8. In my opinion, if the workflow it is integrated in the science
@@ -427,6 +458,10 @@ modifiy the table 2, according to that ( e.g., R1=1 for Tight and Task
 architecture).
 \end{review}
 
+\todo{OK but these components are not specific to workflow
+  execution. So it's out of the definition. Motivation for this definition: these components are here anyway. If the SG fails, then the
+  workflows can't even be started. If the infrastructure is down, same. }
+
 \begin{review}
 9. According with Figure 2.I, this workflow architecture has 3
 interactions b, c1 and c2, since data movement can be done by the
@@ -434,16 +469,22 @@ users and workflows in this type of architecture (those interactions
 are not exlcuyents) so R2=3
 \end{review}
 
+\todo{no, because c1 is not red.}
+
 \begin{review}
   10. The text of Sections 3.2, 3.3, 3.4, 3.5, 3.6 and 3.7 could be
   reduced, since most of the values are obvious from Figures 2.II and
   Table 2.
 \end{review}
 
+\todo{I agree it's boring but it's also important to have it clearly written.}
+
 \begin{review}
   11. Service invocation and Task encapsulation can also be the same
   thing
 \end{review}
+
+\todo{what???}
 
 \begin{review}
 12. No so sure that tight integration are the most easy for
@@ -453,7 +494,7 @@ needs to be modified, the whole science gateway has to be change
 Service invocation, the replacement could be very much more easier.
 \end{review}
 
-\textbf{Reviewer \#3}
+\section{Reviewer \#3}
 
 \begin{review}
 This paper provides a comparison of 6 different software architectures commonly used to integrate workflow engines into science gateways. For this comparison, the authors define seven different types of interactions to outline the differences in approach. The combination of components and interactions for the 6 overview models in Figure 2 that form the underlying basis for the comparisons.
@@ -475,6 +516,8 @@ For pool this score is 9 but for nested the score is 12.5. So, using these metri
 it is about what you want to do.  For example, for the nested case, you could always assume one master workflow, then it would be simpler (but less flexible). So in the end this table could look very different depending on how the different systems are defined in scope, and you could potentially have various versions of either of these cases. 
 \end{review}
 
+\todo{answer metric by metric, focusing on E1 and E4. For E4 it's clear. For E1, }
+
 \begin{review}
 Adding functionality e.g. in this case to add the ability to pass bundles to one system and another is a positive (and complex) thing to accomplish. There should be a way of counting this and having this score higher than Tight, Service or task, or normalizing this functionality into the metrics to provide a more balanced view. The "Scalability" touches on this but "Functionality" could be another aspect here to consider.
 \end{review}
@@ -483,9 +526,10 @@ Adding functionality e.g. in this case to add the ability to pass bundles to one
 Another example is for complexity.  Again, the less components and interactions the system has the less complex it is. But in practice, it is not so simple. For example, the tight integration is where the workflow system is integration directly into the science gateway and into the infrastructure. Whereas this architecture has the least number of components and interactions of them all it does not mean it is less complex in practice. Integrating a workflow into science gateway and directly on top of the infrastructure depends very much on the tools they sit upon and the complexity of that integration. Such tight integrated systems therefore could be massive monolithic pieces of code that are extremely difficult and complex to develop and maintain.  Whereas a task-based approach or service based approach through breaking code out to different services and tasks may be far simpler to develop and maintain. 
 \end{review}
 
+\answer{complexity is used as a measure of reliability}
+
 \begin{review}
 I therefore think that the metrics defined only provide a very high level structure for an evaluation of the different software architectures and they should discuss other factors and scenarios that can affect development. Some of these limitations are discussed in section 4.2 but I think an extra section discuss these before the definition of the metrics would be very helpful to set the scene correctly for the evaluation. Otherwise, the reader is left asking a number of questions during the evaluation section. I also think that a few more metrics e.g. "functionality" could be added to provide a more balanced view of the different approaches. Another useful extension of the paper could be to normalize the results against the functionality each approach provides (perhaps in a separate table) - this may help to provide a more balanced table that factors in functionality.
 \end{review}
 
-\end{letter}
 \end{document}
