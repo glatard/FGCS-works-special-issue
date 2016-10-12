@@ -4,6 +4,7 @@
 \usepackage[x11names,dvipsnames,table]{xcolor} %for use in color links
 
 \usepackage{hyperref}
+\usepackage{xspace}
 \newenvironment{review}%          environment name
 {\textbf{Reviewer comment:}\begin{quote}}% begin code
 {\end{quote}}%  
@@ -13,7 +14,7 @@
 
 \newcommand{\todo}[1]{\color{red}#1\color{black}}
 
-\newcommand{\revised}[1]{\color{blue} #1\color{black}}
+\newcommand{\revised}[1]{\color{blue} #1\color{black}\xspace}
 
 
 \begin{document}
@@ -416,9 +417,14 @@ the science gateways that have used those architectures instead of the
 frameworks. Otherwise, is quite confusing.
 \end{review}
 
+\begin{answer}
+We thank the reviewer for the thorough review and useful comments.
+
 \todo{just remove CSGF, Airvata and pgrade from the table, keeping the
   exponents. But we don't have examples of gateways using Airvata,
   still need to be found.}
+\end{answer}
+
 
 \begin{review}
   2. Tight Architecture -→ What happens if the workflow engine is
@@ -638,21 +644,120 @@ needs to be modified, the whole science gateway has to be change
 Service invocation, the replacement could be very much more easier.
 \end{review}
 
-\todo{ponderation again}
+\begin{answer}
+  We assume that the reviewer is referring to the I$_1$ metric which
+  is, indeed, lower for the tight integration than for any other
+  architecture (it is equal for task encapsulation). We agree with the
+  reviewer that the difficulty to update a component depends on the
+  nature of this component. However, we believe that a quantification
+  of this difficulty is very much dependent on the particular system
+  under study. For instance, in some cases, tightly integrating a
+  workflow engine may be straightforward (e.g. when the science
+  gateway has the appropriates hooks) while developing a service may
+  require a lot of work if it has to be done from scratch.
+
+  We believe that this discussion comes down to the assignments of
+  different weights to the interactions and components in the
+  architectures. As discussed before, these weights can now be
+  adjusted using the spreadsheet at \url{https://frama.link/LrPRsCQp}
+  to better describe a particular system.
+\end{answer}
 
 \section{Reviewer \#3}
 
 \begin{review}
-This paper provides a comparison of 6 different software architectures commonly used to integrate workflow engines into science gateways. For this comparison, the authors define seven different types of interactions to outline the differences in approach. The combination of components and interactions for the 6 overview models in Figure 2 that form the underlying basis for the comparisons.
+  This paper provides a comparison of 6 different software
+  architectures commonly used to integrate workflow engines into
+  science gateways. For this comparison, the authors define seven
+  different types of interactions to outline the differences in
+  approach. The combination of components and interactions for the 6
+  overview models in Figure 2 that form the underlying basis for the
+  comparisons.
 
-The authors then provide a set of Metrics: complexity, robustness, extensibility, scalability \& specific features to compare and contrast the different software architectures.
+  The authors then provide a set of Metrics: complexity, robustness,
+  extensibility, scalability \& specific features to compare and
+  contrast the different software architectures.
 
-Complexity, for example, is measured by counting the number of components and interactions that were defined and annotated in Figure 2.  Extensibility measures the difficulty to replace or add elements to the architecture e.g. a workflow engine, an engine version update, add a new workflow or add new infrastructure. 
+  Complexity, for example, is measured by counting the number of
+  components and interactions that were defined and annotated in
+  Figure 2.  Extensibility measures the difficulty to replace or add
+  elements to the architecture e.g. a workflow engine, an engine
+  version update, add a new workflow or add new infrastructure.
 
-I liked this paper but I also struggled a lot with it too because ultimately, whilst this metric structure provides some rudimentary structure to quantify the various software architectures, a many software architecture perspectives are missing, and the results are not normalized against the functionality a system provides.
+  I liked this paper but I also struggled a lot with it too because
+  ultimately, whilst this metric structure provides some rudimentary
+  structure to quantify the various software architectures, a many
+  software architecture perspectives are missing, and the results are
+  not normalized against the functionality a system provides.
 
-For example, when you normally think of software architectures, a good design is often one that is layered and componentized. There are multiple benefits of such an an approach over monolithic systems but using the metrics defined in this paper, good software practices to expose functionality is not really factored in. So, the result is that the more layers to components in the system, the worse it scores. So, these aspects of good software engineering or providing enhanced functionality seem penalized in this paper, as it stands. 
+  For example, when you normally think of software architectures, a
+  good design is often one that is layered and componentized. There
+  are multiple benefits of such an an approach over monolithic systems
+  but using the metrics defined in this paper, good software practices
+  to expose functionality is not really factored in. So, the result is
+  that the more layers to components in the system, the worse it
+  scores. So, these aspects of good software engineering or providing
+  enhanced functionality seem penalized in this paper, as it stands.
 \end{review}
+
+\begin{answer}
+We thank the reviewer for the thorough review and useful comments.
+
+Regarding componentization: our architectures are described in terms
+of software components and interactions among these components (see
+Figure 1). So we believe that our approach fits in the context of
+component-based software engineering. The problem that we address is
+to determine what components should be defined and how they should
+interact to optimize the metrics. For instance, the comparison between
+the tightly integrated and service invocation architectures evaluates
+whether the workflow engine should be a specific component or if it
+should be integrated in the science gateway. Besides, the reviewer's
+comment touches upon the granularity at which components are
+defined. We extended the first paragraph of Section 2 to address this issue:
+\revised{Software
+  components are defined at a granularity such that two components may
+  potentially be operated by different teams on different hardware
+  systems. For instance, the science gateway and infrastructure are
+  usually distinct components. In real systems, software components
+  may exist at a finer granularity, to implement functions such as
+  authentication, data persistency or logging. Such fine-grained
+  components are not covered by our analysis since we focus on the
+  interactions between the science gateway, the infrastructure and the
+  workflow engine.}
+
+The discussion on software layers is more difficult. Roughly, our
+architectures could be described as multilayered software
+architectures. For instance, the tight integration has two layers
+(science gateway and infrastructure), the service invocation has
+three, the task encapsulation has two, etc. However, strictly
+speaking, these are not layers because it would mean that layer n-1
+can only communicate with layer n, which is not the case. For
+instance, in service invocation, layer 0 (science gateway)
+communicates with layer 2 (infrastructure) to transfer data. And in
+task encapsulation, layer 1 (infrastructure) communicates with layer 0
+(science gateway). Thus, we don't think that referring to multilayered
+architectures is accurate here. 
+
+We don't think that our architectures lead to conclude systematically
+that ``the more layers to components in the system, the worse it
+scores'', as suggested by the reviewer. For instance, service
+invocation scores better than tight integration in E1 and S1 due to
+the additional ``layer'' used to host the workflow engine. Likewise,
+nested workflows score better than tight integration for S2. However,
+our metrics do imply that more layers leads to more integration
+complexity and reduced robustness, which we think is very commonly
+experienced in distributed systems, where  communication between
+``layers'' involve wide-area network communications between machines
+that may be operated by different people. We added a note in the definition of our robustness metrics to reflect this discussion:
+\begin{quote}
+ Robustness is measured here as a consequence of global
+complexity, since complex architectures tend to be more prone to
+failure, \revised{in particular in distributed systems where
+  interactions between components involve wide-area network
+  communications between machines that may be operated by different
+  people}.
+\end{quote}
+\end{answer}
 
 \begin{review}
 An example where the logic fails I believe is in the Extensibility. Let's take two cases initially:
@@ -662,11 +767,99 @@ For pool this score is 9 but for nested the score is 12.5. So, using these metri
 it is about what you want to do.  For example, for the nested case, you could always assume one master workflow, then it would be simpler (but less flexible). So in the end this table could look very different depending on how the different systems are defined in scope, and you could potentially have various versions of either of these cases. 
 \end{review}
 
-\todo{answer metric by metric, focusing on E1 and E4. For E4 it's clear. For E1, }
+\begin{answer}
+  The issue raised by the reviewer needs to be discussed metric by
+  metric rather than on the global extensibility score. The pool and
+  nested architectures differ in metrics E$_1$ (adding a new engine
+  type) and E$_4$ (adding a new infrastructure). For E$_4$ (adding a
+  new infrastructure), it seems clear to us that the nested
+  architecture is more difficult to extend because it has two workflow
+  engines while the pool has only one. Therefore, interactions
+  \texttt{b} and \texttt{c$_2$} have to be counted twice, which
+  explains the difference in scores for E$_4$. 
+
+  The situation highlighted by the reviewer is related to E$_1$ (new
+  engine type). If a new engine is added to the pool model, the
+  following interactions and components have to be updated:
+ \begin{enumerate}
+ \item The engine has to be wrapped in the SHIWA Agent, which includes
+   the reading/writing of ORE bundles so that the agent can get/pass
+   them to the pool through interaction \texttt{f}. In practice, the
+   agent component has to be modified to convert ORE bundles to the
+   input format supported by the engine, and to assemble ORE bundles
+   from the output format produced by the engine. As suggested by the
+   reviewer, another implementation possibility would be to modify the
+   engine to read/write ORE bundles so that the integration in the
+   agent is straightforward.
+ \item The engine has to be able to transfer data to the
+   infrastructure used in the science gateway, i.e. interaction
+   \texttt{c$_2$} has to be implemented in the engine.
+ \item The engine has to be able to submit tasks to the infrastructure
+   used in the science gateway, i.e. interaction \texttt{b} has to be
+   implemented in the engine.
+ \end{enumerate}
+This is why E$_1$=3 for the pool model.
+
+If a new child engine is added to the nested model then the following interactions an and components have to be updated:
+\begin{enumerate}
+\item A workflow service has to be created for the workflow engine.
+\item The parent engine has to be interfaced with the new workflow
+  service, i.e., the workflow service should be able to digest ORE
+  bundles, or the parent engine should convert ORE bundles to the
+  format supported by the workflow service. ORE bundles will be
+  exchanged through interaction \texttt{d}.
+ \item The child engine has to be able to transfer data to the
+   infrastructure used in the science gateway, i.e. interaction
+   \texttt{c$_2$} has to be implemented.
+ \item The child engine has to be able to submit tasks to the infrastructure
+   used in the science gateway, i.e. interaction \texttt{b} has to be
+   implemented,
+\end{enumerate}
+This is why E$_4$=4 for the nested model.
+
+The situation described by the reviewer focuses on item 1 of the pool
+extension and item 1 and 2 of the nested workflow extension
+(infrastructure is not a discriminant factor here). First, the
+reviewer suggest that the availability of ORE bundles in the SHIWA
+framework standardizes the communication with workflow engines so that
+it becomes possible to have a generic workflow service that can
+consume and produce ORE bundles regardless of the particular engine(s)
+it wraps. So indeed, item 1 of the nested case disappears. This is a
+typical case where, as we wrote in section 7.2, \emph{The particular
+technical or historical context of a science gateway project may also
+influence the \revised{evaluation} of an architecture.} In this
+case, the possible availability of a generic workflow service based on
+ORE bundles is contextual information that can hardly be integrated in
+the generic analysis. We believe that our framework helps evaluate
+the impact of technologies such as ORE bundles on architectures, as
+discussed here.
+
+Second, the
+reviewer suggests that the integration of the workflow engine in the
+agent (pool model) is easier than in the service because the engine
+has to produce and consume ORE bundles in the former case while it
+only has to consume them in the latter case. This is true again, but
+it comes down to the discussion on the weights of the different
+software components. In this particular case, it would make sense to
+assign a higher weight to the agent than to the service, which could
+be done through the public spreadsheet.  
+\end{answer}
 
 \begin{review}
-Adding functionality e.g. in this case to add the ability to pass bundles to one system and another is a positive (and complex) thing to accomplish. There should be a way of counting this and having this score higher than Tight, Service or task, or normalizing this functionality into the metrics to provide a more balanced view. The "Scalability" touches on this but "Functionality" could be another aspect here to consider.
+  Adding functionality e.g. in this case to add the ability to pass
+  bundles to one system and another is a positive (and complex) thing
+  to accomplish. There should be a way of counting this and having
+  this score higher than Tight, Service or task, or normalizing this
+  functionality into the metrics to provide a more balanced view. The
+  "Scalability" touches on this but "Functionality" could be another
+  aspect here to consider.
 \end{review}
+
+\begin{answer}
+  We agree with the reviewer that functionality is important. This was
+  exactly the goal of the ``Specific features'' evaluation
+  criterion. We renamed this criterion ``Functionality'' as we find it a much better name indeed. We also renamed O$_1$ to F$_1$ and O$_2$ to F$_2$.
+\end{answer}
 
 \begin{review}
 Another example is for complexity.  Again, the less components and interactions the system has the less complex it is. But in practice, it is not so simple. For example, the tight integration is where the workflow system is integration directly into the science gateway and into the infrastructure. Whereas this architecture has the least number of components and interactions of them all it does not mean it is less complex in practice. Integrating a workflow into science gateway and directly on top of the infrastructure depends very much on the tools they sit upon and the complexity of that integration. Such tight integrated systems therefore could be massive monolithic pieces of code that are extremely difficult and complex to develop and maintain.  Whereas a task-based approach or service based approach through breaking code out to different services and tasks may be far simpler to develop and maintain. 
