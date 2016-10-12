@@ -181,7 +181,7 @@ assumed. The readers and reviewers are invited to rely on this
 spreadsheet for any issue related to the importance given to a
 specific component, interaction, metric or criterion in the
 analysis. In the paper, we assumed that all weights equal 1, which we
-believe is a reasonable but limited choice.
+believe is a reasonable choice although inherently limited.
 
 \end{answer}
 
@@ -494,6 +494,10 @@ good idea to create a subsection for explaining them better and reduce
 the captions of those figures.
 \end{review}
 
+\begin{answer}
+As suggested by the reviewer, the presentation of these Figures has been gathered in a separate section, the new section 3.
+\end{answer}
+
 \begin{review}
   7.  Metrics: The metrics that have been used in this paper favour
   the simplest architectures. For example, looking at the Robustnes
@@ -509,9 +513,45 @@ the captions of those figures.
   between the total number of interactions or components. )
 \end{review}
 
-\todo{Don't divide by the total number of interactions because then a
-  given interaction could have a different value depending on the
-  architecture. Refer to spreadsheet where weights can be adjusted.}
+\begin{answer}
+  We agree with the reviewer that different weights could be given to
+  interactions and software components depending on the ``gravity'' of
+  the associated failures, the ``difficulty'' to repair them and even
+  the difficulty to implement such interactions and components in
+  practice (for instance, interaction \texttt{g} is clearly very
+  difficult to implement).
+
+  However, we believe that assigning such weights is specific to the
+  case of a particular system, i.e. a science gateway and workflow
+  engine(s). Very different ponderations could be obtained depending
+  on the technical context, for instance implementation language, type
+  of targeted infrastructure (dedicated cluster vs. grid vs. cloud)
+  and characteristics of the workflow engine(s) and language(s).
+
+  Instead, we shared a spreadsheet at
+  \url{https://frama.link/LrPRsCQp} that allows editing the following
+  weights (see also answer to Reviewer \#1):
+  \begin{itemize}
+  \item Weight given to software components and interactions in
+  ``integration'', ``extensibility'' and ``robustness'' criteria.
+  \item Weight given to metrics in a criterion (e.g., E$_1$ vs. E$_2$ in
+  ``extensibility'').
+  \item Weight given to criteria in overall evaluation of Table 3.
+\end{itemize}
+The paper references this spreadsheet wherever equal weights are
+assumed. The readers and reviewers are invited to rely on this
+spreadsheet for any issue related to the importance given to a
+specific component, interaction, metric or criterion in the
+analysis. In the paper, we assumed that all weights equal 1, which we
+believe is a reasonable choice although inherently limited.
+
+We find the particular ponderation method suggested by the reviewer
+(normalization by the number of components or interaction in the
+architecture) a bit unfortunate because it would give different
+ponderations to the same component or interaction depending on the
+architecture in which it is used, which we think would obfuscate the
+comparison.
+\end{answer}
 
 \begin{review}
 8. In my opinion, if the workflow it is integrated in the science
@@ -523,9 +563,28 @@ modifiy the table 2, according to that ( e.g., R1=1 for Tight and Task
 architecture).
 \end{review}
 
-\todo{OK but these components are not specific to workflow
-  execution. So it's out of the definition. Motivation for this definition: these components are here anyway. If the SG fails, then the
-  workflows can't even be started. If the infrastructure is down, same. }
+\begin{answer}
+  We believe that the robustness of a system for a particular function
+  should be evaluated w.r.t the set of components and interactions
+  that are \emph{specific} to this function. Indeed, the failure of
+  non-specific components is likely to impact many other functions
+  that are required by the particular function of interest. To take an
+  extreme example, a failure of the internet connection of the gateway
+  user would certainly prevent him/her to launch a new workflow, but
+  it does not really make sense to integrate the internet connection
+  in the robustness analysis because it is not specific to workflow
+  execution. Similarly, the failure of the science gateway would
+  prevent users to login in the first place, which would prevent
+  workflow execution in any case. Likewise, the failure of the
+  infrastructure would make any workflow execution worthless in any
+  architecture because infrastructure is used for other critical
+  functions such as task execution and data storage.
+
+  For these reasons, we disagree with the suggestion made by the
+  reviewer. In any case, science gateway and infrastructure are
+  present in all the architectures, which would only add 2 to all the
+  values of R1.
+\end{answer}
 
 \begin{review}
 9. According with Figure 2.I, this workflow architecture has 3
@@ -534,7 +593,12 @@ users and workflows in this type of architecture (those interactions
 are not exlcuyents) so R2=3
 \end{review}
 
-\todo{no, because c1 is not red.}
+\begin{answer}
+  In Figure 2.I, interaction \texttt{c$_1$} is not specific to
+  workflow execution since it is used to transfer any data to the
+  infrastructure. This is why we don't count it in R2, for the same
+  reason as explained previously.
+\end{answer}
 
 \begin{review}
   10. The text of Sections 3.2, 3.3, 3.4, 3.5, 3.6 and 3.7 could be
@@ -542,14 +606,29 @@ are not exlcuyents) so R2=3
   Table 2.
 \end{review}
 
-\todo{I agree it's boring but it's also important to have it clearly written.}
+\begin{answer}
+  While we agree that the Sub-Sections in Section 3 look a bit
+  repetitive, we believe that the metrics evaluation reported in Table 2 needs to be
+  properly justified. 
+\end{answer}
 
 \begin{review}
   11. Service invocation and Task encapsulation can also be the same
   thing
 \end{review}
 
-\todo{what???}
+\begin{answer}
+  Service invocation and Task encapsulation are fundamentally different for the following reasons:
+  \begin{itemize}
+  \item In task encapsulation, the workflow engine runs on the infrastructure while in service invocation, it is hosted by a dedicated service.
+  \item In task encapsulation, the workflow engine is executed as a task of the infrastructure while in service invocation, it is invoked through a service call. That means, in particular, that in task encapsulation different workflow engines are executed through the same protocol (a task), while different types of service calls might be involved in service invocation (e.g. REST or SOAP Web-Service).
+  \item In task encapsulation, the workflow engine does not transfer data to the infrastructure while in service invocation it does (interactioni \texttt{c$_2$}.
+  \item In task encapuslation, the science gateway submits tasks to the infrastructure, while in service invocation the workflow engine does.
+  \end{itemize}
+  Therefore, while we acknowledge that task encapsulation and service
+  invocation share characteristics, we believe that their differences
+  can be clearly inferred from section 2 of the paper. 
+\end{answer}
 
 \begin{review}
 12. No so sure that tight integration are the most easy for
@@ -558,6 +637,8 @@ needs to be modified, the whole science gateway has to be change
 (e.g. re-programe a portlet in Liferay). On the other hand, with
 Service invocation, the replacement could be very much more easier.
 \end{review}
+
+\todo{ponderation again}
 
 \section{Reviewer \#3}
 

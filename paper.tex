@@ -483,19 +483,6 @@ not covered by our analysis.
 
 \subsection{Service invocation}
 
-\begin{figure*}
-\centering
-\def\svgwidth{1.5\columnwidth}
-\input{figures/VIP.pdf_tex}
-\caption{Architecture of the Virtual Imaging Platform (service
-  invocation).  Step \texttt{3} corresponds to interaction \texttt{d}
-  in Figure~\ref{fig:architectures}(II), step \texttt{2} corresponds to
-  interaction \texttt{c$_1$}, step \texttt{4} maps to interaction
-  \texttt{b}, and steps 7 and 9 map to \texttt{c$_2$} (in VIP, workflow data transfers are
-  performed by the tasks and embedded in their descriptions).}
-\label{fig:vip-architecture}
-\end{figure*}
-
 See Figure~\subref*{archi:service}. The workflow engine is available
 externally to the science gateway, as a service. The science gateway
 controls the service through a specific interaction (\texttt{d}) that
@@ -522,9 +509,7 @@ science gateway and the Pegasus workflow engine performed
 in~\cite{CPE:CPE3257} also uses a service architecture, where the
 \texttt{d} interaction is implemented as a set of calls to Pegasus'
 command-line tools (e.g., pegasus-status, pegasus-plan,
-etc.). Figure~\ref{fig:vip-architecture} shows the architecture of the
-Virtual Imaging Platform, where the MOTEUR workflow
-engine~\cite{GLAT-08i} is invoked through a service.
+etc.). 
 
 \subsection{Task encapsulation}
 
@@ -544,6 +529,110 @@ Torque\footnote{\url{http://docs.adaptivecomputing.com}}).
 
 The science gateway also transfers both user and workflow data across
 the infrastructure, through interaction \texttt{c$_1$}.
+\subsection{Pool model}
+\label{sec:pool}
+See Figure~\subref*{archi:agent}. Workflows are submitted by the
+science gateway to a central pool through interaction
+\texttt{d}. Agents connect to the pool asynchronously to retrieve and
+execute workflows through interaction \texttt{f}. Agents may be
+started according to various policies, for instance to ensure load
+balancing. Workflow engine controls tasks and data on the
+infrastructure through interactions \texttt{b} and \texttt{c$_2$},
+science gateway transfers user data through interaction
+\texttt{c$_1$}, and administrator installs workflows through
+interaction \texttt{a$_1$} and \texttt{a$_2$}.
+
+\subsection{Nested workflows}
+
+See Figure~\subref*{archi:nested}. In nested workflows
+(Figure~\subref*{archi:nested}-Left), a workflow engine is integrated
+as a \emph{child} process of a \emph{parent} workflow engine. Parent
+and child engines might use different languages and might run on
+different infrastructures. A parent workflow is also a
+meta-workflow. The science gateway communicates with the parent engine
+through abstract interaction \texttt{*$_1$}. The science gateway also
+communicates with the infrastructure to transfer user data through
+abstract interactions \texttt{*$_2$} and \texttt{*$_3$}. Both workflow
+engines communicate with the infrastructure through abstract
+interactions \texttt{*$_4$} and \texttt{*$_5$}. The parent engine
+communicates with the child engine through abstract interaction
+\texttt{*$_6$}. Administrator installs workflows through interactions
+\texttt{a$_1$} and \texttt{a$_2$}.
+
+Nested workflows are abstract architectural patterns that can be
+instantiated in the various architectures described previously. We
+focus on instantiation with the service invocation model
+(Figure~\subref*{archi:nested}-Right) as this is the most used
+architecture. \correction{We call this instantiation
+  ``Service+Service'' since both engines are integrated through
+  service invocation.} We assume that the parent
+and child workflow engines are distinct pieces of software that
+require different workflow services invoked by distinct \texttt{d}
+interactions. If this is not the case, then workflow services can be
+collapsed into a single one with a \texttt{d} interaction with
+itself. An example of such interaction is the use of hierarchical
+workflows in Pegasus~\cite{Deelman201517}.  Workflow engines
+communicate with infrastructures using \texttt{b} and
+\texttt{c$_2$}. Science gateway transfers user data to infrastructures
+using \texttt{c$_1$} interactions.
+
+
+Nested workflows have long been available in workflow engines, for
+instance in the Taverna workbench~\cite{oinn2004taverna}. They are
+also used implicitly in several platforms where workflow engines are
+wrapped in workflow tasks as any other command-line tool. Nested
+workflows were notably used by the SHIWA Science Gateway to implement
+so-called Coarse-Grained workflow
+interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
+various workflow engines in a consistent
+platform. 
+
+\subsection{Workflow conversion}
+
+See Figure~\subref*{archi:import}. This is an abstract model
+instantiated with the service invocation architecture for
+consistency. \correction{Workflow conversion is presented here as a pattern to
+integrate workflow \emph{engines} in a science gateway, through
+workflow format conversion from a native format to the science gateway
+format.} Workflow conversion is usually an offline process that is not
+involved in workflow execution. A few systems have implemented
+workflow conversion. In the SHIWA Simulation Platform, it is
+implemented through the IWIR language, which provides a common
+language for portability across grid workflow
+systems~\cite{plankensteiner-prodan-etal:2013} and allows conversion
+among $n$ workflow languages using $2n$ interactions instead of $n^2$.
+Tavaxy~\cite{Abouelhoda2012} enables the import, merging and execution
+of Taverna~\cite{oinn2004taverna} and Galaxy~\cite{goecks2010galaxy}
+workflows; when some workflow parts cannot be imported, workflows are
+run by Tavaxy as nested workflows using their native engine. The work
+in~\cite{delaGarza2016} describes workflow conversion from
+KNIME~\cite{Berthold2008} to WS-PGRADE/gUSE and from
+Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
+
+%Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13].
+
+\correction{\section{Architectural patterns in real systems}}
+
+\label{sec:real systems}
+
+%\todo{Introduce this section and take the text out of the captions}
+
+Figure~\ref{fig:vip-architecture} shows the architecture of the
+Virtual Imaging Platform, where the MOTEUR workflow
+engine~\cite{GLAT-08i} is invoked through a service.
+
+\begin{figure*}
+\centering
+\def\svgwidth{1.5\columnwidth}
+\input{figures/VIP.pdf_tex}
+\caption{Architecture of the Virtual Imaging Platform (service
+  invocation).  Step \texttt{3} corresponds to interaction \texttt{d}
+  in Figure~\ref{fig:architectures}(II), step \texttt{2} corresponds to
+  interaction \texttt{c$_1$}, step \texttt{4} maps to interaction
+  \texttt{b}, and steps 7 and 9 map to \texttt{c$_2$} (in VIP, workflow data transfers are
+  performed by the tasks and embedded in their descriptions).}
+\label{fig:vip-architecture}
+\end{figure*}
 
 Task encapsulation is implemented in CBRAIN~\cite{SHER-14} where it is
 used to integrate the FSL toolkit~\cite{Jenkinson2012782} and the PSOM
@@ -598,24 +687,10 @@ reproduced from~\cite{GLAT-16}.]{\def\svgwidth{\columnwidth}
 \label{fig:cbrain-sub-tasking}
 \end{figure*}
 
-\subsection{Pool model}
-\label{sec:pool}
-See Figure~\subref*{archi:agent}. Workflows are submitted by the
-science gateway to a central pool through interaction
-\texttt{d}. Agents connect to the pool asynchronously to retrieve and
-execute workflows through interaction \texttt{f}. Agents may be
-started according to various policies, for instance to ensure load
-balancing. Workflow engine controls tasks and data on the
-infrastructure through interactions \texttt{b} and \texttt{c$_2$},
-science gateway transfers user data through interaction
-\texttt{c$_1$}, and administrator installs workflows through
-interaction \texttt{a$_1$} and \texttt{a$_2$}.
-
 The pool model was implemented in the SHIWA pool~\cite{ROGE-13}
 diagrammed in Figure~\ref{fig:shiwa-pool-architecture}, where agents
 can wrap different types of workflow engines to execute workflows
 expressed with different languages.
-
 
 
 \begin{figure*}
@@ -644,51 +719,7 @@ expressed with different languages.
 \label{fig:shiwa-pool-architecture}
 \end{figure*}
 
-
-\subsection{Nested workflows}
-
-See Figure~\subref*{archi:nested}. In nested workflows
-(Figure~\subref*{archi:nested}-Left), a workflow engine is integrated
-as a \emph{child} process of a \emph{parent} workflow engine. Parent
-and child engines might use different languages and might run on
-different infrastructures. A parent workflow is also a
-meta-workflow. The science gateway communicates with the parent engine
-through abstract interaction \texttt{*$_1$}. The science gateway also
-communicates with the infrastructure to transfer user data through
-abstract interactions \texttt{*$_2$} and \texttt{*$_3$}. Both workflow
-engines communicate with the infrastructure through abstract
-interactions \texttt{*$_4$} and \texttt{*$_5$}. The parent engine
-communicates with the child engine through abstract interaction
-\texttt{*$_6$}. Administrator installs workflows through interactions
-\texttt{a$_1$} and \texttt{a$_2$}.
-
-Nested workflows are abstract architectural patterns that can be
-instantiated in the various architectures described previously. We
-focus on instantiation with the service invocation model
-(Figure~\subref*{archi:nested}-Right) as this is the most used
-architecture. \correction{We call this instantiation
-  ``Service+Service'' since both engines are integrated through
-  service invocation.} We assume that the parent
-and child workflow engines are distinct pieces of software that
-require different workflow services invoked by distinct \texttt{d}
-interactions. If this is not the case, then workflow services can be
-collapsed into a single one with a \texttt{d} interaction with
-itself. An example of such interaction is the use of hierarchical
-workflows in Pegasus~\cite{Deelman201517}.  Workflow engines
-communicate with infrastructures using \texttt{b} and
-\texttt{c$_2$}. Science gateway transfers user data to infrastructures
-using \texttt{c$_1$} interactions.
-
-
-Nested workflows have long been available in workflow engines, for
-instance in the Taverna workbench~\cite{oinn2004taverna}. They are
-also used implicitly in several platforms where workflow engines are
-wrapped in workflow tasks as any other command-line tool. Nested
-workflows were notably used by the SHIWA Science Gateway to implement
-so-called Coarse-Grained workflow
-interoperability~\cite{terstyanszky2014enabling}, i.e. to integrate
-various workflow engines in a consistent
-platform. Figure~\ref{fig:shiwa-architecture} shows the architecture
+Figure~\ref{fig:shiwa-architecture} shows the architecture
 used in the SHIWA Simulation Platform for nested workflow execution
 with service invocation.
 \begin{figure*}
@@ -709,29 +740,6 @@ with service invocation.
 \label{fig:shiwa-architecture}
 \end{figure*}
 
-\subsection{Workflow conversion}
-
-See Figure~\subref*{archi:import}. This is an abstract model
-instantiated with the service invocation architecture for
-consistency. \correction{Workflow conversion is presented here as a pattern to
-integrate workflow \emph{engines} in a science gateway, through
-workflow format conversion from a native format to the science gateway
-format.} Workflow conversion is usually an offline process that is not
-involved in workflow execution. A few systems have implemented
-workflow conversion. In the SHIWA Simulation Platform, it is
-implemented through the IWIR language, which provides a common
-language for portability across grid workflow
-systems~\cite{plankensteiner-prodan-etal:2013} and allows conversion
-among $n$ workflow languages using $2n$ interactions instead of $n^2$.
-Tavaxy~\cite{Abouelhoda2012} enables the import, merging and execution
-of Taverna~\cite{oinn2004taverna} and Galaxy~\cite{goecks2010galaxy}
-workflows; when some workflow parts cannot be imported, workflows are
-run by Tavaxy as nested workflows using their native engine. The work
-in~\cite{delaGarza2016} describes workflow conversion from
-KNIME~\cite{Berthold2008} to WS-PGRADE/gUSE and from
-Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
-
-%Furthermore, both systems provide web-portals allowing users to share and publish their workflows: These are the myExperiment portal for Taverna [23, 24] and the Public Pages for Galaxy [13].
 
 \section{\correction{Metrics}}
 
@@ -1082,7 +1090,6 @@ features in the architecture.
 %"four major approaches for workflow interoperability include a,b,c,d" (see Terstyanzky et al, "Enabli%ng scientific workflow sharing through CGI...", FGCS 2014) -> read this ref.
 % http://www.oreilly.com/programming/free/files/software-architecture-patterns.pdf
 
-
 \section{\correction{Evaluation}}
 
 \label{sec:evaluation}
@@ -1353,10 +1360,6 @@ service architecture (\texttt{S$_1$=1},
 conversion, by connecting workflows in the language used in the
 science gateway (\texttt{O$_1$=0}).  Debugging information is accessible
 as in the service invocation architecture (\texttt{O$_2$=1}).
-
-\correction{\section{Real systems}}
-
-\label{sec:real systems}
 
 \correction{\section{Application to systems design}}
 \label{sec:application}
