@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for name in tight service sub-task agent nested-1 nested-2 nested-3 import-1 import-2 notations VIP CBRAIN-PSOM CBRAIN-FSL
+for name in tight service sub-task agent nested-1 nested-2 nested-3 import-1 import-2 notations CBRAIN-PSOM CBRAIN-FSL
 do
   echo "Exporting ${name}.svg"
   inkscape -D -z --file=figures/${name}.svg --export-pdf=figures/${name}.pdf --export-latex

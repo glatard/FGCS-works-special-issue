@@ -364,22 +364,21 @@ summarizes the classification of a few systems by architecture.
   \textbf{Architecture} & \textbf{Systems} \\
   \hline
   Tight & \pbox{1.5\columnwidth}{
-          Catania Science Gateway Framework~\cite{ardizzone2012decide},
+          \correction{Gateways based on the} Catania Science Gateway Framework~\cite{ardizzone2012decide},
           Distributed application runtime environment (DARE~\cite{maddineni2012distributed}),
-          DECIDE~\cite{ardizzone2012decide}$^{c,n}$, LONI Pipeline Environment$^n$~\cite{dinov2009efficient}
+          LONI Pipeline Environment~\cite{dinov2009efficient}
           }
   \\
   Service & \pbox{1.5\columnwidth}{
-            Apache Airvata~\cite{marru2011apache}, Neuroscience Gateway~\cite{shahand2015data}$^{w,n}$, HubZero with Pegasus~\cite{CPE:CPE3257}, MoSGrid~\cite{kruger2014mosgrid}$^w$, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13}$^n$, WS-PGRADE/gUSE framework~\cite{Kacsuk2012},
-            Science gateways in~\cite{kacsuk2014science}$^w$, GridSFEA~\cite{Elts2010}
+             \correction{Gateways based on} Apache Airvata~\cite{marru2011apache}, HubZero with Pegasus~\cite{CPE:CPE3257}, System in~\cite{wu2010accelerating}, Vine Toolkit~\cite{DBLP:journals/scpe/SzejnfeldDKKKKLPTWDNW10}, Virtual Imaging Platform~\cite{GLAT-13},           \correction{Gateways based on the} WS-PGRADE/gUSE framework~\cite{Kacsuk2012}, GridSFEA~\cite{Elts2010}
             } \\
-  Task & CBRAIN and PSOM~\cite{GLAT-16}$^n$, CBRAIN and FSL$^n$\\
+  Task & CBRAIN and PSOM~\cite{GLAT-16}, CBRAIN and FSL\\
   Pool & SHIWA pool~\cite{ROGE-13}\\
-  Nested & \pbox{1.5\columnwidth}{SHIWA Simulation Platform (Coarse-Grained Interoperability~\cite{terstyanszky2014enabling})$^w$, HubZero with Pegasus (via hierarchical workflows)~\cite{Deelman201517}, Tavaxy~\cite{Abouelhoda2012}.
+  Nested & \pbox{1.5\columnwidth}{SHIWA Simulation Platform (Coarse-Grained Interoperability~\cite{terstyanszky2014enabling}), HubZero with Pegasus (via hierarchical workflows)~\cite{Deelman201517}, Tavaxy~\cite{Abouelhoda2012}.
            }\\
-  Conversion & SHIWA Simulation Platform (Fine-Grained Interoperability)~\cite{plankensteiner-prodan-etal:2013}$^w$, Tavaxy~\cite{Abouelhoda2012}, system in~\cite{delaGarza2016}.
+  Conversion & SHIWA Simulation Platform (Fine-Grained Interoperability)~\cite{plankensteiner-prodan-etal:2013}, Tavaxy~\cite{Abouelhoda2012}, system in~\cite{delaGarza2016}.
 \end{tabular}
-\caption{Classification of science gateways based on the architecture used to integrate workflow engines. $^c$: based on the Catania Science Gateway Framework. $^w$: based on WS-PGRADE/gUSE. $^n$: used for neuroimaging.}
+\caption{Classification of science gateways based on the architecture used to integrate workflow engines.}
 \label{table:system-classification}
 \end{table*}
 
@@ -462,18 +461,27 @@ See Figure~\subref*{archi:tight}. The workflow engine is tightly
 integrated with the science gateway, which means that it is deployed
 on the same machine and potentially shares code, libraries and other
 software components with the science gateway. For instance, the
-workflow engine might be a portlet in a Liferay portal or a model
-in a Ruby on Rails application. The workflow engine and the science
-gateway usually share a database where applications, users and other
-resources are stored.  In this model, task and
-data control are both initiated from the science gateway. Interactions
-\texttt{b} and \texttt{c$_2$} are initiated from the workflow engine,
-while \texttt{c$_1$} comes from other parts of the science gateway,
-for instance a data management interface. As in any other model, the
-installation of new workflows in the science gateway (\texttt{a$_2$})
-and infrastructure (\texttt{a$_1$}) is done by an administrator, for
-security reasons. This is the model adopted in the Catania Science
-Gateway Framework~\cite{ardizzone2012decide} (see specific documentation on
+workflow engine might be a portlet in a Liferay portal or a model in a
+Ruby on Rails application\footnote{\correction{Note that the
+    particular case of portlets can be a bit ambiguous: when portlets
+    are deployed remotely, using a protocol such as Web Services for
+    Remote Portlets (WSRP), they become independent software
+    components according to our definition because they could be
+    operated by different teams on different hardware systems. In this
+    case, the system should be classified in the service invocation
+    architecture since the portlets actually become Web
+    Services. The same comment holds for remote object
+    invocation.}}. The workflow engine and the science gateway usually
+share a database where applications, users and other resources are
+stored.  In this model, task and data control are both initiated from
+the science gateway. Interactions \texttt{b} and \texttt{c$_2$} are
+initiated from the workflow engine, while \texttt{c$_1$} comes from
+other parts of the science gateway, for instance a data management
+interface. As in any other model, the installation of new workflows in
+the science gateway (\texttt{a$_2$}) and infrastructure
+(\texttt{a$_1$}) is done by an administrator, for security
+reasons. This is the model adopted in the Catania Science Gateway
+Framework~\cite{ardizzone2012decide} (see specific documentation on
 workflows\footnote{\url{http://bit.ly/1oQrzvQ}}), in the Distributed
 application runtime environment
 (DARE)~\cite{maddineni2012distributed}, in
@@ -621,14 +629,22 @@ Galaxy~\cite{goecks2010galaxy} to WS-PGRADE/gUSE.
 
 %\todo{Introduce this section and take the text out of the captions}
 
+\correction{This section illustrates the architectural patterns on a
+  few real systems. The architecture diagrams presented are the
+  original ones as published by the system developers, which we
+  annotated using the interactions and components in
+  Figure~\ref{fig:architectures}. }
+
+\subsection{Service invocation}
+
 Figure~\ref{fig:vip-architecture} shows the architecture of the
 Virtual Imaging Platform, where the MOTEUR workflow
 engine~\cite{GLAT-08i} is invoked through a service.
 
 \begin{figure*}
 \centering
-\def\svgwidth{1.5\columnwidth}
-\input{figures/VIP.pdf_tex}
+%\def\svgwidth{1.5\columnwidth}
+\includegraphics[width=0.9\textwidth]{figures/VIP}
 \caption{Architecture of the Virtual Imaging Platform (service
   invocation).  Step \texttt{3} corresponds to interaction \texttt{d}
   in Figure~\ref{fig:architectures}(II), step \texttt{2} corresponds to
@@ -637,6 +653,8 @@ engine~\cite{GLAT-08i} is invoked through a service.
   performed by the tasks and embedded in their descriptions).}
 \label{fig:vip-architecture}
 \end{figure*}
+
+\subsection{Task encapsulation}
 
 Task encapsulation is implemented in CBRAIN~\cite{SHER-14} where it is
 used to integrate the FSL toolkit~\cite{Jenkinson2012782} and the PSOM
@@ -760,12 +778,29 @@ normalized scores (see caption). For each criterion, a global score is
 computed by summing up the individual scores for each metric. We
 ensure that the different metrics used to calculate the global score
 for a criterion are comparable, so that they can be combined
-meaningfully. \correction{All the metrics in a criterion contribute
-  equally to the global score. Should the metrics be weighted
-  differently in a particular system, the reader is invited to produce
-  his/her own version of the Table using the public spreadsheet
-  available at \url{https://frama.link/LrPRsCQp} (see column B of
-  sheet ``Metrics'').}
+meaningfully.
+
+\correction{Note that the metrics defined hereafter aim at providing a framework
+to evaluate architectures independently from any particular system,
+regardless of any technical constraint such as the use of a specific
+programming language or the internal architecture of the science
+gateway. The goal is to abstract architectural discussions from the
+particular technical context of a real system. Some degree of
+system-specificity can be introduced by assigning weights to
+interactions and components through a public spreadsheet available at
+\url{https://frama.link/LrPRsCQp}. In particular, sheet "Components
+and interactions" contains the weight given to these entities in the
+metrics and can be used to produce new versions of
+Table~\ref{table:evaluation} that fit the particular technical context
+of a real system. For instance, a high weight could be assigned to the
+science gateway if its internal architecture is such that it can
+hardly be extended in practice.}
+
+\correction{In addition, all the metrics in a criterion contribute
+  equally to the global score used for the criterion. Column B of
+  sheet ``Metrics'' of the public spreadsheet may be used to assign
+  different weights to each metric to adjust the specific context of a
+  study.}
 
 \begin{table*}
 \footnotesize

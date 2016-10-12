@@ -339,13 +339,41 @@ indicates better performance.''
 \end{answer}
 
 \begin{review}
-It is not always obvious that Scalability could be badly affected in a Tight Integration. The example of a liferay portlet is actually potentially demonstrating the opposite. Portlets can be independent web application that can be even remotely deployed (via WSRP). The integration of a workflow engine via ad-hoc portlet applications could instead guarantee quite of a level of decoupling from the rest of the gateway. Here, the limitations highlighted seems to be a bit superficial.
+  It is not always obvious that Scalability could be badly affected in
+  a Tight Integration. The example of a liferay portlet is actually
+  potentially demonstrating the opposite. Portlets can be independent
+  web application that can be even remotely deployed (via WSRP). The
+  integration of a workflow engine via ad-hoc portlet applications
+  could instead guarantee quite of a level of decoupling from the rest
+  of the gateway. Here, the limitations highlighted seems to be a bit
+  superficial.
 \end{review}
 
-\todo{think of this}
+\begin{answer}
+  We agree with the reviewer that using WSRP (Web Services for Remote
+  Portlets) changes the architecture. When portlets are deployed on
+  different hosts, we think that the architecture becomes service
+  invocation as the portlets then behave as individual software
+  components according to our definitions. We added the following comment as a footnote in the presentation of tight integration in section 2.2:
+\revised{Note that the
+    particular case of portlets can be a bit ambiguous: when portlets
+    are deployed remotely, using a protocol such as Web Services for
+    Remote Portlets (WSRP), they become independent software
+    components according to our definition because they could be
+    operated by different teams on different hardware systems. In this
+    case, the system should be classified in the service invocation
+    architecture since the portlets actually become Web
+    Services. The same comment holds for remote object
+    invocation.}
+\end{answer}
 
 \begin{review}
-The "Specific Feature", referring to the Fine-grained debugging does not specify what is relevant to be monitored and who is going to gain benefit from the monitoring. The scientists, the gateway developers or the administrators? What is a white box, the workflow engine or the workflow task? Why multiple software layers affect the accuracy of the tasks' internals?
+  The "Specific Feature", referring to the Fine-grained debugging does
+  not specify what is relevant to be monitored and who is going to
+  gain benefit from the monitoring. The scientists, the gateway
+  developers or the administrators? What is a white box, the workflow
+  engine or the workflow task? Why multiple software layers affect the
+  accuracy of the tasks' internals?
 \end{review}
 
 \begin{answer}
@@ -371,29 +399,39 @@ The "Specific Feature", referring to the Fine-grained debugging does not specify
 \end{answer}
 
 \begin{review}
-To conclude, the general feeling is that the definition of the metrics and the interaction patterns are not rigorous enough to provide an interpretation of the final evaluation which is entirely useful for the reader.
+  To conclude, the general feeling is that the definition of the
+  metrics and the interaction patterns are not rigorous enough to
+  provide an interpretation of the final evaluation which is entirely
+  useful for the reader.
 \end{review}
 
 \begin{answer}
-We hope that the explanations provided in this letter and the updated text in the paper demonstrate that the metrics and definitions are rigorous.
+  We hope that the explanations provided in this letter and the
+  updated text in the paper demonstrate that the metrics and
+  definitions are rigorous.
 \end{answer}
 
 \begin{review}
- Probably, some more information on how "Future Generation" systems should be designed, starting from the general overview provided, with more technical understanding of the system complexities, could represent a more valuable contribution to the main aim of this particular publication.
+  Probably, some more information on how "Future Generation" systems
+  should be designed, starting from the general overview provided,
+  with more technical understanding of the system complexities, could
+  represent a more valuable contribution to the main aim of this
+  particular publication.
 \end{review}
 
 \begin{answer}
-  We added a section in the paper (current section 6) to show
-  how our evaluation framework could be used in the design of new
-  systems.
+  We added a section in the paper (current section 6) to show how our
+  evaluation framework could be used in the design of new systems.
 \end{answer}
 
 \begin{review}
-To improve the reading, Dedicating separate sections to the introduction of the metrics and the evaluation of each pattern would be beneficial. For instance Section 3 Metrics, Section 4 Evaluation.
+  To improve the reading, Dedicating separate sections to the
+  introduction of the metrics and the evaluation of each pattern would
+  be beneficial. For instance Section 3 Metrics, Section 4 Evaluation.
 \end{review}
 
 \begin{answer}
-This was done as suggested.
+  This was done as suggested.
 \end{answer}
 
 \section{Reviewer \#2}
@@ -420,9 +458,14 @@ frameworks. Otherwise, is quite confusing.
 \begin{answer}
 We thank the reviewer for the thorough review and useful comments.
 
-\todo{just remove CSGF, Airvata and pgrade from the table, keeping the
-  exponents. But we don't have examples of gateways using Airvata,
-  still need to be found.}
+We totally agree with the reviewer that Apache Airavata and
+WS-PGrade/gUSE are gateway frameworks. This is how they are presented
+in the text. Instead of providing an incomplete list of gateways that
+use these frameworks in Table 1, we now refer explicitly to ``gateways
+based on Apache Airvata'', ``gateways based on WS-PGRADE/gUSE'' and
+``gateways based on the Catania Science Gateway
+Framework''. Consistently, the table doesn't mention the individual
+gateways based on these frameworks any more.
 \end{answer}
 
 
@@ -501,7 +544,8 @@ the captions of those figures.
 \end{review}
 
 \begin{answer}
-As suggested by the reviewer, the presentation of these Figures has been gathered in a separate section, the new section 3.
+  As suggested by the reviewer, the presentation of these Figures has
+  been gathered in a separate section which is now the new section 3.
 \end{answer}
 
 \begin{review}
@@ -858,17 +902,114 @@ be done through the public spreadsheet.
 \begin{answer}
   We agree with the reviewer that functionality is important. This was
   exactly the goal of the ``Specific features'' evaluation
-  criterion. We renamed this criterion ``Functionality'' as we find it a much better name indeed. We also renamed O$_1$ to F$_1$ and O$_2$ to F$_2$.
+  criterion. We renamed this criterion ``Functionality'' as we find it
+  a much better name indeed. We also renamed O$_1$ to F$_1$ and O$_2$
+  to F$_2$. 
+
+  However, we don't think that ``the ability to pass bundles'' should
+  be listed as a metric in the functionality criterion, since this
+  feature remains quite specific to the particular context mentioned
+  by the reviewer. 
 \end{answer}
 
 \begin{review}
-Another example is for complexity.  Again, the less components and interactions the system has the less complex it is. But in practice, it is not so simple. For example, the tight integration is where the workflow system is integration directly into the science gateway and into the infrastructure. Whereas this architecture has the least number of components and interactions of them all it does not mean it is less complex in practice. Integrating a workflow into science gateway and directly on top of the infrastructure depends very much on the tools they sit upon and the complexity of that integration. Such tight integrated systems therefore could be massive monolithic pieces of code that are extremely difficult and complex to develop and maintain.  Whereas a task-based approach or service based approach through breaking code out to different services and tasks may be far simpler to develop and maintain. 
+  Another example is for complexity.  Again, the less components and
+  interactions the system has the less complex it is. But in practice,
+  it is not so simple. For example, the tight integration is where the
+  workflow system is integration directly into the science gateway and
+  into the infrastructure. Whereas this architecture has the least
+  number of components and interactions of them all it does not mean
+  it is less complex in practice. Integrating a workflow into science
+  gateway and directly on top of the infrastructure depends very much
+  on the tools they sit upon and the complexity of that
+  integration. Such tight integrated systems therefore could be
+  massive monolithic pieces of code that are extremely difficult and
+  complex to develop and maintain.  Whereas a task-based approach or
+  service based approach through breaking code out to different
+  services and tasks may be far simpler to develop and maintain.
 \end{review}
 
-\todo{complexity is used as a measure of reliability}
+\begin{answer}
+  We totally agree with the reviewer. However, we think that this
+  issue cannot be addressed at the pure architectural level as it
+  requires accurate technical information about systems. In some
+  systems, the science gateway may become a massive piece of
+  unmaintainable code as described by the reviewer, and in some other
+  cases, it may have a neat internal architecture that allows for easy
+  integration of workflow engines. Once again, we believe that the
+  answer to this issue is about assigning weights to the different
+  components and interactions, which is now possible through the
+  public spreadsheet. For instance, if the science gateway code is
+  known to be ``untouchable'' due to a cumbersome, then a high weight
+  should be put on the science gateway component. 
+\end{answer}
 
 \begin{review}
-I therefore think that the metrics defined only provide a very high level structure for an evaluation of the different software architectures and they should discuss other factors and scenarios that can affect development. Some of these limitations are discussed in section 4.2 but I think an extra section discuss these before the definition of the metrics would be very helpful to set the scene correctly for the evaluation. Otherwise, the reader is left asking a number of questions during the evaluation section. I also think that a few more metrics e.g. "functionality" could be added to provide a more balanced view of the different approaches. Another useful extension of the paper could be to normalize the results against the functionality each approach provides (perhaps in a separate table) - this may help to provide a more balanced table that factors in functionality.
+  I therefore think that the metrics defined only provide a very high
+  level structure for an evaluation of the different software
+  architectures and they should discuss other factors and scenarios
+  that can affect development. 
 \end{review}
+
+\begin{answer}
+  The metrics provide an abstract framework for evaluating
+  architectures independently from any particular system. The goal is
+  to abstract architectural discussions from the particular technical
+  context of a real system. Some degree of system-specificity can now
+  be introduced by assigning weights to interactions and components
+  through our public spreadsheet, which we think provides a way to apply our
+  analysis to study real systems more precisely.
+\end{answer}
+
+\begin{review}
+Some of these limitations are discussed in section 4.2 but I think an
+extra section discuss these before the definition of the metrics would
+be very helpful to set the scene correctly for the
+evaluation.  Otherwise, the reader is left asking a number of questions
+during the evaluation section. 
+\end{review}
+
+\begin{answer}
+We added the following paragraphs to the introduction to section 3:
+
+\revised{Note that the metrics defined hereafter aim at providing a framework
+to evaluate architectures independently from any particular system,
+regardless of any technical constraint such as the use of a specific
+programming language or the internal architecture of the science
+gateway. The goal is to abstract architectural discussions from the
+particular technical context of a real system. Some degree of
+system-specificity can be introduced by assigning weights to
+interactions and components through a public spreadsheet available at
+\url{https://frama.link/LrPRsCQp}. In particular, sheet "Components
+and interactions" contains the weight given to these entities in the
+metrics and can be used to produce new versions of
+Table 2 that fit the particular technical context
+of a real system. For instance, a high weight could be assigned to the
+science gateway if its internal architecture is such that it can
+hardly be extended in practice.}
+
+\revised{In addition, all the metrics in a criterion contribute
+  equally to the global score used for the criterion. Column B of
+  sheet ``Metrics'' of the public spreadsheet may be used to assign
+  different weights to each metric to adjust the specific context of a
+  study.}
+\end{answer}
+
+\begin{review}
+I also think that a few more metrics
+e.g. "functionality" could be added to provide a more balanced view of
+the different approaches.
+
+ Another useful extension of the paper could
+be to normalize the results against the functionality each approach
+provides (perhaps in a separate table) - this may help to provide a
+more balanced table that factors in functionality.
+\end{review}
+
+\begin{answer}
+  As explained previously, the last evaluation criterion, now named
+  ``Functionality'' aims at this purpose. We hope it clarifies that
+  functionality is actually part of the analysis. 
+\end{answer}
 
 \end{document}
