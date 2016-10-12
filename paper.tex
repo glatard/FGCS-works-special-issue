@@ -334,7 +334,7 @@ summarizes the classification of a few systems by architecture.
 \label{archi:agent}
 \hspace*{0.2\columnwidth}
 }\\
-\subfloat[Nested workflows. Left: abstract model. Right: instantiation with service invocation.]{
+\subfloat[Nested workflows. Left: abstract model. Right: instantiation with service invocation (``Service+Service'').]{
 \def\svgwidth{0.9\columnwidth}
 \input{figures/nested-1.pdf_tex}
 \def\svgwidth{0.9\columnwidth}
@@ -666,16 +666,18 @@ Nested workflows are abstract architectural patterns that can be
 instantiated in the various architectures described previously. We
 focus on instantiation with the service invocation model
 (Figure~\subref*{archi:nested}-Right) as this is the most used
-architecture. In the instantiation, we assume that the parent and
-child workflow engines are distinct pieces of software that require
-different workflow services invoked by distinct \texttt{d}
+architecture. \correction{We call this instantiation
+  ``Service+Service'' since both engines are integrated through
+  service invocation.} We assume that the parent
+and child workflow engines are distinct pieces of software that
+require different workflow services invoked by distinct \texttt{d}
 interactions. If this is not the case, then workflow services can be
 collapsed into a single one with a \texttt{d} interaction with
 itself. An example of such interaction is the use of hierarchical
-workflows in Pegasus~\cite{Deelman201517}.
-Workflow engines communicate with infrastructures using
-\texttt{b} and \texttt{c$_2$}. Science gateway transfers user data to
-infrastructures using \texttt{c$_1$} interactions.
+workflows in Pegasus~\cite{Deelman201517}.  Workflow engines
+communicate with infrastructures using \texttt{b} and
+\texttt{c$_2$}. Science gateway transfers user data to infrastructures
+using \texttt{c$_1$} interactions.
 
 
 Nested workflows have long been available in workflow engines, for
@@ -762,6 +764,7 @@ meaningfully. \correction{All the metrics in a criterion contribute
                                      & \textbf{Pool}
                                      & \textbf{Nested}
                                      & \textbf{Conversion} \\
+&&&&& \textbf{\correction{Service+Service}}&\\
 \cellcolor[HTML]{EEEEEE}\textbf{Integration complexity}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
   Total components -- \texttt{I$_1$} & \cellcolor[HTML]{99FF99}2
                                      & \cellcolor[HTML]{99DD99}3
@@ -859,7 +862,7 @@ Task scheduling -- \texttt{S$_3$}    & \cellcolor[HTML]{99FF99}0
 \cellcolor[HTML]{EEEEEE}\textbf{Specific features}& \multicolumn{6}{l}{\cellcolor[HTML]{EEEEEE}}\\
   Meta-workflow  -- \texttt{O$_1$}    & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{999999}1
-                                     & \cellcolor[HTML]{99FF99}0
+                                     & \cellcolor[HTML]{99FF99}\correction{1}
                                      & \cellcolor[HTML]{999999}1
                                      & \cellcolor[HTML]{99FF99}0
                                      & \cellcolor[HTML]{99FF99}0\\
@@ -1051,14 +1054,23 @@ potential of the architecture.
   
 \item Fine-grained debugging (\texttt{O$_2$}): availability of
   fine-grained debugging information about workflow tasks (white-box
-  workflow).  Fine-grained information about workflow tasks is
-  required to properly troubleshoot workflow executions. Its
-  availability and accuracy usually depends on the number of software
-  layers between the science gateway and the workflow
-  engine~\cite{olabarriaga2014}. \texttt{O$_2$}=0 means that
-  the information is directly accessible in the science gateway,
-  \texttt{O$_2$}=1 means that it is obtained through one or more software
-  interactions. 
+  workflow). \correction{We call ``white-box'' workflow a workflow
+    where detailed information about individual tasks is available,
+    for instance task statuses, execution logs and resource
+    consumption. On the contrary, a ``black-box'' workflow only
+    displays global information such as the workflow status and the
+    logs of the workflow engine.} Fine-grained information about
+  workflow tasks is required to properly troubleshoot workflow
+  executions. \correction{It helps workflow users (scientists)
+    identify errors, it allows gateway administrators to troubleshoot
+    executions, and it facilitates debugging by workflow
+    developers}. \correction{The availability and accuracy of
+    fine-grained debugging information} usually depends on the number
+  of software layers between the science gateway and the workflow
+  engine~\cite{olabarriaga2014}. \texttt{O$_2$}=0 means that the
+  information is directly accessible in the science gateway,
+  \texttt{O$_2$}=1 means that it is obtained through one or more
+  software interactions.
 \end{itemize}
 \texttt{O$_1$} and \texttt{O$_2$} are summed to obtain a total number of missing specific
 features in the architecture.
@@ -1223,11 +1235,7 @@ number of submitted workflows usually remains lower than the number of
 computing resources available on this infrastructure, which makes such
 deadlocks unlikely to happen. 
 
-\paragraph{Specific features} Task encapsulation explicitly enables
-meta-workflows (\texttt{O$_1$}=0). Indeed, workflow engines may invoke
-other engines using the exact same interaction used to submit regular
-sub-tasks (interaction \texttt{e}), without any additional
-development. Fine-grained debugging
+\paragraph{Specific features} Task encapsulation \correction{does not enable meta-workflows by default (\texttt{O$_1$=1})}. Fine-grained debugging
 information is obtained through interaction \texttt{b}
 (\texttt{O$_2$}=1). 
 
@@ -1353,76 +1361,112 @@ as in the service invocation architecture (\texttt{O$_2$=1}).
 \correction{\section{Application to systems design}}
 \label{sec:application}
 
-\correction{To illustrate how our evaluation framework can be applied to the
-design of new systems, let's consider a hypothetical system where the
-workflow engine is split in two parts: (1) a high-level part
-integrated in the science gateway, which submits sub-workflows to the
-infrastructure; (2) a lower-level part, executed on the
-infrastructure, which executes the sub-workflows. This scenario was
-suggested by Reviewer \#2 of the paper after the evaluation framework
-had been designed. 
+\correction{To illustrate how our evaluation framework can be applied
+  to the design of new systems, let's consider a hypothetical system
+  where the workflow engine is split in two parts: (1) a high-level
+  part integrated in the science gateway, which submits sub-workflows
+  to the infrastructure; (2) a lower-level part, executed on the
+  infrastructure, which executes the sub-workflows. This scenario came
+  up in the discussion with Reviewer \#2 of this paper, after the
+  evaluation framework had already been designed.
 
-We model such a system using a nested workflow architecture where the
-parent engine is tightly integrated in the science gateway, and the
-child engine is integrated through task encapsulation.
-Figure~\ref{fig:nested-3} shows the graphical representation of the
-system. From this representation we find that the sub-tasks submitted
-by the child engine through interaction \texttt{e} should be handled
-by the parent engine rather than by the science gateway. Indeed,
-handling the tasks directly in the science gateway would lead to
-create a new specific interaction, named, e.g., \texttt{b$_1$}, while
-\texttt{b} could be reused. We also find that interaction \texttt{e}
-allows running the sub-tasks on the infrastructure supported by the
-parent engine with no further development effort required in the child
-engine.
+  We model such a system using a nested workflow architecture with a
+  ``Tight+Task'' instantiation, i.e., the parent engine is tightly
+  integrated in the science gateway and the child engine is
+  integrated through task encapsulation.  Figure~\ref{fig:nested-3}
+  shows the graphical representation of the system. From this
+  representation we find that the sub-tasks submitted by the child
+  engine through interaction \texttt{e} should be handled by the
+  parent engine rather than by the science gateway. Indeed, handling
+  the tasks directly in the science gateway would lead to create a new
+  specific interaction, named, e.g., \texttt{b$_1$}, while \texttt{b}
+  could be reused. We also find that interaction \texttt{e} allows
+  running the sub-tasks on the infrastructure supported by the parent
+  engine with no further development effort required in the child
+  engine.
 
 The system evaluation is presented on
 Table~\ref{table:evaluation-2}. The detailed calculations are
-available in sheet ``Metrics with reviewer 2's architecture'' of the public spreadsheet.
+available in sheet ``Metrics with reviewer 2's architecture'' of the public spreadsheet at \url{https://frama.link/LrPRsCQp} \todo{revise that sheet to merge it with the main one}.
 
 We find that the studied system supports nested workflows with a much
 better performance than the nested workflow model instantiated with
-service invocation: the integration score is improved by a factor of
-2, the robustness is improved by a factor of 2.6, the extensibility is
-substantially improved, the scalability is not penalized, and the
-specific features are slightly improved.}
+service invocation (evaluated on Table~\ref{table:evaluation}): the
+integration score is improved by a factor of 2, the robustness is
+improved by a factor of 2.6, the extensibility is substantially
+improved, the scalability and specific features are not penalized.
+
+Based on this system, we propose a new system design that instantiates
+the nested workflow model in a ``Task+Task'' way, i.e., with task
+encapsulation for both the parent and the child engine. The
+architecture of this system is represented in
+Figure~\ref{fig:nested-4}. The diagram is identical to the one in
+Figure~\ref{archi:sub-task}, except that interaction \texttt{e} is now
+used to submit sub-workflows instead of just sub-tasks. This is
+possible since, in the task encapsulation architecture, workflows are
+executed as tasks.
+
+The new architecture performs better similarly to task encapsulation,
+except that it now enables meta-workflows and distributed engines
+which were not available previously. It clearly outperforms the nested
+``Service+Service'' architecture. 
+
+Based on this analysis, we plan to extend the PSOM-CBRAIN integration
+to support this architecture. Conceptually, the implementation is
+simple, as it only requires existing workflows to be declarable as
+tasks in the workflow engine. In practice, technical issues may delay
+the process. We also remain well aware of the scheduling issues raised
+by the task encapsulation architecture (S$_3$=1), which will be
+amplified in the ``Task+Task'' instantiation of nested workflows: for
+instance, properly setting resource requirements (e.g. walltime) is
+increasingly difficult when nested workflow engines are deployed on
+the infrastructure.  }
 
 \begin{figure}
   \centering
+\subfloat[Nested, Tight+Task]{
   \def\svgwidth{0.5\columnwidth}
   \input{figures/nested-3.pdf_tex}
-  \caption{\correction{Nested workflow architecture instantiated with tight integration (parent engine) and task encapsulation (child engine).}}
   \label{fig:nested-3}
+}
+\subfloat[Nested, Task+Task]{ 
+  \def\svgwidth{0.5\columnwidth}
+  \input{figures/sub-task.pdf_tex}
+  \label{fig:nested-4}
+}
+\caption{\correction{Nested workflow architecture instantiated with tight integration and task encapsulation (top) and task encapsulation only (bottom).}}
+\label{fig:new-systems}
 \end{figure}
 
 \begin{table}
 \footnotesize
 \centering
-\begin{tabular}{rc}
-                                     & \textbf{Nested 1}\\
-\cellcolor[HTML]{EEEEEE}\textbf{Integration complexity}&\cellcolor[HTML]{EEEEEE}\\
-  Total components -- \texttt{I$_1$} & 2\\
-Total interactions -- \texttt{I$_2$} & 6\\
-\textbf{Total} (total software pieces) & \textbf{8}\\
-\cellcolor[HTML]{EEEEEE}\textbf{Robustness}&\cellcolor[HTML]{EEEEEE}\\
-Specific components -- \texttt{R$_1$} & 0\\
-  Specific interactions -- \texttt{R$_2$} & 3\\
-  \textbf{Total} (execution software pieces)& \textbf{3}\\
-\cellcolor[HTML]{EEEEEE}\textbf{Extensibility}&\cellcolor[HTML]{EEEEEE}\\
-  New engine type -- \texttt{E$_1$}  & 3\\
-New engine version -- \texttt{E$_2$} & 1\\
-  New workflow -- \texttt{E$_3$}     & 2\\
-New infrastructure -- \texttt{E$_4$} & 4\\
-  \textbf{Total} (difficulty to extend) & \textbf{10}\\
-\cellcolor[HTML]{EEEEEE}\textbf{Scalability}& \cellcolor[HTML]{EEEEEE}\\
-Multiple engine instances -- \texttt{S$_1$}& 1\\
-Distributed engines -- \texttt{S$_2$}& 0\\
-Task scheduling -- \texttt{S$_3$}    & 1\\
-\textbf{Total} (scalability issues)  & \textbf{2}\\
-\cellcolor[HTML]{EEEEEE}\textbf{Specific features}&\cellcolor[HTML]{EEEEEE}\\
-  Meta-workflow  -- \texttt{O$_1$}    & 0\\
-  Fine-grained debugging -- \texttt{O$_2$}  & 0.5\\
-  \textbf{Total} (missing features) & \textbf{0.5}\\
+\begin{tabular}{rcc}
+                                     & \textbf{Nested} & \textbf{Nested}\\
+                                     & \textbf{Tight+Task} & \textbf{Task+Task}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Integration complexity}&\cellcolor[HTML]{EEEEEE}&\cellcolor[HTML]{EEEEEE}\\
+  Total components -- \texttt{I$_1$} & 2 & 2 \\
+Total interactions -- \texttt{I$_2$} & 6 & 5 \\
+\textbf{Total}& \textbf{8} & \textbf{7}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Robustness}&\cellcolor[HTML]{EEEEEE}&\cellcolor[HTML]{EEEEEE}\\
+Specific components -- \texttt{R$_1$} & 0 & 0\\
+  Specific interactions -- \texttt{R$_2$} & 3 & 1\\
+  \textbf{Total}& \textbf{3} & \textbf{1}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Extensibility}&\cellcolor[HTML]{EEEEEE}&\cellcolor[HTML]{EEEEEE}\\
+  New engine type -- \texttt{E$_1$}  & 3 & 2\\
+New engine version -- \texttt{E$_2$} & 1 & 1\\
+  New workflow -- \texttt{E$_3$}     & 2 & 2\\
+New infrastructure -- \texttt{E$_4$} & 4 & 3\\
+  \textbf{Total}& \textbf{10} & \textbf{8}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Scalability}& \cellcolor[HTML]{EEEEEE}&\cellcolor[HTML]{EEEEEE}\\
+Multiple engine instances -- \texttt{S$_1$}& 1 & 0\\
+Distributed engines -- \texttt{S$_2$}& 0 & 0\\
+Task scheduling -- \texttt{S$_3$}    & 1 & 1\\
+\textbf{Total}& \textbf{2} & \textbf{1}\\
+\cellcolor[HTML]{EEEEEE}\textbf{Specific features}&\cellcolor[HTML]{EEEEEE}&\cellcolor[HTML]{EEEEEE}\\
+  Meta-workflow  -- \texttt{O$_1$}    & 0 & 0\\
+  Fine-grained debugging -- \texttt{O$_2$}  & 1 & 1\\
+  \textbf{Total}& \textbf{1} & \textbf{1}\\
 \end{tabular}
 \caption{\correction{Evaluation of the nested workflow architecture instantiated with tight integration (parent engine) and task encapsulation (child engine).}}
 \label{table:evaluation-2}
@@ -1506,6 +1550,7 @@ behind for the reasons mentioned previously.
                                     & \textbf{Pool}
                                     & \textbf{Nested}
                                     & \textbf{Conversion} \\
+                                    &&&&& \textbf{\correction{Service+Service}}&\\
   Integration (global score)    &
                                     \cellcolor[HTML]{99FF99}{0.00}
                                     & \cellcolor[HTML]{99E899}{0.22}

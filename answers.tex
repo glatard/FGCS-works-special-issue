@@ -7,7 +7,10 @@
 \newenvironment{review}%          environment name
 {\textbf{Reviewer comment:}\begin{quote}}% begin code
 {\end{quote}}%  
-\newcommand{\answer}[1]{\textbf{Answer:} #1}
+\newenvironment{answer}%          environment name
+{\textbf{Answer:}\begin{small}\begin{quote}}% begin code
+{\end{quote}\end{small}}%  
+
 \newcommand{\todo}[1]{\color{red}#1\color{black}}
 
 \newcommand{\revised}[1]{\color{blue} #1\color{black}}
@@ -30,7 +33,9 @@
   designer.
 \end{review}
 
-\answer{We thank the reviewer for the thorough review and useful comments.
+\begin{answer}
+
+  We thank the reviewer for the thorough review and useful comments.
 
   The results and discussion reported in our paper are indeed aimed at
   an expert audience of science gateway and workflow engine
@@ -49,7 +54,7 @@
   workflows with task encapsulation, as mentioned in Section 5.2. in
   the Discussion.
 
-  We added the following paragraph to the Introduction to reflect this discussion:}
+  We added the following paragraph to the Introduction to reflect this discussion:
 
 \revised{The analysis presented in the paper is intended for
 experts in science gateway and workflow engine design. It is an
@@ -61,6 +66,7 @@ technical context of software projects. The following work helps
 identify the key patterns in systems and highlight potential
 improvements.}
 
+\end{answer}
 
 \begin{review}
   Section 2: In the description of the Task Encapsulation pattern, it
@@ -71,9 +77,11 @@ improvements.}
   the gateway to directly control its own sub-tasks?
 \end{review}
 
-\answer{The actual workflow engine deployed in the infrastructure
+\begin{answer}
+  The actual workflow engine deployed in the infrastructure
   requires the gateway to directly control its own sub-tasks. We
-  revised the wording of Section 2.4 to clarify this point.}
+  revised the wording of Section 2.4 to clarify this point.
+\end{answer}
 
 \begin{review}
   Section 3: The evaluation is conducted by introducing a novel
@@ -89,24 +97,27 @@ improvements.}
   latter.
 \end{review}
 
-\answer{S1 denotes the ability of the system to start multiple engine
+\begin{answer}
+  S1 denotes the ability of the system to start multiple engine
   instances to execute different workflows, while S2 denotes the
   possibility to execute a single workflow with multiple engines. We
   revised the wording in the description of S1 (page 11) to clarify
   this point. We find the current description of S2 clear enough on
   this point: ``[S2] measures the ability to distribute the execution of
-  \emph{a single workflow} among different engine instances.''}
+  \emph{a single workflow} among different engine instances.''
+\end{answer}
 
 \begin{review}
 The metric E3, measuring the complexity of integrating more workflows applications, seems to be more functional rather than architectural. The implications and impacts on the formal interactions required to support this feature across patterns are very similar.
  On the other hand, is opinion of the reviewer that integrating new workflow applications would rather affect more the Robustness of the system, especially in the case of the Workflow Conversion pattern. In this context, a formal conversion interaction (g), if not validated, could lead to logical or system errors.
 \end{review}
 
-\answer{We introduced E3 precisely to account for the additional
+\begin{answer}
+  We introduced E3 precisely to account for the additional
   complexity introduced by interaction (g) when adding new
   workflows. 
-
-It should be understood here that workflow conversion is
+  
+  It should be understood here that workflow conversion is
   presented as a pattern to integrate workflow \emph{engines} in a
   science gateway, through workflow translation to a language already
   supported by the gateway. We believe that integrating new workflow
@@ -114,12 +125,12 @@ It should be understood here that workflow conversion is
   strong architectural design choice that may, depending on the
   availability of a reliable interaction (g), be avoided by
   integrating workflow engines using a different pattern. We added the following sentence at the beginning of Section 2.7 to explain that:
-
-\revised{Workflow conversion is presented here as a pattern to
+  
+  \revised{Workflow conversion is presented here as a pattern to
 integrate workflow \emph{engines} in a science gateway, through
 workflow format conversion from a native format to the science gateway
 format.}
-}
+
 
 We definitely agree with the reviewer that interaction (g) is
   a tricky one that may lead to critical errors. We added the
@@ -135,12 +146,15 @@ This sentence complements the note already made in section 3.7:
 that implementing interaction g can require sub-
 stantial work depending on the complexity of the
 workflow language used by the new engine.``
+\end{answer}
 
 \begin{review}
  Given these observations and the other measurements provided by the paper, the overall performance presented in Table 3, where the Workflow Conversion outperforms the Service Invocation pattern, is considered counter intuitive. The result is justified though by the evaluation of the Service-invocation pattern.
 \end{review}
 
-\answer{As discussed previously, we share the reviewer's concerns
+\begin{answer}
+
+  As discussed previously, we share the reviewer's concerns
   about the feasibility of workflow conversion (see comments on
   interaction (g) in Section 5.2). The performance of workflow
   conversion is strongly related to the availability of a validated
@@ -168,7 +182,8 @@ spreadsheet for any issue related to the importance given to a
 specific component, interaction, metric or criterion in the
 analysis. In the paper, we assumed that all weights equal 1, which we
 believe is a reasonable but limited choice.
-}
+
+\end{answer}
 
 \begin{review}
   Here, a high value (low score) is assigned to the Extensibility
@@ -178,8 +193,10 @@ believe is a reasonable but limited choice.
   supporting multiple technologies.
 \end{review}
 
-\answer{The reviewer is right that re-purposing software components
-  and interactions can lead to revisit the evaluation. We updated the following sentence in section 5.2. to better acknowledge this point:}
+\begin{answer}
+
+The reviewer is right that re-purposing software components
+  and interactions can lead to revisit the evaluation. We updated the following sentence in section 5.2. to better acknowledge this point:
 
 The particular technical or historical context of a science gateway
 project may also influence the choice of an architecture to
@@ -196,12 +213,14 @@ In the specific case of service invocation, we agree with the reviewer
 that, when adding a new workflow engine, the workflow service or interaction \texttt{d} can always be repurposed depending on the context. We decremented E1 and added the following explanation in section 3.3.:
 
 \revised{However, when a new type of workflow engine is added, it is always possible to reuse either an existing available workflow service or interaction \texttt{d} (when a new workflow service has to be developed). Therefore, \texttt{E$_1$}=3}.
+\end{answer}
 
 \begin{review}
  This is reflected also in the negative evaluation of the S1,S2 metrics for the same pattern. On the contrary, the choice of this architecture would intuitively suggest re-usable, scalable and decoupled solutions.
 \end{review}
 
-\answer{While we agree with the reviewer that re-usability should
+\begin{answer}
+  While we agree with the reviewer that re-usability should
   definitely be taken into account in E$_1$, we do not see how it
   could help S$_1$ and S$_2$.
 
@@ -224,14 +243,17 @@ that, when adding a new workflow engine, the workflow service or interaction \te
   For S$_2$, we cannot think of a practical reason why the service
   invocation model would help distribute a single workflow execution
   in multiple engine instances. In our opinion, this feature is
-  exclusive to the nested workflow model. }
+  exclusive to the nested workflow model.
+\end{answer}
 
 \begin{review}
  Eventually, the arguments presented were not considered convincing.
 \end{review}
 
+\begin{answer}
 We hope that the update made in the extensibility scores and the
 explanations given for scalability convinced the reviewer.
+\end{answer}
 
 \begin{review}
   Again on the definition of Robustness. It introduces two metrics:
@@ -240,10 +262,12 @@ explanations given for scalability convinced the reviewer.
   better understand what is intended specific. 
 \end{review}
 
-\answer{We updated the definition of R$_1$ and R$_2$ to include
+\begin{answer}
+We updated the definition of R$_1$ and R$_2$ to include
   positive examples as well as negative ones. In addition, the
   specific components included in these metrics are represented in red
-  on Figure 2.}
+  on Figure 2.
+\end{answer}
 
 \begin{review}
 Moreover, some
@@ -256,6 +280,7 @@ Moreover, some
   the count, 
 \end{review}
 
+\begin{answer}
 \texttt{c}, \texttt{c$_1$} and \texttt{c$_2$} are three different
 interactions, which explains the confusion. \texttt{c$_2$} is always
 specific to workflow execution because it is defined as the
@@ -273,38 +298,44 @@ regardless of the type of data transferred. Consequently, we now use
 
 The ambiguity is now removed and the new definition of R$_1$ and R$_2$ reads as follows:
 
-Specific components (\texttt{R$_1$}): number of specific components involved in workflow executions. \revised{For instance, the
+\begin{itemize}
+\item Specific components (\texttt{R$_1$}): number of specific components involved in workflow executions. \revised{For instance, the
   workflow service is a specific component because its main objective
   is to execute workflows. On the contrary, the science gateway is
   \emph{not} specific to workflow execution since it is used for a
   variety of other functions such as user authentication, data
   transfer, etc.}
-
-Specific interactions (\texttt{R$_2$}): number of specific
+\item Specific interactions (\texttt{R$_2$}): number of specific
   interactions involved in workflow executions. \revised{For
     instance, the pool-agent interaction (interaction \texttt{f}) is
     specific to workflow execution while data control (interaction
     \texttt{c$_1$}) is \emph{not} because it is used by the science gateway to transfer
     user data regardless of a particular workflow execution}.
+\end{itemize}
+\end{answer}
 
 \begin{review}
 Does the definition of R2 means that non-specific
   interactions should be counted?
 \end{review}
 
-\answer{No it doesn't. We hope that the new examples in the definition of
+\begin{answer}
+No it doesn't. We hope that the new examples in the definition of
 R$_1$ and R$_2$ and the removal of any reference to interaction
-\texttt{c} clarifies this point.}
+\texttt{c} clarifies this point.
+\end{answer}
 
 \begin{review}
 The higher number the worse
   robustness?
 \end{review}
 
-\answer{Yes, as for any other metric, high values indicate worse
+\begin{answer}
+Yes, as for any other metric, high values indicate worse
 performance. This is explained at the beginning of section 3:
 ``Criteria break down into specific metrics where lower value
-indicates better performance.''}
+indicates better performance.''
+\end{answer}
 
 \begin{review}
 It is not always obvious that Scalability could be badly affected in a Tight Integration. The example of a liferay portlet is actually potentially demonstrating the opposite. Portlets can be independent web application that can be even remotely deployed (via WSRP). The integration of a workflow engine via ad-hoc portlet applications could instead guarantee quite of a level of decoupling from the rest of the gateway. Here, the limitations highlighted seems to be a bit superficial.
@@ -316,19 +347,53 @@ It is not always obvious that Scalability could be badly affected in a Tight Int
 The "Specific Feature", referring to the Fine-grained debugging does not specify what is relevant to be monitored and who is going to gain benefit from the monitoring. The scientists, the gateway developers or the administrators? What is a white box, the workflow engine or the workflow task? Why multiple software layers affect the accuracy of the tasks' internals?
 \end{review}
 
-\todo{think of this}
+\begin{answer}
+  We call ``white-box'' workflow a workflow
+  where detailed information about individual tasks is available,
+  for instance task statuses, execution logs and resource
+  consumption. On the contrary, a ``black-box'' workflow only
+  displays global information such as the workflow status and the
+  logs of the workflow engine. Fine-grained information about
+  workflow tasks helps workflow users (scientists)
+  identify errors, it allows gateway administrators to troubleshoot
+  executions, and it facilitates debugging by workflow
+  developers.
+  
+  Multiple software layers affect the accuracy of the information
+  reported about the tasks' internals because each layer potentially
+  shields or modifies information. Task ids, for instance, may not
+  be properly linked to workflow activities if delivered through a
+  software layer that hasn't been instrumented for that. \todo{refer
+    to olabarriaga2014}.
+  
+  The paragraph on fine-grained debugging has been edited accordingly, at the end of Section 3.
+\end{answer}
 
 \begin{review}
-To conclude, the general feeling is that the definition of the metrics and the interaction patterns are not rigorous enough to provide an interpretation of the final evaluation which is entirely useful for the reader. Probably, some more information on how "Future Generation" systems should be designed, starting from the general overview provided, with more technical understanding of the system complexities, could represent a more valuable contribution to the main aim of this particular publication.
+To conclude, the general feeling is that the definition of the metrics and the interaction patterns are not rigorous enough to provide an interpretation of the final evaluation which is entirely useful for the reader.
 \end{review}
 
-\todo{think of this}
+\begin{answer}
+We hope that the explanations provided in this letter and the updated text in the paper demonstrate that the metrics and definitions are rigorous.
+\end{answer}
+
+\begin{review}
+ Probably, some more information on how "Future Generation" systems should be designed, starting from the general overview provided, with more technical understanding of the system complexities, could represent a more valuable contribution to the main aim of this particular publication.
+\end{review}
+
+\begin{answer}
+  We added a section in the paper (current section 6) to show
+  how our evaluation framework could be used in the design of new
+  systems.
+\end{answer}
 
 \begin{review}
 To improve the reading, Dedicating separate sections to the introduction of the metrics and the evaluation of each pattern would be beneficial. For instance Section 3 Metrics, Section 4 Evaluation.
 \end{review}
 
-\answer{This was done as suggested.}
+\begin{answer}
+This was done as suggested.
+\end{answer}
 
 \section{Reviewer \#2}
 
@@ -364,7 +429,8 @@ frameworks. Otherwise, is quite confusing.
   reflected in the paper.
 \end{review}
 
-\answer{The task submission framework is part of the infrastructure
+\begin{answer}
+  The task submission framework is part of the infrastructure
   and its nature doesn't influence the architecture used to integrate
   workflow engines in the science gateway. Formally, it is part of
   interaction \texttt{b} (see definition in 2.1).
@@ -402,9 +468,8 @@ frameworks. Otherwise, is quite confusing.
 
   We found this scenario interesting and we evaluated it in our
   framework. The analysis is reported in the new section 6 of the
-  paper.}
-
-  
+  paper.
+\end{answer}
 
 \begin{review}
   3. Why there isn't a figure to illustrate an example of a real
@@ -526,7 +591,7 @@ Adding functionality e.g. in this case to add the ability to pass bundles to one
 Another example is for complexity.  Again, the less components and interactions the system has the less complex it is. But in practice, it is not so simple. For example, the tight integration is where the workflow system is integration directly into the science gateway and into the infrastructure. Whereas this architecture has the least number of components and interactions of them all it does not mean it is less complex in practice. Integrating a workflow into science gateway and directly on top of the infrastructure depends very much on the tools they sit upon and the complexity of that integration. Such tight integrated systems therefore could be massive monolithic pieces of code that are extremely difficult and complex to develop and maintain.  Whereas a task-based approach or service based approach through breaking code out to different services and tasks may be far simpler to develop and maintain. 
 \end{review}
 
-\answer{complexity is used as a measure of reliability}
+\todo{complexity is used as a measure of reliability}
 
 \begin{review}
 I therefore think that the metrics defined only provide a very high level structure for an evaluation of the different software architectures and they should discuss other factors and scenarios that can affect development. Some of these limitations are discussed in section 4.2 but I think an extra section discuss these before the definition of the metrics would be very helpful to set the scene correctly for the evaluation. Otherwise, the reader is left asking a number of questions during the evaluation section. I also think that a few more metrics e.g. "functionality" could be added to provide a more balanced view of the different approaches. Another useful extension of the paper could be to normalize the results against the functionality each approach provides (perhaps in a separate table) - this may help to provide a more balanced table that factors in functionality.
