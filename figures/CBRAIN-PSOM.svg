@@ -25,7 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -49,8 +49,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="1.5970614"
-     inkscape:cx="227.14546"
-     inkscape:cy="214.00304"
+     inkscape:cx="127.58761"
+     inkscape:cy="208.99384"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -731,20 +731,20 @@
        y="420.64835"
        style="fill:#ff0000;fill-opacity:1">Infrastructure</tspan></text>
   <rect
-     style="opacity:0.05;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.74086267;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.9000001;stroke-dasharray:none;stroke-dashoffset:1.91997254;stroke-opacity:1"
+     style="opacity:0.05;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.11459494;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.9000001;stroke-dasharray:none;stroke-dashoffset:1.91997254;stroke-opacity:1"
      id="rect4347-37"
-     width="82.566216"
-     height="135.55501"
-     x="64.363266"
-     y="90.369682"
+     width="228.71159"
+     height="110.76143"
+     x="64.550125"
+     y="114.97639"
      ry="0" />
   <rect
-     style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.89999998;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.9000001;stroke-dasharray:3.6, 7.2;stroke-dashoffset:0;stroke-opacity:1"
+     style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.9;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.9000001;stroke-dasharray:3.6,7.2;stroke-dashoffset:0;stroke-opacity:1"
      id="rect4347-3-5"
-     width="82.894737"
-     height="135.91908"
-     x="64.207703"
-     y="89.909218"
+     width="230.21048"
+     height="111.04358"
+     x="64.435532"
+     y="114.5569"
      ry="0" />
   <text
      xml:space="preserve"
@@ -778,14 +778,14 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.80999947px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-     x="259.79309"
-     y="242.58403"
+     x="261.04538"
+     y="244.46248"
      id="text6436-2-2"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan6438-6-2"
-       x="259.79309"
-       y="242.58403"
+       x="261.04538"
+       y="244.46248"
        style="fill:#ff0000;fill-opacity:1">e</tspan></text>
   <text
      xml:space="preserve"

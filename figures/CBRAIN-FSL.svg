@@ -48,8 +48,8 @@
      id="namedview6950"
      showgrid="false"
      inkscape:zoom="1.6054376"
-     inkscape:cx="217.53547"
-     inkscape:cy="195.98423"
+     inkscape:cx="118.49705"
+     inkscape:cy="215.91649"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -641,20 +641,20 @@
        y="413.65002"
        style="fill:#ff0000;fill-opacity:1">Infrastructure</tspan></text>
   <rect
-     style="opacity:0.05;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.74086267;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.9000001;stroke-dasharray:none;stroke-dashoffset:1.91997254;stroke-opacity:1"
+     style="opacity:0.05;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.09510982;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.9000001;stroke-dasharray:none;stroke-dashoffset:1.91997254;stroke-opacity:1"
      id="rect4347-37"
-     width="82.566216"
-     height="135.55501"
-     x="75.434784"
-     y="94.661911"
+     width="221.73779"
+     height="110.28542"
+     x="75.611908"
+     y="119.75436"
      ry="0" />
   <rect
      style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.9;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.9000001;stroke-dasharray:3.6,7.2;stroke-dashoffset:0;stroke-opacity:1"
      id="rect4347-3-5"
-     width="82.894737"
-     height="135.91908"
-     x="75.279213"
-     y="94.201447"
+     width="223.2305"
+     height="111.19082"
+     x="75.497131"
+     y="118.7118"
      ry="0" />
   <text
      xml:space="preserve"
@@ -676,13 +676,13 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.80999947px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-     x="304.57565"
+     x="306.44431"
      y="206.14232"
      id="text6436-2"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan6438-6"
-       x="304.57565"
+       x="306.44431"
        y="206.14232"
        style="fill:#ff0000;fill-opacity:1">b</tspan></text>
   <path
@@ -691,21 +691,21 @@
      id="path7592"
      inkscape:connector-curvature="0" />
   <path
-     style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.89999998;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:10;stroke-dasharray:3.5999999,7.19999981;stroke-dashoffset:0"
+     style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.9;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:10;stroke-dasharray:3.6,7.2;stroke-dashoffset:0"
      d="m 213.64891,0.62894675 0,107.75877325 115.85626,0 0,282.16606 251.64479,0 0,-389.92483325 z"
      id="path7592-9"
      inkscape:connector-curvature="0" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.80999947px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-     x="296.66074"
-     y="282.32407"
+     x="300.39804"
+     y="283.56982"
      id="text6436-2-2"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan6438-6-2"
-       x="296.66074"
-       y="282.32407"
+       x="300.39804"
+       y="283.56982"
        style="fill:#ff0000;fill-opacity:1">e</tspan></text>
   <text
      xml:space="preserve"
