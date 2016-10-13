@@ -52,20 +52,17 @@
   architectures (nested workflows and workflow conversion) that may be
   instantiated in various ways. Our abstractions highlight that other
   instantiation models may be worth designing, for instance nested
-  workflows with task encapsulation, as mentioned in Section 5.2. in
-  the Discussion.
+  workflows with task encapsulation, as mentioned in Section 6.2. (Discussion).
 
   We added the following paragraph to the Introduction to reflect this discussion:
 
-\revised{The analysis presented in the paper is intended for
-experts in science gateway and workflow engine design. It is an
-abstraction effort to identify and evaluate the fundamental
-architectural patterns that are encountered while integrating workflow
-engines and science gateways. In real systems, such patterns are often
-intertwined due to considerations related to the historical and
-technical context of software projects. The following work helps
-identify the key patterns in systems and highlight potential
-improvements.}
+\revised{This analysis is intended for experts of science gateway
+  and workflow engine design. It is an abstraction effort to identify
+  and evaluate the fundamental architectural patterns that are
+  encountered while integrating workflow engines and science
+  gateways. In real systems, such patterns are often intertwined and
+  obfuscated due to the historical and
+  technical context of software projects.}
 
 \end{answer}
 
@@ -102,10 +99,8 @@ improvements.}
   S1 denotes the ability of the system to start multiple engine
   instances to execute different workflows, while S2 denotes the
   possibility to execute a single workflow with multiple engines. We
-  revised the wording in the description of S1 (page 11) to clarify
-  this point. We find the current description of S2 clear enough on
-  this point: ``[S2] measures the ability to distribute the execution of
-  \emph{a single workflow} among different engine instances.''
+  revised the wording in the description of S1 (Section 4.4) to clarify
+  this point.
 \end{answer}
 
 \begin{review}
@@ -136,17 +131,16 @@ format.}
 We definitely agree with the reviewer that interaction (g) is
   a tricky one that may lead to critical errors. We added the
   following sentence to the paragraph on interaction (g) in Section
-  5.2. of the discussion:
+  6.2. of the discussion:
 
 \revised{If not properly validated, workflow language conversion
   could introduce critical errors impacting the robustness and
   correctness of the execution. }
 
-This sentence complements the note already made in section 3.7:
-``Note, however,
-that implementing interaction g can require sub-
-stantial work depending on the complexity of the
-workflow language used by the new engine.``
+This sentence complements the note already made in section 5.6:
+``Note, however, that implementing interaction g can require
+substantial work depending on the complexity of the workflow language
+used by the new engine.``
 \end{answer}
 
 \begin{review}
@@ -155,21 +149,21 @@ workflow language used by the new engine.``
 
 \begin{answer}
 
-  As discussed previously, we share the reviewer's concerns
-  about the feasibility of workflow conversion (see comments on
-  interaction (g) in Section 5.2). The performance of workflow
-  conversion is strongly related to the availability of a validated
-  interaction (g), which is very dependent on the particular workflow
-  engines under consideration. We believe that the issue raised by the
-  reviewer basically comes down to the weight given to software
-  components and interactions in the analysis. However, using
-  different weights for different components or interactions would
-  open an infinite number of configurations for discussion. For
-  instance, in some cases, the workflow engine already comes with a
-  workflow service which therefore doesn't have to be included. To
-  address this issue, we shared a spreadsheet at
-  \url{https://frama.link/LrPRsCQp} that allows editing the following
-  weights:
+  As discussed previously, we share the reviewer's concerns about the
+  feasibility of workflow conversion (see comments on interaction (g)
+  in Section 6.2). The performance of workflow conversion is strongly
+  related to the availability of a validated interaction (g), which is
+  very dependent on the particular workflow engines under
+  consideration. We believe that the issue raised by the reviewer
+  basically comes down to the weight given to particular software
+  components and interactions in the analysis (interaction \texttt{g}
+  in this case). However, using different weights for different
+  components or interactions would open an infinite number of
+  configurations for discussion. For instance, in some cases, the
+  workflow engine already comes with a workflow service which
+  therefore doesn't have to be counted in the analysis. To address this issue, we
+  shared a spreadsheet at \url{https://frama.link/LrPRsCQp} that
+  allows editing the following weights:
   \begin{itemize}
   \item Weight given to software components and interactions in
   ``integration'', ``extensibility'' and ``robustness'' criteria.
@@ -197,9 +191,9 @@ believe is a reasonable choice although inherently limited.
 \begin{answer}
 
 The reviewer is right that re-purposing software components
-  and interactions can lead to revisit the evaluation. We updated the following sentence in section 5.2. to better acknowledge this point:
+  and interactions can lead to revisit the evaluation. We updated the following sentence in section 6.2. to better acknowledge this point:
 
-The particular technical or historical context of a science gateway
+``The particular technical or historical context of a science gateway
 project may also influence the choice of an architecture to
 integrate workflow engines. For instance, many workflow engines are
 already available as web services, which tends to favor service
@@ -208,7 +202,7 @@ and data control features (interactions \texttt{b} and \texttt{c}),
 which would favor task encapsulation. Similarly, adding a new type of engine
 may facilitate integration of a new infrastructure when interactions
 \texttt{b} and \texttt{c$_2$} are already available. The migration
-cost between architectures has been ignored as well.
+cost between architectures has been ignored as well.''
 
 In the specific case of service invocation, we agree with the reviewer
 that, when adding a new workflow engine, the workflow service or interaction \texttt{d} can always be repurposed depending on the context. We decremented E1 and added the following explanation in section 3.3.:
@@ -264,10 +258,10 @@ explanations given for scalability convinced the reviewer.
 \end{review}
 
 \begin{answer}
-We updated the definition of R$_1$ and R$_2$ to include
-  positive examples as well as negative ones. In addition, the
-  specific components included in these metrics are represented in red
-  on Figure 2.
+  We updated the definition of R$_1$ and R$_2$ to include positive
+  examples in addition to negative ones. In addition, the specific
+  components included in these metrics are represented in red on
+  Figure 2.
 \end{answer}
 
 \begin{review}
@@ -282,7 +276,7 @@ Moreover, some
 \end{review}
 
 \begin{answer}
-\texttt{c}, \texttt{c$_1$} and \texttt{c$_2$} are three different
+\texttt{c}, \texttt{c$_1$} and \texttt{c$_2$} were three different
 interactions, which explains the confusion. \texttt{c$_2$} is always
 specific to workflow execution because it is defined as the
 interaction between the workflow engine and the infrastructure, used
@@ -332,10 +326,10 @@ The higher number the worse
 \end{review}
 
 \begin{answer}
-Yes, as for any other metric, high values indicate worse
-performance. This is explained at the beginning of section 3:
-``Criteria break down into specific metrics where lower value
-indicates better performance.''
+  Yes, as for any other metric, high values indicate worse
+  performance. This is explained at the beginning of section 3:
+  ``Criteria break down into specific metrics where \emph{lower value
+    indicates better performance}.''
 \end{answer}
 
 \begin{review}
@@ -352,19 +346,18 @@ indicates better performance.''
 \begin{answer}
   We agree with the reviewer that using WSRP (Web Services for Remote
   Portlets) changes the architecture. When portlets are deployed on
-  different hosts, we think that the architecture becomes service
-  invocation as the portlets then behave as individual software
-  components according to our definitions. We added the following comment as a footnote in the presentation of tight integration in section 2.2:
-\revised{Note that the
-    particular case of portlets can be a bit ambiguous: when portlets
-    are deployed remotely, using a protocol such as Web Services for
-    Remote Portlets (WSRP), they become independent software
-    components according to our definition because they could be
-    operated by different teams on different hardware systems. In this
-    case, the system should be classified in the service invocation
-    architecture since the portlets actually become Web
-    Services. The same comment holds for remote object
-    invocation.}
+  different hosts, the architecture becomes service invocation as the
+  portlets then behave as individual software components according to
+  our definitions. We added the following comment as a footnote in the
+  presentation of tight integration in section 2.2: \revised{Note that
+    the particular case of portlets can be a bit ambiguous: when
+    portlets are deployed remotely, using a protocol such as Web
+    Services for Remote Portlets (WSRP), they become independent
+    software components according to our definition because they could
+    be operated by different teams on different hardware systems. In
+    this case, the system should be classified in the service
+    invocation architecture since the portlets actually become Web
+    Services. The same comment holds for remote object invocation.}
 \end{answer}
 
 \begin{review}
@@ -377,10 +370,10 @@ indicates better performance.''
 \end{review}
 
 \begin{answer}
-  We call ``white-box'' workflow a workflow
+  We call ``white box'' workflow a workflow
   where detailed information about individual tasks is available,
   for instance task statuses, execution logs and resource
-  consumption. On the contrary, a ``black-box'' workflow only
+  consumption. On the contrary, a ``black box'' workflow only
   displays global information such as the workflow status and the
   logs of the workflow engine. Fine-grained information about
   workflow tasks helps workflow users (scientists)
@@ -390,12 +383,21 @@ indicates better performance.''
   
   Multiple software layers affect the accuracy of the information
   reported about the tasks' internals because each layer potentially
-  shields or modifies information. Task ids, for instance, may not
-  be properly linked to workflow activities if delivered through a
-  software layer that hasn't been instrumented for that. \todo{refer
-    to olabarriaga2014}.
+  shields or modifies information. Task ids, for instance, may not be
+  properly linked to workflow activities if delivered through a
+  software layer that hasn't been instrumented for that. This issue is
+  also mentioned in the following paragraph extracted from [34]
+  (reference cited in Section 4.5):
+\begin{quote}
+  From the workflow system perspective, the operator needs interfaces
+  to facilitate DCI configuration, identification and solution of the
+  problems encountered during workflow execution. In practice this can
+  be challenging because the abstract layer introduced by the workflow
+  infrastructure may hamper debugging and troubleshooting, as it may
+  hide too much concrete level information.
+\end{quote}
   
-  The paragraph on fine-grained debugging has been edited accordingly, at the end of Section 3.
+  The paragraph on fine-grained debugging has been edited accordingly, at the end of Section 4.5.
 \end{answer}
 
 \begin{review}
@@ -420,7 +422,7 @@ indicates better performance.''
 \end{review}
 
 \begin{answer}
-  We added a section in the paper (current section 6) to show how our
+  We added a complete new section in the paper (Section 7) to show how our
   evaluation framework could be used in the design of new systems.
 \end{answer}
 
@@ -459,13 +461,10 @@ frameworks. Otherwise, is quite confusing.
 We thank the reviewer for the thorough review and useful comments.
 
 We totally agree with the reviewer that Apache Airavata and
-WS-PGrade/gUSE are gateway frameworks. This is how they are presented
-in the text. Instead of providing an incomplete list of gateways that
-use these frameworks in Table 1, we now refer explicitly to ``gateways
-based on Apache Airvata'', ``gateways based on WS-PGRADE/gUSE'' and
-``gateways based on the Catania Science Gateway
-Framework''. Consistently, the table doesn't mention the individual
-gateways based on these frameworks any more.
+WS-PGrade/gUSE are gateway frameworks. Table 1 now refers explicitly
+to ``gateways based on Apache Airvata'', ``gateways based on
+WS-PGRADE/gUSE'' and ``gateways based on the Catania Science Gateway
+Framework''. 
 \end{answer}
 
 
@@ -479,7 +478,7 @@ gateways based on these frameworks any more.
 \end{review}
 
 \begin{answer}
-  The task submission framework is part of the infrastructure
+  The task submission framework (e.g. SAGA) is part of the infrastructure
   and its nature doesn't influence the architecture used to integrate
   workflow engines in the science gateway. Formally, it is part of
   interaction \texttt{b} (see definition in 2.1).
@@ -505,18 +504,21 @@ gateways based on these frameworks any more.
   where the parent engine is integrated in the science gateway, and
   the child engine runs on the infrastructure. This is another
   instantiation of the nested workflow abstract model, which is not
-  evaluated in the paper as mentioned in section 5.2: "\emph{The
+  evaluated in the paper. Several other instantiations of the abstract
+  models could be envisaged, as mentioned in section 6.2: "\emph{The
     abstract nested workflows and workflow conversion patterns were
     instantiated with service invocation so that they can be analyzed
     in the same framework as the other architectures. Other types of
     instantiation, for instance nested workflows with task
-    encapsulation, could also be envisaged.}". It sounds like the
-  architecture described by the reviewer is a nested workflow pattern
-  instantiated with a tight integration (parent engine) and task
-  encapsulation (child engine).
+    encapsulation, could also be envisaged.}".
 
-  We found this scenario interesting and we evaluated it in our
-  framework. The analysis is reported in the new section 6 of the
+  The architecture described by the reviewer is a nested workflow
+  pattern instantiated with a tight integration (parent engine) and
+  task encapsulation (child engine). We found this scenario
+  interesting as it illustrates how our framework can be used to help
+  designing new systems (although we realize that such a system may
+  already exist). We evaluated this hypothetical architecture in our
+  framework: the analysis is reported in the new section 7 of the
   paper.
 \end{answer}
 
@@ -566,15 +568,6 @@ be completed before a particular task can be executed.}
 good idea to create a subsection for explaining them better and reduce
 the captions of those figures.
 \end{review}
-
-\begin{answer}
-  We followed the recommendation of the reviewer and created a new
-  Section 3 to present and discuss these examples. The caption of
-  Figures 5 and 6 is still long though, because we think that the
-  detailed references to the interaction numbers on the Figures should
-  be part of them, so that the reader doesn't have to constantly
-  navigate between the text and the Figures.
-\end{answer}
 
 \begin{answer}
   As suggested by the reviewer, the presentation of these Figures has
@@ -631,7 +624,7 @@ believe is a reasonable choice although inherently limited.
 We find the particular ponderation method suggested by the reviewer
 (normalization by the number of components or interaction in the
 architecture) a bit unfortunate because it would give different
-ponderations to the same component or interaction depending on the
+values to the same component or interaction depending on the
 architecture in which it is used, which we think would obfuscate the
 comparison.
 \end{answer}
@@ -661,7 +654,7 @@ architecture).
   workflow execution in any case. Likewise, the failure of the
   infrastructure would make any workflow execution worthless in any
   architecture because infrastructure is used for other critical
-  functions such as task execution and data storage.
+  functions such as task execution and data storage. 
 
   For these reasons, we disagree with the suggestion made by the
   reviewer. In any case, science gateway and infrastructure are
@@ -690,9 +683,9 @@ are not exlcuyents) so R2=3
 \end{review}
 
 \begin{answer}
-  While we agree that the Sub-Sections in Section 3 look a bit
+  While we agree that the Sub-Sections in Section 5 (former Section 3) look a bit
   repetitive, we believe that the metrics evaluation reported in Table 2 needs to be
-  properly justified. 
+  properly justified. We contracted the text wherever possible.
 \end{answer}
 
 \begin{review}
@@ -705,12 +698,9 @@ are not exlcuyents) so R2=3
   \begin{itemize}
   \item In task encapsulation, the workflow engine runs on the infrastructure while in service invocation, it is hosted by a dedicated service.
   \item In task encapsulation, the workflow engine is executed as a task of the infrastructure while in service invocation, it is invoked through a service call. That means, in particular, that in task encapsulation different workflow engines are executed through the same protocol (a task), while different types of service calls might be involved in service invocation (e.g. REST or SOAP Web-Service).
-  \item In task encapsulation, the workflow engine does not transfer data to the infrastructure while in service invocation it does (interactioni \texttt{c$_2$}.
+  \item In task encapsulation, the workflow engine does not transfer data to the infrastructure while in service invocation it does (interaction \texttt{c$_2$}.
   \item In task encapuslation, the science gateway submits tasks to the infrastructure, while in service invocation the workflow engine does.
   \end{itemize}
-  Therefore, while we acknowledge that task encapsulation and service
-  invocation share characteristics, we believe that their differences
-  can be clearly inferred from section 2 of the paper. 
 \end{answer}
 
 \begin{review}
@@ -877,7 +867,7 @@ it is about what you want to do.  For example, for the nested case, you could al
  \end{enumerate}
 This is why E$_1$=3 for the pool model.
 
-If a new child engine is added to the nested model then the following interactions an and components have to be updated:
+If a new child engine is added to the nested model then the following interactions an and components have to be updated (a similar analysis can be done when a parent engine is added):
 \begin{enumerate}
 \item A workflow service has to be created for the workflow engine.
 \item The parent engine has to be interfaced with the new workflow
@@ -892,12 +882,12 @@ If a new child engine is added to the nested model then the following interactio
    used in the science gateway, i.e. interaction \texttt{b} has to be
    implemented,
 \end{enumerate}
-This is why E$_4$=4 for the nested model.
+This is why E$_4$=4 for the nested model when a child engine is added.
 
 The situation described by the reviewer focuses on item 1 of the pool
 extension and item 1 and 2 of the nested workflow extension
 (infrastructure is not a discriminant factor here). First, the
-reviewer suggest that the availability of ORE bundles in the SHIWA
+reviewer suggests that the availability of ORE bundles in the SHIWA
 framework standardizes the communication with workflow engines so that
 it becomes possible to have a generic workflow service that can
 consume and produce ORE bundles regardless of the particular engine(s)
@@ -907,19 +897,36 @@ technical or historical context of a science gateway project may also
 influence the \revised{evaluation} of an architecture.} In this
 case, the possible availability of a generic workflow service based on
 ORE bundles is contextual information that can hardly be integrated in
-the generic analysis. We believe that our framework helps evaluate
+the generic analysis. However, our framework helps evaluate
 the impact of technologies such as ORE bundles on architectures, as
 discussed here.
 
-Second, the
-reviewer suggests that the integration of the workflow engine in the
-agent (pool model) is easier than in the service because the engine
-has to produce and consume ORE bundles in the former case while it
-only has to consume them in the latter case. This is true again, but
-it comes down to the discussion on the weights of the different
-software components. In this particular case, it would make sense to
-assign a higher weight to the agent than to the service, which could
-be done through the public spreadsheet.  
+Second, the reviewer suggests that the integration of the workflow
+engine in the agent (pool model) is easier than in the service because
+the engine has to produce and consume ORE bundles in the former case
+while it only has to consume them in the latter case. This is true
+again, but we think that it comes down to a discussion on the weights
+of the different software components. In this particular case, it
+would make sense to assign a higher weight to the agent than to the
+service, because integrating a workflow engine in the agents requires
+more work than integrating it in a service.
+
+To address this issue, we
+  shared a spreadsheet at \url{https://frama.link/LrPRsCQp} that
+  allows editing the following weights (see also answers to Reviewers \#1 and \#2):
+  \begin{itemize}
+  \item Weight given to software components and interactions in
+  ``integration'', ``extensibility'' and ``robustness'' criteria.
+  \item Weight given to metrics in a criterion (e.g., E$_1$ vs. E$_2$ in
+  ``extensibility'').
+  \item Weight given to criteria in overall evaluation of Table 3.
+\end{itemize}
+The paper references this spreadsheet wherever equal weights are
+assumed. The readers and reviewers are invited to rely on this
+spreadsheet for any issue related to the importance given to a
+specific component, interaction, metric or criterion in the
+analysis. In the paper, we assumed that all weights equal 1, which we
+believe is a reasonable choice although inherently limited.
 \end{answer}
 
 \begin{review}
@@ -973,7 +980,7 @@ be done through the public spreadsheet.
   answer to this issue is about assigning weights to the different
   components and interactions, which is now possible through the
   public spreadsheet. For instance, if the science gateway code is
-  known to be ``untouchable'' due to a cumbersome, then a high weight
+  known to be ``untouchable'' due to a bulky architecture, then a high weight
   should be put on the science gateway component. 
 \end{answer}
 
@@ -1003,29 +1010,32 @@ during the evaluation section.
 \end{review}
 
 \begin{answer}
-We added the following paragraphs to the introduction to section 3:
+We added the following paragraphs to the introduction to Section 4:
 
-\revised{Note that the metrics defined hereafter aim at providing a framework
-to evaluate architectures independently from any particular system,
-regardless of any technical constraint such as the use of a specific
-programming language or the internal architecture of the science
-gateway. The goal is to abstract architectural discussions from the
-particular technical context of a real system. Some degree of
-system-specificity can be introduced by assigning weights to
-interactions and components through a public spreadsheet available at
-\url{https://frama.link/LrPRsCQp}. In particular, sheet "Components
-and interactions" contains the weight given to these entities in the
-metrics and can be used to produce new versions of
-Table 2 that fit the particular technical context
-of a real system. For instance, a high weight could be assigned to the
-science gateway if its internal architecture is such that it can
-hardly be extended in practice.}
+\revised{The metrics defined hereafter aim at providing a framework
+  to evaluate architectures independently from any particular system,
+  regardless of any technical constraint such as the use of a specific
+  programming language or the internal architecture of the science
+  gateway. The goal is to abstract architectural discussions from the
+  particular technical context of a real system. Some degree of
+  system-specificity can be introduced in the evaluation by assigning
+  weights to interactions and components through a public spreadsheet
+  available at \url{https://frama.link/LrPRsCQp}\footnote{The
+    spreadsheet may need to be downloaded to be edited.}. In
+  particular, sheet ``Components and interactions'' in this
+  spreadsheet contains the weight assigned to components and
+  interactions, which can be used to produce new versions of
+  Table 2 that fit the particular technical
+  context of a real system. For instance, a high weight could be
+  assigned to the science gateway if its internal architecture is such
+  that it can hardly be extended in practice.
 
-\revised{In addition, all the metrics in a criterion contribute
+  In addition, all the metrics in a criterion contribute
   equally to the global score used for the criterion. Column B of
   sheet ``Metrics'' of the public spreadsheet may be used to assign
   different weights to each metric to adjust the specific context of a
-  study.}
+  study.
+}
 \end{answer}
 
 \begin{review}

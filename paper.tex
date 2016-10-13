@@ -102,7 +102,7 @@ learned from several science gateway and workflow projects such as
 SHIWA\footnote{\url{http://www.shiwa-workflow.eu}} and
 ER-flow\footnote{\url{http://www.erflow.eu}}.
 
-\correction{This analysis is intended for experts in science gateway
+\correction{This analysis is intended for experts of science gateway
   and workflow engine design. It is an abstraction effort to identify
   and evaluate the fundamental architectural patterns that are
   encountered while integrating workflow engines and science
@@ -265,7 +265,7 @@ notations defined in Figure~\ref{fig:notations}. \correction{Software
   systems. For instance, the science gateway and infrastructure are
   usually distinct components. In real systems, software components
   may exist at a finer granularity, to implement functions such as
-  authentication, data persistency or logging. Such fine-grained
+  authentication, data persistence or logging. Such fine-grained
   components are not covered by our analysis since we focus on the
   interactions between the science gateway, the infrastructure and the
   workflow engine.}  Table~\ref{table:system-classification}
@@ -391,7 +391,7 @@ labeled from \texttt{a} to \texttt{g} as in Figure~\ref{fig:architectures}.
   use them. The infrastructure might offer various data storage
   backends with heterogeneous interfaces.  Tools and services such as
   JSAGA~\cite{reynaud2010uniform} or Data Avenue~\cite{hajnal2014data}
-  can be used to homogeneize these interfaces.
+  can be used to homogenize these interfaces.
 \item Workflow control: operations to control workflow execution in an
   engine, including workflow submission, monitoring, termination,
   etc. Workflow control can be coarse-grained (black box) or
@@ -502,12 +502,12 @@ through interaction \texttt{e}. The workflow engine keeps track of the
 dependencies between the sub-tasks, but their execution is delegated
 to the science gateway that executes them on the infrastructure
 through interaction \texttt{b}. Although the science gateway has no
-global vision of the workflow, it completely \correction{controls} the
-sub-tasks. \correction{For instance, it may cancel} them when the
+global vision of the workflow, it \correction{submits the sub-tasks to the
+infrastructure} and completely \correction{controls them}. \correction{For instance, it may cancel} them when the
 \correction{workflow} is canceled. The science gateway may also
 implement mechanisms to facilitate the handling of task dependencies,
-for instance \correction{lists of tasks that must be completed before a
-  particular task can be executed}.
+for instance \correction{lists of tasks that must be completed before
+  a particular task can be executed}.
 
 The science gateway also transfers both user and workflow data across
 the infrastructure, through interaction \texttt{c$_1$}.
@@ -1142,11 +1142,11 @@ potential of the architecture.
   development effort.
   
 \item Fine-grained debugging (\texttt{\correction{F}$_2$}): availability of
-  fine-grained debugging information about workflow tasks (white-box
-  workflow). \correction{We call ``white-box'' workflow a workflow
+  fine-grained debugging information about workflow tasks (white box
+  workflow). \correction{We call ``white box'' workflow a workflow
     where detailed information about individual tasks is available,
     for instance task statuses, execution logs and resource
-    consumption. On the contrary, a ``black-box'' workflow only
+    consumption. On the contrary, a ``black box'' workflow only
     displays global information such as the workflow status and the
     logs of the workflow engine.} Fine-grained information about
   workflow tasks is required to properly troubleshoot workflow
@@ -1591,7 +1591,7 @@ precise. \correction{If a particular system is evaluated, the public
 
 The particular case of interaction \texttt{g} (workflow language
 conversion) requires particular attention when implementing a real
-system since this interaction may not be easily generalizable to any
+system since this interaction may not be easily generalized to any
 workflow language. For instance, converting FSL, PSOM or Nipype
 pipelines to any other workflow language is problematic because these
 engines rely on general-purpose programming languages such as Bash,
