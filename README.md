@@ -4,6 +4,10 @@ This is a paper preprint for the [FGCS special issue on workflows](http://www.jo
 
 [![pdf logo](https://raw.githubusercontent.com/glatard/FGCS-works-special-issue/master/figures/PDF.png)](https://raw.githubusercontent.com/glatard/FGCS-works-special-issue/master/paper.pdf)
 
+# How to give feedback
+
+Open an issue in this repository.
+
 # How to contribute
 
 Fork the repository, edit ```paper.tex``` and other files directly, and make a pull-request. 
