@@ -2,7 +2,7 @@ This is a paper for the [FGCS special issue on workflows](http://www.journals.el
 
 # Latest pdf
 
-[![pdf logo][https://raw.githubusercontent.com/glatard/FGCS-works-special-issue/master/figures/PDF.png]](https://raw.githubusercontent.com/glatard/FGCS-works-special-issue/master/paper.pdf)
+[![pdf logo](https://raw.githubusercontent.com/glatard/FGCS-works-special-issue/master/figures/PDF.png)](https://raw.githubusercontent.com/glatard/FGCS-works-special-issue/master/paper.pdf)
 
 # How to contribute
 
