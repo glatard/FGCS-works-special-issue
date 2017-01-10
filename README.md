@@ -1,4 +1,4 @@
-This is a paper for the [FGCS special issue on workflows](http://www.journals.elsevier.com/future-generation-computer-systems/call-for-papers/special-issue-on-workflows-for-data-driven-research).
+This is a paper preprint for the [FGCS special issue on workflows](http://www.journals.elsevier.com/future-generation-computer-systems/call-for-papers/special-issue-on-workflows-for-data-driven-research).
 
 # Latest pdf
 
